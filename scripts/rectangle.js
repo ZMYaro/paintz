@@ -23,13 +23,15 @@ Rectangle.prototype = Object.create(Shape.prototype);
 Rectangle.prototype.updatePreview = function (newX, newY) {
 	Shape.prototype.updatePreview.call(this, newX, newY);
 	
-	var width = newX - this.startX;
-	var height = newY - this.startY;
+	var x = Math.min(newX, this.startX);
+	var y = Math.min(newY, this.startY);
+	var width = Math.abs(newX - this.startX);
+	var height = Math.abs(newY - this.startY);
 	
 	// Erase the previous preview.
 	this._cxt.clearRect(0, 0, this._cxt.canvas.width, this._cxt.canvas.height);
 	
 	// Draw the new preview.
-	this._cxt.fillRect(this.startX, this.startY, width, height);
-	this._cxt.strokeRect(this.startX, this.startY, width, height);
+	this._cxt.fillRect(x, y, width, height);
+	this._cxt.strokeRect(x, y, width, height);
 };
