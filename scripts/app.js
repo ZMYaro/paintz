@@ -85,7 +85,8 @@ function initCanvas() {
  */
 function startShape(e) {
 	// Check whether it was a touch event.
-	var touch = e instanceof TouchEvent;
+	var touch = !!e.touches;
+	
 	// Quit if the left mouse button was not the button used.
 	if (!touch && e.button != 0) {
 		return;
@@ -150,9 +151,9 @@ function updateShape(e) {
 		return;
 	}
 	
-	var touch = e instanceof TouchEvent;
-	var newX = getCanvasX(touch ? e.touches[0].pageX : e.pageX);
-	var newY = getCanvasY(touch ? e.touches[0].pageY : e.pageY);
+	var touch = !!e.changedTouches;
+	var newX = getCanvasX(touch ? e.changedTouches[0].pageX : e.pageX);
+	var newY = getCanvasY(touch ? e.changedTouches[0].pageY : e.pageY);
 	
 	// Update the shape.
 	currentShape.updatePreview(newX, newY);
@@ -172,7 +173,7 @@ function completeShape(e) {
 	document.body.removeEventListener('touchend', completeShape, false);
 	document.body.removeEventListener('touchleave', completeShape, false);
 	
-	var touch = e instanceof TouchEvent;
+	var touch = !!e.changedTouches;
 	var newX = getCanvasX(touch ? e.changedTouches[0].pageX : e.pageX);
 	var newY = getCanvasY(touch ? e.changedTouches[0].pageY : e.pageY);
 	
