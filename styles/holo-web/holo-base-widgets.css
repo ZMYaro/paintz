@@ -1,0 +1,184 @@
+/* Base Holo styles for widgets.
+ * Part of the Holo Web CSS library.
+ * Written by Zachary Yaro.
+ * https://github.com/zmyaro/holo-web
+ */
+
+body {
+	padding-top: 46px;
+	padding-bottom: 46px;
+}
+
+.actionBar, .holo-actionBar { /* the top action bar should be a <header> element */
+	display: block;
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	height: 48px;
+	
+	border-style: solid none;
+	border-width: 1px 0 2px;
+	border-color: transparent;
+	
+	font-size: 16px;
+	
+	z-index: 1000;
+}
+
+footer.actionBar, footer.holo-actionBar { /* a bottom action bar must be a <footer> element */
+	top: auto;
+	bottom: 0px;
+	
+	border-width: 1px 0 0;
+	
+	-webkit-box-shadow: none;
+	   -moz-box-shadow: none;
+	        box-shadow: none;
+}
+
+.actionBar > *, .holo-actionBar > * {
+	margin: -1px 0 -2px;
+}
+
+.actionBar span, .holo-actionBar span { /* use this for text in action bars */
+	display: inline-block;
+	padding: 13px 0 14px;
+}
+
+.actionBar button, .holo-actionBar button,
+.actionBar *[role="button"], .holo-actionBar *[role="button"] {
+	-webkit-box-sizing: content-box;
+	   -moz-box-sizing: content-box;
+	        box-sizing: content-box;
+	height: 100%;
+	margin: -1px 0 -2px 0;
+	padding: 1px 10px 2px;
+	vertical-align: top;
+	
+	background-color: transparent;
+	background-image: none;
+	
+	border-style: none;
+	border-width: 0px;
+	outline-style: solid;
+	outline-width: 2px;
+	outline-color: transparent;
+	outline-offset: -2px;
+	-webkit-border-radius: 0px;
+	   -moz-border-radius: 0px;
+	        border-radius: 0px;
+	
+	-webkit-box-shadow: none;
+	   -moz-box-shadow: none;
+	        box-shadow: none;
+	
+	font-size: 75%;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+footer.actionBar button, footer.holo-actionBar button,
+footer.actionBar *[role="button"], footer.holo-actionBar *[role="button"] {
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+.actionBar button:focus, .holo-actionBar button:focus,
+.actionBar *[role="button"]:focus, .holo-actionBar *[role="button"]:focus {
+	background-color: rgba(51, 181, 229, 0.3);
+	
+	outline-color: #32A5CF;
+	outline-color: rgba(51, 181, 229, 0.9);
+		
+	-webkit-box-shadow: none;
+	   -moz-box-shadow: none;
+	        box-shadow: none;
+}
+.actionBar button:enabled:active, .holo-actionBar button:enabled:active,
+.actionBar *[role="button"]:active, .holo-actionBar *[role="button"]:active,
+.actionBar button:enabled.active, .holo-actionBar button:enabled.active,
+.actionBar *[role="button"].active, .holo-actionBar *[role="button"].active {
+	background-color: rgba(51, 181, 229, 0.75);
+	
+	outline: none;
+	
+	-webkit-box-shadow: none;
+	   -moz-box-shadow: none;
+	        box-shadow: none;
+}
+
+.actionBar .holo-title, .holo-actionBar .holo-title {
+	font-size: inherit;
+	font-weight: inherit;
+	text-transform: inherit;
+	height: auto;
+	padding: 13px 10px 14px 16px;
+}
+
+.actionBar .holo-title.holo-up, .holo-actionBar .holo-title.holo-up {
+	background-position: 0 16px;
+	background-repeat: no-repeat;
+}
+
+.actionBar img, .holo-actionBar img {
+	height: 32px;
+	padding: 8px 0;
+	vertical-align: top;
+}
+	.actionBar button img, .holo-actionBar button img,
+	.actionBar *[role="button"] img, .holo-actionBar *[role="button"] img {
+		margin: -16px 0 -16px;
+	}
+	.actionBar span img, .actionBar .holo-title img, .holo-actionBar span img, .holo-actionBar .holo-title img {
+		margin: -13px 0 -14px;
+	}
+	.actionBar .holo-title img, .holo-actionBar .holo-title img {
+		margin-left: -4px;
+	}
+
+.holo-list {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+	.holo-list li {
+		-webkit-box-sizing: border-box;
+		   -moz-box-sizing: border-box;
+				box-sizing: border-box;
+		padding: 16px;
+		border-width: 1px 0 0;
+		border-style: solid;
+	}
+		.holo-list li:last-child {
+			border-bottom-width: 1px;
+		}
+		
+		.holo-list li button,
+		.holo-list li *[role="button"] {
+			display: block;
+			margin: -16px;
+			padding: 16px;
+			
+			font-family: inherit;
+			font-size: inherit;
+			text-align: left;
+			
+			border: 0 none;
+			-wekbit-border-radius: 0;
+			   -moz-border-radius: 0;
+			        border-radius: 0;
+			background: transparent none;
+			-webkit-box-shadow: none;
+			   -moz-box-shadow: none;
+			        box-shadow: none;
+		}
+			.holo-list li button:enabled:active,
+			.holo-list li *[role="button"]:active,
+			.holo-list li button:enabled.active,
+			.holo-list li *[role="button"].active {
+				-webkit-box-shadow: none;
+				   -moz-box-shadow: none;
+				        box-shadow: none;
+			}

@@ -1,0 +1,229 @@
+/* Base Holo styles for elements.
+ * Part of the Holo Web CSS library.
+ * Written by Zachary Yaro.
+ * https://github.com/zmyaro/holo-web
+ */
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,400italic,700,700italic);
+
+::selection {
+	background-color: #33B5E5;
+	background-color: rgba(51, 181, 229, 0.5);
+}
+::-moz-selection {
+	background-color: #33B5E5;
+	background-color: rgba(51, 181, 229, 0.5);
+}
+
+body {
+	font-family: Roboto, "Droid Sans", sans-serif;
+	margin: 0;
+	padding: 16px;
+}
+body:before { /* This is used for the background gradient */
+	z-index: -1000;
+	content: "";
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+a {
+	color: #33B5E5;
+}
+
+button, *[role="button"], input, select {
+	-webkit-tap-highlight-color: transparent !important;
+	text-decoration: none;
+	cursor: default;
+}
+
+
+input[type="radio"], input[type="checkbox"], select:not([size]), select[size="1"],
+input[type="range"], input[type="range"]::-webkit-slider-thumb  {
+	-webkit-appearance: none;
+	     -o-appearance: none;
+	        appearance: none;
+}
+
+button, *[role="button"],
+input[type="button"], input[type="submit"], input[type="reset"], input[type="radio"], input[type="checkbox"] {
+	outline-style: none;
+	outline-width: 0px;
+}
+button, *[role="button"],
+input[type="button"], input[type="submit"], input[type="reset"],
+select:not([size]), select[size="1"] {
+	margin: 6px;
+	padding: 4px 12px;
+	
+	border-width: 1px;
+	border-style: solid;
+	border-color: transparent;
+	-webkit-border-radius: 1px;
+	   -moz-border-radius: 1px;
+	        border-radius: 1px;
+	outline-style: none;
+	outline-width: 0px;
+	
+	font: inherit;
+}
+button, *[role="button"],
+input[type="button"], input[type="submit"], input[type="reset"] {
+	display: inline-block;
+	-webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.2);
+	   -moz-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.2);
+	        box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.2);
+}
+/* The “active” class is used to force the appearance of the active/pressed state */
+button:enabled:active, *[role="button"]:active,
+input[type="button"]:enabled:active, input[type="submit"]:enabled:active, input[type="reset"]:enabled:active,
+select:active, select[size="1"]:active,
+button:enabled.active, *[role="button"].active,
+input[type="button"]:enabled.active, input[type="submit"]:enabled.active, input[type="reset"]:enabled.active,
+select.active, select[size="1"].active {
+	-webkit-box-shadow: 0px 0px 0px 4px rgba(51, 181, 229, 0.4);
+	   -moz-box-shadow: 0px 0px 0px 4px rgba(51, 181, 229, 0.4);
+	        box-shadow: 0px 0px 0px 4px rgba(51, 181, 229, 0.4);
+}
+
+select:not([size]), select[size="1"] {	
+	background-color: transparent;
+	border-width: 0 0 1px 0;
+}
+select::-ms-expand { /* Drop-down arrow in IE */
+	display: none;
+}
+
+input[type="radio"], input[type="checkbox"] {
+	margin: 10px;
+	width: 18px;
+	height: 18px;
+	
+	border-style: solid;
+	border-width: 1px;
+	
+	background-color: transparent;
+	background-repeat: no-repeat;
+}
+input[type="radio"]::-ms-check, input[type="checkbox"]::-ms-check {
+	display: none;
+}
+input[type="radio"] {
+	-webkit-border-radius: 26px;
+	   -moz-border-radius: 26px;
+	        border-radius: 26px;
+}
+input[type="checkbox"] {
+	-webkit-border-radius: 1px;
+	   -moz-border-radius: 1px;
+	        border-radius: 1px;
+	background-position: left bottom;
+}
+
+input[type="range"], progress {
+	height: 2px;
+	margin: 8px 6px;
+	border-style: none;
+	border-width: 0;
+	outline-style: none;
+	outline-width: 0;
+	overflow: visible;
+}
+input[type="range"] *, input[type="range"] {
+	overflow: visible;
+}
+input[type="range"]::-moz-range-track {
+	border-style: none;
+	border-width: 0;
+}
+input[type="range"]::-ms-track {
+	overflow: visible;
+	border-style: none;
+	border-width: 0;
+}
+input[type="range"]::-ms-ticks-before, input[type="range"]::-ms-ticks-after {	
+	display: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+	width: 28px;
+	height: 28px;
+	border: 2px solid transparent;
+	-webkit-border-radius: 14px;
+	   -moz-border-radius: 14px;
+	        border-radius: 14px;
+}
+input[type="range"]::-moz-range-thumb {
+	width: 28px;
+	height: 28px;
+	border: 2px solid transparent;
+	-moz-border-radius: 14px;
+	     border-radius: 14px;
+}
+input[type="range"]::-ms-thumb {
+	width: 28px;
+	height: 28px;
+	border: 2px solid transparent;
+	border-radius: 14px;
+}
+input[type="range"]:focus::-webkit-slider-thumb, input[type="range"]:disabled::-webkit-slider-thumb {
+	width: 24px;
+	height: 24px;
+	-webkit-border-radius: 12px;
+	        border-radius: 12px;
+}
+input[type="range"]:focus:not(:active)::-moz-range-thumb, input[type="range"]:disabled::-moz-range-thumb {
+	width: 24px;
+	height: 24px;
+	-moz-border-radius: 12px;
+	     border-radius: 12px;
+}
+input[type="range"]:focus::-ms-thumb, input[type="range"]:disabled::-ms-thumb {
+	width: 24px;
+	height: 24px;
+	border-radius: 12px;
+}
+
+progress::-webkit-progress-bar-value, progress::-webkit-progress-value {
+	position: relative;
+	overflow: visible;
+}
+progress::-moz-progress-bar {
+	position: relative;
+	overflow: visible;
+}
+progress::-ms-fill {
+	position: relative;
+	overflow: visible;
+}
+progress::-webkit-progress-bar-value:after, progress::-webkit-progress-value:after {
+	content: "";
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	width: 10px;
+	height: 2px;
+}
+progress::-moz-progress-bar:after {
+	content: "";
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	width: 10px;
+	height: 2px;
+}
+progress::-ms-fill {
+	content: "";
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	width: 10px;
+	height: 2px;
+}
+
+*:disabled {
+	opacity: 0.3;
+}

@@ -1,0 +1,71 @@
+
+#lineColor option[value="black"] {
+	color: black;
+	background-color: #d0d0d0;
+}
+#lineColor option[value="white"] {
+	color: white;
+	background-color: #b0b0b0;
+}
+#lineColor option[value="red"] {
+	color: red;
+	background-color: #d0d0d0;
+}
+#lineColor option[value="orange"] {
+	color: orange;
+	background-color: #d0d0d0;
+}
+#lineColor option[value="yellow"] {
+	color: yellow;
+	background-color: #b0b0b0;
+}
+#lineColor option[value="lime"] {
+	color: lime;
+	background-color: #b0b0b0;
+}
+#lineColor option[value="green"] {
+	color: green;
+	background-color: #d0d0d0;
+}
+#lineColor option[value="blue"] {
+	color: blue;
+	background-color: #d0d0d0;
+}
+#lineColor option[value="purple"] {
+	color: purple;
+	background-color: #d0d0d0;
+}
+
+
+#fillColor option[value="black"] {
+	background-color: black;
+	color: #e0e0e0;
+}
+#fillColor option[value="white"] {
+	background-color: white;
+}
+#fillColor option[value="red"] {
+	background-color: red;
+	color: #e0e0e0;
+}
+#fillColor option[value="orange"] {
+	background-color: orange;
+}
+#fillColor option[value="yellow"] {
+	background-color: yellow;
+}
+#fillColor option[value="lime"] {
+	background-color: lime;
+}
+#fillColor option[value="green"] {
+	background-color: green;
+	color: #e0e0e0;
+}
+#fillColor option[value="blue"] {
+	background-color: blue;
+	color: #e0e0e0;
+}
+#fillColor option[value="purple"] {
+	background-color: purple;
+	color: #e0e0e0;
+}

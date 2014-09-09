@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>PaintZ</title>
+		
+		<link rel="stylesheet" type="text/css" href="styles/holo-web/holo-base-elements.css" />
+		<link rel="stylesheet" type="text/css" href="styles/holo-web/holo-kk-light-elements.css" />
+		<link rel="stylesheet" type="text/css" href="styles/holo-web/holo-base-widgets.css" />
+		<link rel="stylesheet" type="text/css" href="styles/holo-web/holo-kk-light-widgets.css" />
+		<!--<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/zmyaro/holo-web/master/holo-base-elements.css" />
+		<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/zmyaro/holo-web/master/holo-kk-light-elements.css" />
+		<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/zmyaro/holo-web/master/holo-base-widgets.css" />
+		<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/zmyaro/holo-web/master/holo-kk-light-widgets.css" />-->
+		<link rel="stylesheet" type="text/css" href="styles/color_picker.css" />
+		<style type="text/css">
+			#gridCanvas, #canvas, #preCanvas {
+				position: absolute;
+				left: 16px;
+				top: 64px;
+			}
+			/* Background behind the actual drawing. */
+			#gridCanvas {
+				background-color: white;
+				
+				-webkit-box-shadow: rgba(0, 0, 0, 0.26) 0 2px 5px 0, rgba(0, 0, 0, 0.16) 0 2px 10px 0;
+				-moz-box-shadow: rgba(0, 0, 0, 0.26) 0 2px 5px 0, rgba(0, 0, 0, 0.16) 0 2px 10px 0;
+						box-shadow: rgba(0, 0, 0, 0.26) 0 2px 5px 0, rgba(0, 0, 0, 0.16) 0 2px 10px 0;
+					filter:  progid:DXImageTransform.Microsoft.Glow(Color=#b8b8b8,Strength=5);
+				-ms-filter: "progid:DXImageTransform.Microsoft.Glow(Color=#b8b8b8,Strength=5)";
+			}
+			.divider {
+				display: inline-block;
+				margin: -8px 0;
+				width: 1px;
+				background-color: gray;
+			}
+			#toolbar label {
+				margin-left: 4px;
+			}
+			#downloadLink {
+				display: none;
+			}
+		</style>
+		
+		<script type="text/javascript" src="scripts/app.js"></script>
+		<script type="text/javascript" src="scripts/shape.js"></script>
+		<script type="text/javascript" src="scripts/doodle.js"></script>
+		<script type="text/javascript" src="scripts/line.js"></script>
+		<script type="text/javascript" src="scripts/rectangle.js"></script>
+		<script type="text/javascript" src="scripts/oval.js"></script>
+	</head>
+	<body>
+		<div class="holo-actionBar" id="toolbar">
+			<select id="tool">
+				<option value="pencil">Pencil</option>
+				<option value="line">Line segment</option>
+				<option value="rect">Rectangle</option>
+				<option value="oval">Oval</option>
+			</select>
+			<span class="divider"></span>
+			<label for="lineWidth">Line:</label>
+			<input type="number" value="2" min="1" max="20" id="lineWidth" />
+			<select id="lineColor">
+				<option value="black">Black</option>
+				<option value="white">White</option>
+				<option value="red">Red</option>
+				<option value="orange">Orange</option>
+				<option value="yellow">Yellow</option>
+				<option value="lime">Lime</option>
+				<option value="green">Green</option>
+				<option value="blue">Blue</option>
+				<option value="purple">Purple</option>
+			</select>
+			<span class="divider"></span>
+			<label for="fillColor">Fill:</label>
+			<select id="fillColor">
+				<option value="black">Black</option>
+				<option value="white">White</option>
+				<option value="red">Red</option>
+				<option value="orange">Orange</option>
+				<option value="yellow">Yellow</option>
+				<option value="lime">Lime</option>
+				<option value="green">Green</option>
+				<option value="blue">Blue</option>
+				<option value="purple">Purple</option>
+			</select>
+			<span class="divider"></span>
+			<button id="clearBtn">Clear</button>
+			<span class="divider"></span>
+			<button id="saveBtn">Save as...</button>
+		</div>
+		<canvas id="gridCanvas" width="640" height="480"></canvas>
+		<canvas id="canvas" width="640" height="480"></canvas>
+		<canvas id="preCanvas" width="640" height="480"></canvas>
+		<a id="downloadLink" download="untitled.png"></a>
+	</body>
+</html>
