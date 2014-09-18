@@ -1,0 +1,65 @@
+#toolbar {
+	height: 78px;
+	vertical-align: top;
+}
+	#toolbar .divider {
+		display: inline-block;
+		vertical-align: top;
+		height: 61px;
+		margin: 8px 0;
+		padding: 0;
+		width: 1px;
+		background-color: gray;
+	}
+	#toolbar label {
+		margin-left: 4px;
+	}
+
+.toolbox {
+	display: inline-block;
+	vertical-align: top;
+	margin: 2px;
+}
+	.toolbox input[type="radio"] {
+		-webkit-appearance: none;
+		   -moz-appearance: none;
+		        appearance: none;
+		width: 32px;
+		height: 32px;
+		padding: 4px;
+		margin: 1px;
+		border: 0;
+		-webkit-border-radius: 2px;
+		   -moz-border-radius: 2px;
+		        border-radius: 2px;
+		
+		background-color: #efefef;
+		background-position: center center;
+		
+		position: relative;
+	}
+		.toolbox input[type="radio"]:hover,
+		.toolbox input[type="radio"]:focus {
+			background-color: #ffffff;
+		}
+		.toolbox input[type="radio"]:active {
+			background-color: #e0e0e0;
+		}
+		.toolbox input[type="radio"]:checked {
+			-webkit-box-shadow: 0 0 0 2px #33b5e5;
+			   -moz-box-shadow: 0 0 0 2px #33b5e5;
+			        box-shadow: 0 0 0 2px #33b5e5;
+		}
+
+#doodleTool {
+	background-image: url('../images/doodle_icon.png');
+}
+#lineTool {
+	background-image: url('../images/line_icon.png');
+}
+#rectTool {
+	background-image: url('../images/rect_icon.png');
+}
+#ovalTool {
+	background-image: url('../images/oval_icon.png');
+}

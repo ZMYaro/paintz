@@ -34,7 +34,15 @@ function getCanvasY(pageY) {
  * Get the toolbar form elements.
  */
 function initToolbar() {
-	toolbar.tool = document.getElementById('tool');
+	var forms = document.getElementsByTagName('form');
+	for (var i = 0; i < forms.length; i++) {
+		forms[i].addEventListener('submit', function (e) {
+			e.preventDefault();
+		}, false);
+	}
+	
+	toolbar.tool = document.getElementById('tool').tool;
+	
 	toolbar.lineColor = document.getElementById('lineColor');
 	toolbar.fillColor = document.getElementById('fillColor');
 	
@@ -111,7 +119,7 @@ function startShape(e) {
 	// Identify the type of shape to draw.
 	var shapeClass;
 	switch (toolbar.tool.value) {
-		case 'pencil':
+		case 'doodle':
 			shapeClass = Doodle;
 			break;
 		case 'line':

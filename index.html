@@ -11,12 +11,13 @@
 		<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/zmyaro/holo-web/master/holo-kk-light-elements.css" />
 		<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/zmyaro/holo-web/master/holo-base-widgets.css" />
 		<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/zmyaro/holo-web/master/holo-kk-light-widgets.css" />-->
+		<link rel="stylesheet" type="text/css" href="styles/toolbars.css" />
 		<link rel="stylesheet" type="text/css" href="styles/color_picker.css" />
 		<style type="text/css">
 			#gridCanvas, #canvas, #preCanvas {
 				position: absolute;
 				left: 16px;
-				top: 64px;
+				top: 94px;
 			}
 			/* Background behind the actual drawing. */
 			#gridCanvas {
@@ -33,15 +34,6 @@
 				filter: alpha(opacity=30);
 				-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
 			}
-			.divider {
-				display: inline-block;
-				margin: -8px 0;
-				width: 1px;
-				background-color: gray;
-			}
-			#toolbar label {
-				margin-left: 4px;
-			}
 			#downloadLink {
 				display: none;
 			}
@@ -56,12 +48,13 @@
 	</head>
 	<body>
 		<div class="holo-actionBar" id="toolbar">
-			<select id="tool">
-				<option value="pencil">Pencil</option>
-				<option value="line">Line segment</option>
-				<option value="rect">Rectangle</option>
-				<option value="oval">Oval</option>
-			</select>
+			<form class="toolbox" id="tool">
+				<input type="radio" name="tool" value="doodle" id="doodleTool" title="Doodle" checked="checked" />
+				<input type="radio" name="tool" value="line" id="lineTool" title="Line" />
+				<br />
+				<input type="radio" name="tool" value="rect" id="rectTool" title="Rectangle" />
+				<input type="radio" name="tool" value="oval" id="ovalTool" title="Oval" />
+			</form>
 			<span class="divider"></span>
 			<label for="lineWidth">Line:</label>
 			<input type="number" value="2" min="1" max="20" id="lineWidth" />
