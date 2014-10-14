@@ -1,0 +1,385 @@
+/* Base Material styles for elements.
+ * Part of the MaterialZ CSS library.
+ * Written by Zachary Yaro.
+ * https://github.com/zmyaro/materialz
+ */
+
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,400italic,700,700italic);
+
+::selection {
+	background-color: #40c4ff;
+	background-color: rgba(64, 196, 255, 0.4);
+}
+::-moz-selection {
+	background-color: #40c4ff;
+	background-color: rgba(64, 196, 255, 0.4);
+}
+
+body {
+	font-family: Roboto, Helvetica, Arial, "Droid Sans", sans-serif;
+	margin: 0;
+	padding: 24px;
+	background-color: #fafafa;
+}
+
+a {
+	color: #33B5E5;
+}
+
+button,
+*[role="button"],
+input,
+select,
+textarea,
+input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	     -o-appearance: none;
+	        appearance: none;
+	-webkit-tap-highlight-color: transparent !important;
+	font: inherit;
+	outline: 0 none;
+	text-decoration: none;
+}
+
+/* --------======== BUTTONS and DROP-DOWNS ========-------- */
+button, *[role="button"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+select:not([size]),
+select[size="1"] {
+	min-width: 128px;
+	margin: 6px;
+	padding: 13px 20px;
+	border: 0 none;
+	-webkit-border-radius: 3px;
+	   -moz-border-radius: 3px;
+	        border-radius: 3px;
+	color: inherit;
+	cursor: default;
+}
+	button,
+	*[role="button"],
+	input[type="button"],
+	input[type="submit"],
+	input[type="reset"] {
+		display: inline-block;
+		background-color: d6d7d7;
+	}
+	select,
+	select[size="1"] {
+		position: relative;
+		background-color: transparent;
+		background-image: none;
+	}
+		select::before,
+		select[size="1"]::before {
+			content: 'aoeu';
+			position: absolute;
+			right: 8px;
+			top: 8px;
+			width: 4px;
+			height: 4px;
+			background-color: green;
+			
+			border-top: 8px solid black;
+			border-left: 8px solid transparent;
+			border-right: 8px solid transparent;
+			border-bottom: 0 solid transparent;
+		}
+	button:hover,
+	*[role="button"]:hover,
+	input[type="button"]:hover,
+	input[type="submit"]:hover,
+	input[type="reset"]:hover,
+	select:hover,
+	select[size="1"]:hover,
+	button:focus,
+	*[role="button"]:focus,
+	input[type="button"]:focus,
+	input[type="submit"]:focus,
+	input[type="reset"]:focus,
+	select:focus,
+	select[size="1"]:focus {
+		background-color: #e2e3e3;
+	}
+	/* The “active” class is used to force the appearance of the active/pressed state */
+	button:enabled:active,
+	*[role="button"]:active,
+	input[type="button"]:enabled:active,
+	input[type="submit"]:enabled:active,
+	input[type="reset"]:enabled:active,
+	select:enabled:active,
+	select[size="1"]:enabled:active,
+	button:enabled.active,
+	*[role="button"].active,
+	input[type="button"]:enabled.active,
+	input[type="submit"]:enabled.active,
+	input[type="reset"]:enabled.active,
+	select.active,
+	select[size="1"].active {
+		background-color: #c4c5c5;
+	}
+	select::-ms-expand { /* Drop-down arrow in IE */
+		display: none;
+	}
+
+option {
+	background-color: white;
+	color: black;
+}
+
+/* --------======== RADIO BUTTONS AND CHECKBOXES ========-------- */
+input[type="radio"],
+input[type="checkbox"] {
+	position: relative;
+	margin: 10px;
+	
+	border-style: solid;
+	border-width: 2px;
+	border-color: black;
+	
+	background-color: transparent;
+	background-repeat: no-repeat;
+	
+	-webkit-transition-duration: 0.2s;
+	   -moz-transition-duration: 0.2s;
+	    -ms-transition-duration: 0.2s;
+	     -o-transition-duration: 0.2s;
+	        transition-duration: 0.2s;
+	-webkit-transition-timing-function: linear;
+	   -moz-transition-timing-function: linear;
+	    -ms-transition-timing-function: linear;
+	     -o-transition-timing-function: linear;
+	        transition-timing-function: linear;
+	-webkit-transition-property: border-color;
+	   -moz-transition-property: border-color;
+	    -ms-transition-property: border-color;
+	     -o-transition-property: border-color;
+	        transition-property: border-color;
+}
+	input[type="radio"]::-ms-check,
+	input[type="checkbox"]::-ms-check {
+		display: none;
+	}
+	input[type="radio"]:checked,
+	input[type="checkbox"]:checked {
+		border-color: #40c4ff;
+	}
+	input[type="radio"]::before,
+	input[type="checkbox"]::before {
+		content: '';
+		
+		position: absolute;
+		
+		background-color: black;
+		
+		-webkit-transform: scale(0);
+		   -moz-transform: scale(0);
+		    -ms-transform: scale(0);
+		     -o-transform: scale(0);
+		        transform: scale(0);
+		
+		-webkit-transition-duration: 0.2s;
+		  -moz-transition-duration: 0.2s;
+		   -ms-transition-duration: 0.2s;
+		     -o-transition-duration: 0.2s;
+		        transition-duration: 0.2s;
+		-webkit-transition-timing-function: linear;
+		   -moz-transition-timing-function: linear;
+		    -ms-transition-timing-function: linear;
+		     -o-transition-timing-function: linear;
+		        transition-timing-function: linear;
+	}
+		input[type="radio"]:checked::before,
+		input[type="checkbox"]:checked::before {
+			background-color: #40c4ff;
+			
+			-webkit-transform: scale(1);
+			   -moz-transform: scale(1);
+			    -ms-transform: scale(1);
+			     -o-transform: scale(1);
+			        transform: scale(1);
+		}
+input[type="radio"] {
+	width: 20px;
+	height: 20px;
+	-webkit-border-radius: 50%;
+	   -moz-border-radius: 50%;
+	        border-radius: 50%;
+}
+	input[type="radio"]::before {
+		left: 2px;
+		top: 2px;
+		right: 2px;
+		bottom: 2px;
+		
+		-webkit-border-radius: 50%;
+		   -moz-border-radius: 50%;
+		        border-radius: 50%;
+	}
+	input[type="radio"]:checked::before {
+		
+	}
+input[type="checkbox"] {
+	width: 18px;
+	height: 18px;
+	-webkit-border-radius: 2px;
+	   -moz-border-radius: 2px;
+	        border-radius: 2px;
+	background-position: center center;
+}
+	input[type="checkbox"]::before {
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+	}
+
+/* --------======== RANGE SLIDERS and PROGRESS BARS ========-------- */
+input[type="range"], progress {
+	height: 2px;
+	margin: 8px 6px;
+	border-style: none;
+	border-width: 0;
+	outline-style: none;
+	outline-width: 0;
+	overflow: visible;
+}
+input[type="range"] *, input[type="range"] {
+	overflow: visible;
+}
+input[type="range"]::-moz-range-track {
+	border-style: none;
+	border-width: 0;
+}
+input[type="range"]::-ms-track {
+	overflow: visible;
+	border-style: none;
+	border-width: 0;
+}
+input[type="range"]::-ms-ticks-before, input[type="range"]::-ms-ticks-after {	
+	display: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+	width: 28px;
+	height: 28px;
+	border: 2px solid transparent;
+	-webkit-border-radius: 14px;
+	   -moz-border-radius: 14px;
+	        border-radius: 14px;
+}
+input[type="range"]::-moz-range-thumb {
+	width: 28px;
+	height: 28px;
+	border: 2px solid transparent;
+	-moz-border-radius: 14px;
+	     border-radius: 14px;
+}
+input[type="range"]::-ms-thumb {
+	width: 28px;
+	height: 28px;
+	border: 2px solid transparent;
+	border-radius: 14px;
+}
+input[type="range"]:focus::-webkit-slider-thumb, input[type="range"]:disabled::-webkit-slider-thumb {
+	width: 24px;
+	height: 24px;
+	-webkit-border-radius: 12px;
+	        border-radius: 12px;
+}
+input[type="range"]:focus:not(:active)::-moz-range-thumb, input[type="range"]:disabled::-moz-range-thumb {
+	width: 24px;
+	height: 24px;
+	-moz-border-radius: 12px;
+	     border-radius: 12px;
+}
+input[type="range"]:focus::-ms-thumb, input[type="range"]:disabled::-ms-thumb {
+	width: 24px;
+	height: 24px;
+	border-radius: 12px;
+}
+
+progress::-webkit-progress-bar-value, progress::-webkit-progress-value {
+	position: relative;
+	overflow: visible;
+}
+progress::-moz-progress-bar {
+	position: relative;
+	overflow: visible;
+}
+progress::-ms-fill {
+	position: relative;
+	overflow: visible;
+}
+progress::-webkit-progress-bar-value:after, progress::-webkit-progress-value:after {
+	content: "";
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	width: 10px;
+	height: 2px;
+}
+progress::-moz-progress-bar:after {
+	content: "";
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	width: 10px;
+	height: 2px;
+}
+progress::-ms-fill {
+	content: "";
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	width: 10px;
+	height: 2px;
+}
+
+/* --------======== TEXT FIELDS ========-------- */
+input[type="text"],
+input[type="search"],
+input[type="password"],
+input[type="email"],
+input[type="url"],
+textarea {
+	-webkit-appearance: none;
+	   -moz-appearance: none;
+	
+	padding: 4px 0;
+	
+	background-color: transparent;
+	
+	border-width: 0 0 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #757575;
+	outline: 0 none transparent;
+}
+textarea {
+	border-width: 1px;
+	padding: 4px;
+}
+	input[type="text"]:focus,
+	input[type="search"]:focus,
+	input[type="password"]:focus,
+	input[type="email"]:focus,
+	input[type="url"]:focus,
+	textarea:focus {
+		padding-bottom: 3px;
+		border-bottom-width: 2px;
+		border-bottom-color: #40c4ff;
+		outline: 0 none transparent;
+	}
+
+*:disabled {
+	opacity: 0.3;
+}
+
+@media (max-width: 600px) {
+	body {
+		padding: 16px;
+	}
+}

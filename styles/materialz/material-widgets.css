@@ -1,0 +1,181 @@
+/* Base Material styles for widgets.
+ * Part of the MaterialZ CSS library.
+ * Written by Zachary Yaro.
+ * https://github.com/zmyaro/materialz
+ */
+
+@charset "UTF-8";
+
+body {
+	padding-top: 88px; /* 64px toolbar + 24px padding */
+	
+	-webkit-transition-duration: 0.2s;
+	   -moz-transition-duration: 0.2s;
+	    -ms-transition-duration: 0.2s;
+	     -o-transition-duration: 0.2s;
+	        transition-duration: 0.2s;
+	-webkit-transition-timing-function: linear;
+	   -moz-transition-timing-function: linear;
+	    -ms-transition-timing-function: linear;
+	     -o-transition-timing-function: linear;
+	        transition-timing-function: linear;
+	-webkit-transition-property: padding;
+	   -moz-transition-property: padding;
+	    -ms-transition-property: padding;
+	     -o-transition-property: padding;
+	        transition-property: padding;
+}
+
+.appBar { /* the top action bar should be a <header> element */
+	display: block;
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	height: 64px;
+	
+	padding: 16px;
+	font-size: 24px;
+	
+	z-index: 3;
+	
+	background-color: #263238;
+	color: white;
+	
+	-webkit-transition-duration: 0.2s;
+	   -moz-transition-duration: 0.2s;
+	    -ms-transition-duration: 0.2s;
+	     -o-transition-duration: 0.2s;
+	        transition-duration: 0.2s;
+	-webkit-transition-timing-function: linear;
+	   -moz-transition-timing-function: linear;
+	    -ms-transition-timing-function: linear;
+	     -o-transition-timing-function: linear;
+	        transition-timing-function: linear;
+	-webkit-transition-property: height, padding, font-size;
+	   -moz-transition-property: height, padding, font-size;
+	    -ms-transition-property: height, padding, font-size;
+	     -o-transition-property: height, padding, font-size;
+	        transition-property: height, padding, font-size;
+}
+
+	.appBar button,
+	.appBar *[role="button"] {
+		vertical-align: top;
+		min-width: 0;
+		width: 56px;
+		height: 56px;
+		margin: -12px; /* -12px to counter the toolbar's padding */
+		padding: 12px;
+		
+		background-color: transparent;
+		background-image: none;
+		
+		border-style: none;
+		border-width: 0px;
+		-webkit-border-radius: 50%;
+		   -moz-border-radius: 50%;
+				border-radius: 50%;
+		
+		-webkit-box-shadow: none;
+		   -moz-box-shadow: none;
+				box-shadow: none;
+	}
+		.appBar button:hover,
+		.appBar button:focus,
+		.appBar *[role="button"]:hover,
+		.appBar *[role="button"]:focus {
+			-webkit-box-shadow: none;
+			   -moz-box-shadow: none;
+					box-shadow: none;
+			
+			background-color: rgba(255,255,255,0.07);
+		}
+		.appBar button:enabled:active,
+		.appBar button:enabled.active,
+		.appBar *[role="button"]:active,
+		.appBar *[role="button"].active {
+			-webkit-box-shadow: none;
+			   -moz-box-shadow: none;
+					box-shadow: none;
+			
+			background-color: rgba(255,255,255,0.13);
+		}
+
+.list {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+	.list li {
+		-webkit-box-sizing: border-box;
+		   -moz-box-sizing: border-box;
+				box-sizing: border-box;
+		padding: 16px;
+		border-width: 1px 0 0;
+		border-style: solid;
+		border-color: #dfdfdf;
+		border-color: rgba(0, 0, 0, 0.11);
+	}
+		.list li:last-child {
+			border-bottom-width: 1px;
+		}
+		
+		.list li button,
+		.list li *[role="button"] {
+			display: block;
+			margin: -16px;
+			padding: 16px;
+			
+			font-family: inherit;
+			font-size: inherit;
+			text-align: left;
+			
+			border: 0 none;
+			-wekbit-border-radius: 0;
+			   -moz-border-radius: 0;
+			        border-radius: 0;
+			background: transparent none;
+			-webkit-box-shadow: none;
+			   -moz-box-shadow: none;
+			        box-shadow: none;
+		}
+			.list li button:enabled:active,
+			.list li *[role="button"]:active,
+			.list li button:enabled.active,
+			.list li *[role="button"].active {
+				-webkit-box-shadow: none;
+				   -moz-box-shadow: none;
+				        box-shadow: none;
+				
+				background-color: #e3e3e3;
+				background-color: rgba(0, 0, 0, 0.09);
+			}
+
+.card {
+	background-color: white;
+	-webkit-border-radius: 2px;
+	   -moz-border-radius: 2px;
+	        border-radius: 2px;
+	
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+	
+	margin: 8px;
+	padding: 16px;
+	vertical-align: top;
+}
+
+@media (max-width: 600px) {
+	body {
+		padding-top: 72px; /* 56px toolbar + 16px padding */
+	}
+	.appBar {
+		height: 56px;
+		padding: 12px;
+	}
+}

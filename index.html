@@ -3,51 +3,25 @@
 	<head>
 		<title>PaintZ</title>
 		
-		<link rel="stylesheet" type="text/css" href="styles/holo-web/holo-base-elements.css" />
-		<link rel="stylesheet" type="text/css" href="styles/holo-web/holo-kk-light-elements.css" />
-		<link rel="stylesheet" type="text/css" href="styles/holo-web/holo-base-widgets.css" />
-		<link rel="stylesheet" type="text/css" href="styles/holo-web/holo-kk-light-widgets.css" />
-		<!--<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/zmyaro/holo-web/master/holo-base-elements.css" />
-		<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/zmyaro/holo-web/master/holo-kk-light-elements.css" />
-		<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/zmyaro/holo-web/master/holo-base-widgets.css" />
-		<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/zmyaro/holo-web/master/holo-kk-light-widgets.css" />-->
-		<link rel="stylesheet" type="text/css" href="styles/toolbars.css" />
-		<link rel="stylesheet" type="text/css" href="styles/color_picker.css" />
-		<style type="text/css">
-			#gridCanvas, #canvas, #preCanvas {
-				position: absolute;
-				left: 16px;
-				top: 94px;
-			}
-			/* Background behind the actual drawing. */
-			#gridCanvas {
-				background-color: white;
-				
-				-webkit-box-shadow: rgba(0, 0, 0, 0.26) 0 2px 5px 0, rgba(0, 0, 0, 0.16) 0 2px 10px 0;
-				-moz-box-shadow: rgba(0, 0, 0, 0.26) 0 2px 5px 0, rgba(0, 0, 0, 0.16) 0 2px 10px 0;
-						box-shadow: rgba(0, 0, 0, 0.26) 0 2px 5px 0, rgba(0, 0, 0, 0.16) 0 2px 10px 0;
-					filter:  progid:DXImageTransform.Microsoft.Glow(Color=#b8b8b8,Strength=5);
-				-ms-filter: "progid:DXImageTransform.Microsoft.Glow(Color=#b8b8b8,Strength=5)";
-			}
-			#preCanvas {
-				opacity: 0.3;
-				filter: alpha(opacity=30);
-				-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
-			}
-			#downloadLink {
-				display: none;
-			}
-		</style>
+		<link rel="stylesheet" type="text/css" href="styles/materialz/material-elements.css" />
+		<link rel="stylesheet" type="text/css" href="styles/materialz/material-widgets.css" />
+		<link rel="stylesheet" type="text/css" href="styles/materialz/material-depth.css" />
 		
-		<script type="text/javascript" src="scripts/app.js"></script>
+		<link rel="stylesheet" type="text/css" href="styles/layout.css" />
+		<link rel="stylesheet" type="text/css" href="styles/color_picker.css" />
+		
+		<script type="text/javascript" src="scripts/materialz/material-touch.js"></script>
+		
 		<script type="text/javascript" src="scripts/shape.js"></script>
 		<script type="text/javascript" src="scripts/doodle.js"></script>
 		<script type="text/javascript" src="scripts/line.js"></script>
 		<script type="text/javascript" src="scripts/rectangle.js"></script>
 		<script type="text/javascript" src="scripts/oval.js"></script>
+		<script type="text/javascript" src="scripts/utils.js"></script>
+		<script type="text/javascript" src="scripts/app.js"></script>
 	</head>
 	<body>
-		<div class="holo-actionBar" id="toolbar">
+		<div class="appBar z2" id="toolbar">
 			<form class="toolbox" id="tool">
 				<input type="radio" name="tool" value="doodle" id="doodleTool" title="Doodle" checked="checked" />
 				<input type="radio" name="tool" value="line" id="lineTool" title="Line" />
@@ -56,40 +30,52 @@
 				<input type="radio" name="tool" value="oval" id="ovalTool" title="Oval" />
 			</form>
 			<span class="divider"></span>
-			<label for="lineWidth">Line:</label>
-			<input type="number" value="2" min="1" max="20" id="lineWidth" />
-			<select id="lineColor">
-				<option value="black" selected="selected">Black</option>
-				<option value="white">White</option>
-				<option value="red">Red</option>
-				<option value="orange">Orange</option>
-				<option value="yellow">Yellow</option>
-				<option value="lime">Lime</option>
-				<option value="green">Green</option>
-				<option value="blue">Blue</option>
-				<option value="purple">Purple</option>
+			<select title="Line width" id="lineWidth">
+				<option value="1">1px</option>
+				<option value="2">2px</option>
+				<option value="3">3px</option>
+				<option value="4">4px</option>
+				<option value="5">5px</option>
+				<option value="6">6px</option>
+				<option value="7">7px</option>
+				<option value="8">9px</option>
+				<option value="10">10px</option>
+				<option value="12">12px</option>
+				<option value="14">14px</option>
+				<option value="16">16px</option>
+				<option value="18">18px</option>
+				<option value="20">20px</option>
+				<option value="25">25px</option>
+				<option value="30">30px</option>
 			</select>
 			<span class="divider"></span>
-			<label for="fillColor">Fill:</label>
-			<select id="fillColor">
-				<option value="black">Black</option>
-				<option value="white" selected="selected">White</option>
-				<option value="red">Red</option>
-				<option value="orange">Orange</option>
-				<option value="yellow">Yellow</option>
-				<option value="lime">Lime</option>
-				<option value="green">Green</option>
-				<option value="blue">Blue</option>
-				<option value="purple">Purple</option>
-			</select>
+			<div title="Selected colors" id="colors" class="z1" style="border-color: black; background-color: white;"></div>
+			<div class="toolbox" id="colorPicker">
+				<button title="Black" data-value="black">Black</button>
+				<button title="Red" data-value="red">Red</button>
+				<button title="Orange" data-value="orange">Orange</button>
+				<button title="Yellow" data-value="yellow">Yellow</button>
+				<button title="Lime" data-value="lime">Lime</button>
+				<br />
+				<button title="White" data-value="white">White</button>
+				<button title="Green" data-value="green">Green</button>
+				<button title="Light blue" data-value="lightblue">Light blue</button>
+				<button title="Blue" data-value="blue">Blue</button>
+				<button title="Purple" data-value="purple">Purple</button>
+			</div>
 			<span class="divider"></span>
-			<button id="clearBtn">Clear</button>
-			<span class="divider"></span>
-			<button id="saveBtn">Save as...</button>
+			<div class="toolbox">
+				<button id="clearBtn" title="Clear">
+					<img src="images/clear_icon.png" alt="Clear" />
+				</button>
+				<br />
+				<button id="saveBtn" title="Save as...">
+					<img src="images/save_icon.png" alt="Save as..." />
+				</button>
+			</div>
 		</div>
-		<canvas id="gridCanvas" width="640" height="480"></canvas>
-		<canvas id="canvas" width="640" height="480"></canvas>
+		<canvas class="z1" id="canvas" width="640" height="480"></canvas>
 		<canvas id="preCanvas" width="640" height="480"></canvas>
-		<a id="downloadLink" download="untitled.png"></a>
+		<a id="downloadLink" download="untitled.png" style="display: none;"></a>
 	</body>
 </html>

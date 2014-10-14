@@ -1,71 +1,73 @@
+@charset "UTF-8";
 
-#lineColor option[value="black"] {
-	color: black;
-	background-color: #d0d0d0;
+#lineWidth {
+	margin: 26px 0;
+	vertical-align: top;
 }
-#lineColor option[value="white"] {
-	color: white;
-	background-color: #b0b0b0;
-}
-#lineColor option[value="red"] {
-	color: red;
-	background-color: #d0d0d0;
-}
-#lineColor option[value="orange"] {
-	color: orange;
-	background-color: #d0d0d0;
-}
-#lineColor option[value="yellow"] {
-	color: yellow;
-	background-color: #b0b0b0;
-}
-#lineColor option[value="lime"] {
-	color: lime;
-	background-color: #b0b0b0;
-}
-#lineColor option[value="green"] {
-	color: green;
-	background-color: #d0d0d0;
-}
-#lineColor option[value="blue"] {
-	color: blue;
-	background-color: #d0d0d0;
-}
-#lineColor option[value="purple"] {
-	color: purple;
-	background-color: #d0d0d0;
+	#lineWidth:hover, #lineWidth:focus {
+		background-color: rgba(255,255,255,0.07);
+	}
+	#lineWidth:active {
+		background-color: rgba(255,255,255,0.13);
+	}
+
+#colors {
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+	display: inline-block;
+	width: 48px;
+	height: 48px;
+	margin: 32px 0;
+	margin-left: 4px;
+	border: 8px solid;
+	-webkit-border-radius: 50%;
+	   -moz-border-radius: 50%;
+	        border-radius: 50%;
 }
 
-
-#fillColor option[value="black"] {
-	background-color: black;
-	color: #e0e0e0;
+#colorPicker button {
+	position: relative;
+	color: transparent;
 }
-#fillColor option[value="white"] {
-	background-color: white;
-}
-#fillColor option[value="red"] {
-	background-color: red;
-	color: #e0e0e0;
-}
-#fillColor option[value="orange"] {
-	background-color: orange;
-}
-#fillColor option[value="yellow"] {
-	background-color: yellow;
-}
-#fillColor option[value="lime"] {
-	background-color: lime;
-}
-#fillColor option[value="green"] {
-	background-color: green;
-	color: #e0e0e0;
-}
-#fillColor option[value="blue"] {
-	background-color: blue;
-	color: #e0e0e0;
-}
-#fillColor option[value="purple"] {
-	background-color: purple;
-	color: #e0e0e0;
-}
+	#colorPicker button::before {
+		content: '';
+		position: absolute;
+		left: 12px;
+		top: 12px;
+		right: 12px;
+		bottom: 12px;
+		-webkit-border-radius: 50%;
+		   -moz-border-radius: 50%;
+		        border-radius: 50%;
+	}
+	#colorPicker button[data-value="black"]::before {
+		background-color: black;
+	}
+	#colorPicker button[data-value="white"]::before {
+		background-color: white;
+	}
+	#colorPicker button[data-value="red"]::before {
+		background-color: red;
+	}
+	#colorPicker button[data-value="orange"]::before {
+		background-color: orange;
+	}
+	#colorPicker button[data-value="yellow"]::before {
+		background-color: yellow;
+	}
+	#colorPicker button[data-value="lime"]::before {
+		background-color: lime;
+	}
+	#colorPicker button[data-value="green"]::before {
+		background-color: green;
+	}
+	#colorPicker button[data-value="lightblue"]::before {
+		background-color: lightblue;
+	}
+	#colorPicker button[data-value="blue"]::before {
+		background-color: blue;
+	}
+	#colorPicker button[data-value="purple"]::before {
+		background-color: purple;
+	}

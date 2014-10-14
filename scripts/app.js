@@ -1,12 +1,3 @@
-// This is the closest thing JS has to constants.  It should probably
-// never be done in production code.
-Object.defineProperty(window, 'MAX_LINE_WIDTH', {
-	value: 20,
-	configurable: false,
-	enumerable: true,
-	writable: false
-});
-
 var canvas;
 var previewCanvas;
 var cxt;
@@ -14,21 +5,9 @@ var preCxt;
 var currentShape;
 var toolbar = {};
 var downloadLink;
+var lineColor = 'black';
+var fillColor = 'white';
 
-/**
- * Get the x-coordinate of a click within the canvas.
- * @param {Number} pageX - The x-coordinate relative to the page
- */
-function getCanvasX(pageX) {
-	return pageX - preCanvas.offsetLeft;
-}
-/**
- * Get the y-coordinate of a click within the canvas.
- * @param {Number} pageY - The y-coordinate relative to the page
- */
-function getCanvasY(pageY) {
-	return pageY - preCanvas.offsetTop;
-}
 
 /**
  * Get the toolbar form elements.
@@ -43,17 +22,30 @@ function initToolbar() {
 	
 	toolbar.tool = document.getElementById('tool').tool;
 	
-	toolbar.lineColor = document.getElementById('lineColor');
-	toolbar.fillColor = document.getElementById('fillColor');
+	toolbar.colorPicker = document.getElementById('colorPicker');
+	var colors = colorPicker.getElementsByTagName('button');
+	for (var i = 0; i < colors.length; i++) {
+		// Handle left click.
+		colors[i].addEventListener('click', function (e) {
+			e.preventDefault();
+			e.stopPropagation();
+			if (e.button === 0) {
+				lineColor = e.target.dataset.value;
+				document.getElementById('colors').style.borderColor = lineColor;
+			}
+		}, false);
+		// Handle right click.
+		colors[i].addEventListener('contextmenu', function (e) {
+			e.preventDefault();
+			e.stopPropagation();
+			if (e.button === 2) {
+				fillColor = e.target.dataset.value;
+				document.getElementById('colors').style.backgroundColor = fillColor;
+			}
+		}, false);
+	}
 	
 	toolbar.lineWidth = document.getElementById('lineWidth');
-	toolbar.lineWidth.addEventListener('input', function(e) {
-		if (e.target.value > MAX_LINE_WIDTH) {
-			e.target.value = MAX_LINE_WIDTH;
-		} else if (e.target.value < 0) {
-			e.target.value = 0;
-		}
-	}, false);
 	
 	toolbar.clearBtn = document.getElementById('clearBtn');
 	toolbar.clearBtn.addEventListener('click', function (e) {
@@ -110,11 +102,9 @@ function startShape(e) {
 	preCanvas.removeEventListener('touchstart', startShape, false);
 	
 	// Retrieve the values for the shape's properties.
-	var startX = getCanvasX(touch ? e.touches[0].pageX : e.pageX);
-	var startY = getCanvasY(touch ? e.touches[0].pageY : e.pageY);
+	var startX = Utils.getCanvasX(touch ? e.touches[0].pageX : e.pageX);
+	var startY = Utils.getCanvasY(touch ? e.touches[0].pageY : e.pageY);
 	var lineWidth = toolbar.lineWidth.value;
-	var lineColor = toolbar.lineColor.value;
-	var fillColor = toolbar.fillColor.value;
 	
 	// Identify the type of shape to draw.
 	var shapeClass;
@@ -160,8 +150,8 @@ function updateShape(e) {
 	}
 	
 	var touch = !!e.changedTouches;
-	var newX = getCanvasX(touch ? e.changedTouches[0].pageX : e.pageX);
-	var newY = getCanvasY(touch ? e.changedTouches[0].pageY : e.pageY);
+	var newX = Utils.getCanvasX(touch ? e.changedTouches[0].pageX : e.pageX);
+	var newY = Utils.getCanvasY(touch ? e.changedTouches[0].pageY : e.pageY);
 	
 	// Update the shape.
 	currentShape.updatePreview(newX, newY);
@@ -182,8 +172,8 @@ function completeShape(e) {
 	document.body.removeEventListener('touchleave', completeShape, false);
 	
 	var touch = !!e.changedTouches;
-	var newX = getCanvasX(touch ? e.changedTouches[0].pageX : e.pageX);
-	var newY = getCanvasY(touch ? e.changedTouches[0].pageY : e.pageY);
+	var newX = Utils.getCanvasX(touch ? e.changedTouches[0].pageX : e.pageX);
+	var newY = Utils.getCanvasY(touch ? e.changedTouches[0].pageY : e.pageY);
 	
 	// Complete the shape.
 	currentShape.finish(newX, newY);
@@ -205,38 +195,6 @@ function completeShape(e) {
  */
 function resetCanvas() {
 	cxt.clearRect(0, 0, canvas.width, canvas.height);
-	drawGrid();
-}
-
-/**
- * Fill the entire canvas with a grid.
- * @param {Number} [cellWidth=10] - The width of grid cells.
- * @param {Number} [cellHeight=10] - The height of grid cells.
- */
-function drawGrid(cellWidth, cellHeight) {
-	// Set the cell width and height if it is not defined.
-	cellWidth = cellWidth || 10;
-	cellHeight = cellHeight || 10;
-	
-	// Use a separate grid canvas so the grid does not end up in the exported image.
-	var gridCxt = document.getElementById('gridCanvas').getContext('2d');
-	
-	gridCxt.strokeStyle = 'lightGray';
-	gridCxt.lineWidth = 0.5;
-	
-	gridCxt.beginPath();
-	// Draw vertical lines.
-	for (var x = cellWidth + 0.5; x < canvas.width; x += cellWidth) {
-		gridCxt.moveTo(x, 0);
-		gridCxt.lineTo(x, canvas.height);
-	}
-	// Draw horizontal lines.
-	for (var y = cellHeight + 0.5; y < canvas.width; y += cellWidth) {
-		gridCxt.moveTo(0, y);
-		gridCxt.lineTo(canvas.width, y);
-	}
-	gridCxt.closePath();
-	gridCxt.stroke();
 }
 
 /**
