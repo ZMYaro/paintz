@@ -47,15 +47,41 @@ function initToolbar() {
 	
 	toolbar.lineWidth = document.getElementById('lineWidth');
 	
-	toolbar.clearBtn = document.getElementById('clearBtn');
-	toolbar.clearBtn.addEventListener('click', function (e) {
+	// Clear button.
+	document.getElementById('clearBtn').addEventListener('click', function (e) {
 		if (confirm('Are you sure you want to clear your drawing?  This action cannot be undone.')) {
 			resetCanvas();
 		}
 	}, false);
-	
-	toolbar.saveBtn = document.getElementById('saveBtn');
-	toolbar.saveBtn.addEventListener('click', downloadImage, false);
+	// Resize button.
+	document.getElementById('resizeBtn').addEventListener('click', function (e) {
+		var newSize = prompt('Resize canvas:', canvas.width + 'x' + canvas.height);
+		if (!newSize) {
+			return;
+		}
+		newSize = newSize.split('x');
+		if (newSize.length !== 2) {
+			alert('The dimensions you entered were not formatted properly.');
+		}
+		newSize[0] = parseInt(newSize[0]);
+		newSize[1] = parseInt(newSize[1]);
+		if (isNaN(newSize[0]) || isNaN(newSize[0])) {
+			alert('The dimensions you entered were not formatted properly.');
+		}
+		
+		preCxt.drawImage(canvas, 0, 0);
+		canvas.width = newSize[0];
+		canvas.height = newSize[1];
+		cxt.drawImage(preCanvas, 0, 0);
+		preCanvas.width = newSize[0];
+		preCanvas.height = newSize[1];
+	}, false);
+	// Open button.
+	document.getElementById('openBtn').addEventListener('click', function (e) {
+		alert('Not yet implemented.');
+	}, false);
+	// Save as button.
+	document.getElementById('saveBtn').addEventListener('click', downloadImage, false);
 }
 /**
  * Get the canvases and their drawing contexts, and set up event listeners.
