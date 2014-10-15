@@ -78,9 +78,31 @@ function initToolbar() {
 		preCanvas.width = newSize[0];
 		preCanvas.height = newSize[1];
 	}, false);
+	// Uploader.
+	document.getElementById('upload').addEventListener('change', function (e) {
+		console.log(e);
+		if (window.File && window.FileReader && window.FileList && window.Blob) {
+			var file = e.target.files[0];
+			if (!file || !file.type.match('image.*')) {
+				return;
+			}
+			var reader = new FileReader();
+			reader.onload = function (ev) {
+				var image = new Image();
+				image.src = ev.target.result;
+				// There is no need to clear the canvas.  Resizing the canvas will do that.
+				canvas.width = image.width;
+				canvas.height = image.height;
+				cxt.drawImage(image, 0, 0);
+			};
+			reader.readAsDataURL(file);
+		} else {
+			alert('Please switch to a browser that supports the file APIs such as Google Chrome or Internet Explorer 11.');
+		}
+	}, false);
 	// Open button.
 	document.getElementById('openBtn').addEventListener('click', function (e) {
-		alert('Not yet implemented.');
+		document.getElementById('upload').click();
 	}, false);
 	// Save as button.
 	document.getElementById('saveBtn').addEventListener('click', downloadImage, false);
