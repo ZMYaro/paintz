@@ -62,11 +62,13 @@ function initToolbar() {
 		newSize = newSize.split('x');
 		if (newSize.length !== 2) {
 			alert('The dimensions you entered were not formatted properly.');
+			return;
 		}
 		newSize[0] = parseInt(newSize[0]);
 		newSize[1] = parseInt(newSize[1]);
 		if (isNaN(newSize[0]) || isNaN(newSize[0])) {
 			alert('The dimensions you entered were not formatted properly.');
+			return;
 		}
 		
 		preCxt.drawImage(canvas, 0, 0);
