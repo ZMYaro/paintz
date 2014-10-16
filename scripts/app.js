@@ -45,6 +45,14 @@ function initToolbar() {
 		}, false);
 	}
 	
+	document.querySelector('#colorPicker button[data-value=\"yellow\"]').addEventListener('dblclick', function (e) {
+		if (!window.pacMan) {
+			window.pacMan = new PacMan(canvas, 50, 50);
+			window.pacMan.update();
+		}
+		e.target.className = 'pacman';
+	}, false);
+	
 	toolbar.lineWidth = document.getElementById('lineWidth');
 	
 	// Clear button.
