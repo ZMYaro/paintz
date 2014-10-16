@@ -13,5 +13,18 @@ var Utils = {
 	 */
 	getCanvasY: function (pageY) {
 		return pageY - preCanvas.offsetTop;
-	}
+	},
+	
+	/**
+	 * A shim for supporting requestAnimationFrame in older browsers.
+	 * Inspired by Paul Irish.
+	 */
+	raf: (requestAnimationFrame ||
+		webkitRequestAnimationFrame ||
+		mozRequestAnimationFrame ||
+		msRequestAnimationFrame ||
+		oRequestAnimationFrame ||
+		(function (func) {
+			setTimeout(func, 1000 / 60);
+		})).bind(window)
 };
