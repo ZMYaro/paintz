@@ -27,11 +27,13 @@ function initToolbar() {
 	for (var i = 0; i < colors.length; i++) {
 		// Handle left click.
 		colors[i].addEventListener('click', function (e) {
-			e.preventDefault();
-			e.stopPropagation();
-			if (e.button === 0) {
-				lineColor = e.target.dataset.value;
-				document.getElementById('colors').style.borderColor = lineColor;
+			if (!e.altKey && !e.ctrlKey && !e.shiftKey) {
+				e.preventDefault();
+				e.stopPropagation();
+				if (e.button === 0) {
+					lineColor = e.target.dataset.value;
+					document.getElementById('colors').style.borderColor = lineColor;
+				}
 			}
 		}, false);
 		// Handle right click.
@@ -45,12 +47,18 @@ function initToolbar() {
 		}, false);
 	}
 	
-	document.querySelector('#colorPicker button[data-value=\"yellow\"]').addEventListener('dblclick', function (e) {
-		if (!window.pacMan) {
+	// Set up the event listener for the Pac-Man easter egg.
+	document.querySelector('#colorPicker button[data-value=\"yellow\"]').addEventListener('click', function (e) {
+		// If the button was Ctrl+Shift+clicked for the first time...
+		if (e.ctrlKey && e.shiftKey && !window.pacMan) {
+			e.preventDefault();
+			e.stopPropagation();
+			// Create and start a new Pac-Man.
 			window.pacMan = new PacMan(canvas);
 			window.pacMan.start();
+			// Update the button to show the easter egg has been activated.
+			e.target.className = 'pacman';
 		}
-		e.target.className = 'pacman';
 	}, false);
 	
 	toolbar.lineWidth = document.getElementById('lineWidth');
