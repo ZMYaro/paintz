@@ -47,8 +47,8 @@ function initToolbar() {
 	
 	document.querySelector('#colorPicker button[data-value=\"yellow\"]').addEventListener('dblclick', function (e) {
 		if (!window.pacMan) {
-			window.pacMan = new PacMan(canvas, 50, 50);
-			window.pacMan.update();
+			window.pacMan = new PacMan(canvas);
+			window.pacMan.start();
 		}
 		e.target.className = 'pacman';
 	}, false);
