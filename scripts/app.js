@@ -129,6 +129,11 @@ function initToolbar() {
 	}, false);
 	// Save as button.
 	document.getElementById('saveBtn').addEventListener('click', downloadImage, false);
+	
+	// About button and dialog.
+	var aboutDialog = document.getElementById('aboutDialog');
+	Utils.makeDialog(aboutDialog);
+	document.getElementById('aboutBtn').onclick = aboutDialog.open;
 }
 /**
  * Get the canvases and their drawing contexts, and set up event listeners.

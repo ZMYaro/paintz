@@ -82,6 +82,12 @@
 					<img src="images/save_icon.png" alt="Save as..." />
 				</button>
 			</div>
+			<span class="divider"></span>
+			<div class="toolbox">
+				<button id="aboutBtn" title="About">
+					<img src="images/info_icon.png" alt="About" />
+				</button>
+			</div>
 		</div>
 		
 		<canvas class="z1" id="canvas" width="640" height="480"></canvas>
@@ -96,6 +102,16 @@
 				<div style="text-align: right;">
 					<br />
 					<button type="button" onclick="parentElement.parentElement.close();">Cancel</button>
+					<button type="submit">OK</button>
+				</div>
+			</form>
+			<form id="aboutDialog" class="dialog card z3" style="width: 640px;">
+				<h1>About PaintZ</h1>
+				<p>PaintZ was developed by <a href="http://zmyaro.com" target="_blank">Zachary Yaro</a>.  The source code is available <a href="https://github.com/zmyaro/paintz" target="_blank">on GitHub</a>.</p>
+				<p>PaintZ uses the <a href="https://github.com/zmyaro/materialz" target="_blank">MaterialZ CSS library</a>.</p>
+				<p>Pac-Man is owned by Namco.</p>
+				<div style="text-align: right;">
+					<br />
 					<button type="submit">OK</button>
 				</div>
 			</form>
