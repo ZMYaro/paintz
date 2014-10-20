@@ -345,6 +345,7 @@ input[type="search"],
 input[type="password"],
 input[type="email"],
 input[type="url"],
+input[type="number"],
 textarea {
 	-webkit-appearance: none;
 	   -moz-appearance: none;
@@ -367,10 +368,11 @@ textarea {
 	input[type="password"]:focus,
 	input[type="email"]:focus,
 	input[type="url"]:focus,
+	input[type="number"]:focus,
 	textarea:focus {
 		padding-bottom: 3px;
 		border-bottom-width: 2px;
-		border-bottom-color: #40c4ff;
+		border-color: #40c4ff;
 		outline: 0 none transparent;
 	}
 

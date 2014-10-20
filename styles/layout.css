@@ -1,5 +1,11 @@
 @charset "UTF-8";
 
+* {
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+
 body {
 	background-color: #e5e5e5;
 }
@@ -108,8 +114,10 @@ body {
 	top: 136px; /* 24px padding + 112px toolbar */
 }
 	#canvas {
+		z-index: 1;
 		background-color: white;
 	}
 	#preCanvas {
+		z-index: 2;
 		opacity: 0.6;
 	}
