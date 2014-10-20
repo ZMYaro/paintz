@@ -7,10 +7,11 @@
 		<link rel="stylesheet" type="text/css" href="styles/materialz/material-widgets.css" />
 		<link rel="stylesheet" type="text/css" href="styles/materialz/material-depth.css" />
 		
-		<link rel="stylesheet" type="text/css" href="styles/layout.css" />
-		<link rel="stylesheet" type="text/css" href="styles/color_picker.css" />
-		
 		<script type="text/javascript" src="scripts/materialz/material-touch.js"></script>
+		
+		<link rel="stylesheet" type="text/css" href="styles/layout.css" />
+		<link rel="stylesheet" type="text/css" href="styles/dialogs.css" />
+		<link rel="stylesheet" type="text/css" href="styles/color_picker.css" />
 		
 		<script type="text/javascript" src="scripts/utils.js"></script>
 		<script type="text/javascript" src="scripts/shape.js"></script>
@@ -82,8 +83,24 @@
 				</button>
 			</div>
 		</div>
+		
 		<canvas class="z1" id="canvas" width="640" height="480"></canvas>
 		<canvas id="preCanvas" width="640" height="480"></canvas>
+		
+		<div id="dialogs">
+			<form id="resizeDialog" class="dialog card z3" style="width: 384px;">
+				<h1>Resize</h1>
+				<input name="width" type="number" placeholder="Width" value="640" min="1" style="width: 40%;" />
+				&times;
+				<input name="height" type="number" placeholder="Height" value="480" min="1" style="width: 40%;" />
+				<div style="text-align: right;">
+					<br />
+					<button type="button" onclick="parentElement.parentElement.close();">Cancel</button>
+					<button type="submit">OK</button>
+				</div>
+			</form>
+		</div>
+		
 		<a id="downloadLink" download="untitled.png" style="display: none;"></a>
 		<audio src="audio/pacman_start.mp3" id="pacManStartSound"></audio>
 	</body>

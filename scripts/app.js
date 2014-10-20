@@ -69,31 +69,38 @@ function initToolbar() {
 			resetCanvas();
 		}
 	}, false);
-	// Resize button.
-	document.getElementById('resizeBtn').addEventListener('click', function (e) {
-		var newSize = prompt('Resize canvas:', canvas.width + 'x' + canvas.height);
-		if (!newSize) {
-			return;
-		}
-		newSize = newSize.split('x');
-		if (newSize.length !== 2) {
-			alert('The dimensions you entered were not formatted properly.');
-			return;
-		}
-		newSize[0] = parseInt(newSize[0]);
-		newSize[1] = parseInt(newSize[1]);
-		if (isNaN(newSize[0]) || isNaN(newSize[0])) {
-			alert('The dimensions you entered were not formatted properly.');
+	
+	// Resize button and dialog.
+	var resizeDialog = document.getElementById('resizeDialog');
+	Utils.makeDialog(resizeDialog);
+	resizeDialog.onsubmit = function (e) {
+		e.preventDefault();
+		
+		// Fetch the values from the form.
+		var width = parseInt(e.target.width.value);
+		var height = parseInt(e.target.height.value);
+		
+		// Validate the user's input.
+		if (!width || !height || isNaN(width) || isNaN(height) || width < 1 || height < 1) {
+			alert('The dimensions you entered were invalid.');
 			return;
 		}
 		
 		preCxt.drawImage(canvas, 0, 0);
-		canvas.width = newSize[0];
-		canvas.height = newSize[1];
+		canvas.width = width;
+		canvas.height = height;
 		cxt.drawImage(preCanvas, 0, 0);
-		preCanvas.width = newSize[0];
-		preCanvas.height = newSize[1];
-	}, false);
+		preCanvas.width = width;
+		preCanvas.height = height;
+		
+		e.target.close();
+	};
+	document.getElementById('resizeBtn').onclick = function () {
+		resizeDialog.width.value = canvas.width;
+		resizeDialog.height.value = canvas.height;
+		resizeDialog.open();
+	};
+	
 	// Uploader.
 	document.getElementById('upload').addEventListener('change', function (e) {
 		console.log(e);
@@ -270,7 +277,6 @@ function downloadImage() {
 	downloadLink.href = canvas.toDataURL();
 	downloadLink.click();
 }
-
 
 window.addEventListener('load', function () {
 	initToolbar();
