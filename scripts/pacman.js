@@ -24,6 +24,7 @@ function PacMan(canvas, x, y) {
 }
 // Constants.
 PacMan.RADIUS = 30;
+PacMan.HITBOX_PADDING = 3;
 PacMan.SPEED = 2;
 PacMan.MOUTH_SPEED = Math.PI / 16;
 PacMan.MAX_MOUTH_SIZE = Math.PI / 4;
@@ -63,22 +64,76 @@ PacMan.prototype.start = function () {
 };
 
 /**
+ * Check whether there is a wall in front of Pac-Man.
+ * @returns {Boolean}
+ */
+PacMan.prototype._isBlocked = function () {
+	this._cxt.fillStyle = lineColor;
+	this._cxt.fillRect(this.x - 1, this.y - 1, 3, 3);
+	
+	var imageData = this._cxt.getImageData(
+		this.x - (PacMan.RADIUS + PacMan.HITBOX_PADDING + 1),
+		this.y - (PacMan.RADIUS + PacMan.HITBOX_PADDING + 1),
+		(2 * (PacMan.RADIUS + PacMan.HITBOX_PADDING + 1)),
+		(2 * (PacMan.RADIUS + PacMan.HITBOX_PADDING + 1))
+	);
+	
+	var wallColor = {
+		r: imageData.data[(((imageData.height / 2) * imageData.width * 4) + ((imageData.width / 2) * 4))],
+		g: imageData.data[(((imageData.height / 2) * imageData.width * 4) + ((imageData.width / 2) * 4)) + 1],
+		b: imageData.data[(((imageData.height / 2) * imageData.width * 4) + ((imageData.width / 2) * 4)) + 2]
+	};
+	
+	this._cxt.fillStyle = fillColor;
+	this._cxt.fillRect(this.x - 1, this.y - 1, 3, 3);
+	
+	// Loop over the arc in front of Pac-Man checking for the wall color.
+	for (var i = Math.PI / 8; i < Math.PI * 7 / 8; i += 1 / 60) {
+		var x = Math.round((PacMan.RADIUS + PacMan.HITBOX_PADDING) * Math.sin(i + this.heading));
+		var y = -Math.round((PacMan.RADIUS + PacMan.HITBOX_PADDING) * Math.cos(i + this.heading));
+		
+		var col = x + (imageData.width / 2);
+		var row = y + (imageData.height / 2);
+		
+		var color = {
+			r: imageData.data[((row * imageData.width * 4) + (col * 4))],
+			g: imageData.data[((row * imageData.width * 4) + (col * 4)) + 1],
+			b: imageData.data[((row * imageData.width * 4) + (col * 4)) + 2],
+			a: imageData.data[((row * imageData.width * 4) + (col * 4)) + 3]
+		};
+		
+		// Draw Pac-Man's hitbox (hitarc?) for debugging.
+		/*this._cxt.fillStyle = '#00cc00';
+		this._cxt.fillRect(this.x + x - 0.1, this.y + y - 0.1, 0.2, 0.2);*/
+		
+		if (color.r === wallColor.r &&
+				color.g === wallColor.g &&
+				color.b === wallColor.b &&
+				color.a === 255) {
+			return true;
+		}
+	}
+	
+	return false;
+};
+
+/**
  * Draw Pac-Man to the canvas.
  */
 PacMan.prototype._draw = function () {
 	this._cxt.fillStyle = 'yellow';
 	this._cxt.beginPath();
-	this._cxt.arc(this.x, this.y, PacMan.RADIUS - 1, 0.5 * Math.PI + this.heading, 1.5 * Math.PI + this.heading);
+	this._cxt.arc(this.x, this.y, PacMan.RADIUS - 1, 0.5 * Math.PI + this.heading, 1.5 * Math.PI + this.heading, false);
 	this._cxt.closePath();
 	this._cxt.fill();
 	this._cxt.beginPath();
 	this._cxt.moveTo(this.x, this.y);
-	this._cxt.arc(this.x, this.y, PacMan.RADIUS - 1, this._mouthSize + this.heading, 0.5 * Math.PI + this.heading);
+	this._cxt.arc(this.x, this.y, PacMan.RADIUS - 1, this._mouthSize + this.heading, 0.5 * Math.PI + this.heading, false);
 	this._cxt.closePath();
 	this._cxt.fill();
 	this._cxt.beginPath();
 	this._cxt.moveTo(this.x, this.y);
-	this._cxt.arc(this.x, this.y, PacMan.RADIUS - 1, 1.5 * Math.PI + this.heading, 2 * Math.PI - this._mouthSize + this.heading);
+	this._cxt.arc(this.x, this.y, PacMan.RADIUS - 1, 1.5 * Math.PI + this.heading, 2 * Math.PI - this._mouthSize + this.heading, false);
 	this._cxt.closePath();
 	this._cxt.fill();
 };
@@ -90,17 +145,17 @@ PacMan.prototype._draw = function () {
 PacMan.prototype._erase = function () {
 	this._cxt.fillStyle = fillColor;
 	this._cxt.beginPath();
-	this._cxt.arc(this.x, this.y, PacMan.RADIUS, 0.5 * Math.PI + this.heading, 1.5 * Math.PI + this.heading);
+	this._cxt.arc(this.x, this.y, PacMan.RADIUS, 0.5 * Math.PI + this.heading, 1.5 * Math.PI + this.heading, false);
 	this._cxt.closePath();
 	this._cxt.fill();
 	this._cxt.beginPath();
 	this._cxt.moveTo(this.x, this.y);
-	this._cxt.arc(this.x, this.y, PacMan.RADIUS, this._mouthSize + this.heading, 0.5 * Math.PI + this.heading);
+	this._cxt.arc(this.x, this.y, PacMan.RADIUS, this._mouthSize + this.heading, 0.5 * Math.PI + this.heading, false);
 	this._cxt.closePath();
 	this._cxt.fill();
 	this._cxt.beginPath();
 	this._cxt.moveTo(this.x, this.y);
-	this._cxt.arc(this.x, this.y, PacMan.RADIUS, 1.5 * Math.PI + this.heading, 2 * Math.PI - this._mouthSize + this.heading);
+	this._cxt.arc(this.x, this.y, PacMan.RADIUS, 1.5 * Math.PI + this.heading, 2 * Math.PI - this._mouthSize + this.heading, false);
 	this._cxt.closePath();
 	this._cxt.fill();
 };
@@ -136,19 +191,21 @@ PacMan.prototype._update = function () {
 	this._erase();
 	
 	// Move Pac-Man.
-	switch (this.heading) {
-		case PacMan.HEADINGS.UP:
-			this.y -= PacMan.SPEED;
-			break;
-		case PacMan.HEADINGS.RIGHT:
-			this.x += PacMan.SPEED;
-			break;
-		case PacMan.HEADINGS.DOWN:
-			this.y += PacMan.SPEED;
-			break;
-		case PacMan.HEADINGS.LEFT:
-			this.x -= PacMan.SPEED;
-			break;
+	if (!this._isBlocked()) {
+		switch (this.heading) {
+			case PacMan.HEADINGS.UP:
+				this.y -= PacMan.SPEED;
+				break;
+			case PacMan.HEADINGS.RIGHT:
+				this.x += PacMan.SPEED;
+				break;
+			case PacMan.HEADINGS.DOWN:
+				this.y += PacMan.SPEED;
+				break;
+			case PacMan.HEADINGS.LEFT:
+				this.x -= PacMan.SPEED;
+				break;
+		}
 	}
 	// Animate Pac-Man's mouth.
 	this._mouthSize += PacMan.MOUTH_SPEED * (this._mouthOpening ? 1 : -1);
