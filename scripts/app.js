@@ -1,5 +1,7 @@
+'use strict';
+
 var canvas;
-var previewCanvas;
+var preCanvas;
 var cxt;
 var preCxt;
 var currentShape;

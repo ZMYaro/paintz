@@ -1,3 +1,5 @@
+'use strict';
+
 var Utils = {
 	DIALOG_TRANSITION_DURATION: 200, // In milliseconds.
 	

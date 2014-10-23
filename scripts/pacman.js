@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Create a new PacMan instance.
  * @param {HTMLCanvasElement} canvas - The canvas on which Pac-Man is to be drawn.

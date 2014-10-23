@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Create a new Oval.
  * @param {CanvasRenderingContext2D} cxt - The canvas this._cxt in which the shape is being drawn.

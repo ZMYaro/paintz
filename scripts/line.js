@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Create a new Line.
  * @param {CanvasRenderingContext2D} cxt - The canvas context in which the shape is being drawn.
