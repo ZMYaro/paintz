@@ -84,6 +84,10 @@
 			</div>
 			<span class="divider"></span>
 			<div class="toolbox">
+				<button id="settingsBtn" title="Settings">
+					<img src="images/settings_icon.png" alt="Settings" />
+				</button>
+				<br />
 				<button id="aboutBtn" title="About">
 					<img src="images/info_icon.png" alt="About" />
 				</button>
@@ -99,6 +103,18 @@
 				<input name="width" type="number" placeholder="Width" value="640" min="1" style="width: 40%;" />
 				&times;
 				<input name="height" type="number" placeholder="Height" value="480" min="1" style="width: 40%;" />
+				<div style="text-align: right;">
+					<br />
+					<button type="button" onclick="parentElement.parentElement.close();">Cancel</button>
+					<button type="submit">OK</button>
+				</div>
+			</form>
+			<form id="settingsDialog" class="dialog card z3" style="width: 384px;">
+				<h1>Settings</h1>
+				<label for="ghostDrawCheckbox">
+					<input type="checkbox" name="ghostDraw" id="ghostDrawCheckbox" />
+					Semi-transparent drawing previews
+				</label>
 				<div style="text-align: right;">
 					<br />
 					<button type="button" onclick="parentElement.parentElement.close();">Cancel</button>

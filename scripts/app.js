@@ -132,6 +132,21 @@ function initToolbar() {
 	// Save as button.
 	document.getElementById('saveBtn').addEventListener('click', downloadImage, false);
 	
+	// Settings button and dialog.
+	var settingsDialog = document.getElementById('settingsDialog');
+	Utils.makeDialog(settingsDialog);
+	settingsDialog.onsubmit = function (e) {
+		e.preventDefault();
+		
+		// TODO: Save settings.
+		
+		e.target.close();
+	};
+	document.getElementById('settingsBtn').onclick = function () {
+		// TODO: Update the dialog to display the current settings.
+		settingsDialog.open();
+	};
+	
 	// About button and dialog.
 	var aboutDialog = document.getElementById('aboutDialog');
 	Utils.makeDialog(aboutDialog);
