@@ -189,6 +189,10 @@ function initCanvas() {
 	preCanvas.addEventListener('mousedown', startShape, false);
 	preCanvas.addEventListener('touchstart', startShape, false);
 	document.body.addEventListener('touchmove', updateShape, false);
+	
+	preCanvas.oncontextmenu = function (e) {
+		e.preventDefault();
+	};
 }
 
 /**
@@ -219,7 +223,7 @@ function startShape(e) {
 	var touch = !!e.touches;
 	
 	// Quit if the left mouse button was not the button used.
-	if (!touch && e.button != 0) {
+	if (!touch && e.button !== 0 && e.button !== 2) {
 		return;
 	}
 	
@@ -253,8 +257,16 @@ function startShape(e) {
 			break;
 	}
 	
+	// Reverse the line and fill colors if the right mouse button was used.
+	var lineColor = localStorage.lineColor;
+	var fillColor = localStorage.fillColor;
+	if (e.button === 2) {
+		lineColor = localStorage.fillColor;
+		fillColor = localStorage.lineColor;
+	}	
+	
 	// Initialize the new shape.
-	currentShape = new shapeClass(preCxt, startX, startY, localStorage.lineWidth, localStorage.lineColor, localStorage.fillColor);
+	currentShape = new shapeClass(preCxt, startX, startY, localStorage.lineWidth, lineColor, fillColor);
 	
 	// Set the event listeners to continue and end drawing.
 	if (touch) {
