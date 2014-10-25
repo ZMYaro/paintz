@@ -135,6 +135,8 @@ function initToolbar() {
 				preCanvas.height = image.height;
 				localStorage.width = image.width;
 				localStorage.height = image.height;
+				cxt.fillStyle = 'white';
+				cxt.fillRect(0, 0, canvas.width, canvas.height);
 				cxt.drawImage(image, 0, 0);
 			};
 			reader.readAsDataURL(file);
@@ -187,8 +189,6 @@ function initCanvas() {
 	preCanvas.addEventListener('mousedown', startShape, false);
 	preCanvas.addEventListener('touchstart', startShape, false);
 	document.body.addEventListener('touchmove', updateShape, false);
-	
-	resetCanvas();
 }
 
 /**
@@ -321,10 +321,12 @@ function completeShape(e) {
 	preCanvas.addEventListener('touchstart', startShape, false);
 }
 /**
- * Clear everything drawn to the canvas.
+ * Overwrite the canvas with the current fill color.
  */
 function resetCanvas() {
-	cxt.clearRect(0, 0, canvas.width, canvas.height);
+	//cxt.clearRect(0, 0, canvas.width, canvas.height);
+	cxt.fillStyle = localStorage.fillColor;
+	cxt.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 /**
@@ -339,5 +341,6 @@ window.addEventListener('load', function () {
 	initToolbar();
 	initCanvas();
 	initSettings();
+	resetCanvas();
 	downloadLink = document.getElementById('downloadLink');
 }, false);
