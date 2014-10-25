@@ -36,7 +36,7 @@ Doodle.prototype.updatePreview = function (newX, newY) {
 	// Force round end caps on the path.
 	this._cxt.fillStyle = this.lineColor;
 	this._cxt.beginPath();
-	this._cxt.arc(newX, newY, toolbar.lineWidth.value / 2, 0, 2 * Math.PI, false);
+	this._cxt.arc(newX, newY, this.lineWidth / 2, 0, 2 * Math.PI, false);
 	this._cxt.closePath();
 	this._cxt.fill();
 	

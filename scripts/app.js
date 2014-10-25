@@ -5,11 +5,17 @@ var preCanvas;
 var cxt;
 var preCxt;
 var currentShape;
-var toolbar = {};
 var downloadLink;
-var lineColor = 'black';
-var fillColor = 'white';
 
+var DEFAULTS = {
+	width: 640,
+	height: 480,
+	lineWidth: 2,
+	lineColor: 'black',
+	fillColor: 'white',
+	tool: 'doodle',
+	ghostDraw: true
+};
 
 /**
  * Get the toolbar form elements.
@@ -22,9 +28,16 @@ function initToolbar() {
 		}, false);
 	}
 	
-	toolbar.tool = document.getElementById('tool').tool;
 	
-	toolbar.colorPicker = document.getElementById('colorPicker');
+	document.getElementById('tool').onchange = function (e) {
+		localStorage.tool = e.target.value;
+	};
+	
+	document.getElementById('lineWidth').onchange = function (e) {
+		localStorage.lineWidth = e.target.value;
+	};
+	
+	var colorPicker = document.getElementById('colorPicker');
 	var colors = colorPicker.getElementsByTagName('button');
 	for (var i = 0; i < colors.length; i++) {
 		// Handle left click.
@@ -33,8 +46,8 @@ function initToolbar() {
 				e.preventDefault();
 				e.stopPropagation();
 				if (e.button === 0) {
-					lineColor = e.target.dataset.value;
-					document.getElementById('colors').style.borderColor = lineColor;
+					localStorage.lineColor = e.target.dataset.value;
+					document.getElementById('colors').style.borderColor = e.target.dataset.value;
 				}
 			}
 		}, false);
@@ -43,8 +56,8 @@ function initToolbar() {
 			e.preventDefault();
 			e.stopPropagation();
 			if (e.button === 2) {
-				fillColor = e.target.dataset.value;
-				document.getElementById('colors').style.backgroundColor = fillColor;
+				localStorage.fillColor = e.target.dataset.value;
+				document.getElementById('colors').style.backgroundColor = e.target.dataset.value;
 			}
 		}, false);
 	}
@@ -62,8 +75,6 @@ function initToolbar() {
 			e.target.className = 'pacman';
 		}
 	}, false);
-	
-	toolbar.lineWidth = document.getElementById('lineWidth');
 	
 	// Clear button.
 	document.getElementById('clearBtn').addEventListener('click', function (e) {
@@ -94,12 +105,14 @@ function initToolbar() {
 		cxt.drawImage(preCanvas, 0, 0);
 		preCanvas.width = width;
 		preCanvas.height = height;
+		localStorage.width = width;
+		localStorage.height = height;
 		
 		e.target.close();
 	};
 	document.getElementById('resizeBtn').onclick = function () {
-		resizeDialog.width.value = canvas.width;
-		resizeDialog.height.value = canvas.height;
+		resizeDialog.width.value = localStorage.width;
+		resizeDialog.height.value = localStorage.height;
 		resizeDialog.open();
 	};
 	
@@ -118,6 +131,10 @@ function initToolbar() {
 				// There is no need to clear the canvas.  Resizing the canvas will do that.
 				canvas.width = image.width;
 				canvas.height = image.height;
+				preCanvas.width = image.width;
+				preCanvas.height = image.height;
+				localStorage.width = image.width;
+				localStorage.height = image.height;
 				cxt.drawImage(image, 0, 0);
 			};
 			reader.readAsDataURL(file);
@@ -138,12 +155,12 @@ function initToolbar() {
 	settingsDialog.onsubmit = function (e) {
 		e.preventDefault();
 		
-		// TODO: Save settings.
+		localStorage.ghostDraw = settingsDialog.ghostDraw.checked ? 'true' : '';
 		
 		e.target.close();
 	};
 	document.getElementById('settingsBtn').onclick = function () {
-		// TODO: Update the dialog to display the current settings.
+		settingsDialog.ghostDraw.checked = localStorage.ghostDraw;
 		settingsDialog.open();
 	};
 	
@@ -175,6 +192,25 @@ function initCanvas() {
 }
 
 /**
+ * Fetch the settings from localStorage.
+ */
+function initSettings() {
+	for (var setting in DEFAULTS) {
+		if (!localStorage[setting]) {
+			localStorage[setting] = DEFAULTS[setting];
+		}
+	}
+	canvas.width = localStorage.width;
+	canvas.height = localStorage.height;
+	preCanvas.width = localStorage.width;
+	preCanvas.height = localStorage.height;
+	document.getElementById('lineWidth').value = localStorage.lineWidth;
+	document.getElementById('colors').style.borderColor = localStorage.lineColor;
+	document.getElementById('colors').style.backgroundColor = localStorage.fillColor;
+	document.getElementById('tool').tool.value = localStorage.tool;
+}
+
+/**
  * Start drawing a new shape.
  * @param {MouseEvent|TouchEvent} e
  */
@@ -199,11 +235,10 @@ function startShape(e) {
 	// Retrieve the values for the shape's properties.
 	var startX = Utils.getCanvasX(touch ? e.touches[0].pageX : e.pageX);
 	var startY = Utils.getCanvasY(touch ? e.touches[0].pageY : e.pageY);
-	var lineWidth = toolbar.lineWidth.value;
 	
 	// Identify the type of shape to draw.
 	var shapeClass;
-	switch (toolbar.tool.value) {
+	switch (localStorage.tool) {
 		case 'doodle':
 			shapeClass = Doodle;
 			break;
@@ -219,7 +254,7 @@ function startShape(e) {
 	}
 	
 	// Initialize the new shape.
-	currentShape = new shapeClass(preCxt, startX, startY, lineWidth, lineColor, fillColor);
+	currentShape = new shapeClass(preCxt, startX, startY, localStorage.lineWidth, localStorage.lineColor, localStorage.fillColor);
 	
 	// Set the event listeners to continue and end drawing.
 	if (touch) {
@@ -303,5 +338,6 @@ function downloadImage() {
 window.addEventListener('load', function () {
 	initToolbar();
 	initCanvas();
+	initSettings();
 	downloadLink = document.getElementById('downloadLink');
 }, false);
