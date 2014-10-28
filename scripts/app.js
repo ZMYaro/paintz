@@ -157,7 +157,13 @@ function initToolbar() {
 	settingsDialog.onsubmit = function (e) {
 		e.preventDefault();
 		
-		localStorage.ghostDraw = settingsDialog.ghostDraw.checked ? 'true' : '';
+		if (e.target.ghostDraw.checked) {
+			localStorage.ghostDraw = 'true';
+			preCanvas.classList.add('ghost');
+		} else {
+			localStorage.ghostDraw = '';
+			preCanvas.classList.remove('ghost');
+		}
 		
 		e.target.close();
 	};
@@ -208,6 +214,9 @@ function initSettings() {
 	canvas.height = localStorage.height;
 	preCanvas.width = localStorage.width;
 	preCanvas.height = localStorage.height;
+	if (localStorage.ghostDraw) {
+		preCanvas.classList.add('ghost');
+	}
 	document.getElementById('lineWidth').value = localStorage.lineWidth;
 	document.getElementById('colors').style.borderColor = localStorage.lineColor;
 	document.getElementById('colors').style.backgroundColor = localStorage.fillColor;

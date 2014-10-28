@@ -119,5 +119,7 @@ body {
 	}
 	#preCanvas {
 		z-index: 2;
-		opacity: 0.6;
 	}
+		#preCanvas.ghost {
+			opacity: 0.6;
+		}
