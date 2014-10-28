@@ -34,3 +34,16 @@ Line.prototype.updatePreview = function (newX, newY) {
 	this._cxt.closePath();
 	this._cxt.stroke();
 };
+
+/**
+ * Return the CSS value for the cursor associated with the shape.
+ * @override
+ * @returns {String}
+ */
+Object.defineProperty(Line, 'cursor', {
+	configurable: true,
+	enumerable: true,
+	get: function () {
+		return 'crosshair';
+	}
+});

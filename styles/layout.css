@@ -123,3 +123,6 @@ body {
 		#preCanvas.ghost {
 			opacity: 0.6;
 		}
+#cursorCanvas, #downloadLink, #pacManStartSound {
+	display: none;
+}

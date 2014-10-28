@@ -44,3 +44,15 @@ Shape.prototype._prepareCanvas = function () {
 	this._cxt.strokeStyle = this.lineColor;
 	this._cxt.fillStyle = this.fillColor;
 };
+
+/**
+ * Return the CSS value for the cursor associated with the shape.
+ * @returns {String|Image}
+ */
+Object.defineProperty(Shape, 'cursor', {
+	configurable: true,
+	enumerable: true,
+	get: function () {
+		return 'default';
+	}
+});

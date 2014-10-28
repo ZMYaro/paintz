@@ -37,3 +37,16 @@ Rectangle.prototype.updatePreview = function (newX, newY) {
 	this._cxt.fillRect(x, y, width, height);
 	this._cxt.strokeRect(x, y, width, height);
 };
+
+/**
+ * Return the CSS value for the cursor associated with the shape.
+ * @override
+ * @returns {String}
+ */
+Object.defineProperty(Rectangle, 'cursor', {
+	configurable: true,
+	enumerable: true,
+	get: function () {
+		return 'crosshair';
+	}
+});

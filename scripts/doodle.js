@@ -44,3 +44,46 @@ Doodle.prototype.updatePreview = function (newX, newY) {
 	this.lastX = newX;
 	this.lastY = newY;
 };
+
+/**
+ * Return the CSS value for the cursor associated with the shape.
+ * @override
+ * @returns {String}
+ */
+Object.defineProperty(Doodle, 'cursor', {
+	configurable: true,
+	enumerable: true,
+	get: function () {
+		cursorCanvas.width = cursorCanvas.height = parseInt(localStorage.lineWidth) + 2;
+		
+		cursorCxt.lineWidth = 1;
+		cursorCxt.strokeStyle = 'white';
+		cursorCxt.beginPath();
+		cursorCxt.arc(
+			cursorCanvas.width / 2, cursorCanvas.height / 2,
+			localStorage.lineWidth / 2,
+			0, Math.PI * 2, false
+		);
+		cursorCxt.closePath();
+		cursorCxt.stroke();
+		
+		cursorCxt.lineWidth = 1;
+		cursorCxt.strokeStyle = 'black';
+		cursorCxt.beginPath();
+		cursorCxt.arc(
+			cursorCanvas.width / 2, cursorCanvas.height / 2,
+			localStorage.lineWidth / 2,
+			0, Math.PI * 2, false
+		);
+		cursorCxt.closePath();
+		cursorCxt.stroke();
+		
+		var cursorDataURL = cursorCanvas.toDataURL();
+		
+		var cursorCSS = 'url(' + cursorDataURL + ')' // Data URL
+		cursorCSS += ' ' + (cursorCanvas.width / 2) + ' ' + (cursorCanvas.height / 2); // Positioning
+		cursorCSS += ', default'; // Fallback
+		
+		return cursorCSS;
+	}
+});

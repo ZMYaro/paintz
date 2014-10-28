@@ -1,12 +1,5 @@
 'use strict';
 
-var canvas;
-var preCanvas;
-var cxt;
-var preCxt;
-var currentShape;
-var downloadLink;
-
 var DEFAULTS = {
 	width: 640,
 	height: 480,
@@ -15,6 +8,22 @@ var DEFAULTS = {
 	fillColor: 'white',
 	tool: 'doodle',
 	ghostDraw: true
+};
+
+var canvas;
+var preCanvas;
+var cursorCanvas;
+var cxt;
+var preCxt;
+var cursorCxt;
+var currentShape;
+var downloadLink;
+
+var tools = {
+	doodle: Doodle,
+	line: Line,
+	rect: Rectangle,
+	oval: Oval
 };
 
 /**
@@ -31,10 +40,13 @@ function initToolbar() {
 	
 	document.getElementById('tool').onchange = function (e) {
 		localStorage.tool = e.target.value;
+		preCanvas.style.cursor = tools[e.target.value].cursor;
 	};
 	
 	document.getElementById('lineWidth').onchange = function (e) {
 		localStorage.lineWidth = e.target.value;
+		// Some tools' cursors change with the line width, so reapply the cursor.
+		preCanvas.style.cursor = tools[localStorage.tool].cursor;
 	};
 	
 	var colorPicker = document.getElementById('colorPicker');
@@ -187,6 +199,9 @@ function initCanvas() {
 	// Get the preview canvas.
 	preCanvas = document.getElementById('preCanvas');
 	preCxt = preCanvas.getContext('2d');
+	// Get the cursor canvas.
+	cursorCanvas = document.getElementById('cursorCanvas');
+	cursorCxt = cursorCanvas.getContext('2d');
 	
 	cxt.lineCap = 'round';
 	preCxt.lineCap = 'round';
@@ -221,6 +236,7 @@ function initSettings() {
 	document.getElementById('colors').style.borderColor = localStorage.lineColor;
 	document.getElementById('colors').style.backgroundColor = localStorage.fillColor;
 	document.getElementById('tool').tool.value = localStorage.tool;
+	preCanvas.style.cursor = tools[localStorage.tool].cursor;
 }
 
 /**
@@ -249,23 +265,6 @@ function startShape(e) {
 	var startX = Utils.getCanvasX(touch ? e.touches[0].pageX : e.pageX);
 	var startY = Utils.getCanvasY(touch ? e.touches[0].pageY : e.pageY);
 	
-	// Identify the type of shape to draw.
-	var shapeClass;
-	switch (localStorage.tool) {
-		case 'doodle':
-			shapeClass = Doodle;
-			break;
-		case 'line':
-			shapeClass = Line;
-			break;
-		case 'rect':
-			shapeClass = Rectangle;
-			break;
-		case 'oval':
-			shapeClass = Oval;
-			break;
-	}
-	
 	// Reverse the line and fill colors if the right mouse button was used.
 	var lineColor = localStorage.lineColor;
 	var fillColor = localStorage.fillColor;
@@ -275,7 +274,7 @@ function startShape(e) {
 	}	
 	
 	// Initialize the new shape.
-	currentShape = new shapeClass(preCxt, startX, startY, localStorage.lineWidth, lineColor, fillColor);
+	currentShape = new tools[localStorage.tool](preCxt, startX, startY, localStorage.lineWidth, lineColor, fillColor);
 	
 	// Set the event listeners to continue and end drawing.
 	if (touch) {
