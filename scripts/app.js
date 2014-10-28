@@ -274,7 +274,8 @@ function startShape(e) {
 	}	
 	
 	// Initialize the new shape.
-	currentShape = new tools[localStorage.tool](preCxt, startX, startY, localStorage.lineWidth, lineColor, fillColor);
+	
+	currentShape = new tools[localStorage.tool](cxt, preCxt, startX, startY, localStorage.lineWidth, lineColor, fillColor);
 	
 	// Set the event listeners to continue and end drawing.
 	if (touch) {

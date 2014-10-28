@@ -3,14 +3,15 @@
 /**
  * Create a new Rectangle.
  * @param {CanvasRenderingContext2D} cxt - The canvas context in which the shape is being drawn.
+ * @param {CanvasRenderingContext2D} preCxt - The canvas context in which the shape's preview is being drawn.
  * @param {Number} startX - The x-coordinate of the shape's starting point.
  * @param {Number} startY - The y-coordinate of the shape's starting point.
  * @param {Number} [lineWidth] - The width of the shape's outline.
  * @param {String} [lineColor] - The CSS color of the shape's outline.
  * @param {String} [fillColor] - The CSS color of the shape's interior.
  */
-function Rectangle(cxt, startX, startY, lineWidth, lineColor, fillColor) {
-	Shape.call(this, cxt, startX, startY, lineWidth, lineColor, fillColor);
+function Rectangle(cxt, preCxt, startX, startY, lineWidth, lineColor, fillColor) {
+	Shape.call(this, cxt, preCxt, startX, startY, lineWidth, lineColor, fillColor);
 }
 
 Rectangle.prototype = Object.create(Shape.prototype);
@@ -31,11 +32,14 @@ Rectangle.prototype.updatePreview = function (newX, newY) {
 	var height = Math.abs(newY - this.startY);
 	
 	// Erase the previous preview.
-	this._cxt.clearRect(0, 0, this._cxt.canvas.width, this._cxt.canvas.height);
+	this._preCxt.clearRect(0, 0, this._preCxt.canvas.width, this._preCxt.canvas.height);
 	
 	// Draw the new preview.
-	this._cxt.fillRect(x, y, width, height);
-	this._cxt.strokeRect(x, y, width, height);
+	this._preCxt.lineWidth = this.lineWidth;
+	this._preCxt.strokeStyle = this.lineColor;
+	this._preCxt.fillStyle = this.fillColor;
+	this._preCxt.fillRect(x, y, width, height);
+	this._preCxt.strokeRect(x, y, width, height);
 };
 
 /**

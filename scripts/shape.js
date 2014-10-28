@@ -3,14 +3,16 @@
 /**
  * Create a new Shape.
  * @param {CanvasRenderingContext2D} cxt - The canvas context in which the shape is being drawn.
+ * @param {CanvasRenderingContext2D} preCxt - The canvas context in which the shape's preview is being drawn.
  * @param {Number} startX - The x-coordinate of the shape's starting point.
  * @param {Number} startY - The y-coordinate of the shape's starting point.
  * @param {Number} [lineWidth] - The width of the shape's outline.
  * @param {String} [lineColor] - The CSS color of the shape's outline.
  * @param {String} [fillColor] - The CSS color of the shape's interior.
  */
-function Shape(cxt, startX, startY, lineWidth, lineColor, fillColor) {
+function Shape(cxt, preCxt, startX, startY, lineWidth, lineColor, fillColor) {
 	this._cxt = cxt;
+	this._preCxt = preCxt;
 	this.startX = startX;
 	this.startY = startY;
 	this.lineWidth = lineWidth;
@@ -40,9 +42,9 @@ Shape.prototype.finish = function (endX, endY) {
  * Update the canvas's drawing context with the shape's properties.
  */
 Shape.prototype._prepareCanvas = function () {
-	this._cxt.lineWidth = this.lineWidth;
-	this._cxt.strokeStyle = this.lineColor;
-	this._cxt.fillStyle = this.fillColor;
+	this._preCxt.lineWidth = this.lineWidth;
+	this._preCxt.strokeStyle = this.lineColor;
+	this._preCxt.fillStyle = this.fillColor;
 };
 
 /**

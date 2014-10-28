@@ -2,15 +2,16 @@
 
 /**
  * Create a new Oval.
- * @param {CanvasRenderingContext2D} cxt - The canvas this._cxt in which the shape is being drawn.
+ * @param {CanvasRenderingContext2D} cxt - The canvas this._preCxt in which the shape is being drawn.
+ * @param {CanvasRenderingContext2D} preCxt - The canvas context in which the shape's preview is being drawn.
  * @param {Number} startX - The x-coordinate of the shape's starting point.
  * @param {Number} startY - The y-coordinate of the shape's starting point.
  * @param {Number} [lineWidth] - The width of the shape's outline.
  * @param {String} [lineColor] - The CSS color of the shape's outline.
  * @param {String} [fillColor] - The CSS color of the shape's interior.
  */
-function Oval(cxt, startX, startY, lineWidth, lineColor, fillColor) {
-	Shape.call(this, cxt, startX, startY, lineWidth, lineColor, fillColor);
+function Oval(cxt, preCxt, startX, startY, lineWidth, lineColor, fillColor) {
+	Shape.call(this, cxt, preCxt, startX, startY, lineWidth, lineColor, fillColor);
 }
 
 Oval.prototype = Object.create(Shape.prototype);
@@ -31,17 +32,20 @@ Oval.prototype.updatePreview = function (newX, newY) {
 	var radY = (newY - this.startY) / 2;
 	
 	// Erase the previous preview.
-	this._cxt.clearRect(0, 0, this._cxt.canvas.width, this._cxt.canvas.height);
+	this._preCxt.clearRect(0, 0, this._preCxt.canvas.width, this._preCxt.canvas.height);
 	
 	// Draw the new preview.
-	this._cxt.save(); // Save the drawing context's state.
-	this._cxt.beginPath();
-	this._cxt.translate(centerX - radX, centerY - radY);
-	this._cxt.scale(radX, radY);
-	this._cxt.arc(1, 1, 1, 0, 2 * Math.PI, false);
-	this._cxt.restore(); // Restore the context to its original state.
-	this._cxt.fill();
-	this._cxt.stroke();
+	this._preCxt.lineWidth = this.lineWidth;
+	this._preCxt.strokeStyle = this.lineColor;
+	this._preCxt.fillStyle = this.fillColor;
+	this._preCxt.save(); // Save the drawing context's state.
+	this._preCxt.beginPath();
+	this._preCxt.translate(centerX - radX, centerY - radY);
+	this._preCxt.scale(radX, radY);
+	this._preCxt.arc(1, 1, 1, 0, 2 * Math.PI, false);
+	this._preCxt.restore(); // Restore the context to its original state.
+	this._preCxt.fill();
+	this._preCxt.stroke();
 };
 
 /**
