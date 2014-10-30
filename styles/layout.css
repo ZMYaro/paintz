@@ -95,16 +95,16 @@ body {
 			}
 
 #doodleTool {
-	background-image: url('../images/doodle_icon.png');
+	background-image: url('../images/icons/doodle.png');
 }
 #lineTool {
-	background-image: url('../images/line_icon.png');
+	background-image: url('../images/icons/line.png');
 }
 #rectTool {
-	background-image: url('../images/rect_icon.png');
+	background-image: url('../images/icons/rect.png');
 }
 #ovalTool {
-	background-image: url('../images/oval_icon.png');
+	background-image: url('../images/icons/oval.png');
 }
 
 
