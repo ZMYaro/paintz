@@ -23,7 +23,8 @@ var tools = {
 	doodle: Doodle,
 	line: Line,
 	rect: Rectangle,
-	oval: Oval
+	oval: Oval,
+	floodFill: FloodFill
 };
 
 /**

@@ -106,6 +106,9 @@ body {
 #ovalTool {
 	background-image: url('../images/icons/oval.png');
 }
+#floodFillTool {
+	background-image: url('../images/icons/paint_bucket.png');
+}
 
 
 #canvas, #preCanvas {
