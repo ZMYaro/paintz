@@ -66,7 +66,7 @@ body {
 		.toolbox input[type="radio"]:active {
 			background-color: rgba(255,255,255,0.13);
 		}
-		.toolbox input[type="radio"]::before {
+		.toolbox input[type="radio"]::after {
 			background-color: transparent;
 			/*border: 2px solid #40c4ff;*/
 			border: 2px solid #ffffff;
@@ -84,7 +84,7 @@ body {
 			     -o-transform: scale(1.2);
 			        transform: scale(1.2);
 		}
-			.toolbox input[type="radio"]:checked::before {
+			.toolbox input[type="radio"]:checked::after {
 				opacity: 1;
 				
 				-webkit-transform: scale(1);
