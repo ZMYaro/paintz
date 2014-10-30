@@ -80,7 +80,7 @@ input[type="checkbox"] {
 }
 	input[type="checkbox"]:checked {
 		border-color: #5767bd;
+		-webkit-box-shadow: inset 0 0 0 10px #5767bd;
+		   -moz-box-shadow: inset 0 0 0 10px #5767bd;
+		        box-shadow: inset 0 0 0 10px #5767bd;
 	}
-		input[type="checkbox"]:checked::before {
-			background-color: #5767bd;
-		}
