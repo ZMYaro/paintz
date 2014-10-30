@@ -37,7 +37,6 @@ function initToolbar() {
 		}, false);
 	}
 	
-	
 	document.getElementById('tool').onchange = function (e) {
 		localStorage.tool = e.target.value;
 		preCanvas.style.cursor = tools[e.target.value].cursor;
@@ -88,12 +87,15 @@ function initToolbar() {
 		}
 	}, false);
 	
-	// Clear button.
-	document.getElementById('clearBtn').addEventListener('click', function (e) {
-		if (confirm('Are you sure you want to clear your drawing?  This action cannot be undone.')) {
-			resetCanvas();
-		}
-	}, false);
+	// Clear button and dialog.
+	var clearDialog = document.getElementById('clearDialog');
+	Utils.makeDialog(clearDialog);
+	clearDialog.onsubmit = function (e) {
+		e.preventDefault();
+		resetCanvas();
+		e.target.close();
+	};
+	document.getElementById('clearBtn').onclick = clearDialog.open;
 	
 	// Resize button and dialog.
 	var resizeDialog = document.getElementById('resizeDialog');
