@@ -14,6 +14,7 @@
 		<link rel="stylesheet" type="text/css" href="styles/color_picker.css" />
 
 		<script type="text/javascript" src="scripts/utils.js"></script>
+		<script type="text/javascript" src="scripts/undo.js"></script>
 		<script type="text/javascript" src="scripts/shape.js"></script>
 		<script type="text/javascript" src="scripts/doodle.js"></script>
 		<script type="text/javascript" src="scripts/line.js"></script>
@@ -25,6 +26,29 @@
 	</head>
 	<body>
 		<div class="appBar z2" id="toolbar">
+			<div class="toolbox">
+				<button id="clearBtn" title="Clear">
+					<img src="images/icons/clear.png" alt="Clear" />
+				</button>
+				<button id="openBtn" title="Open image...">
+					<img src="images/icons/open.png" alt="Open..." />
+				</button>
+				<input type="file" id="upload" style="display: none;" />
+				<button id="saveBtn" title="Save as...">
+					<img src="images/icons/save.png" alt="Save as..." />
+				</button>
+				<br />
+				<button id="undoBtn" title="Undo" disabled="disabled">
+					<img src="images/icons/undo.png" alt="Undo" />
+				</button>
+				<button id="redoBtn" title="Redo" disabled="disabled">
+					<img src="images/icons/redo.png" alt="Redo" />
+				</button>
+				<button id="resizeBtn" title="Resize...">
+					<img src="images/icons/resize.png" alt="Resize..." />
+				</button>
+			</div>
+			<span class="divider"></span>
 			<form class="toolbox" id="tool">
 				<input type="radio" name="tool" value="doodle" id="doodleTool" title="Doodle" />
 				<input type="radio" name="tool" value="line" id="lineTool" title="Line" />
@@ -69,23 +93,6 @@
 			</div>
 			<span class="divider"></span>
 			<div class="toolbox">
-				<button id="clearBtn" title="Clear">
-					<img src="images/icons/clear.png" alt="Clear" />
-				</button>
-				<button id="openBtn" title="Open image...">
-					<img src="images/icons/open.png" alt="Open..." />
-				</button>
-				<input type="file" id="upload" style="display: none;" />
-				<br />
-				<button id="resizeBtn" title="Resize...">
-					<img src="images/icons/resize.png" alt="Resize..." />
-				</button>
-				<button id="saveBtn" title="Save as...">
-					<img src="images/icons/save.png" alt="Save as..." />
-				</button>
-			</div>
-			<span class="divider"></span>
-			<div class="toolbox">
 				<button id="settingsBtn" title="Settings">
 					<img src="images/icons/settings.png" alt="Settings" />
 				</button>
@@ -93,7 +100,7 @@
 				<button id="aboutBtn" title="About">
 					<img src="images/icons/info.png" alt="About" />
 				</button>
-			</div>non
+			</div>
 		</div>
 
 		<canvas class="z1" id="canvas" width="640" height="480"></canvas>

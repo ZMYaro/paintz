@@ -12,13 +12,13 @@
  */
 function FloodFill(cxt, preCxt, startX, startY, lineWidth, lineColor, fillColor) {
 	Shape.call(this, cxt, preCxt, startX, startY, lineWidth, lineColor, null);
-	
+
 	this._filling = false;
 	this._imageData = [];
 	this._startColor = {};
-	
+
 	this.lineColor = this._colorToRGB(this.lineColor);
-	
+
 	this._fill();
 }
 
@@ -31,9 +31,9 @@ FloodFill.prototype._fill = function () {
 	if (this._filling) {
 		return;
 	}
-	
+
 	this._filling = true;
-	
+
 	// Get the pixel data.
 	this._imageData = this._cxt.getImageData(0, 0, this._cxt.canvas.width, this._cxt.canvas.height);
 	// Get the starting position and add it to the stack.
@@ -45,7 +45,7 @@ FloodFill.prototype._fill = function () {
 		g: this._imageData.data[pixelPos + 1],
 		b: this._imageData.data[pixelPos + 2]
 	};
-	
+
 	// Quit if the clicked pixel is already the correct color.
 	if (this.lineColor.r === this._startColor.r &&
 			this.lineColor.g === this._startColor.g &&
@@ -53,12 +53,12 @@ FloodFill.prototype._fill = function () {
 		this._filling = false;
 		return;
 	}
-	
+
 	while (pixelStack.length > 0) {
 		var pos = pixelStack.pop();
 		var x = pos[0];
 		var y = pos[1];
-		
+
 		pixelPos = (y * this._imageData.width + x) * 4;
 		while (y-- >= 0 && this._checkColorMatch(pixelPos)) {
 			pixelPos -= this._imageData.width * 4;
@@ -78,7 +78,7 @@ FloodFill.prototype._fill = function () {
 				} else {
 					leftPixel = false;
 				}
-			} 
+			}
 			if (x < this._imageData.width - 1) {
 				if (this._checkColorMatch(pixelPos + 4)) {
 					if (!rightPixel) {
@@ -92,9 +92,9 @@ FloodFill.prototype._fill = function () {
 			pixelPos += canvas.width * 4;
 		}
 	}
-	
+
 	this._cxt.putImageData(this._imageData, 0, 0);
-	
+
 	this._filling = false;
 };
 
@@ -107,7 +107,7 @@ FloodFill.prototype._checkColorMatch = function (pixelPos) {
 	var r = this._imageData.data[pixelPos];
 	var g = this._imageData.data[pixelPos + 1];
 	var b = this._imageData.data[pixelPos + 2];
-	
+
 	if (r === this._startColor.r &&
 			g === this._startColor.g &&
 			b === this._startColor.b) {
@@ -170,12 +170,6 @@ FloodFill.prototype._colorToRGB = function (cssColor) {
  * @override;
  */
 FloodFill.prototype.updatePreview = function () {};
-
-/**
- * Do nothing when finish is called.
- * @override
- */
-FloodFill.prototype.finish = function () {};
 
 /**
  * Return the CSS value for the cursor associated with the tool.

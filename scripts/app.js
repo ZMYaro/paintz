@@ -37,18 +37,18 @@ function initToolbar() {
 			e.preventDefault();
 		}, false);
 	}
-	
+
 	document.getElementById('tool').onchange = function (e) {
 		localStorage.tool = e.target.value;
 		preCanvas.style.cursor = tools[e.target.value].cursor;
 	};
-	
+
 	document.getElementById('lineWidth').onchange = function (e) {
 		localStorage.lineWidth = e.target.value;
 		// Some tools' cursors change with the line width, so reapply the cursor.
 		preCanvas.style.cursor = tools[localStorage.tool].cursor;
 	};
-	
+
 	var colorPicker = document.getElementById('colorPicker');
 	var colors = colorPicker.getElementsByTagName('button');
 	for (var i = 0; i < colors.length; i++) {
@@ -73,7 +73,7 @@ function initToolbar() {
 			}
 		}, false);
 	}
-	
+
 	// Set up the event listener for the Pac-Man easter egg.
 	document.querySelector('#colorPicker button[data-value=\"yellow\"]').addEventListener('click', function (e) {
 		// If the button was Alt+Shift+clicked for the first time...
@@ -87,33 +87,39 @@ function initToolbar() {
 			e.target.className = 'pacman';
 		}
 	}, false);
-	
+
 	// Clear button and dialog.
 	var clearDialog = document.getElementById('clearDialog');
 	Utils.makeDialog(clearDialog);
 	clearDialog.onsubmit = function (e) {
 		e.preventDefault();
 		resetCanvas();
+		// Add the change to the undo stack.
+		undoStack.addState();
 		e.target.close();
 	};
 	document.getElementById('clearBtn').onclick = clearDialog.open;
-	
+
+	// Undo and redo buttons.
+	document.getElementById('undoBtn').onclick = undoStack.undo.bind(undoStack);
+	document.getElementById('redoBtn').onclick = undoStack.redo.bind(undoStack);
+
 	// Resize button and dialog.
 	var resizeDialog = document.getElementById('resizeDialog');
 	Utils.makeDialog(resizeDialog);
 	resizeDialog.onsubmit = function (e) {
 		e.preventDefault();
-		
+
 		// Fetch the values from the form.
 		var width = parseInt(e.target.width.value);
 		var height = parseInt(e.target.height.value);
-		
+
 		// Validate the user's input.
 		if (!width || !height || isNaN(width) || isNaN(height) || width < 1 || height < 1) {
 			alert('The dimensions you entered were invalid.');
 			return;
 		}
-		
+
 		preCxt.drawImage(canvas, 0, 0);
 		canvas.width = width;
 		canvas.height = height;
@@ -122,7 +128,10 @@ function initToolbar() {
 		preCanvas.height = height;
 		localStorage.width = width;
 		localStorage.height = height;
-		
+
+		// Add the change to the undo stack.
+		undoStack.addState();
+
 		e.target.close();
 	};
 	document.getElementById('resizeBtn').onclick = function () {
@@ -130,7 +139,7 @@ function initToolbar() {
 		resizeDialog.height.value = localStorage.height;
 		resizeDialog.open();
 	};
-	
+
 	// Uploader.
 	document.getElementById('upload').addEventListener('change', function (e) {
 		console.log(e);
@@ -153,6 +162,9 @@ function initToolbar() {
 				cxt.fillStyle = 'white';
 				cxt.fillRect(0, 0, canvas.width, canvas.height);
 				cxt.drawImage(image, 0, 0);
+
+				// Clear the undo and redo stacks.
+				undoStack.clear();
 			};
 			reader.readAsDataURL(file);
 		} else {
@@ -165,13 +177,13 @@ function initToolbar() {
 	}, false);
 	// Save as button.
 	document.getElementById('saveBtn').addEventListener('click', downloadImage, false);
-	
+
 	// Settings button and dialog.
 	var settingsDialog = document.getElementById('settingsDialog');
 	Utils.makeDialog(settingsDialog);
 	settingsDialog.onsubmit = function (e) {
 		e.preventDefault();
-		
+
 		if (e.target.ghostDraw.checked) {
 			localStorage.ghostDraw = 'true';
 			preCanvas.classList.add('ghost');
@@ -179,14 +191,14 @@ function initToolbar() {
 			localStorage.ghostDraw = '';
 			preCanvas.classList.remove('ghost');
 		}
-		
+
 		e.target.close();
 	};
 	document.getElementById('settingsBtn').onclick = function () {
 		settingsDialog.ghostDraw.checked = localStorage.ghostDraw;
 		settingsDialog.open();
 	};
-	
+
 	// About button and dialog.
 	var aboutDialog = document.getElementById('aboutDialog');
 	Utils.makeDialog(aboutDialog);
@@ -205,15 +217,15 @@ function initCanvas() {
 	// Get the cursor canvas.
 	cursorCanvas = document.getElementById('cursorCanvas');
 	cursorCxt = cursorCanvas.getContext('2d');
-	
+
 	cxt.lineCap = 'round';
 	preCxt.lineCap = 'round';
-	
+
 	// Set up event listeners for drawing.
 	preCanvas.addEventListener('mousedown', startShape, false);
 	preCanvas.addEventListener('touchstart', startShape, false);
 	document.body.addEventListener('touchmove', updateShape, false);
-	
+
 	preCanvas.oncontextmenu = function (e) {
 		e.preventDefault();
 	};
@@ -249,37 +261,37 @@ function initSettings() {
 function startShape(e) {
 	// Check whether it was a touch event.
 	var touch = !!e.touches;
-	
+
 	// Quit if the left mouse button was not the button used.
 	if (!touch && e.button !== 0 && e.button !== 2) {
 		return;
 	}
-	
+
 	e.preventDefault();
 	e.stopPropagation();
-	
+
 	canvas.focus();
-	
+
 	// Remove the event listeners for starting drawing.
 	preCanvas.removeEventListener('mousedown', startShape, false);
 	preCanvas.removeEventListener('touchstart', startShape, false);
-	
+
 	// Retrieve the values for the shape's properties.
 	var startX = Utils.getCanvasX(touch ? e.touches[0].pageX : e.pageX);
 	var startY = Utils.getCanvasY(touch ? e.touches[0].pageY : e.pageY);
-	
+
 	// Reverse the line and fill colors if the right mouse button was used.
 	var lineColor = localStorage.lineColor;
 	var fillColor = localStorage.fillColor;
 	if (e.button === 2) {
 		lineColor = localStorage.fillColor;
 		fillColor = localStorage.lineColor;
-	}	
-	
+	}
+
 	// Initialize the new shape.
-	
+
 	currentShape = new tools[localStorage.tool](cxt, preCxt, startX, startY, localStorage.lineWidth, lineColor, fillColor);
-	
+
 	// Set the event listeners to continue and end drawing.
 	if (touch) {
 		document.body.addEventListener('touchend', completeShape, false);
@@ -297,16 +309,16 @@ function startShape(e) {
 function updateShape(e) {
 	e.preventDefault();
 	e.stopPropagation();
-	
+
 	// Quit if no shape has been started;
 	if (!currentShape) {
 		return;
 	}
-	
+
 	var touch = !!e.changedTouches;
 	var newX = Utils.getCanvasX(touch ? e.changedTouches[0].pageX : e.pageX);
 	var newY = Utils.getCanvasY(touch ? e.changedTouches[0].pageY : e.pageY);
-	
+
 	// Update the shape.
 	currentShape.updatePreview(newX, newY);
 }
@@ -317,29 +329,32 @@ function updateShape(e) {
 function completeShape(e) {
 	e.preventDefault();
 	e.stopPropagation();
-	
+
 	// Remove the event listeners for ending drawing.
 	document.body.removeEventListener('mousemove', updateShape, false);
 	document.body.removeEventListener('mouseup', completeShape, false);
 	document.body.removeEventListener('mouseout', completeShape, false);
 	document.body.removeEventListener('touchend', completeShape, false);
 	document.body.removeEventListener('touchleave', completeShape, false);
-	
+
 	var touch = !!e.changedTouches;
 	var newX = Utils.getCanvasX(touch ? e.changedTouches[0].pageX : e.pageX);
 	var newY = Utils.getCanvasY(touch ? e.changedTouches[0].pageY : e.pageY);
-	
+
 	// Complete the shape.
 	currentShape.finish(newX, newY);
-	
+
 	// Clear the shape data.
 	currentShape = null;
-	
+
 	// Copy the preview to the “permanent” canvas.
 	cxt.drawImage(preCanvas, 0, 0);
 	// Clear the preview canvas.
 	preCxt.clearRect(0, 0, preCanvas.width, preCanvas.height);
-	
+
+	// Add the change to the undo stack.
+	undoStack.addState();
+
 	// Set the event listeners to start the next drawing.
 	preCanvas.addEventListener('mousedown', startShape, false);
 	preCanvas.addEventListener('touchstart', startShape, false);
@@ -362,9 +377,14 @@ function downloadImage() {
 }
 
 window.addEventListener('load', function () {
+  // Initialize everything.
 	initToolbar();
 	initCanvas();
 	initSettings();
+	// Get the canvas ready.
 	resetCanvas();
+	// Save the initial state.
+	undoStack.addState();
+
 	downloadLink = document.getElementById('downloadLink');
 }, false);
