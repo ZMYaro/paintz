@@ -26,8 +26,12 @@ var Utils = {
 	makeDialog: function (element) {
 	  var dialogsContainer = document.getElementById('dialogs');
 		element.open = function () {
+		  // Disable app keyboard shortcuts.
+		  keyManager.disableAppShortcuts();
+		  // Show the dialog and dialog container.
 			dialogsContainer.style.display = 'block';
 			element.classList.add('visible');
+
 			setTimeout(function () {
 			  dialogsContainer.classList.add('visible');
 				element.classList.add('open');
@@ -43,8 +47,11 @@ var Utils = {
 			dialogsContainer.classList.remove('visible');
 			// After the closing animation has completed, hide the dialog box element completely.
 			setTimeout(function () {
+			  // Hide the dialog and dialog container.
 				element.classList.remove('visible');
 				dialogsContainer.style.display = 'none';
+				// Re-enable app keyboard shortcuts.
+				keyManager.enableAppShortcuts();
 			}, Utils.DIALOG_TRANSITION_DURATION);
 		};
 		if (element instanceof HTMLFormElement) {

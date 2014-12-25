@@ -385,6 +385,8 @@ window.addEventListener('load', function () {
 	resetCanvas();
 	// Save the initial state.
 	undoStack.addState();
+	// Enable keyboard shortcuts.
+	keyManager.enableAppShortcuts();
 
 	downloadLink = document.getElementById('downloadLink');
 }, false);
