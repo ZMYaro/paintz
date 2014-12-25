@@ -51,6 +51,7 @@ body {
 
 		background-color: transparent;
 		background-position: center center;
+		background-size: 32px 32px;
 
 		border: 0 none;
 		-webkit-border-radius: 50%;
