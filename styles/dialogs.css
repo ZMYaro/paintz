@@ -1,20 +1,38 @@
 #dialogs {
-	pointer-events: none;
+  display: none;
+
 	z-index: 5;
-	
+
 	position: fixed;
 	left: 0;
 	top: 0;
 	right: 0;
 	bottom: 0;
-	
+
 	padding-top: 64px;
+
+	background-color: transparent;
+	background-color: rgba(128,128,128,0);
+
+	-webkit-transition-duration: 0.2s;
+	   -moz-transition-duration: 0.2s;
+	    -ms-transition-duration: 0.2s;
+	     -o-transition-duration: 0.2s;
+	        transition-duration: 0.2s;
+	-webkit-transition-property: background-color;
+	   -moz-transition-property: background-color;
+	    -ms-transition-property: background-color;
+	     -o-transition-property: background-color;
+	        transition-property: background-color;
 }
+  #dialogs.visible {
+	  background-color: gray;
+	  background-color: rgba(128,128,128,0.5);
+  }
 .dialog {
-	pointer-events: auto;
 	margin: auto;
 	display: none;
-	
+
 	opacity: 0;
 	-webkit-transform: scale(0);
 	   -moz-transform: scale(0);
@@ -26,7 +44,7 @@
 	    -ms-transform-origin: 50% 10%;
 	     -o-transform-origin: 50% 10%;
 	        transform-origin: 50% 10%;
-	
+
 	-webkit-transition-duration: 0.15s;
 	   -moz-transition-duration: 0.15s;
 	    -ms-transition-duration: 0.15s;
