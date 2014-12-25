@@ -1,0 +1,35 @@
+CACHE MANIFEST
+# 2014-12-25, v1
+index.html
+audio/pacman_start.mp3
+images/cursors/paint_bucket.png
+images/icons/clear.png
+images/icons/doodle.png
+images/icons/info.png
+images/icons/line.png
+images/icons/open.png
+images/icons/oval.png
+images/icons/paint_bucket.png
+images/icons/rect.png
+images/icons/redo.png
+images/icons/resize.png
+images/icons/save.png
+images/icons/settings.png
+images/icons/undo.png
+scripts/app.js
+scripts/doodle.js
+scripts/floodfill.js
+scripts/line.js
+scripts/oval.js
+scripts/pacman.js
+scripts/rectangle.js
+scripts/shape.js
+scripts/undo.js
+scripts/utils.js
+scripts/materialz/material-touch.js
+styles/color_picker.css
+styles/dialogs.css
+styles/layout.css
+styles/materialz/material-depth.css
+styles/materialz/material-elements.css
+styles/materialz/material-widgets.css
