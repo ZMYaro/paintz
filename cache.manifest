@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2014-12-25, v2
+# 2014-12-25, v3
 index.html
 audio/pacman_start.mp3
 images/cursors/paint_bucket.png
@@ -19,6 +19,7 @@ images/icons/undo.png
 scripts/app.js
 scripts/doodle.js
 scripts/floodfill.js
+scripts/keyboard.js
 scripts/line.js
 scripts/oval.js
 scripts/pacman.js
