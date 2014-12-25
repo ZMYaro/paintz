@@ -25,15 +25,15 @@ Rectangle.prototype = Object.create(Shape.prototype);
  */
 Rectangle.prototype.updatePreview = function (newX, newY) {
 	Shape.prototype.updatePreview.call(this, newX, newY);
-	
+
 	var x = Math.min(newX, this.startX);
 	var y = Math.min(newY, this.startY);
 	var width = Math.abs(newX - this.startX);
 	var height = Math.abs(newY - this.startY);
-	
+
 	// Erase the previous preview.
 	this._preCxt.clearRect(0, 0, this._preCxt.canvas.width, this._preCxt.canvas.height);
-	
+
 	// Draw the new preview.
 	this._preCxt.lineWidth = this.lineWidth;
 	this._preCxt.strokeStyle = this.lineColor;

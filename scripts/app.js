@@ -152,7 +152,7 @@ function initToolbar() {
 			reader.onload = function (ev) {
 				var image = new Image();
 				image.src = ev.target.result;
-				// There is no need to clear the canvas.  Resizing the canvas will do that.
+				// There is no need to clear the canvas.	Resizing the canvas will do that.
 				canvas.width = image.width;
 				canvas.height = image.height;
 				preCanvas.width = image.width;
@@ -377,7 +377,7 @@ function downloadImage() {
 }
 
 window.addEventListener('load', function () {
-  // Initialize everything.
+	// Initialize everything.
 	initToolbar();
 	initCanvas();
 	initSettings();

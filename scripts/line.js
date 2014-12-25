@@ -24,10 +24,10 @@ Line.prototype = Object.create(Shape.prototype);
  */
 Line.prototype.updatePreview = function (newX, newY) {
 	Shape.prototype.updatePreview.call(this, newX, newY);
-	
+
 	// Erase the previous preview.
 	this._preCxt.clearRect(0, 0, this._preCxt.canvas.width, this._preCxt.canvas.height);
-	
+
 	// Draw the new preview.
 	this._preCxt.lineWidth = this.lineWidth;
 	this._preCxt.strokeStyle = this.lineColor;

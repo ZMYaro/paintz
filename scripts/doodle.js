@@ -26,9 +26,9 @@ Doodle.prototype = Object.create(Shape.prototype);
  */
 Doodle.prototype.updatePreview = function (newX, newY) {
 	Shape.prototype.updatePreview.call(this, newX, newY);
-	
+
 	var cxt = localStorage.ghostDraw ? this._preCxt : this._cxt;
-	
+
 	// Connect to the existing preview.
 	cxt.lineWidth = this.lineWidth;
 	cxt.strokeStyle = this.lineColor;
@@ -37,14 +37,14 @@ Doodle.prototype.updatePreview = function (newX, newY) {
 	cxt.lineTo(newX, newY);
 	cxt.closePath();
 	cxt.stroke();
-	
+
 	// Force round end caps on the path.
 	cxt.fillStyle = this.lineColor;
 	cxt.beginPath();
 	cxt.arc(newX, newY, this.lineWidth / 2, 0, 2 * Math.PI, false);
 	cxt.closePath();
 	cxt.fill();
-	
+
 	// Store the last x and y.
 	this.lastX = newX;
 	this.lastY = newY;
@@ -60,7 +60,7 @@ Object.defineProperty(Doodle, 'cursor', {
 	enumerable: true,
 	get: function () {
 		cursorCanvas.width = cursorCanvas.height = parseInt(localStorage.lineWidth) + 2;
-		
+
 		cursorCxt.lineWidth = 1;
 		cursorCxt.strokeStyle = 'white';
 		cursorCxt.beginPath();
@@ -71,7 +71,7 @@ Object.defineProperty(Doodle, 'cursor', {
 		);
 		cursorCxt.closePath();
 		cursorCxt.stroke();
-		
+
 		cursorCxt.lineWidth = 1;
 		cursorCxt.strokeStyle = 'black';
 		cursorCxt.beginPath();
@@ -82,13 +82,13 @@ Object.defineProperty(Doodle, 'cursor', {
 		);
 		cursorCxt.closePath();
 		cursorCxt.stroke();
-		
+
 		var cursorDataURL = cursorCanvas.toDataURL();
-		
+
 		var cursorCSS = 'url(' + cursorDataURL + ')' // Data URL
 		cursorCSS += ' ' + (cursorCanvas.width / 2) + ' ' + (cursorCanvas.height / 2); // Positioning
 		cursorCSS += ', default'; // Fallback
-		
+
 		return cursorCSS;
 	}
 });

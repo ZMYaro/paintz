@@ -8,20 +8,20 @@
  */
 function PacMan(canvas, x, y) {
 	this._started = false;
-	
+
 	this._canvas = canvas;
 	this._cxt = canvas.getContext('2d');
 	this.x = x || Math.floor(canvas.width * 0.2);
 	this.y = y || Math.floor(canvas.height * 0.2);
 	this.heading = PacMan.HEADINGS.RIGHT;
-	
+
 	this._startSound = document.getElementById('pacManStartSound');
-	
+
 	this._mouthSize = 0;
 	this._mouthOpening = true;
-	
+
 	this._boundUpdate = this._update.bind(this);
-	
+
 	this._initListeners();
 }
 // Constants.
@@ -61,7 +61,7 @@ PacMan.prototype.start = function () {
 	}
 	// NOW set Pac-Man to have started.
 	this._started = true;
-	// Start moving after the sound finishes. 
+	// Start moving after the sound finishes.
 	setTimeout(this._boundUpdate, PacMan.START_SOUND_LENGTH);
 };
 
@@ -72,42 +72,42 @@ PacMan.prototype.start = function () {
 PacMan.prototype._isBlocked = function () {
 	this._cxt.fillStyle = localStorage.lineColor;
 	this._cxt.fillRect(this.x - 1, this.y - 1, 3, 3);
-	
+
 	var imageData = this._cxt.getImageData(
 		this.x - (PacMan.RADIUS + PacMan.HITBOX_PADDING + 1),
 		this.y - (PacMan.RADIUS + PacMan.HITBOX_PADDING + 1),
 		(2 * (PacMan.RADIUS + PacMan.HITBOX_PADDING + 1)),
 		(2 * (PacMan.RADIUS + PacMan.HITBOX_PADDING + 1))
 	);
-	
+
 	var wallColor = {
 		r: imageData.data[(((imageData.height / 2) * imageData.width * 4) + ((imageData.width / 2) * 4))],
 		g: imageData.data[(((imageData.height / 2) * imageData.width * 4) + ((imageData.width / 2) * 4)) + 1],
 		b: imageData.data[(((imageData.height / 2) * imageData.width * 4) + ((imageData.width / 2) * 4)) + 2]
 	};
-	
+
 	this._cxt.fillStyle = localStorage.fillColor;
 	this._cxt.fillRect(this.x - 1, this.y - 1, 3, 3);
-	
+
 	// Loop over the arc in front of Pac-Man checking for the wall color.
 	for (var i = Math.PI / 8; i < Math.PI * 7 / 8; i += 1 / 60) {
 		var x = Math.round((PacMan.RADIUS + PacMan.HITBOX_PADDING) * Math.sin(i + this.heading));
 		var y = -Math.round((PacMan.RADIUS + PacMan.HITBOX_PADDING) * Math.cos(i + this.heading));
-		
+
 		var col = x + (imageData.width / 2);
 		var row = y + (imageData.height / 2);
-		
+
 		var color = {
 			r: imageData.data[((row * imageData.width * 4) + (col * 4))],
 			g: imageData.data[((row * imageData.width * 4) + (col * 4)) + 1],
 			b: imageData.data[((row * imageData.width * 4) + (col * 4)) + 2],
 			a: imageData.data[((row * imageData.width * 4) + (col * 4)) + 3]
 		};
-		
+
 		// Draw Pac-Man's hitbox (hitarc?) for debugging.
 		/*this._cxt.fillStyle = '#00cc00';
 		this._cxt.fillRect(this.x + x - 0.1, this.y + y - 0.1, 0.2, 0.2);*/
-		
+
 		if (color.r === wallColor.r &&
 				color.g === wallColor.g &&
 				color.b === wallColor.b &&
@@ -115,7 +115,7 @@ PacMan.prototype._isBlocked = function () {
 			return true;
 		}
 	}
-	
+
 	return false;
 };
 
@@ -142,7 +142,7 @@ PacMan.prototype._draw = function () {
 
 /**
  * Cover Pac-Man with the current fill color, effectively erasing him
- * and “eating” everything under him.
+ * and ï¿½eatingï¿½ everything under him.
  */
 PacMan.prototype._erase = function () {
 	this._cxt.fillStyle = localStorage.fillColor;
@@ -188,10 +188,10 @@ PacMan.prototype._update = function () {
 	if (this._started) {
 		Utils.raf(this._boundUpdate);
 	}
-	
-	// “Eat” everything under Pac-Man.
+
+	// ï¿½Eatï¿½ everything under Pac-Man.
 	this._erase();
-	
+
 	// Move Pac-Man.
 	if (!this._isBlocked()) {
 		switch (this.heading) {
@@ -218,7 +218,7 @@ PacMan.prototype._update = function () {
 		this._mouthSize = 0;
 		this._mouthOpening = true;
 	}
-		
+
 	// Screen wrap.
 	if (this.x < -(PacMan.RADIUS * 2)) {
 		this.x = canvas.width + (PacMan.RADIUS * 2);
@@ -229,7 +229,7 @@ PacMan.prototype._update = function () {
 	} else if (this.y > canvas.height + (PacMan.RADIUS * 2)) {
 		this.y = -(PacMan.RADIUS * 2);
 	}
-	
+
 	// Draw Pac-Man.
 	this._draw();
 };

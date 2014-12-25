@@ -1,5 +1,5 @@
 #dialogs {
-  display: none;
+	display: none;
 
 	z-index: 5;
 
@@ -25,10 +25,10 @@
 	     -o-transition-property: background-color;
 	        transition-property: background-color;
 }
-  #dialogs.visible {
-	  background-color: gray;
-	  background-color: rgba(128,128,128,0.5);
-  }
+	#dialogs.visible {
+		background-color: gray;
+		background-color: rgba(128,128,128,0.5);
+	}
 .dialog {
 	margin: auto;
 	display: none;

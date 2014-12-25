@@ -30,10 +30,10 @@ body {
 	#toolbar button {
 		margin: 0;
 	}
-	  #toolbar button > img {
-	    width: 32px;
-	    height: 32px;
-	  }
+		#toolbar button > img {
+			width: 32px;
+			height: 32px;
+		}
 
 .toolbox {
 	display: inline-block;
@@ -56,11 +56,11 @@ body {
 		border: 0 none;
 		-webkit-border-radius: 50%;
 		   -moz-border-radius: 50%;
-				border-radius: 50%;
+		        border-radius: 50%;
 
 		-webkit-box-shadow: none;
 		   -moz-box-shadow: none;
-				box-shadow: none;
+		        box-shadow: none;
 
 		position: relative;
 	}

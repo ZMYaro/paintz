@@ -25,15 +25,15 @@ Oval.prototype = Object.create(Shape.prototype);
  */
 Oval.prototype.updatePreview = function (newX, newY) {
 	Shape.prototype.updatePreview.call(this, newX, newY);
-	
+
 	var centerX = (newX + this.startX) / 2;
 	var centerY = (newY + this.startY) / 2;
 	var radX = (newX - this.startX) / 2;
 	var radY = (newY - this.startY) / 2;
-	
+
 	// Erase the previous preview.
 	this._preCxt.clearRect(0, 0, this._preCxt.canvas.width, this._preCxt.canvas.height);
-	
+
 	// Draw the new preview.
 	this._preCxt.lineWidth = this.lineWidth;
 	this._preCxt.strokeStyle = this.lineColor;
