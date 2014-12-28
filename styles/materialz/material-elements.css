@@ -67,27 +67,17 @@ select[size="1"] {
 		display: inline-block;
 		background-color: d6d7d7;
 	}
-	select,
+	select:not([size]),
 	select[size="1"] {
+		min-width: 0;
 		position: relative;
 		background-color: transparent;
-		background-image: none;
+		background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAAICAYAAACs/DyzAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAFRJREFUeNrUzzEKACAMA8AMPjw/rzoIUlqqTqYQ6JAMBwAcscfQzPBz1r0g5wYqwFsk10gJeIrkPlADVkj6siIwQzIqqgI9klnpd2ArgNEvdV2AAQCCQISyxDe1CAAAAABJRU5ErkJggg==);
+		background-size: 28px 4px;
+		background-position: right center;
+		background-repeat: no-repeat;
+		padding-right: 36px;
 	}
-		select::before,
-		select[size="1"]::before {
-			content: 'aoeu';
-			position: absolute;
-			right: 8px;
-			top: 8px;
-			width: 4px;
-			height: 4px;
-			background-color: green;
-			
-			border-top: 8px solid black;
-			border-left: 8px solid transparent;
-			border-right: 8px solid transparent;
-			border-bottom: 0 solid transparent;
-		}
 	button:hover,
 	*[role="button"]:hover,
 	input[type="button"]:hover,
@@ -100,7 +90,7 @@ select[size="1"] {
 	input[type="button"]:focus,
 	input[type="submit"]:focus,
 	input[type="reset"]:focus,
-	select:focus,
+	select:not([size]):focus,
 	select[size="1"]:focus {
 		background-color: #e2e3e3;
 	}
@@ -110,14 +100,14 @@ select[size="1"] {
 	input[type="button"]:enabled:active,
 	input[type="submit"]:enabled:active,
 	input[type="reset"]:enabled:active,
-	select:enabled:active,
+	select:not([size]):enabled:active,
 	select[size="1"]:enabled:active,
 	button:enabled.active,
 	*[role="button"].active,
 	input[type="button"]:enabled.active,
 	input[type="submit"]:enabled.active,
 	input[type="reset"]:enabled.active,
-	select.active,
+	select:not([size]).active,
 	select[size="1"].active {
 		background-color: #c4c5c5;
 	}
@@ -143,11 +133,11 @@ input[type="checkbox"] {
 	background-color: transparent;
 	background-repeat: no-repeat;
 	
-	-webkit-transition-duration: 0.2s;
-	   -moz-transition-duration: 0.2s;
-	    -ms-transition-duration: 0.2s;
-	     -o-transition-duration: 0.2s;
-	        transition-duration: 0.2s;
+	-webkit-transition-duration: 0.125s;
+	   -moz-transition-duration: 0.125s;
+	    -ms-transition-duration: 0.125s;
+	     -o-transition-duration: 0.125s;
+	        transition-duration: 0.125s;
 	-webkit-transition-timing-function: linear;
 	   -moz-transition-timing-function: linear;
 	    -ms-transition-timing-function: linear;
@@ -167,36 +157,6 @@ input[type="checkbox"] {
 	input[type="checkbox"]:checked {
 		border-color: #40c4ff;
 	}
-	input[type="radio"]::after,
-	input[type="checkbox"]::after {
-		content: '';
-		
-		position: absolute;
-		
-		background-color: black;
-		
-		-webkit-transform: scale(0);
-		   -moz-transform: scale(0);
-		    -ms-transform: scale(0);
-		     -o-transform: scale(0);
-		        transform: scale(0);
-		
-		-webkit-transition-duration: 0.1s;
-		   -moz-transition-duration: 0.1s;
-		    -ms-transition-duration: 0.1s;
-		     -o-transition-duration: 0.1s;
-		        transition-duration: 0.1s;
-		-webkit-transition-timing-function: linear;
-		   -moz-transition-timing-function: linear;
-		    -ms-transition-timing-function: linear;
-		     -o-transition-timing-function: linear;
-		        transition-timing-function: linear;
-		-webkit-transition-property: -webkit-transform, transform, background-color;
-		   -moz-transition-property: -moz-transform, transform, background-color;
-		    -ms-transition-property: -ms-transform, transform, background-color;
-		     -o-transition-property: -o-transform, transform, background-color;
-		        transition-property: transform, background-color;
-	}
 input[type="radio"] {
 	width: 20px;
 	height: 20px;
@@ -205,23 +165,67 @@ input[type="radio"] {
 	        border-radius: 50%;
 }
 	input[type="radio"]::after {
-		left: 2px;
-		top: 2px;
-		right: 2px;
-		bottom: 2px;
+		content: '';
+		
+		position: absolute;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
 		
 		-webkit-border-radius: 50%;
 		   -moz-border-radius: 50%;
 		        border-radius: 50%;
+		
+		background-color: transparent;
+		
+		-webkit-transition-delay: 0.07s, 0.07s, 0, 0;
+		   -moz-transition-delay: 0.07s, 0.07s, 0, 0;
+		    -ms-transition-delay: 0.07s, 0, 0;
+			 -o-transition-delay: 0.07s, 0, 0;
+			    transition-delay: 0.07s, 0;
+		-webkit-transition-duration: 0.13s, 0.13s 0.07s, 0.07s;
+		   -moz-transition-duration: 0.13s, 0.13s 0.07s, 0.07s;
+		    -ms-transition-duration: 0.13s, 0.07s, 0.07s;
+		     -o-transition-duration: 0.13s, 0.07s, 0.07s;
+		        transition-duration: 0.13s, 0.07s;
+		-webkit-transition-timing-function: linear;
+		   -moz-transition-timing-function: linear;
+		    -ms-transition-timing-function: linear;
+		     -o-transition-timing-function: linear;
+		        transition-timing-function: linear;
+		-webkit-transition-property: -webkit-box-shadow, box-shadow, -webkit-transform, transform;
+		   -moz-transition-property: -moz-box-shadow, box-shadow, -moz-transform, transform;
+		    -ms-transition-property: box-shadow, -ms-transform, transform;
+		     -o-transition-property: box-shadow, -o-transform, transform;
+		        transition-property: box-shadow, transform, background-color;
+		
+		-webkit-box-shadow: inset 0 0 0 0 black;
+		   -moz-box-shadow: inset 0 0 0 0 black;
+		        box-shadow: inset 0 0 0 0 black;
+		
+		-webkit-transform: scale(1);
+		   -moz-transform: scale(1);
+		    -ms-transform: scale(1);
+		     -o-transform: scale(1);
+		        transform: scale(1);
 	}
 		input[type="radio"]:checked::after {
-			background-color: #40c4ff;
+			-webkit-transition-delay: 0, 0, 0.13s, 0.13s;
+			   -moz-transition-delay: 0, 0, 0.13s, 0.13s;
+			    -ms-transition-delay: 0, 0.13s, 0.13s;
+			     -o-transition-delay: 0, 0.13s, 0.13s;
+			        transition-delay: 0, 0.13s;
 			
-			-webkit-transform: scale(1);
-			   -moz-transform: scale(1);
-			    -ms-transform: scale(1);
-			     -o-transform: scale(1);
-			        transform: scale(1);
+			-webkit-box-shadow: inset 0 0 0 10px #40c4ff;
+			   -moz-box-shadow: inset 0 0 0 10px #40c4ff;
+			        box-shadow: inset 0 0 0 10px #40c4ff;
+			
+			-webkit-transform: scale(0.65);
+			   -moz-transform: scale(0.65);
+			    -ms-transform: scale(0.65);
+			     -o-transform: scale(0.65);
+			        transform: scale(0.65);
 		}
 input[type="checkbox"] {
 	width: 18px;
@@ -239,6 +243,14 @@ input[type="checkbox"] {
 		        box-shadow: inset 0 0 0 10px #40c4ff;
 	}
 	input[type="checkbox"]::after {
+		content: '';
+		
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 3px;
+		bottom: 3px;
+		
 		background-color: transparent;
 		
 		border: 0 none;
@@ -248,10 +260,6 @@ input[type="checkbox"] {
 		border-bottom-style: solid;
 		border-color: white;
 		
-		left: 0;
-		right: 0;
-		top: 3px;
-		bottom: 3px;
 		
 		-webkit-transform: scale(0) translate(-1px,-2px) rotate(-45deg);
 		   -moz-transform: scale(0) translate(-1px,-2px) rotate(-45deg);
@@ -259,18 +267,28 @@ input[type="checkbox"] {
 		     -o-transform: scale(0) translate(-1px,-2px) rotate(-45deg);
 		        transform: scale(0) translate(-1px,-2px) rotate(-45deg);
 		
-		-webkit-transition-duration: 0.25s;
-		   -moz-transition-duration: 0.25s;
-		    -ms-transition-duration: 0.25s;
-		     -o-transition-duration: 0.25s;
-		        transition-duration: 0.25s;
+		-webkit-transition-timing-function: linear;
+		   -moz-transition-timing-function: linear;
+		    -ms-transition-timing-function: linear;
+		     -o-transition-timing-function: linear;
+		        transition-timing-function: linear;
+		-webkit-transition-property: -webkit-transform, transform;
+		   -moz-transition-property: -moz-transform, transform;
+		    -ms-transition-property: -ms-transform, transform;
+		     -o-transition-property: -o-transform, transform;
+		        transition-property: transform;
+		-webkit-transition-duration: 0.2s;
+		   -moz-transition-duration: 0.2s;
+		    -ms-transition-duration: 0.2s;
+		     -o-transition-duration: 0.2s;
+		        transition-duration: 0.2s;
 	}
 		input[type="checkbox"]:checked::after {
-			-webkit-transform: scale(0.9) translateY(-2px) rotate(-45deg);
-			   -moz-transform: scale(0.9) translateY(-2px) rotate(-45deg);
-			    -ms-transform: scale(0.9) translateY(-2px) rotate(-45deg);
-			     -o-transform: scale(0.9) translateY(-2px) rotate(-45deg);
-			        transform: scale(0.9) translateY(-2px) rotate(-45deg);
+			-webkit-transform: scale(0.9) translate(0,-2px) rotate(-45deg);
+			   -moz-transform: scale(0.9) translate(0,-2px) rotate(-45deg);
+			    -ms-transform: scale(0.9) translate(0,-2px) rotate(-45deg);
+			     -o-transform: scale(0.9) translate(0,-2px) rotate(-45deg);
+			        transform: scale(0.9) translate(0,-2px) rotate(-45deg);
 		}
 
 /* --------======== RANGE SLIDERS and PROGRESS BARS ========-------- */

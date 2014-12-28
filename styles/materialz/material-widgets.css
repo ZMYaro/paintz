@@ -64,6 +64,10 @@ body {
 
 	.appBar button,
 	.appBar *[role="button"] {
+		-webkit-box-sizing: border-box;
+		   -moz-box-sizing: border-box;
+		        box-sizing: border-box;
+		
 		vertical-align: top;
 		min-width: 0;
 		width: 56px;

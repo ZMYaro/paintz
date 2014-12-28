@@ -34,6 +34,9 @@ body {
 			width: 32px;
 			height: 32px;
 		}
+	#toolbar select {
+		background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAAICAYAAACs/DyzAAAAOUlEQVQ4y93PwQ0AMAgDMUZn8/BHqgr5Hd7AISnlyyAwk4ycmWTllklmbphk5z7JG7lH8lauJdG5AlouFwB1jHPVAAAAAElFTkSuQmCC');
+	}
 
 .toolbox {
 	display: inline-block;
@@ -75,7 +78,7 @@ body {
 			background-color: transparent;
 			/*border: 2px solid #40c4ff;*/
 			border: 2px solid #ffffff;
-
+			
 			left: 4px;
 			top: 4px;
 			right: 4px;
@@ -88,8 +91,29 @@ body {
 			    -ms-transform: scale(1.2);
 			     -o-transform: scale(1.2);
 			        transform: scale(1.2);
+			
+			-webkit-transition-property: all;
+			   -moz-transition-property: all;
+			    -ms-transition-property: all;
+			     -o-transition-property: all;
+			        transition-property: all;
+			-webkit-transition-duration: 0.1s;
+			   -moz-transition-duration: 0.1s;
+			    -ms-transition-duration: 0.1s;
+			     -o-transition-duration: 0.1s;
+			        transition-duration: 0.1s;
+			-webkit-transition-delay: 0;
+			   -moz-transition-delay: 0;
+			    -ms-transition-delay: 0;
+			     -o-transition-delay: 0;
+			        transition-delay: 0;
 		}
 			.toolbox input[type="radio"]:checked::after {
+				
+				-webkit-box-shadow: none;
+				   -moz-box-shadow: none;
+				        box-shadow: none;
+				
 				opacity: 1;
 
 				-webkit-transform: scale(1);
