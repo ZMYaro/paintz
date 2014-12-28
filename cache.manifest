@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2014-12-28, v1
+# 2014-12-28, v3
 index.html
 audio/pacman_start.mp3
 images/cursors/paint_bucket.png
@@ -32,6 +32,11 @@ scripts/materialz/material-touch.js
 styles/color_picker.css
 styles/dialogs.css
 styles/layout.css
+styles/fonts/Roboto-Regular.ttf
+styles/fonts/Roboto-Italic.ttf
+styles/fonts/Roboto-Bold.ttf
+styles/fonts/Roboto-BoldItalic.ttf
+styles/fonts/roboto.css
 styles/materialz/material-depth.css
 styles/materialz/material-elements.css
 styles/materialz/material-widgets.css
