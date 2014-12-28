@@ -76,15 +76,22 @@ function initToolbar() {
 
 	// Set up the event listener for the Pac-Man easter egg.
 	document.querySelector('#colorPicker button[data-value=\"#FFEB3B\"]').addEventListener('click', function (e) {
-		// If the button was Alt+Shift+clicked for the first time...
-		if (e.ctrlKey && e.shiftKey && !window.pacMan) {
+		// If the button was Ctrl+Shift+clicked...
+		if (e.ctrlKey && e.shiftKey) {
 			e.preventDefault();
 			e.stopPropagation();
-			// Create and start a new Pac-Man.
-			window.pacMan = new PacMan(canvas);
-			window.pacMan.start();
-			// Update the button to show the easter egg has been activated.
-			e.target.className = 'pacman';
+			if (!window.pacMan) {
+				// If Pac-Man has not been started, create and start a new Pac-Man.
+				window.pacMan = new PacMan(canvas);
+				window.pacMan.start();
+				// Update the button to show the easter egg has been activated.
+				e.target.className = 'pacman';
+			} else {
+				// If Pac-Man is running, delete Pac-Man.
+				window.pacMan.stop();
+				delete window.pacMan;
+				e.target.classList.remove('pacman');
+			}
 		}
 	}, false);
 

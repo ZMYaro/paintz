@@ -54,9 +54,10 @@ PacMan.prototype.start = function () {
 		return;
 	}
 	// Draw Pac-Man, but do not start him moving yet.
-	this._update();
+	this._draw();
 	// Play the start sound.
 	if (this._startSound && this._startSound.play) {
+		this._startSound.currentTime = 0;
 		this._startSound.play();
 	}
 	// NOW set Pac-Man to have started.
@@ -64,6 +65,15 @@ PacMan.prototype.start = function () {
 	// Start moving after the sound finishes.
 	setTimeout(this._boundUpdate, PacMan.START_SOUND_LENGTH);
 };
+
+/**
+ * Stop and hide Pac-Man.
+ */
+PacMan.prototype.stop = function () {
+	this._erase();
+	this._startSound.pause();
+	this._started = false;
+}
 
 /**
  * Check whether there is a wall in front of Pac-Man.
@@ -187,6 +197,8 @@ PacMan.prototype._update = function () {
 	// If this Pac-Man is supposed to be running, loop.
 	if (this._started) {
 		Utils.raf(this._boundUpdate);
+	} else {
+		return;
 	}
 
 	// �Eat� everything under Pac-Man.
