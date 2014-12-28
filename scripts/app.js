@@ -75,7 +75,7 @@ function initToolbar() {
 	}
 
 	// Set up the event listener for the Pac-Man easter egg.
-	document.querySelector('#colorPicker button[data-value=\"yellow\"]').addEventListener('click', function (e) {
+	document.querySelector('#colorPicker button[data-value=\"#FFEB3B\"]').addEventListener('click', function (e) {
 		// If the button was Alt+Shift+clicked for the first time...
 		if (e.altKey && e.shiftKey && !window.pacMan) {
 			e.preventDefault();

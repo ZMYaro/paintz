@@ -47,16 +47,19 @@
 	#colorPicker button[data-value="white"]::before {
 		background-color: white;
 	}
-	#colorPicker button[data-value="red"]::before {
-		background-color: red;
+	#colorPicker button[data-value="#F44336"]::before {
+		/* Red */
+		background-color: #F44336;
 	}
-	#colorPicker button[data-value="orange"]::before {
-		background-color: orange;
+	#colorPicker button[data-value="#FF9800"]::before {
+		/* Orange */
+		background-color: #FF9800;
 	}
-	#colorPicker button[data-value="yellow"]::before {
-		background-color: yellow;
+	#colorPicker button[data-value="#FFEB3B"]::before {
+		/* Yellow */
+		background-color: #FFEB3B;
 	}
-		#colorPicker button[data-value="yellow"].pacman::after {
+		#colorPicker button[data-value="#FFEB3B"].pacman::after {
 			content: '';
 			position: absolute;
 			left: 11px;
@@ -71,18 +74,23 @@
 			border-color: transparent;
 			border-right-color: #3f51b5;
 		}
-	#colorPicker button[data-value="lime"]::before {
-		background-color: lime;
+	#colorPicker button[data-value="#76FF03"]::before {
+		/* Lime */
+		background-color: #76FF03;
 	}
-	#colorPicker button[data-value="green"]::before {
-		background-color: green;
+	#colorPicker button[data-value="#4CAF50"]::before {
+		/* Green */
+		background-color: #4CAF50;
 	}
-	#colorPicker button[data-value="lightblue"]::before {
-		background-color: lightblue;
+	#colorPicker button[data-value="#80D8FF"]::before {
+		/* Light blue */
+		background-color: #80D8FF;
 	}
-	#colorPicker button[data-value="blue"]::before {
-		background-color: blue;
+	#colorPicker button[data-value="#2962FF"]::before {
+		/* Blue */
+		background-color: #2962FF;
 	}
-	#colorPicker button[data-value="purple"]::before {
-		background-color: purple;
+	#colorPicker button[data-value="#9C27B0"]::before {
+		/* Purple */
+		background-color: #9C27B0;
 	}
