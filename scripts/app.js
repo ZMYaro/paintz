@@ -28,6 +28,28 @@ var tools = {
 };
 
 /**
+ * Set up the Chrome Web Store links in the About dialog.
+ */
+function initCWSLinks() {
+	if (chrome && chrome.app && chrome.app.isInstalled) {
+		document.getElementById('cwsInstallLink').style.display = 'none';
+		document.getElementById('cwsFeedbackLink').style.display = 'inline';
+	} else {
+		document.getElementById('cwsInstallLink').onclick = function (e) {
+			if (chrome && chrome.webstore && chrome.webstore.install) {
+				e.preventDefault();
+				var cwsLink = document.querySelector('link[rel=\"chrome-webstore-item\"]').href;
+				chrome.webstore.install(cwsLink, function () {
+					// Change links on successful installation.
+					document.getElementById('cwsInstallLink').style.display = 'none';
+					document.getElementById('cwsFeedbackLink').style.display = 'inline';
+				});
+			}
+		};
+	}
+}
+
+/**
  * Get the toolbar form elements.
  */
 function initToolbar() {
@@ -385,6 +407,7 @@ function downloadImage() {
 
 window.addEventListener('load', function () {
 	// Initialize everything.
+	initCWSLinks();
 	initToolbar();
 	initCanvas();
 	initSettings();
