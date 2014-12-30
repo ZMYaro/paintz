@@ -2,20 +2,20 @@
 <html manifest="cache.manifest">
 	<head>
 		<title>PaintZ</title>
-		
+
 		<meta name="mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
-		
+
 		<link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/gdjcnhanmagpjdpilaehedkchegnkdoj" />
-		
+
 		<meta name="msapplication-tooltip" content="Create and edit drawings" />
 		<meta name="msapplication-navbutton-color" content="#3f51b5" />
-		
+
 		<link rel="shortcut icon" type="image/x-icon" href="images/logo/favicon.ico" />
 		<link rel="icon" sizes="128x128" href="images/logo/128.png" />
 		<link rel="icon" sizes="256x256" href="images/logo/256.png" />
 		<link rel="apple-touch-icon-precomposed" sizes="128x128" href="images/logo/128.png" />
-		
+
 		<link rel="stylesheet" type="text/css" href="styles/materialz/material-elements.css" />
 		<link rel="stylesheet" type="text/css" href="styles/materialz/material-widgets.css" />
 		<link rel="stylesheet" type="text/css" href="styles/materialz/material-depth.css" />
@@ -36,6 +36,7 @@
 		<script type="text/javascript" src="scripts/rectangle.js"></script>
 		<script type="text/javascript" src="scripts/oval.js"></script>
 		<script type="text/javascript" src="scripts/floodfill.js"></script>
+		<script type="text/javascript" src="scripts/eyedropper.js"></script>
 		<script type="text/javascript" src="scripts/pacman.js"></script>
 		<script type="text/javascript" src="scripts/app.js"></script>
 	</head>
@@ -71,6 +72,7 @@
 				<br />
 				<input type="radio" name="tool" value="rect" id="rectTool" title="Rectangle" />
 				<input type="radio" name="tool" value="oval" id="ovalTool" title="Oval" />
+				<input type="radio" name="tool" value="eyedropper" id="eyedropperTool" title="Color picker" />
 			</form>
 			<span class="divider"></span>
 			<select title="Line width" id="lineWidth">
@@ -157,7 +159,7 @@
 				<h1>About PaintZ</h1>
 				<p>PaintZ was developed by <a href="http://zmyaro.com" target="_blank">Zachary Yaro</a>.  The source code is available <a href="https://github.com/zmyaro/paintz" target="_blank">on GitHub</a>.</p>
 				<p>PaintZ uses the <a href="https://github.com/zmyaro/materialz" target="_blank">MaterialZ CSS library</a>.</p>
-				<p>Icons and styling decisions were taken from or based on <a href="https://www.google.com/design/spec/material-design" target="_blank">Material Design</a>.</p>
+				<p>Icons and styling decisions were taken from or based on <a href="https://www.google.com/design/spec/material-design" target="_blank">Material Design</a> and <a href="http://materialdesignicons.com" target="_blank">Material Design Icons</a>.</p>
 				<p>Pac-Man is owned by Namco.</p>
 				<hr />
 				<p>

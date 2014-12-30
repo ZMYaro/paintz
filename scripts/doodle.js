@@ -4,13 +4,14 @@
  * Create a new Doodle.
  * @param {CanvasRenderingContext2D} cxt - The canvas context in which the shape is being drawn.
  * @param {CanvasRenderingContext2D} preCxt - The canvas context in which the shape's preview is being drawn.
+ * @param {Number} button - Which mouse button was used to initiate the shape's creation.
  * @param {Number} startX - The x-coordinate of the shape's starting point.
  * @param {Number} startY - The y-coordinate of the shape's starting point.
  * @param {Number} [lineWidth] - The width of the shape's outline.
  * @param {String} [lineCalar] - The CSS color of the shape's outline.
  */
-function Doodle(cxt, preCxt, startX, startY, lineWidth, lineColor) {
-	Shape.call(this, cxt, preCxt, startX, startY, lineWidth, lineColor, null);
+function Doodle(cxt, preCxt, button, startX, startY, lineWidth, lineColor) {
+	Shape.apply(this, arguments);
 	this.lastX = startX;
 	this.lastY = startY;
 }

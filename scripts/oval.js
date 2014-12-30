@@ -4,14 +4,15 @@
  * Create a new Oval.
  * @param {CanvasRenderingContext2D} cxt - The canvas this._preCxt in which the shape is being drawn.
  * @param {CanvasRenderingContext2D} preCxt - The canvas context in which the shape's preview is being drawn.
+ * @param {Number} button - Which mouse button was used to initiate the shape's creation.
  * @param {Number} startX - The x-coordinate of the shape's starting point.
  * @param {Number} startY - The y-coordinate of the shape's starting point.
  * @param {Number} [lineWidth] - The width of the shape's outline.
  * @param {String} [lineColor] - The CSS color of the shape's outline.
  * @param {String} [fillColor] - The CSS color of the shape's interior.
  */
-function Oval(cxt, preCxt, startX, startY, lineWidth, lineColor, fillColor) {
-	Shape.call(this, cxt, preCxt, startX, startY, lineWidth, lineColor, fillColor);
+function Oval(cxt, preCxt, button, startX, startY, lineWidth, lineColor, fillColor) {
+	Shape.apply(this, arguments);
 }
 
 Oval.prototype = Object.create(Shape.prototype);

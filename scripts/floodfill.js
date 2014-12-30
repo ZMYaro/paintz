@@ -4,14 +4,15 @@
  * Create a new FloodFill.
  * @param {CanvasRenderingContext2D} cxt - The canvas context that is being filled.
  * @param {CanvasRenderingContext2D} preCxt - The canvas context in which shape preview are drawn.
+ * @param {Number} button - Which mouse button was used to initiate the shape's creation.
  * @param {Number} startX - The x-coordinate of the fill's starting point.
  * @param {Number} startY - The y-coordinate of the fill's starting point.
  * @param {Number} [lineWidth] - The width of the shapes' outlines.
  * @param {String} [lineColor] - The current line color.
  * @param {String} [fillColor] - The current fill color.
  */
-function FloodFill(cxt, preCxt, startX, startY, lineWidth, lineColor, fillColor) {
-	Shape.call(this, cxt, preCxt, startX, startY, lineWidth, lineColor, null);
+function FloodFill(cxt, preCxt, button, startX, startY, lineWidth, lineColor, fillColor) {
+	Shape.apply(this, arguments);
 
 	this._filling = false;
 	this._imageData = [];
@@ -173,7 +174,8 @@ FloodFill.prototype.updatePreview = function () {};
 
 /**
  * Return the CSS value for the cursor associated with the tool.
- * @returns {String|Image}
+ * @override
+ * @returns {String}
  */
 Object.defineProperty(FloodFill, 'cursor', {
 	configurable: true,

@@ -138,6 +138,9 @@ body {
 #floodFillTool {
 	background-image: url('../images/icons/paint_bucket.png');
 }
+#eyedropperTool {
+	background-image: url('../images/icons/eyedropper.png');
+}
 
 
 #canvas, #preCanvas {

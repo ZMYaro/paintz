@@ -24,7 +24,8 @@ var tools = {
 	line: Line,
 	rect: Rectangle,
 	oval: Oval,
-	floodFill: FloodFill
+	floodFill: FloodFill,
+	eyedropper: Eyedropper
 };
 
 /**
@@ -308,18 +309,10 @@ function startShape(e) {
 	// Retrieve the values for the shape's properties.
 	var startX = Utils.getCanvasX(touch ? e.touches[0].pageX : e.pageX);
 	var startY = Utils.getCanvasY(touch ? e.touches[0].pageY : e.pageY);
-
-	// Reverse the line and fill colors if the right mouse button was used.
-	var lineColor = localStorage.lineColor;
-	var fillColor = localStorage.fillColor;
-	if (e.button === 2) {
-		lineColor = localStorage.fillColor;
-		fillColor = localStorage.lineColor;
-	}
-
+	
 	// Initialize the new shape.
-
-	currentShape = new tools[localStorage.tool](cxt, preCxt, startX, startY, localStorage.lineWidth, lineColor, fillColor);
+	currentShape = new tools[localStorage.tool](cxt, preCxt, e.button, startX, startY,
+		localStorage.lineWidth, localStorage.lineColor, localStorage.fillColor);
 
 	// Set the event listeners to continue and end drawing.
 	if (touch) {
