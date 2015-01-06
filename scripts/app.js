@@ -4,8 +4,8 @@ var DEFAULTS = {
 	width: 640,
 	height: 480,
 	lineWidth: 2,
-	lineColor: 'black',
-	fillColor: 'white',
+	lineColor: '#000000',
+	fillColor: '#ffffff',
 	tool: 'doodle',
 	ghostDraw: true
 };
@@ -71,7 +71,7 @@ function initToolbar() {
 		// Some tools' cursors change with the line width, so reapply the cursor.
 		preCanvas.style.cursor = tools[localStorage.tool].cursor;
 	};
-	
+
 	// Set up the toolbar color picker.
 	var colorPicker = document.getElementById('colorPicker');
 	var colorIndicator = document.getElementById('colors');
@@ -148,7 +148,7 @@ function initToolbar() {
 		}
 		var sliderIndicator = colorPickers[type].slideElement.getElementsByClassName('slide-indicator')[0];
 		sliderIndicator.style.top = (hsv.h / 360 * 100) + '%';
-		
+
 		document.getElementById(type + 'ColorSample').style.backgroundColor = hex;
 		colorPickerDialog[type + 'ColorHex'].value = hex;
 		colorPickerDialog[type + 'ColorHue'].value = Math.floor(hsv.h);
@@ -160,7 +160,7 @@ function initToolbar() {
 	}
 	colorPickerDialog.onsubmit = function (e) {
 		e.preventDefault();
-		
+
 		if (e.target.lineColorHex.value !== '') {
 			localStorage.lineColor = e.target.lineColorHex.value;
 			colorIndicator.style.borderColor = e.target.lineColorHex.value;
@@ -169,7 +169,7 @@ function initToolbar() {
 			localStorage.fillColor = e.target.fillColorHex.value;
 			colorIndicator.style.backgroundColor = e.target.fillColorHex.value;
 		}
-		
+
 		e.target.close();
 	};
 	colorPickerDialog.lineColorHex.oninput =
@@ -189,10 +189,10 @@ function initToolbar() {
 	colorIndicator.onclick = function () {
 		colorPickers.line.setHex(localStorage.lineColor);
 		colorPickerDialog.lineColorHex.value = localStorage.lineColor;
-		
+
 		colorPickers.fill.setHex(localStorage.fillColor);
 		colorPickerDialog.fillColorHex.value = localStorage.fillColor;
-		
+
 		colorPickerDialog.open();
 	};
 
@@ -408,7 +408,7 @@ function startShape(e) {
 	// Retrieve the values for the shape's properties.
 	var startX = Utils.getCanvasX(touch ? e.touches[0].pageX : e.pageX);
 	var startY = Utils.getCanvasY(touch ? e.touches[0].pageY : e.pageY);
-	
+
 	// Initialize the new shape.
 	currentShape = new tools[localStorage.tool](cxt, preCxt, e.button, startX, startY,
 		localStorage.lineWidth, localStorage.lineColor, localStorage.fillColor);
