@@ -83,29 +83,17 @@ body {
 		-webkit-border-radius: 50%;
 		   -moz-border-radius: 50%;
 				border-radius: 50%;
-		
-		-webkit-box-shadow: none;
-		   -moz-box-shadow: none;
-				box-shadow: none;
 	}
 		.appBar button:hover,
 		.appBar button:focus,
 		.appBar *[role="button"]:hover,
 		.appBar *[role="button"]:focus {
-			-webkit-box-shadow: none;
-			   -moz-box-shadow: none;
-					box-shadow: none;
-			
 			background-color: rgba(255,255,255,0.07);
 		}
 		.appBar button:enabled:active,
 		.appBar button:enabled.active,
 		.appBar *[role="button"]:active,
 		.appBar *[role="button"].active {
-			-webkit-box-shadow: none;
-			   -moz-box-shadow: none;
-					box-shadow: none;
-			
 			background-color: rgba(255,255,255,0.13);
 		}
 

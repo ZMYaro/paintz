@@ -71,8 +71,10 @@ function initToolbar() {
 		// Some tools' cursors change with the line width, so reapply the cursor.
 		preCanvas.style.cursor = tools[localStorage.tool].cursor;
 	};
-
+	
+	// Set up the toolbar color picker.
 	var colorPicker = document.getElementById('colorPicker');
+	var colorIndicator = document.getElementById('colors');
 	var colors = colorPicker.getElementsByTagName('button');
 	for (var i = 0; i < colors.length; i++) {
 		// Handle left click.
@@ -82,7 +84,7 @@ function initToolbar() {
 				e.stopPropagation();
 				if (e.button === 0) {
 					localStorage.lineColor = e.target.dataset.value;
-					document.getElementById('colors').style.borderColor = e.target.dataset.value;
+					colorIndicator.style.borderColor = e.target.dataset.value;
 				}
 			}
 		}, false);
@@ -92,10 +94,32 @@ function initToolbar() {
 			e.stopPropagation();
 			if (e.button === 2) {
 				localStorage.fillColor = e.target.dataset.value;
-				document.getElementById('colors').style.backgroundColor = e.target.dataset.value;
+				colorIndicator.style.backgroundColor = e.target.dataset.value;
 			}
 		}, false);
 	}
+	// Set up the color picker dialog.
+	var colorPickerDialog = document.getElementById('colorPickerDialog');
+	Utils.makeDialog(colorPickerDialog);
+	colorPickerDialog.onsubmit = function (e) {
+		e.preventDefault();
+		
+		if (e.target.lineColorHex.value !== '') {
+			localStorage.lineColor = e.target.lineColorHex.value;
+			colorIndicator.style.borderColor = e.target.lineColorHex.value;
+		}
+		if (e.target.fillColorHex.value !== '') {
+			localStorage.fillColor = e.target.fillColorHex.value;
+			colorIndicator.style.backgroundColor = e.target.fillColorHex.value;
+		}
+		
+		e.target.close();
+	};
+	colorIndicator.onclick = function () {
+		colorPickerDialog.lineColorHex.value = localStorage.lineColor;
+		colorPickerDialog.fillColorHex.value = localStorage.fillColor;
+		colorPickerDialog.open();
+	};
 
 	// Set up the event listener for the Pac-Man easter egg.
 	document.querySelector('#colorPicker button[data-value=\"#FFEB3B\"]').addEventListener('click', function (e) {

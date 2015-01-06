@@ -94,7 +94,7 @@
 				<option value="30">30px</option>
 			</select>
 			<span class="divider"></span>
-			<div title="Selected colors" id="colors" class="z1" style="border-color: white; background-color: white;"></div>
+			<button title="Selected colors" id="colors" class="z1" style="border-color: white; background-color: white;"></button>
 			<div class="toolbox" id="colorPicker">
 				<button title="Black" data-value="black">Black</button>
 				<button title="Red" data-value="#F44336">Red</button>
@@ -137,6 +137,28 @@
 				<input name="width" type="number" placeholder="Width" value="640" min="1" style="width: 40%;" />
 				&times;
 				<input name="height" type="number" placeholder="Height" value="480" min="1" style="width: 40%;" />
+				<div style="text-align: right;">
+					<br />
+					<button type="button" onclick="parentElement.parentElement.close();">Cancel</button>
+					<button type="submit">OK</button>
+				</div>
+			</form>
+			<form id="colorPickerDialog" class="dialog card z3" style="width: 640px;">
+				<h1>Colors</h1>
+				<table>
+					<tr>
+						<th>Primary (line)</th>
+						<th>Secondary (fill)</th>
+					</tr>
+					<tr>
+						<td>
+							<input type="text" name="lineColorHex" />
+						</td>
+						<td>
+							<input type="text" name="fillColorHex" />
+						</td>
+					</tr>
+				</table>
 				<div style="text-align: right;">
 					<br />
 					<button type="button" onclick="parentElement.parentElement.close();">Cancel</button>
