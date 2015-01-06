@@ -117,6 +117,15 @@ function initToolbar() {
 			}
 		)
 	};
+	function limitValue(value, min, max) {
+		if (value < min) {
+			return min;
+		}
+		if (value > max) {
+			return max;
+		}
+		return value;
+	}
 	function updateColorPickerHex(e) {
 		var type = e.target.name.match(/line|fill/)[0];
 		var hex = colorPickerDialog[type + 'ColorHex'].value;
@@ -129,18 +138,31 @@ function initToolbar() {
 	function updateColorPickerHSL(e) {
 		var type = e.target.name.match(/line|fill/)[0];
 		var h = colorPickerDialog[type + 'ColorHue'].value || 0;
+		h = limitValue(h, 0, 360);
 		var s = (colorPickerDialog[type + 'ColorSaturation'].value || 0) / 100;
+		s = limitValue(s, 0, 100);
 		var l = (colorPickerDialog[type + 'ColorLightness'].value || 0) / 100;
+		l = limitValue(l, 0, 100);
 		colorPickers[type].setHsv({h: h, s: s, v: l});
 	}
 	function updateColorPickerRGB(e) {
 		var type = e.target.name.match(/line|fill/)[0];
 		var r = colorPickerDialog[type + 'ColorRed'].value || 0;
+		r = limitValue(r, 0, 255);
 		var g = colorPickerDialog[type + 'ColorGreen'].value || 0;
+		g = limitValue(g, 0, 255);
 		var b = colorPickerDialog[type + 'ColorBlue'].value || 0;
+		b = limitValue(b, 0, 255);
 		colorPickers[type].setRgb({r: r, g: g, b: b});
 	}
 	function updateColorFields(type, pickerCoords, hex, hsv, rgb) {
+		hsv.h = limitValue(hsv.h, 0, 360);
+		hsv.s = limitValue(hsv.s, 0, 100);
+		hsv.v = limitValue(hsv.v, 0, 100);
+		rgb.r = limitValue(rgb.r, 0, 255);
+		rgb.g = limitValue(rgb.g, 0, 255);
+		rgb.b = limitValue(rgb.b, 0, 255);
+		hex = ColorPicker.rgb2hex(rgb);
 		if (pickerCoords) {
 			var pickerIndicator = colorPickers[type].pickerElement.getElementsByClassName('picker-indicator')[0];
 			pickerIndicator.style.left = (hsv.s * 100) + '%';
