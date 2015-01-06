@@ -365,7 +365,7 @@ function initCanvas() {
  */
 function initSettings() {
 	for (var setting in DEFAULTS) {
-		if (!localStorage[setting]) {
+		if (!(setting in localStorage)) {
 			localStorage[setting] = DEFAULTS[setting];
 		}
 	}
