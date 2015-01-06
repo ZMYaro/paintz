@@ -101,6 +101,63 @@ function initToolbar() {
 	// Set up the color picker dialog.
 	var colorPickerDialog = document.getElementById('colorPickerDialog');
 	Utils.makeDialog(colorPickerDialog);
+	var colorPickers = {
+		line: new ColorPicker(
+			document.getElementById('lineColorSlider'),
+			document.getElementById('lineColorPicker'),
+			function (hex, hsv, rgb, pickerCoords) {
+				updateColorFields('line', pickerCoords, hex, hsv, rgb);
+			}
+		),
+		fill: new ColorPicker(
+			document.getElementById('fillColorSlider'),
+			document.getElementById('fillColorPicker'),
+			function (hex, hsv, rgb, pickerCoords) {
+				updateColorFields('fill', pickerCoords, hex, hsv, rgb);
+			}
+		)
+	};
+	function updateColorPickerHex(e) {
+		var type = e.target.name.match(/line|fill/)[0];
+		var hex = colorPickerDialog[type + 'ColorHex'].value;
+		// Quit if anything but a valid hex code was entered.
+		if (!hex.match(/#[0-9A-Fa-f]{6}/)) {
+			return;
+		}
+		colorPickers[type].setHex(hex);
+	}
+	function updateColorPickerHSL(e) {
+		var type = e.target.name.match(/line|fill/)[0];
+		var h = colorPickerDialog[type + 'ColorHue'].value || 0;
+		var s = (colorPickerDialog[type + 'ColorSaturation'].value || 0) / 100;
+		var l = (colorPickerDialog[type + 'ColorLightness'].value || 0) / 100;
+		colorPickers[type].setHsv({h: h, s: s, v: l});
+	}
+	function updateColorPickerRGB(e) {
+		var type = e.target.name.match(/line|fill/)[0];
+		var r = colorPickerDialog[type + 'ColorRed'].value || 0;
+		var g = colorPickerDialog[type + 'ColorGreen'].value || 0;
+		var b = colorPickerDialog[type + 'ColorBlue'].value || 0;
+		colorPickers[type].setRgb({r: r, g: g, b: b});
+	}
+	function updateColorFields(type, pickerCoords, hex, hsv, rgb) {
+		if (pickerCoords) {
+			var pickerIndicator = colorPickers[type].pickerElement.getElementsByClassName('picker-indicator')[0];
+			pickerIndicator.style.left = (hsv.s * 100) + '%';
+			pickerIndicator.style.top = (100 - hsv.v * 100) + '%';
+		}
+		var sliderIndicator = colorPickers[type].slideElement.getElementsByClassName('slide-indicator')[0];
+		sliderIndicator.style.top = (hsv.h / 360 * 100) + '%';
+		
+		document.getElementById(type + 'ColorSample').style.backgroundColor = hex;
+		colorPickerDialog[type + 'ColorHex'].value = hex;
+		colorPickerDialog[type + 'ColorHue'].value = Math.floor(hsv.h);
+		colorPickerDialog[type + 'ColorSaturation'].value = Math.floor(hsv.s * 100);
+		colorPickerDialog[type + 'ColorLightness'].value = Math.floor(hsv.v * 100);
+		colorPickerDialog[type + 'ColorRed'].value = rgb.r;
+		colorPickerDialog[type + 'ColorGreen'].value = rgb.g;
+		colorPickerDialog[type + 'ColorBlue'].value = rgb.b;
+	}
 	colorPickerDialog.onsubmit = function (e) {
 		e.preventDefault();
 		
@@ -115,9 +172,27 @@ function initToolbar() {
 		
 		e.target.close();
 	};
+	colorPickerDialog.lineColorHex.oninput =
+		colorPickerDialog.fillColorHex.oninput = updateColorPickerHex;
+	colorPickerDialog.lineColorHue.oninput =
+		colorPickerDialog.lineColorSaturation.oninput =
+		colorPickerDialog.lineColorLightness.oninput =
+		colorPickerDialog.fillColorHue.oninput =
+		colorPickerDialog.fillColorSaturation.oninput =
+		colorPickerDialog.fillColorLightness.oninput = updateColorPickerHSL;
+	colorPickerDialog.lineColorRed.oninput =
+		colorPickerDialog.lineColorGreen.oninput =
+		colorPickerDialog.lineColorBlue.oninput =
+		colorPickerDialog.fillColorRed.oninput =
+		colorPickerDialog.fillColorGreen.oninput =
+		colorPickerDialog.fillColorBlue.oninput = updateColorPickerRGB;
 	colorIndicator.onclick = function () {
+		colorPickers.line.setHex(localStorage.lineColor);
 		colorPickerDialog.lineColorHex.value = localStorage.lineColor;
+		
+		colorPickers.fill.setHex(localStorage.fillColor);
 		colorPickerDialog.fillColorHex.value = localStorage.fillColor;
+		
 		colorPickerDialog.open();
 	};
 

@@ -26,7 +26,8 @@
 		<link rel="stylesheet" type="text/css" href="styles/layout.css" />
 		<link rel="stylesheet" type="text/css" href="styles/dialogs.css" />
 		<link rel="stylesheet" type="text/css" href="styles/color_picker.css" />
-
+		
+		<script type="text/javascript" src="scripts/colorpicker.min.js"></script>
 		<script type="text/javascript" src="scripts/utils.js"></script>
 		<script type="text/javascript" src="scripts/keyboard.js"></script>
 		<script type="text/javascript" src="scripts/undo.js"></script>
@@ -96,13 +97,13 @@
 			<span class="divider"></span>
 			<button title="Selected colors" id="colors" class="z1" style="border-color: white; background-color: white;"></button>
 			<div class="toolbox" id="colorPicker">
-				<button title="Black" data-value="black">Black</button>
+				<button title="Black" data-value="#000000">Black</button>
 				<button title="Red" data-value="#F44336">Red</button>
 				<button title="Orange" data-value="#FF9800">Orange</button>
 				<button title="Yellow" data-value="#FFEB3B">Yellow</button>
 				<button title="Lime" data-value="#76FF03">Lime</button>
 				<br />
-				<button title="White" data-value="white">White</button>
+				<button title="White" data-value="#FFFFFF">White</button>
 				<button title="Green" data-value="#4CAF50">Green</button>
 				<button title="Light blue" data-value="#80D8FF">Light blue</button>
 				<button title="Blue" data-value="#2962FF">Blue</button>
@@ -145,17 +146,80 @@
 			</form>
 			<form id="colorPickerDialog" class="dialog card z3" style="width: 640px;">
 				<h1>Colors</h1>
-				<table>
+				<table cellpadding="0" style="margin: 0 auto;">
 					<tr>
-						<th>Primary (line)</th>
-						<th>Secondary (fill)</th>
+						<th colspan="3">Primary (line)</th>
+						<td style="width: 8px;"></td>
+						<th colspan="3">Secondary (fill)</th>
 					</tr>
 					<tr>
+						<td colspan="3">
+							<div id="lineColorPicker" class="picker">
+								<div class="picker-indicator"></div>
+							</div>
+							<div id="lineColorSlider" class="slide">
+								<div class="slide-indicator"></div>
+							</div>
+						</td>
+						<td></td>
+						<td colspan="3">
+							<div id="fillColorPicker" class="picker">
+								<div class="picker-indicator"></div>
+							</div>
+							<div id="fillColorSlider" class="slide">
+								<div class="slide-indicator"></div>
+							</div>
+						</td>
+					</tr>
+					<tr style="vertical-align: bottom;">
 						<td>
-							<input type="text" name="lineColorHex" />
+							<div id="lineColorSample"></div>
+							<input type="text" pattern="#[0-9A-Fa-f]{6}" name="lineColorHex" style="width: 72px;" />
 						</td>
 						<td>
-							<input type="text" name="fillColorHex" />
+							H
+							<input type="number" min="0" max="360" step="1" name="lineColorHue" />
+							<br />
+							S
+							<input type="number" min="0" max="100" step="1" name="lineColorSaturation" />
+							<br />
+							L
+							<input type="number" min="0" max="100" step="1" name="lineColorLightness" />
+						</td>
+						<td>
+							R
+							<input type="number" min="0" max="255" step="1" name="lineColorRed" />
+							<br />
+							G
+							<input type="number" min="0" max="255" step="1" name="lineColorGreen" />
+							<br />
+							B
+							<input type="number" min="0" max="255" step="1" name="lineColorBlue" />
+						</td>
+						<td></td>
+						<td>
+							<div id="fillColorSample"></div>
+							<input type="text" pattern="#[0-9A-Fa-f]{6}" name="fillColorHex" style="width: 72px;" />
+						</td>
+						<td>
+							H
+							<input type="number" min="0" max="360" step="1" name="fillColorHue" />
+							<br />
+							S
+							<input type="number" min="0" max="100" step="1" name="fillColorSaturation" />
+							<br />
+							L
+							<input type="number" min="0" max="100" step="1" name="fillColorLightness" />
+						</td>
+						<td>
+							R
+							<input type="number" min="0" max="255" step="1" name="fillColorRed" />
+							<br />
+							G
+							<input type="number" min="0" max="255" step="1" name="fillColorGreen" />
+							<br />
+							B
+							<input type="number" min="0" max="255" step="1" name="fillColorBlue" />
 						</td>
 					</tr>
 				</table>
