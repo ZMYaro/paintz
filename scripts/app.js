@@ -313,9 +313,12 @@ function initToolbar() {
 				cxt.fillStyle = 'white';
 				cxt.fillRect(0, 0, canvas.width, canvas.height);
 				cxt.drawImage(image, 0, 0);
-
+				
 				// Clear the undo and redo stacks.
 				undoStack.clear();
+				
+				// Set the file name.
+				downloadLink.download = file.name.replace(/\.[A-Za-z]+$/, '.png');
 			};
 			reader.readAsDataURL(file);
 		} else {
