@@ -66,7 +66,7 @@
 				</button>
 			</div>
 			<span class="divider"></span>
-			<form class="toolbox" id="tool">
+			<form class="toolbox" id="tools">
 				<input type="radio" name="tool" value="doodle" id="doodleTool" title="Doodle" />
 				<input type="radio" name="tool" value="line" id="lineTool" title="Line" />
 				<input type="radio" name="tool" value="floodFill" id="floodFillTool" title="Flood fill" />
@@ -76,24 +76,32 @@
 				<input type="radio" name="tool" value="eyedropper" id="eyedropperTool" title="Color picker" />
 			</form>
 			<span class="divider"></span>
-			<select title="Line width" id="lineWidth">
-				<option value="1">1px</option>
-				<option value="2">2px</option>
-				<option value="3">3px</option>
-				<option value="4">4px</option>
-				<option value="5">5px</option>
-				<option value="6">6px</option>
-				<option value="7">7px</option>
-				<option value="8">9px</option>
-				<option value="10">10px</option>
-				<option value="12">12px</option>
-				<option value="14">14px</option>
-				<option value="16">16px</option>
-				<option value="18">18px</option>
-				<option value="20">20px</option>
-				<option value="25">25px</option>
-				<option value="30">30px</option>
-			</select>
+			<div class="toolbox">
+				<select title="Line width" id="lineWidth">
+					<option value="1">1px</option>
+					<option value="2">2px</option>
+					<option value="3">3px</option>
+					<option value="4">4px</option>
+					<option value="5">5px</option>
+					<option value="6">6px</option>
+					<option value="7">7px</option>
+					<option value="8">9px</option>
+					<option value="10">10px</option>
+					<option value="12">12px</option>
+					<option value="14">14px</option>
+					<option value="16">16px</option>
+					<option value="18">18px</option>
+					<option value="20">20px</option>
+					<option value="25">25px</option>
+					<option value="30">30px</option>
+				</select>
+				<br />
+				<form id="outlineOptions">
+					<input type="radio" name="outlineOption" value="outlineOnly" id="outlineOnly" title="Outline only" />
+					<input type="radio" name="outlineOption" value="fillOnly" id="fillOnly" title="Fill only" />
+					<input type="radio" name="outlineOption" value="outlineFill" id="outlineFill" title="Outline and fill" />
+				</form>
+			</div>
 			<span class="divider"></span>
 			<button title="Selected colors" id="colors" class="z1" style="border-color: white; background-color: white;"></button>
 			<div class="toolbox" id="colorPicker">

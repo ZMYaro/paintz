@@ -4,6 +4,7 @@ var DEFAULTS = {
 	width: 640,
 	height: 480,
 	lineWidth: 2,
+	outlineOption: 'outlineFill',
 	lineColor: '#000000',
 	fillColor: '#ffffff',
 	tool: 'doodle',
@@ -61,7 +62,7 @@ function initToolbar() {
 		}, false);
 	}
 
-	document.getElementById('tool').onchange = function (e) {
+	document.getElementById('tools').onchange = function (e) {
 		localStorage.tool = e.target.value;
 		preCanvas.style.cursor = tools[e.target.value].cursor;
 	};
@@ -71,6 +72,10 @@ function initToolbar() {
 		// Some tools' cursors change with the line width, so reapply the cursor.
 		preCanvas.style.cursor = tools[localStorage.tool].cursor;
 	};
+	
+	document.getElementById('outlineOptions').onchange = function (e) {
+		localStorage.outlineOption = e.target.value;
+	}
 
 	// Set up the toolbar color picker.
 	var colorPicker = document.getElementById('colorPicker');
@@ -406,9 +411,10 @@ function initSettings() {
 		preCanvas.classList.add('ghost');
 	}
 	document.getElementById('lineWidth').value = localStorage.lineWidth;
+	document.getElementById('outlineOptions').outlineOption.value = localStorage.outlineOption;
 	document.getElementById('colors').style.borderColor = localStorage.lineColor;
 	document.getElementById('colors').style.backgroundColor = localStorage.fillColor;
-	document.getElementById('tool').tool.value = localStorage.tool;
+	document.getElementById('tools').tool.value = localStorage.tool;
 	preCanvas.style.cursor = tools[localStorage.tool].cursor;
 }
 

@@ -1,7 +1,6 @@
 @charset "UTF-8";
 
 #lineWidth {
-	margin: 26px 0;
 	vertical-align: top;
 }
 	#lineWidth:hover, #lineWidth:focus {
