@@ -327,7 +327,9 @@ function initToolbar() {
 				undoStack.clear();
 				
 				// Set the file name.
-				downloadLink.download = file.name.replace(/\.[A-Za-z]+$/, '.png');
+				var fileName = file.name.replace(/\.[A-Za-z]+$/, '.png');
+				downloadLink.download = fileName;
+				document.title = fileName + ' - PaintZ';
 			};
 			reader.readAsDataURL(file);
 		} else {
@@ -545,6 +547,8 @@ window.addEventListener('load', function () {
 	undoStack.addState();
 	// Enable keyboard shortcuts.
 	keyManager.enableAppShortcuts();
-
+	
+	document.title = 'untitled.png - PaintZ'
+	
 	downloadLink = document.getElementById('downloadLink');
 }, false);
