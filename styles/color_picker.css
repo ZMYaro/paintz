@@ -3,10 +3,12 @@
 #lineWidth {
 	vertical-align: top;
 }
-	#lineWidth:hover, #lineWidth:focus {
+	#lineWidth:hover,
+	#lineWidth:focus {
 		background-color: rgba(255,255,255,0.07);
 	}
-	#lineWidth:active {
+	#lineWidth:active,
+	#lineWidth.active {
 		background-color: rgba(255,255,255,0.13);
 	}
 
