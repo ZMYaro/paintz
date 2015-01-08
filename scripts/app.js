@@ -439,14 +439,15 @@ function startShape(e) {
 	// Remove the event listeners for starting drawing.
 	preCanvas.removeEventListener('mousedown', startShape, false);
 	preCanvas.removeEventListener('touchstart', startShape, false);
-
+	
 	// Retrieve the values for the shape's properties.
 	var startX = Utils.getCanvasX(touch ? e.touches[0].pageX : e.pageX);
 	var startY = Utils.getCanvasY(touch ? e.touches[0].pageY : e.pageY);
-
+	
 	// Initialize the new shape.
 	currentShape = new tools[localStorage.tool](cxt, preCxt, e.button, startX, startY,
-		localStorage.lineWidth, localStorage.lineColor, localStorage.fillColor);
+		localStorage.lineWidth, localStorage.outlineOption,
+		localStorage.lineColor, localStorage.fillColor);
 
 	// Set the event listeners to continue and end drawing.
 	if (touch) {

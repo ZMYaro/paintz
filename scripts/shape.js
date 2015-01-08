@@ -8,10 +8,11 @@
  * @param {Number} startX - The x-coordinate of the shape's starting point.
  * @param {Number} startY - The y-coordinate of the shape's starting point.
  * @param {Number} [lineWidth] - The width of the shape's outline.
+ * @param {String} [outlineOption] - Whether outline, fill, or both should be drawn
  * @param {String} [lineColor] - The CSS color of the shape's outline.
  * @param {String} [fillColor] - The CSS color of the shape's interior.
  */
-function Shape(cxt, preCxt, button, startX, startY, lineWidth, lineColor, fillColor) {
+function Shape(cxt, preCxt, button, startX, startY, lineWidth, outlineOption, lineColor, fillColor) {
 	this._cxt = cxt;
 	this._preCxt = preCxt;
 	this.button = button;

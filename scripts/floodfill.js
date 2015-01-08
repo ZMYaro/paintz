@@ -8,10 +8,11 @@
  * @param {Number} startX - The x-coordinate of the fill's starting point.
  * @param {Number} startY - The y-coordinate of the fill's starting point.
  * @param {Number} [lineWidth] - The width of the shapes' outlines.
+ * @param {String} [outlineOption] - Whether outline, fill, or both should be drawn
  * @param {String} [lineColor] - The current line color.
  * @param {String} [fillColor] - The current fill color.
  */
-function FloodFill(cxt, preCxt, button, startX, startY, lineWidth, lineColor, fillColor) {
+function FloodFill(cxt, preCxt, button, startX, startY, lineWidth, outlineOption, lineColor, fillColor) {
 	Shape.apply(this, arguments);
 
 	this._filling = false;
