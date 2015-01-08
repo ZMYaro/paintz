@@ -296,14 +296,18 @@ function initToolbar() {
 		console.log(e);
 		if (window.File && window.FileReader && window.FileList && window.Blob) {
 			var file = e.target.files[0];
-			if (!file || !file.type.match('image.*')) {
+			if (!file) {
+				return;
+			}
+			if (!file.type.match('image.*')) {
+				alert('PaintZ can only open valid image files.');
 				return;
 			}
 			var reader = new FileReader();
 			reader.onload = function (ev) {
 				var image = new Image();
 				image.src = ev.target.result;
-				// There is no need to clear the canvas.	Resizing the canvas will do that.
+				// There is no need to clear the canvas.  Resizing the canvas will do that.
 				canvas.width = image.width;
 				canvas.height = image.height;
 				preCanvas.width = image.width;
