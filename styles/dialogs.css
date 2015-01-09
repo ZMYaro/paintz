@@ -83,6 +83,12 @@
 		.dialog button[type="submit"]:active {
 			background-color: #5767bd;
 		}
+	.dialog .list {
+		margin: -8px 0;
+	}
+		.dialog .list li {
+			border-style: none;
+		}
 
 input[type="text"]:focus,
 input[type="search"]:focus,
