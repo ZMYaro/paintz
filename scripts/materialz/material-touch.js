@@ -21,8 +21,8 @@ window.addEventListener("load", function(e) {
 	for(var i = 0; i < inputElems.length; i++) {
 		// If the element is a supported form element,
 		if(elemTypes.indexOf(inputElems[i].tagName.toLowerCase()) !== -1 ||
-				// Or the element is a supported <input> type, 
-				inputTypes.indexOf(inputElems[i].type.toLowerCase()) !== -1 ||
+				// Or the element is a supported <input> type,
+				(inputElems[i].type && inputTypes.indexOf(inputElems[i].type.toLowerCase()) !== -1) ||
 				// Or the element has role="button",
 				(inputElems[i].getAttribute("role") && inputElems[i].getAttribute("role").toLowerCase() === "button")) {
 			// Add the touch event listeners.
