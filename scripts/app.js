@@ -8,7 +8,8 @@ var DEFAULTS = {
 	lineColor: '#000000',
 	fillColor: '#ffffff',
 	tool: 'doodle',
-	ghostDraw: true
+	ghostDraw: true,
+	maxUndoStackDepth: 50
 };
 
 var canvas;
@@ -356,11 +357,16 @@ function initToolbar() {
 			localStorage.ghostDraw = '';
 			preCanvas.classList.remove('ghost');
 		}
+		
+		if (e.target.maxUndoStackDepth.value !== '') {
+			localStorage.maxUndoStackDepth = e.target.maxUndoStackDepth.value;
+		}
 
 		e.target.close();
 	};
 	document.getElementById('settingsBtn').onclick = function () {
 		settingsDialog.ghostDraw.checked = localStorage.ghostDraw;
+		settingsDialog.maxUndoStackDepth.value = localStorage.maxUndoStackDepth;
 		settingsDialog.open();
 	};
 

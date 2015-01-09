@@ -1,5 +1,4 @@
 var undoStack = {
-	maxDepth: 50,
 	_undoStack: [],
 	_redoStack: [],
 	_currentState: undefined,
@@ -44,7 +43,7 @@ var undoStack = {
 	addState: function () {
 		// Add the last state to the undo stack.
 		if (this._currentState) {
-			if (this._undoStack.push(this._currentState) > this.maxDepth) {
+			if (this._undoStack.push(this._currentState) > localStorage.maxUndoStackDepth) {
 				// If the maximum stack depth has been exceeded, start removing the bottom
 				// of the stack.
 				this._undoStack.splice(0, 1);
