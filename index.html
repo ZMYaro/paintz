@@ -241,18 +241,20 @@
 			</form>
 			<form id="settingsDialog" class="dialog card z3" style="width: 384px;">
 				<h1>Settings</h1>
-				<p>
-					<label for="ghostDrawCheckbox">
-						<input type="checkbox" name="ghostDraw" id="ghostDrawCheckbox" style="float: right;" />
-						Semi-transparent drawing previews
-					</label>
-				</p>
-				<p>
-					<label for="maxUndoStackDepthInput">
-						<input type="number" min="1" max="1000" step="1" required="required" name="maxUndoStackDepth" id="maxUndoStackDepthInput" style="float: right;" />
-						Maximum undo levels
-					</label>
-				</p>
+				<ul class="list">
+					<li>
+						<label for="ghostDrawCheckbox" role="button">
+							<input type="checkbox" name="ghostDraw" id="ghostDrawCheckbox" style="float: right;" />
+							Semi-transparent drawing previews
+						</label>
+					</li>
+					<li>
+						<label for="maxUndoStackDepthInput">
+							<input type="number" min="1" max="1000" step="1" required="required" name="maxUndoStackDepth" id="maxUndoStackDepthInput" style="float: right;" />
+							Maximum undo levels
+						</label>
+					</li>
+				</ul>
 				<div style="text-align: right;">
 					<br />
 					<button type="button" onclick="parentElement.parentElement.close();">Cancel</button>

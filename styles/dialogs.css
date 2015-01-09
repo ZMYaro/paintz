@@ -94,7 +94,7 @@ textarea:focus {
 	border-color: #5767bd;
 }
 input[type="checkbox"] {
-	margin: -2px 8px;
+	margin: 0px 2px;
 }
 	input[type="checkbox"]:checked {
 		border-color: #5767bd;
