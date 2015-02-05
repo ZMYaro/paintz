@@ -9,7 +9,7 @@
  * @param {Number} startY - The y-coordinate of the shape's starting point.
  * @param {Number} [lineWidth] - The width of the shape's outline.
  * @param {String} [outlineOption] - Whether outline, fill, or both should be drawn
- * @param {String} [lineCalar] - The CSS color of the shape's outline.
+ * @param {String} [lineColor] - The CSS color of the shape's outline.
  */
 function Doodle(cxt, preCxt, button, startX, startY, lineWidth, outlineOption, lineColor) {
 	Shape.apply(this, arguments);
