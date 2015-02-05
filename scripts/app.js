@@ -26,6 +26,7 @@ var tools = {
 	line: Line,
 	rect: Rectangle,
 	oval: Oval,
+	eraser: Eraser,
 	floodFill: FloodFill,
 	eyedropper: Eyedropper
 };
@@ -91,6 +92,8 @@ function initToolbar() {
 				if (e.button === 0) {
 					localStorage.lineColor = e.target.dataset.value;
 					colorIndicator.style.borderColor = e.target.dataset.value;
+					// Some tools' cursors change with the line color, so reapply the cursor.
+					preCanvas.style.cursor = tools[localStorage.tool].cursor;
 				}
 			}
 		}, false);
@@ -101,6 +104,8 @@ function initToolbar() {
 			if (e.button === 2) {
 				localStorage.fillColor = e.target.dataset.value;
 				colorIndicator.style.backgroundColor = e.target.dataset.value;
+				// Some tools' cursors change with the fill color, so reapply the cursor.
+				preCanvas.style.cursor = tools[localStorage.tool].cursor;
 			}
 		}, false);
 	}
@@ -217,7 +222,6 @@ function initToolbar() {
 	colorIndicator.onclick = function () {
 		colorPickers.line.setHex(localStorage.lineColor);
 		colorPickerDialog.lineColorHex.value = localStorage.lineColor;
-
 		colorPickers.fill.setHex(localStorage.fillColor);
 		colorPickerDialog.fillColorHex.value = localStorage.fillColor;
 

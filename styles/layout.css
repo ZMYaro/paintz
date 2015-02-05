@@ -135,6 +135,9 @@ body {
 #ovalTool {
 	background-image: url('../images/icons/oval.png');
 }
+#eraserTool {
+	background-image: url('../images/icons/eraser.png');
+}
 #floodFillTool {
 	background-image: url('../images/icons/paint_bucket.png');
 }
