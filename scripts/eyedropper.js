@@ -25,10 +25,11 @@ Eyedropper.prototype.updatePreview = function (newX, newY) {
 	// Get the cursor position and add it to the stack.
 	var pixelPos = (newY * this._imageData.width + newX) * 4;
 	// Get the color of the clicked pixel.
-	var color = 'rgb(' +
-		this._imageData.data[pixelPos] + ',' +
-		this._imageData.data[pixelPos + 1] + ',' +
-		this._imageData.data[pixelPos + 2] + ')';
+	var color = ColorPicker.rgb2hex({
+		r: this._imageData.data[pixelPos],
+		g: this._imageData.data[pixelPos + 1],
+		b: this._imageData.data[pixelPos + 2]
+	});
 	
 	// Update the line or fill color with the user's selection.
 	if (this.button === 0) {
