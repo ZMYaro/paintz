@@ -168,7 +168,6 @@ body {
 }
 	#canvas {
 		z-index: 1;
-		background-color: white;
 	}
 	#preCanvas {
 		z-index: 2;

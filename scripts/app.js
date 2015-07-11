@@ -284,6 +284,7 @@ function initToolbar() {
 		preCxt.drawImage(canvas, 0, 0);
 		canvas.width = width;
 		canvas.height = height;
+		resetCanvas();
 		cxt.drawImage(preCanvas, 0, 0);
 		preCanvas.width = width;
 		preCanvas.height = height;
