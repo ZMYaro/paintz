@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2015-01-09, v1
+# 2015-07-21, v1
 index.html
 audio/pacman_start.mp3
 images/cursors/eyedropper.png
@@ -26,19 +26,22 @@ images/logo/128.png
 images/logo/256.png
 images/logo/favicon.ico
 scripts/app.js
-scripts/colorpicker.min.js
-scripts/doodle.js
-scripts/eyedropper.js
-scripts/floodfill.js
 scripts/keyboard.js
-scripts/line.js
-scripts/oval.js
 scripts/pacman.js
-scripts/rectangle.js
-scripts/shape.js
 scripts/undo.js
 scripts/utils.js
-scripts/materialz/material-touch.js
+scripts/lib/colorpicker.min.js
+scripts/lib/material-touch.js
+scripts/tools/doodle.js
+scripts/tools/drawing.js
+scripts/tools/eraser.js
+scripts/tools/eyedropper.js
+scripts/tools/floodfill.js
+scripts/tools/line.js
+scripts/tools/oval.js
+scripts/tools/rectangle.js
+scripts/tools/shape.js
+scripts/tools/tool.js
 styles/color_picker.css
 styles/dialogs.css
 styles/layout.css
