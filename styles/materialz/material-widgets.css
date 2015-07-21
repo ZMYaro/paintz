@@ -56,10 +56,6 @@ body {
 		-webkit-border-radius: 50%;
 		   -moz-border-radius: 50%;
 				border-radius: 50%;
-		
-		-webkit-box-shadow: none;
-		   -moz-box-shadow: none;
-				box-shadow: none;
 	}
 		*[role="toolbar"] button:hover,
 		*[role="toolbar"] button:focus,
