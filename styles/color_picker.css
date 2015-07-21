@@ -1,17 +1,5 @@
 @charset "UTF-8";
 
-#lineWidth {
-	vertical-align: top;
-}
-	#lineWidth:hover,
-	#lineWidth:focus {
-		background-color: rgba(255,255,255,0.07);
-	}
-	#lineWidth:active,
-	#lineWidth.active {
-		background-color: rgba(255,255,255,0.13);
-	}
-
 #toolbar #colors {
 	-webkit-box-sizing: border-box;
 	   -moz-box-sizing: border-box;

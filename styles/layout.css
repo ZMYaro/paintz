@@ -37,6 +37,20 @@ body {
 	#toolbar select {
 		background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAAICAYAAACs/DyzAAAAOUlEQVQ4y93PwQ0AMAgDMUZn8/BHqgr5Hd7AISnlyyAwk4ycmWTllklmbphk5z7JG7lH8lauJdG5AlouFwB1jHPVAAAAAElFTkSuQmCC');
 	}
+		#toolbar select:hover,
+		#toolbar select:focus {
+			background-color: rgba(255,255,255,0.07);
+		}
+		#toolbar select:active,
+		#toolbar select.active {
+			background-color: rgba(255,255,255,0.13);
+		}
+
+		#toolbar select#lineWidth {
+			margin-top: 12px;
+			margin-bottom: 10px;
+			margin-left: 10px;
+		}
 
 .toolbox {
 	display: inline-block;
