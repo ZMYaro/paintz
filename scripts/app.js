@@ -12,24 +12,14 @@ var DEFAULTS = {
 	maxUndoStackDepth: 50
 };
 
-var canvas;
-var preCanvas;
-var cursorCanvas;
-var cxt;
-var preCxt;
-var cursorCxt;
-var currentShape;
-var downloadLink;
-
-var tools = {
-	doodle: Doodle,
-	line: Line,
-	rect: Rectangle,
-	oval: Oval,
-	eraser: Eraser,
-	floodFill: FloodFill,
-	eyedropper: Eyedropper
-};
+var canvas,
+	preCanvas,
+	cursorCanvas,
+	cxt,
+	preCxt,
+	cursorCxt,
+	downloadLink,
+	tools;
 
 /**
  * Set up the Chrome Web Store links in the About dialog.
@@ -66,13 +56,13 @@ function initToolbar() {
 
 	document.getElementById('tools').onchange = function (e) {
 		localStorage.tool = e.target.value;
-		preCanvas.style.cursor = tools[e.target.value].cursor;
+		tools[e.target.value].activate();
 	};
 
 	document.getElementById('lineWidth').onchange = function (e) {
 		localStorage.lineWidth = e.target.value;
-		// Some tools' cursors change with the line width, so reapply the cursor.
-		preCanvas.style.cursor = tools[localStorage.tool].cursor;
+		// Some tools' cursors change with the line width, so reactivate the tool.
+		tools[localStorage.tool].activate();
 	};
 	
 	document.getElementById('outlineOptions').onchange = function (e) {
@@ -80,9 +70,9 @@ function initToolbar() {
 	}
 
 	// Set up the toolbar color picker.
-	var colorPicker = document.getElementById('colorPicker');
-	var colorIndicator = document.getElementById('colors');
-	var colors = colorPicker.getElementsByTagName('button');
+	var colorPicker = document.getElementById('colorPicker'),
+		colorIndicator = document.getElementById('colors'),
+		colors = colorPicker.getElementsByTagName('button');
 	for (var i = 0; i < colors.length; i++) {
 		// Handle left click.
 		colors[i].addEventListener('click', function (e) {
@@ -92,8 +82,8 @@ function initToolbar() {
 				if (e.button === 0) {
 					localStorage.lineColor = e.target.dataset.value;
 					colorIndicator.style.borderColor = e.target.dataset.value;
-					// Some tools' cursors change with the line color, so reapply the cursor.
-					preCanvas.style.cursor = tools[localStorage.tool].cursor;
+					// Some tools' cursors change with the line color, so reactivate the cursor.
+					tools[localStorage.tool].activate();
 				}
 			}
 		}, false);
@@ -104,8 +94,8 @@ function initToolbar() {
 			if (e.button === 2) {
 				localStorage.fillColor = e.target.dataset.value;
 				colorIndicator.style.backgroundColor = e.target.dataset.value;
-				// Some tools' cursors change with the fill color, so reapply the cursor.
-				preCanvas.style.cursor = tools[localStorage.tool].cursor;
+				// Some tools' cursors change with the fill color, so reactivate the cursor.
+				tools[localStorage.tool].activate();
 			}
 		}, false);
 	}
@@ -398,9 +388,9 @@ function initCanvas() {
 	preCxt.lineCap = 'round';
 
 	// Set up event listeners for drawing.
-	preCanvas.addEventListener('mousedown', startShape, false);
-	preCanvas.addEventListener('touchstart', startShape, false);
-	document.body.addEventListener('touchmove', updateShape, false);
+	preCanvas.addEventListener('mousedown', startTool, false);
+	preCanvas.addEventListener('touchstart', startTool, false);
+	document.body.addEventListener('touchmove', moveTool, false);
 
 	preCanvas.oncontextmenu = function (e) {
 		e.preventDefault();
@@ -428,14 +418,29 @@ function initSettings() {
 	document.getElementById('colors').style.borderColor = localStorage.lineColor;
 	document.getElementById('colors').style.backgroundColor = localStorage.fillColor;
 	document.getElementById('tools').tool.value = localStorage.tool;
-	preCanvas.style.cursor = tools[localStorage.tool].cursor;
 }
 
 /**
- * Start drawing a new shape.
+ * Initialize the tools.
+ */
+function initTools() {
+	tools = {
+		doodle: new DoodleTool(cxt, preCxt),
+		line: new LineTool(cxt, preCxt),
+		rect: new RectangleTool(cxt, preCxt),
+		oval: new OvalTool(cxt, preCxt),
+		eraser: new EraserTool(cxt, preCxt),
+		floodFill: new FloodFillTool(cxt, preCxt),
+		eyedropper: new EyedropperTool(cxt, preCxt)
+	};
+	tools[localStorage.tool].activate();
+}
+
+/**
+ * Start drawing with the current tool.
  * @param {MouseEvent|TouchEvent} e
  */
-function startShape(e) {
+function startTool(e) {
 	// Check whether it was a touch event.
 	var touch = !!e.touches;
 
@@ -450,72 +455,78 @@ function startShape(e) {
 	canvas.focus();
 
 	// Remove the event listeners for starting drawing.
-	preCanvas.removeEventListener('mousedown', startShape, false);
-	preCanvas.removeEventListener('touchstart', startShape, false);
+	preCanvas.removeEventListener('mousedown', startTool, false);
+	preCanvas.removeEventListener('touchstart', startTool, false);
 	
 	// Retrieve the values for the shape's properties.
-	var startX = Utils.getCanvasX(touch ? e.touches[0].pageX : e.pageX);
-	var startY = Utils.getCanvasY(touch ? e.touches[0].pageY : e.pageY);
+	var startX = Utils.getCanvasX(touch ? e.touches[0].pageX : e.pageX),
+		startY = Utils.getCanvasY(touch ? e.touches[0].pageY : e.pageY);
+	
+	// If a touch event has no button, treat it as the left mouse button.
+	if (touch && typeof e.button === 'undefined') {
+		e.button = 0;
+	}
 	
 	// Initialize the new shape.
-	currentShape = new tools[localStorage.tool](cxt, preCxt, e.button, startX, startY,
-		localStorage.lineWidth, localStorage.outlineOption,
-		localStorage.lineColor, localStorage.fillColor);
+	tools[localStorage.tool].start({
+		button: e.button,
+		x: startX,
+		y: startY
+	});
 
 	// Set the event listeners to continue and end drawing.
 	if (touch) {
-		document.body.addEventListener('touchend', completeShape, false);
-		document.body.addEventListener('touchleave', completeShape, false);
+		document.body.addEventListener('touchend', endTool, false);
 	} else {
-		document.body.addEventListener('mousemove', updateShape, false);
-		document.body.addEventListener('mouseup', completeShape, false);
-		document.body.addEventListener('mouseout', completeShape, false);
+		document.body.addEventListener('touchleave', endTool, false);
+		document.body.addEventListener('mousemove', moveTool, false);
+		document.body.addEventListener('mouseup', endTool, false);
+		document.body.addEventListener('mouseout', endTool, false);
 	}
 }
+
 /**
  * Complete the canvas or preview canvas with the shape currently being drawn.
  * @param {MouseEvent|TouchEvent} e
  */
-function updateShape(e) {
+function moveTool(e) {
 	e.preventDefault();
 	e.stopPropagation();
 
-	// Quit if no shape has been started;
-	if (!currentShape) {
-		return;
-	}
-
-	var touch = !!e.changedTouches;
-	var newX = Utils.getCanvasX(touch ? e.changedTouches[0].pageX : e.pageX);
-	var newY = Utils.getCanvasY(touch ? e.changedTouches[0].pageY : e.pageY);
+	var touch = !!e.changedTouches,
+		newX = Utils.getCanvasX(touch ? e.changedTouches[0].pageX : e.pageX),
+		newY = Utils.getCanvasY(touch ? e.changedTouches[0].pageY : e.pageY);
 
 	// Update the shape.
-	currentShape.updatePreview(newX, newY);
+	tools[localStorage.tool].move({
+		x: newX,
+		y: newY
+	});
 }
 /**
  * Complete the current shape and stop drawing.
  * @param {MouseEvent|TouchEvent} e
  */
-function completeShape(e) {
+function endTool(e) {
 	e.preventDefault();
 	e.stopPropagation();
 
 	// Remove the event listeners for ending drawing.
-	document.body.removeEventListener('mousemove', updateShape, false);
-	document.body.removeEventListener('mouseup', completeShape, false);
-	document.body.removeEventListener('mouseout', completeShape, false);
-	document.body.removeEventListener('touchend', completeShape, false);
-	document.body.removeEventListener('touchleave', completeShape, false);
+	document.body.removeEventListener('mousemove', moveTool, false);
+	document.body.removeEventListener('mouseup', endTool, false);
+	document.body.removeEventListener('mouseout', endTool, false);
+	document.body.removeEventListener('touchend', endTool, false);
+	document.body.removeEventListener('touchleave', endTool, false);
 
-	var touch = !!e.changedTouches;
-	var newX = Utils.getCanvasX(touch ? e.changedTouches[0].pageX : e.pageX);
-	var newY = Utils.getCanvasY(touch ? e.changedTouches[0].pageY : e.pageY);
+	var touch = !!e.changedTouches,
+		newX = Utils.getCanvasX(touch ? e.changedTouches[0].pageX : e.pageX),
+		newY = Utils.getCanvasY(touch ? e.changedTouches[0].pageY : e.pageY);
 
 	// Complete the shape.
-	currentShape.finish(newX, newY);
-
-	// Clear the shape data.
-	currentShape = null;
+	tools[localStorage.tool].end({
+		x: newX,
+		y: newY
+	});
 
 	// Copy the preview to the “permanent” canvas.
 	cxt.drawImage(preCanvas, 0, 0);
@@ -526,8 +537,8 @@ function completeShape(e) {
 	undoStack.addState();
 
 	// Set the event listeners to start the next drawing.
-	preCanvas.addEventListener('mousedown', startShape, false);
-	preCanvas.addEventListener('touchstart', startShape, false);
+	preCanvas.addEventListener('mousedown', startTool, false);
+	preCanvas.addEventListener('touchstart', startTool, false);
 }
 /**
  * Overwrite the canvas with the current fill color.
@@ -552,6 +563,7 @@ window.addEventListener('load', function () {
 	initToolbar();
 	initCanvas();
 	initSettings();
+	initTools();
 	// Get the canvas ready.
 	resetCanvas();
 	// Save the initial state.
