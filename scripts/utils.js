@@ -35,8 +35,14 @@ var Utils = {
 			setTimeout(function () {
 				dialogsContainer.classList.add('visible');
 				element.classList.add('open');
-				// Focus the first form element in the dialog.
-				element.querySelectorAll('button, input, select, textarea')[0].focus();
+				// Focus the first form element in the dialog.  If there are no input
+				// elements, focus the submit button.
+				var firstInput = element.querySelector('input, select, textarea');
+				if (firstInput) {
+					firstInput.focus();
+				} else {
+					element.querySelector('button[type=\"submit\"]').focus();
+				}
 			}, 1);
 		};
 		element.close = function (e) {
