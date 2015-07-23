@@ -13,6 +13,11 @@ body {
 #toolbar {
 	height: 112px;
 	padding: 0;
+	
+	white-space: nowrap;
+	overflow: hidden;
+	overflow-x: auto;
+	
 	background-color: #3f51b5;
 }
 	#toolbar .divider {
