@@ -88,6 +88,12 @@ SelectionTool.prototype.end = function (pointerState) {
 	if (this._selection.pointerOffset) {
 		delete this._selection.pointerOffset;
 	} else {
+		// If either dimension is zero, the selection is invalid.
+		if (this._selection.width === 0 || this._selection.height === 0) {
+			delete this._selection;
+			this._preCxt.clearRect(0, 0, this._preCxt.canvas.width, this._preCxt.canvas.height);
+			return;
+		}
 		if (this._selection.width < 0) {
 			this._selection.startX += this._selection.width;
 			this._selection.x = this._selection.startX;
@@ -98,6 +104,9 @@ SelectionTool.prototype.end = function (pointerState) {
 			this._selection.y = this._selection.startY;
 			this._selection.height = Math.abs(this._selection.height);
 		}
+		// Save the selected content in case the user moves it.
+		this._selection.content = this._cxt.getImageData(this._selection.startX, this._selection.startY,
+			this._selection.width, this._selection.height);
 	}
 };
 
@@ -110,6 +119,7 @@ SelectionTool.prototype.deactivate = function () {
 	this._drawSelectionContent();
 	this._cxt.drawImage(this._preCxt.canvas, 0, 0);
 	this._preCxt.clearRect(0, 0, this._preCxt.canvas.width, this._preCxt.canvas.height);
+	delete this._selection;
 };
 
 /**
@@ -134,12 +144,12 @@ SelectionTool.prototype._drawSelectionOutline = function () {
  * Draw the selected content in its new location and the background color over its former location.
  */
 SelectionTool.prototype._drawSelectionContent = function () {
-	if (!this._selection /*|| !this._selection.content*/) {
+	if (!this._selection || !this._selection.content) {
 		return;
 	}
 	
 	this._preCxt.fillStyle = localStorage.fillColor;
 	this._preCxt.fillRect(this._selection.startX, this._selection.startY,
 		this._selection.width, this._selection.height);
-	//this._preCxt.drawImage(this._selection.content, this._selection.x, this._selection.y);
+	this._preCxt.putImageData(this._selection.content, this._selection.x, this._selection.y);
 };
