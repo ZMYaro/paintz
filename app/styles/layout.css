@@ -185,8 +185,9 @@ body {
 
 #canvas, #preCanvas {
 	position: absolute;
-	left: 16px;
-	top: 136px; /* 24px padding + 112px toolbar */
+	top: 112px; /* Toolbar offset */
+	left: 0;
+	margin: 20px 16px 16px;
 }
 	#canvas {
 		z-index: 1;
