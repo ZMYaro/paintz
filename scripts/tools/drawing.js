@@ -62,5 +62,6 @@ DrawingTool.prototype.move = function (pointerState) {
  */
 DrawingTool.prototype.end = function (pointerState) {
 	this._cxt.drawImage(this._preCxt.canvas, 0, 0);
+	Utils.clearCanvas(this._preCxt);
 	undoStack.addState();
 };
