@@ -2,7 +2,15 @@
 
 var Utils = {
 	DIALOG_TRANSITION_DURATION: 200, // In milliseconds.
-
+	
+	/**
+	 * Clear all graphics in a given canvas.
+	 * @param {CanvasRenderingContext2D} cxt - The rendering context of the canvas to clear
+	 */
+	clearCanvas: function (cxt) {
+		cxt.clearRect(0, 0, cxt.canvas.width, cxt.canvas.height);
+	},
+	
 	/**
 	 * Get the x-coordinate of a click within the canvas.
 	 * @param {Number} pageX - The x-coordinate relative to the page

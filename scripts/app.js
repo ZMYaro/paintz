@@ -502,7 +502,7 @@ function endTool(e) {
 	// Copy the preview to the “permanent” canvas.
 	cxt.drawImage(preCanvas, 0, 0);
 	// Clear the preview canvas.
-	preCxt.clearRect(0, 0, preCanvas.width, preCanvas.height);
+	Utils.clearCanvas(preCxt);
 	
 	// Add the change to the undo stack.
 	undoStack.addState();
@@ -514,7 +514,6 @@ function endTool(e) {
  * Overwrite the canvas with the current fill color.
  */
 function resetCanvas() {
-	//cxt.clearRect(0, 0, canvas.width, canvas.height);
 	cxt.fillStyle = localStorage.fillColor;
 	cxt.fillRect(0, 0, canvas.width, canvas.height);
 }

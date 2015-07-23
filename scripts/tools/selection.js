@@ -60,7 +60,7 @@ SelectionTool.prototype.move = function (pointerState) {
 		return;
 	}
 	
-	this._preCxt.clearRect(0, 0, this._preCxt.canvas.width, this._preCxt.canvas.height);
+	Utils.clearCanvas(this._preCxt);
 	
 	// If there is no pointer offset, then this must be a new selection.
 	if (this._selection.pointerOffset) {
@@ -91,7 +91,7 @@ SelectionTool.prototype.end = function (pointerState) {
 		// If either dimension is zero, the selection is invalid.
 		if (this._selection.width === 0 || this._selection.height === 0) {
 			delete this._selection;
-			this._preCxt.clearRect(0, 0, this._preCxt.canvas.width, this._preCxt.canvas.height);
+			Utils.clearCanvas(this._preCxt);
 			return;
 		}
 		if (this._selection.width < 0) {
@@ -115,10 +115,10 @@ SelectionTool.prototype.end = function (pointerState) {
  * @override
  */
 SelectionTool.prototype.deactivate = function () {
-	this._preCxt.clearRect(0, 0, this._preCxt.canvas.width, this._preCxt.canvas.height);
+	Utils.clearCanvas(this._preCxt);
 	this._drawSelectionContent();
 	this._cxt.drawImage(this._preCxt.canvas, 0, 0);
-	this._preCxt.clearRect(0, 0, this._preCxt.canvas.width, this._preCxt.canvas.height);
+	Utils.clearCanvas(this._preCxt);
 	delete this._selection;
 };
 

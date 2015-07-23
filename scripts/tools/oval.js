@@ -19,15 +19,12 @@ OvalTool.prototype = Object.create(ShapeTool.prototype);
  */
 OvalTool.prototype.move = function (pointerState) {
 	ShapeTool.prototype.move.apply(this, arguments);
-
+	
 	var centerX = (pointerState.x + this.startX) / 2,
 		centerY = (pointerState.y + this.startY) / 2,
 		radX = (pointerState.x - this.startX) / 2,
 		radY = (pointerState.y - this.startY) / 2;
-
-	// Erase the previous preview.
-	this._preCxt.clearRect(0, 0, this._preCxt.canvas.width, this._preCxt.canvas.height);
-
+	
 	// Draw the new preview.
 	this._preCxt.lineWidth = this.lineWidth;
 	this._preCxt.strokeStyle = this.lineColor;
