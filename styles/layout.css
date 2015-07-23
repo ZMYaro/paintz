@@ -185,6 +185,7 @@ body {
 	}
 	#preCanvas {
 		z-index: 2;
+		touch-action: none;
 	}
 		#preCanvas.ghost {
 			opacity: 0.6;

@@ -25,7 +25,7 @@ var canvas,
  * Set up the Chrome Web Store links in the About dialog.
  */
 function initCWSLinks() {
-	if (chrome && chrome.app && chrome.app.isInstalled) {
+	if (window.chrome && chrome.app && chrome.app.isInstalled) {
 		document.getElementById('cwsInstallLink').style.display = 'none';
 		document.getElementById('cwsFeedbackLink').style.display = 'inline';
 	} else {
@@ -388,10 +388,7 @@ function initCanvas() {
 	preCxt.lineCap = 'round';
 
 	// Set up event listeners for drawing.
-	preCanvas.addEventListener('mousedown', startTool, false);
-	preCanvas.addEventListener('touchstart', startTool, false);
-	document.body.addEventListener('touchmove', moveTool, false);
-
+	preCanvas.addEventListener('pointerdown', startTool, false);
 	preCanvas.oncontextmenu = function (e) {
 		e.preventDefault();
 	};
@@ -441,48 +438,31 @@ function initTools() {
  * @param {MouseEvent|TouchEvent} e
  */
 function startTool(e) {
-	// Check whether it was a touch event.
-	var touch = !!e.touches;
-
-	// Quit if the left mouse button was not the button used.
-	if (!touch && e.button !== 0 && e.button !== 2) {
+	// Quit if the left or right mouse button was not the button used.
+	// (A touch is treated as a left mouse button.)
+	if (e.button !== 0 && e.button !== 2) {
 		return;
 	}
-
+	
 	e.preventDefault();
 	e.stopPropagation();
-
+	
+	// Remove the event listener for starting drawing.
+	preCanvas.removeEventListener('pointerdown', startTool, false);
+	
 	canvas.focus();
-
-	// Remove the event listeners for starting drawing.
-	preCanvas.removeEventListener('mousedown', startTool, false);
-	preCanvas.removeEventListener('touchstart', startTool, false);
-	
-	// Retrieve the values for the shape's properties.
-	var startX = Utils.getCanvasX(touch ? e.touches[0].pageX : e.pageX),
-		startY = Utils.getCanvasY(touch ? e.touches[0].pageY : e.pageY);
-	
-	// If a touch event has no button, treat it as the left mouse button.
-	if (touch && typeof e.button === 'undefined') {
-		e.button = 0;
-	}
 	
 	// Initialize the new shape.
 	tools[localStorage.tool].start({
 		button: e.button,
-		x: startX,
-		y: startY
+		x: Utils.getCanvasX(e.pageX),
+		y: Utils.getCanvasY(e.pageY)
 	});
-
+	
 	// Set the event listeners to continue and end drawing.
-	if (touch) {
-		document.body.addEventListener('touchend', endTool, false);
-	} else {
-		document.body.addEventListener('touchleave', endTool, false);
-		document.body.addEventListener('mousemove', moveTool, false);
-		document.body.addEventListener('mouseup', endTool, false);
-		document.body.addEventListener('mouseout', endTool, false);
-	}
+	document.body.addEventListener('pointermove', moveTool, false);
+	document.body.addEventListener('pointerup', endTool, false);
+	document.body.addEventListener('pointerleave', endTool, false);
 }
 
 /**
@@ -492,15 +472,11 @@ function startTool(e) {
 function moveTool(e) {
 	e.preventDefault();
 	e.stopPropagation();
-
-	var touch = !!e.changedTouches,
-		newX = Utils.getCanvasX(touch ? e.changedTouches[0].pageX : e.pageX),
-		newY = Utils.getCanvasY(touch ? e.changedTouches[0].pageY : e.pageY);
-
+	
 	// Update the shape.
 	tools[localStorage.tool].move({
-		x: newX,
-		y: newY
+		x: Utils.getCanvasX(e.pageX),
+		y: Utils.getCanvasY(e.pageY)
 	});
 }
 /**
@@ -510,35 +486,28 @@ function moveTool(e) {
 function endTool(e) {
 	e.preventDefault();
 	e.stopPropagation();
-
+	
 	// Remove the event listeners for ending drawing.
-	document.body.removeEventListener('mousemove', moveTool, false);
-	document.body.removeEventListener('mouseup', endTool, false);
-	document.body.removeEventListener('mouseout', endTool, false);
-	document.body.removeEventListener('touchend', endTool, false);
-	document.body.removeEventListener('touchleave', endTool, false);
-
-	var touch = !!e.changedTouches,
-		newX = Utils.getCanvasX(touch ? e.changedTouches[0].pageX : e.pageX),
-		newY = Utils.getCanvasY(touch ? e.changedTouches[0].pageY : e.pageY);
-
-	// Complete the shape.
+	document.body.removeEventListener('pointermove', moveTool, false);
+	document.body.removeEventListener('pointerup', endTool, false);
+	document.body.removeEventListener('pointerleave', endTool, false);
+	
+	// Complete the task.
 	tools[localStorage.tool].end({
-		x: newX,
-		y: newY
+		x: Utils.getCanvasX(e.pageX),
+		y: Utils.getCanvasY(e.pageY)
 	});
-
+	
 	// Copy the preview to the “permanent” canvas.
 	cxt.drawImage(preCanvas, 0, 0);
 	// Clear the preview canvas.
 	preCxt.clearRect(0, 0, preCanvas.width, preCanvas.height);
-
+	
 	// Add the change to the undo stack.
 	undoStack.addState();
-
+	
 	// Set the event listeners to start the next drawing.
-	preCanvas.addEventListener('mousedown', startTool, false);
-	preCanvas.addEventListener('touchstart', startTool, false);
+	preCanvas.addEventListener('pointerdown', startTool, false);
 }
 /**
  * Overwrite the canvas with the current fill color.

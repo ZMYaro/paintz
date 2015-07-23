@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2015-07-22, v1
+# 2015-07-22, v2
 index.html
 audio/pacman_start.mp3
 images/cursors/eyedropper.png
@@ -33,6 +33,7 @@ scripts/undo.js
 scripts/utils.js
 scripts/lib/colorpicker.min.js
 scripts/lib/material-touch.js
+scripts/lib/pep.min.js
 scripts/tools/doodle.js
 scripts/tools/drawing.js
 scripts/tools/eraser.js
