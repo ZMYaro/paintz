@@ -1,0 +1,260 @@
+/* Base Material styles for depth
+ * Part of the MaterialZ CSS library
+ *
+ * Copyright 2015 Zachary Yaro
+ * Released under the MIT license
+ * http://materialz.zmyaro.com/LICENSE.txt
+ */
+
+@charset "UTF-8";
+
+.z1,
+.z2,
+.z3,
+.z4,
+.z5 {
+	-webkit-transition-duration: 0.1s;
+	   -moz-transition-duration: 0.1s;
+	    -ms-transition-duration: 0.1s;
+	     -o-transition-duration: 0.1s;
+	        transition-duration: 0.1s;
+	-webkit-transition-timing-function: linear;
+	   -moz-transition-timing-function: linear;
+	    -ms-transition-timing-function: linear;
+	     -o-transition-timing-function: linear;
+	        transition-timing-function: linear;
+	-webkit-transition-property: -webkit-box-shadow, box-shadow;
+	   -moz-transition-property: -moz-box-shadow, box-shadow;
+	    -ms-transition-property: box-shadow;
+	     -o-transition-property: box-shadow;
+	        transition-property: box-shadow;
+}
+button.z1,
+button.z2,
+button.z3,
+button.z4,
+button.z5,
+*[role="button"].z1,
+*[role="button"].z2,
+*[role="button"].z3,
+*[role="button"].z4,
+*[role="button"].z5 ,
+input[type="button"].z1,
+input[type="button"].z2,
+input[type="button"].z3,
+input[type="button"].z4,
+input[type="button"].z5,
+input[type="submit"].z1,
+input[type="submit"].z2,
+input[type="submit"].z3,
+input[type="submit"].z4,
+input[type="submit"].z5,
+input[type="reset"].z1,
+input[type="reset"].z2,
+input[type="reset"].z3,
+input[type="reset"].z4,
+input[type="reset"].z5 {
+	background-color: #fafafa;
+}
+	button.z1:hover,
+	button.z2:hover,
+	button.z3:hover,
+	button.z4:hover,
+	button.z5:hover,
+	*[role="button"].z1:hover,
+	*[role="button"].z2:hover,
+	*[role="button"].z3:hover,
+	*[role="button"].z4:hover,
+	*[role="button"].z5:hover,
+	input[type="button"].z1:hover,
+	input[type="button"].z2:hover,
+	input[type="button"].z3:hover,
+	input[type="button"].z4:hover,
+	input[type="button"].z5:hover,
+	input[type="submit"].z1:hover,
+	input[type="submit"].z2:hover,
+	input[type="submit"].z3:hover,
+	input[type="submit"].z4:hover,
+	input[type="submit"].z5:hover,
+	input[type="reset"].z1:hover,
+	input[type="reset"].z2:hover,
+	input[type="reset"].z3:hover,
+	input[type="reset"].z4:hover,
+	input[type="reset"].z5:hover,
+	button.z1:focus,
+	button.z2:focus,
+	button.z3:focus,
+	button.z4:focus,
+	button.z5:focus,
+	*[role="button"].z1:focus,
+	*[role="button"].z2:focus,
+	*[role="button"].z3:focus,
+	*[role="button"].z4:focus,
+	*[role="button"].z5:focus,
+	input[type="button"].z1:focus,
+	input[type="button"].z2:focus,
+	input[type="button"].z3:focus,
+	input[type="button"].z4:focus,
+	input[type="button"].z5:focus,
+	input[type="submit"].z1:focus,
+	input[type="submit"].z2:focus,
+	input[type="submit"].z3:focus,
+	input[type="submit"].z4:focus,
+	input[type="submit"].z5:focus,
+	input[type="reset"].z1:focus,
+	input[type="reset"].z2:focus,
+	input[type="reset"].z3:focus,
+	input[type="reset"].z4:focus,
+	input[type="reset"].z5:focus {
+		background-color: #ffffff;
+	}
+	button.z1:enabled:active,
+	button.z2:enabled:active,
+	button.z3:enabled:active,
+	button.z4:enabled:active,
+	button.z5:enabled:active,
+	*[role="button"].z1:active,
+	*[role="button"].z2:active,
+	*[role="button"].z3:active,
+	*[role="button"].z4:active,
+	*[role="button"].z5:active,
+	input[type="button"].z1:enabled:active,
+	input[type="button"].z2:enabled:active,
+	input[type="button"].z3:enabled:active,
+	input[type="button"].z4:enabled:active,
+	input[type="button"].z5:enabled:active,
+	input[type="submit"].z1:enabled:active,
+	input[type="submit"].z2:enabled:active,
+	input[type="submit"].z3:enabled:active,
+	input[type="submit"].z4:enabled:active,
+	input[type="submit"].z5:enabled:active,
+	input[type="reset"].z1:enabled:active,
+	input[type="reset"].z2:enabled:active,
+	input[type="reset"].z3:enabled:active,
+	input[type="reset"].z4:enabled:active,
+	input[type="reset"].z5:enabled:active,
+	button.z1:enabled.active,
+	button.z2:enabled.active,
+	button.z3:enabled.active,
+	button.z4:enabled.active,
+	button.z5:enabled.active,
+	*[role="button"].z1.active,
+	*[role="button"].z2.active,
+	*[role="button"].z3.active,
+	*[role="button"].z4.active,
+	*[role="button"].z5.active,
+	input[type="button"].z1:enabled.active,
+	input[type="button"].z2:enabled.active,
+	input[type="button"].z3:enabled.active,
+	input[type="button"].z4:enabled.active,
+	input[type="button"].z5:enabled.active,
+	input[type="submit"].z1:enabled.active,
+	input[type="submit"].z2:enabled.active,
+	input[type="submit"].z3:enabled.active,
+	input[type="submit"].z4:enabled.active,
+	input[type="submit"].z5:enabled.active,
+	input[type="reset"].z1:enabled.active,
+	input[type="reset"].z2:enabled.active,
+	input[type="reset"].z3:enabled.active,
+	input[type="reset"].z4:enabled.active,
+	input[type="reset"].z5:enabled.active {
+		background-color: #f0f0f0;
+	}
+
+.z1 {
+	-webkit-box-shadow: rgba(0, 0, 0, 0.26) 0 2px 5px 0, rgba(0, 0, 0, 0.16) 0 2px 10px 0;
+	   -moz-box-shadow: rgba(0, 0, 0, 0.26) 0 2px 5px 0, rgba(0, 0, 0, 0.16) 0 2px 10px 0;
+	        box-shadow: rgba(0, 0, 0, 0.26) 0 2px 5px 0, rgba(0, 0, 0, 0.16) 0 2px 10px 0;
+	    filter:  progid:DXImageTransform.Microsoft.Glow(Color=#b8b8b8,Strength=5);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Glow(Color=#b8b8b8,Strength=5)";
+}
+
+button.z1:hover,
+button.z1:focus,
+*[role="button"].z1:hover,
+*[role="button"].z1:focus,
+input[type="button"].z1:hover,
+input[type="button"].z1:focus,
+input[type="submit"].z1:hover,
+input[type="submit"].z1:focus,
+input[type="reset"].z1:hover,
+input[type="reset"].z1:focus {
+	-webkit-box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.23), 0 4px 15px 0 rgba(0, 0, 0, 0.175);
+	   -moz-box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.23), 0 4px 15px 0 rgba(0, 0, 0, 0.175);
+	        box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.23), 0 4px 15px 0 rgba(0, 0, 0, 0.175);
+	    filter:  progid:DXImageTransform.Microsoft.Glow(Color=#b4b4b4,Strength=7);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Glow(Color=#b4b4b4,Strength=7)";
+}
+.z2,
+button.z1:enabled:active,
+button.z1:enabled.active,
+*[role="button"].z1:active,
+*[role="button"].z1.active,
+input[type="button"].z1:active,
+input[type="button"].z1.active,
+input[type="submit"].z1:active,
+input[type="submit"].z1.active,
+input[type="reset"].z1:active,
+input[type="reset"].z1.active {
+	-webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 8px 17px 0, rgba(0, 0, 0, 0.19) 0 6px 20px 0;
+	   -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 8px 17px 0, rgba(0, 0, 0, 0.19) 0 6px 20px 0;
+	        box-shadow: rgba(0, 0, 0, 0.2) 0 8px 17px 0, rgba(0, 0, 0, 0.19) 0 6px 20px 0;
+	    filter:  progid:DXImageTransform.Microsoft.Glow(Color=#b0b0b0,Strength=10);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Glow(Color=#b0b0b0,Strength=10)";
+}
+.z3,
+button.z2:enabled:active,
+button.z2:enabled.active,
+*[role="button"].z2:active,
+*[role="button"].z2.active,
+input[type="button"].z2:active,
+input[type="button"].z2.active,
+input[type="submit"].z2:active,
+input[type="submit"].z2.active,
+input[type="reset"].z2:active,
+input[type="reset"].z2.active {
+	-webkit-box-shadow: rgba(0, 0, 0, 0.24) 0 12px 15px 0, rgba(0, 0, 0, 0.19) 0 17px 50px 0;
+	   -moz-box-shadow: rgba(0, 0, 0, 0.24) 0 12px 15px 0, rgba(0, 0, 0, 0.19) 0 17px 50px 0;
+	        box-shadow: rgba(0, 0, 0, 0.24) 0 12px 15px 0, rgba(0, 0, 0, 0.19) 0 17px 50px 0;
+}
+.z4,
+button.z3:enabled:active,
+button.z3:enabled.active,
+*[role="button"].z3:active,
+*[role="button"].z3.active,
+input[type="button"].z3:active,
+input[type="button"].z3.active,
+input[type="submit"].z3:active,
+input[type="submit"].z3.active,
+input[type="reset"].z3:active,
+input[type="reset"].z3.active {
+	-webkit-box-shadow: rgba(0, 0, 0, 0.22) 0 16px 28px 0, rgba(0, 0, 0, 0.21) 0 25px 55px 0;
+	   -moz-box-shadow: rgba(0, 0, 0, 0.22) 0 16px 28px 0, rgba(0, 0, 0, 0.21) 0 25px 55px 0;
+	        box-shadow: rgba(0, 0, 0, 0.22) 0 16px 28px 0, rgba(0, 0, 0, 0.21) 0 25px 55px 0;
+}
+.z5,
+button.z4:enabled:active,
+button.z4:enabled.active,
+*[role="button"].z4:active,
+*[role="button"].z4.active,
+input[type="button"].z4:active,
+input[type="button"].z4.active,
+input[type="submit"].z4:active,
+input[type="submit"].z4.active,
+input[type="reset"].z4:active,
+input[type="reset"].z4.active {
+	-webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 27px 24px 0, rgba(0, 0, 0, 0.22) 0 40px 77px 0;
+	   -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 27px 24px 0, rgba(0, 0, 0, 0.22) 0 40px 77px 0;
+	        box-shadow: rgba(0, 0, 0, 0.2) 0 27px 24px 0, rgba(0, 0, 0, 0.22) 0 40px 77px 0;
+}
+button.z1:disabled,
+*[role="button"].z1.disabled,
+input[type="button"].z1.disabled,
+input[type="submit"].z1.disabled,
+input[type="reset"].z1.disabled {
+	-webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 2px 0, rgba(0, 0, 0, 0.14) 0 2px 5px 0;
+	   -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 2px 0, rgba(0, 0, 0, 0.14) 0 2px 5px 0;
+	        box-shadow: rgba(0, 0, 0, 0.2) 0 2px 2px 0, rgba(0, 0, 0, 0.14) 0 2px 5px 0;
+	    filter:  progid:DXImageTransform.Microsoft.Glow(Color=#b8b8b8,Strength=5);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Glow(Color=#b8b8b8,Strength=5)";
+}

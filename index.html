@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html manifest="cache.manifest">
+	<head>
+		<title>PaintZ</title>
+		
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		
+		<meta name="mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		
+		<link rel="author" href="https://plus.google.com/+ZacharyYaro" />
+		<link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/gdjcnhanmagpjdpilaehedkchegnkdoj" />
+
+		<meta name="msapplication-tooltip" content="Create and edit drawings" />
+		<meta name="msapplication-navbutton-color" content="#3f51b5" />
+		
+		<meta name="theme-color" content="#3f51b5" />
+		
+		<link rel="shortcut icon" type="image/x-icon" href="images/logo/favicon.ico" />
+		<link rel="icon" sizes="128x128" href="images/logo/128.png" />
+		<link rel="icon" sizes="256x256" href="images/logo/256.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="128x128" href="images/logo/128.png" />
+
+		<link rel="stylesheet" type="text/css" href="styles/materialz/material-elements.css" />
+		<link rel="stylesheet" type="text/css" href="styles/materialz/material-widgets.css" />
+		<link rel="stylesheet" type="text/css" href="styles/materialz/material-depth.css" />
+
+		<link rel="stylesheet" type="text/css" href="styles/fonts/roboto.css" />
+		<link rel="stylesheet" type="text/css" href="styles/layout.css" />
+		<link rel="stylesheet" type="text/css" href="styles/dialogs.css" />
+		<link rel="stylesheet" type="text/css" href="styles/color_picker.css" />
+		
+		<script type="text/javascript" src="scripts/lib/material-touch.js"></script>
+		<script type="text/javascript" src="scripts/lib/colorpicker.min.js"></script>
+		<script type="text/javascript" src="scripts/lib/pep.min.js"></script>
+		
+		<script type="text/javascript" src="scripts/utils.js"></script>
+		<script type="text/javascript" src="scripts/keyboard.js"></script>
+		<script type="text/javascript" src="scripts/undo.js"></script>
+		
+		<script type="text/javascript" src="scripts/tools/tool.js"></script>
+		<script type="text/javascript" src="scripts/tools/drawing.js"></script>
+		<script type="text/javascript" src="scripts/tools/shape.js"></script>
+		<script type="text/javascript" src="scripts/tools/doodle.js"></script>
+		<script type="text/javascript" src="scripts/tools/line.js"></script>
+		<script type="text/javascript" src="scripts/tools/rectangle.js"></script>
+		<script type="text/javascript" src="scripts/tools/oval.js"></script>
+		<script type="text/javascript" src="scripts/tools/eraser.js"></script>
+		<script type="text/javascript" src="scripts/tools/floodfill.js"></script>
+		<script type="text/javascript" src="scripts/tools/eyedropper.js"></script>
+		<script type="text/javascript" src="scripts/tools/selection.js"></script>
+		<script type="text/javascript" src="scripts/pacman.js"></script>
+		<script type="text/javascript" src="scripts/app.js"></script>
+	</head>
+	<body>
+		<div class="appBar z2" id="toolbar" role="toolbar">
+			<div class="toolbox">
+				<button id="clearBtn" title="Clear">
+					<img src="images/icons/clear.png" alt="Clear" />
+				</button>
+				<button id="openBtn" title="Open image... (Ctrl+O)">
+					<img src="images/icons/open.png" alt="Open..." />
+				</button>
+				<input type="file" accept="image/*" id="upload" style="display: none;" />
+				<button id="saveBtn" title="Save as... (Ctrl+S)">
+					<img src="images/icons/save.png" alt="Save as..." />
+				</button>
+				<br />
+				<button id="undoBtn" title="Undo" disabled="disabled">
+					<img src="images/icons/undo.png" alt="Undo (Ctrl+Z)" />
+				</button>
+				<button id="redoBtn" title="Redo" disabled="disabled">
+					<img src="images/icons/redo.png" alt="Redo (Ctrl+Y)" />
+				</button>
+				<button id="resizeBtn" title="Resize...">
+					<img src="images/icons/resize.png" alt="Resize..." />
+				</button>
+			</div>
+			<span class="divider"></span>
+			<form class="toolbox" id="tools">
+				<input type="radio" name="tool" value="doodle" id="doodleTool" title="Doodle" />
+				<input type="radio" name="tool" value="line" id="lineTool" title="Line" />
+				<input type="radio" name="tool" value="rect" id="rectTool" title="Rectangle" />
+				<input type="radio" name="tool" value="oval" id="ovalTool" title="Oval" />
+				<br />
+				<input type="radio" name="tool" value="eraser" id="eraserTool" title="Eraser" />
+				<input type="radio" name="tool" value="floodFill" id="floodFillTool" title="Flood fill" />
+				<input type="radio" name="tool" value="eyedropper" id="eyedropperTool" title="Color picker" />
+				<input type="radio" name="tool" value="selection" id="selectionTool" title="Selection" />
+			</form>
+			<span class="divider"></span>
+			<div class="toolbox">
+				<select title="Line width" id="lineWidth">
+					<option value="1">1px</option>
+					<option value="2">2px</option>
+					<option value="3">3px</option>
+					<option value="4">4px</option>
+					<option value="5">5px</option>
+					<option value="6">6px</option>
+					<option value="7">7px</option>
+					<option value="8">8px</option>
+					<option value="9">9px</option>
+					<option value="10">10px</option>
+					<option value="12">12px</option>
+					<option value="14">14px</option>
+					<option value="16">16px</option>
+					<option value="18">18px</option>
+					<option value="20">20px</option>
+					<option value="25">25px</option>
+					<option value="30">30px</option>
+				</select>
+				<br />
+				<form id="outlineOptions">
+					<input type="radio" name="outlineOption" value="outlineOnly" id="outlineOnly" title="Outline only" />
+					<input type="radio" name="outlineOption" value="fillOnly" id="fillOnly" title="Fill only" />
+					<input type="radio" name="outlineOption" value="outlineFill" id="outlineFill" title="Outline and fill" />
+				</form>
+			</div>
+			<span class="divider"></span>
+			<button title="Selected colors" id="colors" class="z1" style="border-color: white; background-color: white;"></button>
+			<div class="toolbox" id="colorPicker">
+				<button title="Black" data-value="#000000">Black</button>
+				<button title="Red" data-value="#F44336">Red</button>
+				<button title="Orange" data-value="#FF9800">Orange</button>
+				<button title="Yellow" data-value="#FFEB3B">Yellow</button>
+				<button title="Lime" data-value="#76FF03">Lime</button>
+				<br />
+				<button title="White" data-value="#FFFFFF">White</button>
+				<button title="Green" data-value="#4CAF50">Green</button>
+				<button title="Light blue" data-value="#80D8FF">Light blue</button>
+				<button title="Blue" data-value="#2962FF">Blue</button>
+				<button title="Purple" data-value="#9C27B0">Purple</button>
+			</div>
+			<span class="divider"></span>
+			<div class="toolbox">
+				<button id="settingsBtn" title="Settings">
+					<img src="images/icons/settings.png" alt="Settings" />
+				</button>
+				<br />
+				<button id="aboutBtn" title="About">
+					<img src="images/icons/info.png" alt="About" />
+				</button>
+			</div>
+		</div>
+
+		<canvas class="z1" id="canvas" width="640" height="480"></canvas>
+		<canvas id="preCanvas" width="640" height="480" touch-action="none"></canvas>
+
+		<div id="dialogs">
+			<form id="clearDialog" class="dialog card z3" style="width: 384px;">
+				<h1>Clear entire drawing?</h1>
+				<div style="text-align: right;">
+					<button type="button" onclick="parentElement.parentElement.close();">Cancel</button>
+					<button type="submit">Clear</button>
+				</div>
+			</form>
+			<form id="resizeDialog" class="dialog card z3" style="width: 384px;">
+				<h1>Resize</h1>
+				<input name="width" type="number" placeholder="Width" value="640" min="1" style="width: 40%;" />
+				&times;
+				<input name="height" type="number" placeholder="Height" value="480" min="1" style="width: 40%;" />
+				<div style="text-align: right;">
+					<br />
+					<button type="button" onclick="parentElement.parentElement.close();">Cancel</button>
+					<button type="submit">Resize</button>
+				</div>
+			</form>
+			<form id="colorPickerDialog" class="dialog card z3" style="width: 640px;">
+				<h1>Colors</h1>
+				<table cellpadding="0" style="margin: 0 auto;">
+					<tr>
+						<th colspan="3">Primary (line)</th>
+						<td style="width: 8px;"></td>
+						<th colspan="3">Secondary (fill)</th>
+					</tr>
+					<tr>
+						<td colspan="3">
+							<div id="lineColorPicker" class="picker">
+								<div class="picker-indicator"></div>
+							</div>
+							<div id="lineColorSlider" class="slide">
+								<div class="slide-indicator"></div>
+							</div>
+						</td>
+						<td></td>
+						<td colspan="3">
+							<div id="fillColorPicker" class="picker">
+								<div class="picker-indicator"></div>
+							</div>
+							<div id="fillColorSlider" class="slide">
+								<div class="slide-indicator"></div>
+							</div>
+						</td>
+					</tr>
+					<tr style="vertical-align: bottom;">
+						<td>
+							<div id="lineColorSample"></div>
+							<input type="text" pattern="#[0-9A-Fa-f]{6}" name="lineColorHex" style="width: 72px;" />
+						</td>
+						<td>
+							H
+							<input type="number" min="0" max="360" step="1" name="lineColorHue" />
+							<br />
+							S
+							<input type="number" min="0" max="100" step="1" name="lineColorSaturation" />
+							<br />
+							L
+							<input type="number" min="0" max="100" step="1" name="lineColorLightness" />
+						</td>
+						<td>
+							R
+							<input type="number" min="0" max="255" step="1" name="lineColorRed" />
+							<br />
+							G
+							<input type="number" min="0" max="255" step="1" name="lineColorGreen" />
+							<br />
+							B
+							<input type="number" min="0" max="255" step="1" name="lineColorBlue" />
+						</td>
+						<td></td>
+						<td>
+							<div id="fillColorSample"></div>
+							<input type="text" pattern="#[0-9A-Fa-f]{6}" name="fillColorHex" style="width: 72px;" />
+						</td>
+						<td>
+							H
+							<input type="number" min="0" max="360" step="1" name="fillColorHue" />
+							<br />
+							S
+							<input type="number" min="0" max="100" step="1" name="fillColorSaturation" />
+							<br />
+							L
+							<input type="number" min="0" max="100" step="1" name="fillColorLightness" />
+						</td>
+						<td>
+							R
+							<input type="number" min="0" max="255" step="1" name="fillColorRed" />
+							<br />
+							G
+							<input type="number" min="0" max="255" step="1" name="fillColorGreen" />
+							<br />
+							B
+							<input type="number" min="0" max="255" step="1" name="fillColorBlue" />
+						</td>
+					</tr>
+				</table>
+				<div style="text-align: right;">
+					<br />
+					<button type="button" onclick="parentElement.parentElement.close();">Cancel</button>
+					<button type="submit">Save</button>
+				</div>
+			</form>
+			<form id="settingsDialog" class="dialog card z3" style="width: 384px;">
+				<h1>Settings</h1>
+				<ul class="list">
+					<li>
+						<label for="ghostDrawCheckbox" role="button">
+							<input type="checkbox" name="ghostDraw" id="ghostDrawCheckbox" style="float: right;" />
+							Semi-transparent drawing previews
+						</label>
+					</li>
+					<li>
+						<label for="maxUndoStackDepthInput">
+							<input type="number" min="1" max="1000" step="1" required="required" name="maxUndoStackDepth" id="maxUndoStackDepthInput" style="float: right;" />
+							Maximum undo levels
+						</label>
+					</li>
+				</ul>
+				<div style="text-align: right;">
+					<br />
+					<button type="button" onclick="parentElement.parentElement.close();">Cancel</button>
+					<button type="submit">Save</button>
+				</div>
+			</form>
+			<form id="aboutDialog" class="dialog card z3" style="width: 640px;">
+				<h1>About PaintZ</h1>
+				<p>PaintZ was developed by <a href="http://zmyaro.com" target="_blank">Zachary Yaro</a>.  The source code is available <a href="https://github.com/zmyaro/paintz" target="_blank">on GitHub</a>.</p>
+				<p>PaintZ uses the <a href="https://github.com/zmyaro/materialz" target="_blank">MaterialZ CSS library</a>.</p>
+				<p>Icons and styling decisions were taken from or based on <a href="https://www.google.com/design/spec/material-design" target="_blank">Material Design</a> and <a href="http://materialdesignicons.com" target="_blank">Material Design Icons</a>.</p>
+				<p>Pac-Man is owned by Namco.</p>
+				<hr />
+				<p>
+					<a href="https://chrome.google.com/webstore/detail/paintz/gdjcnhanmagpjdpilaehedkchegnkdoj" target="_blank" id="cwsInstallLink" style="text-decoration: none;">
+						<img src="images/icons/cws.png" style="width: 24px; height: 24px; vertical-align: bottom;" alt="CWS icon" />
+						<span style="text-decoration: underline;">Install PaintZ from the Chrome Web Store for easy access</span>
+					</a>
+					<a href="https://chrome.google.com/webstore/detail/paintz/gdjcnhanmagpjdpilaehedkchegnkdoj/support" target="_blank" id="cwsFeedbackLink" style="text-decoration: none; display: none;">
+						<img src="images/icons/cws.png" style="width: 24px; height: 24px; vertical-align: bottom;" alt="CWS icon" />
+						<span style="text-decoration: underline;">Submit feeback on the Chrome Web Store</span>
+					</a>
+				</p>
+				<p>
+					Follow PaintZ on
+					<a href="https://facebook.com/PaintZApp" target="_blank">Facebook</a>
+					or
+					<a href="https://plus.google.com/108921275567738228489" rel="publisher" target="_blank">Google+</a>
+				</p>
+				<div style="text-align: right;">
+					<div style="float: left; padding-top: 18px;">
+						<span style="color: rgba(0,0,0,0.1);">Ctrl+Shift+</span><div style="display: inline-block; background-color: yellow; width: 16px; height: 16px; -webkit-border-radius: 50%; -moz-border-radius: 50%; border-radius: 50%; margin-bottom: -2px;"></div>
+					</div>
+					<button type="submit">Close</button>
+				</div>
+			</form>
+		</div>
+
+		<!-- Invisible elements. -->
+		<canvas id="cursorCanvas" width="64" height="64"></canvas>
+		<a id="downloadLink" download="untitled.png"></a>
+		<audio src="audio/pacman_start.mp3" id="pacManStartSound"></audio>
+	</body>
+</html>

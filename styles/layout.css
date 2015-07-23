@@ -1,0 +1,203 @@
+@charset "UTF-8";
+
+* {
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+
+body {
+	background-color: #e5e5e5;
+}
+
+#toolbar {
+	height: 112px;
+	padding: 0;
+	
+	white-space: nowrap;
+	overflow: hidden;
+	overflow-x: auto;
+	
+	background-color: #3f51b5;
+}
+	#toolbar .divider {
+		display: inline-block;
+		vertical-align: top;
+		height: 96px;
+		margin: 8px 0;
+		padding: 0;
+		width: 1px;
+		background-color: rgba(255,255,255,0.5);
+	}
+	#toolbar label {
+		margin-left: 4px;
+	}
+	#toolbar button {
+		margin: 0;
+	}
+		#toolbar button > img {
+			width: 32px;
+			height: 32px;
+		}
+	#toolbar select {
+		background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAAICAYAAACs/DyzAAAAOUlEQVQ4y93PwQ0AMAgDMUZn8/BHqgr5Hd7AISnlyyAwk4ycmWTllklmbphk5z7JG7lH8lauJdG5AlouFwB1jHPVAAAAAElFTkSuQmCC');
+	}
+		#toolbar select:hover,
+		#toolbar select:focus {
+			background-color: rgba(255,255,255,0.07);
+		}
+		#toolbar select:active,
+		#toolbar select.active {
+			background-color: rgba(255,255,255,0.13);
+		}
+
+		#toolbar select#lineWidth {
+			margin-top: 12px;
+			margin-bottom: 10px;
+			margin-left: 10px;
+		}
+
+.toolbox {
+	display: inline-block;
+	vertical-align: top;
+	margin: 0px;
+}
+	.toolbox input[type="radio"] {
+		-webkit-appearance: none;
+		   -moz-appearance: none;
+		        appearance: none;
+		width: 56px;
+		height: 56px;
+		margin: -2px;
+		padding: 0;
+
+		background-color: transparent;
+		background-position: center center;
+		background-size: 32px 32px;
+
+		border: 0 none;
+		-webkit-border-radius: 50%;
+		   -moz-border-radius: 50%;
+		        border-radius: 50%;
+
+		-webkit-box-shadow: none;
+		   -moz-box-shadow: none;
+		        box-shadow: none;
+
+		position: relative;
+	}
+		.toolbox input[type="radio"]:hover,
+		.toolbox input[type="radio"]:focus {
+			background-color: rgba(255,255,255,0.07);
+		}
+		.toolbox input[type="radio"]:active {
+			background-color: rgba(255,255,255,0.13);
+		}
+		.toolbox input[type="radio"]::after {
+			background-color: transparent;
+			/*border: 2px solid #40c4ff;*/
+			border: 2px solid #ffffff;
+			
+			left: 4px;
+			top: 4px;
+			right: 4px;
+			bottom: 4px;
+
+			opacity: 0;
+
+			-webkit-transform: scale(1.2);
+			   -moz-transform: scale(1.2);
+			    -ms-transform: scale(1.2);
+			     -o-transform: scale(1.2);
+			        transform: scale(1.2);
+			
+			-webkit-transition-property: all;
+			   -moz-transition-property: all;
+			    -ms-transition-property: all;
+			     -o-transition-property: all;
+			        transition-property: all;
+			-webkit-transition-duration: 0.1s;
+			   -moz-transition-duration: 0.1s;
+			    -ms-transition-duration: 0.1s;
+			     -o-transition-duration: 0.1s;
+			        transition-duration: 0.1s;
+			-webkit-transition-delay: 0;
+			   -moz-transition-delay: 0;
+			    -ms-transition-delay: 0;
+			     -o-transition-delay: 0;
+			        transition-delay: 0;
+		}
+			.toolbox input[type="radio"]:checked::after {
+				
+				-webkit-box-shadow: none;
+				   -moz-box-shadow: none;
+				        box-shadow: none;
+				
+				opacity: 1;
+
+				-webkit-transform: scale(1);
+				   -moz-transform: scale(1);
+				    -ms-transform: scale(1);
+				     -o-transform: scale(1);
+				        transform: scale(1);
+			}
+/* Tools */
+#doodleTool {
+	background-image: url('../images/icons/doodle.png');
+}
+#lineTool {
+	background-image: url('../images/icons/line.png');
+}
+#rectTool {
+	background-image: url('../images/icons/rect.png');
+}
+#ovalTool {
+	background-image: url('../images/icons/oval.png');
+}
+#eraserTool {
+	background-image: url('../images/icons/eraser.png');
+}
+#floodFillTool {
+	background-image: url('../images/icons/paint_bucket.png');
+}
+#eyedropperTool {
+	background-image: url('../images/icons/eyedropper.png');
+}
+#selectionTool {
+	background-image: url('../images/icons/selection.png');
+}
+/* Outline options */
+#outlineOptions input[type="radio"] {
+	width: 42px;
+	height: 42px;
+	background-size: 24px 24px;
+}
+#outlineOnly {
+	background-image: url('../images/icons/outline_only.png');
+}
+#fillOnly {
+	background-image: url('../images/icons/fill_only.png');
+}
+#outlineFill {
+	background-image: url('../images/icons/outline_fill.png');
+}
+
+
+#canvas, #preCanvas {
+	position: absolute;
+	left: 16px;
+	top: 136px; /* 24px padding + 112px toolbar */
+}
+	#canvas {
+		z-index: 1;
+	}
+	#preCanvas {
+		z-index: 2;
+		touch-action: none;
+	}
+		#preCanvas.ghost {
+			opacity: 0.6;
+		}
+#cursorCanvas, #downloadLink, #pacManStartSound {
+	display: none;
+}
