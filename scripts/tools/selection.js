@@ -39,6 +39,9 @@ SelectionTool.prototype.start = function (pointerState) {
 		};
 		this._preCxt.canvas.style.cursor = 'move';
 	} else {
+		// Save any existing selection.
+		this._saveSelection();
+		// Start a new selection.
 		this._selection = {
 			startX: pointerState.x,
 			startY: pointerState.y,
@@ -83,11 +86,8 @@ SelectionTool.prototype.move = function (pointerState) {
 SelectionTool.prototype.end = function (pointerState) {
 	this._preCxt.canvas.style.cursor = 'crosshair';
 	
-	// If the seleciton was being moved, just reset the pointer offset.
 	// If a new selection was created, ensure the dimensions are valid values.
-	if (this._selection.pointerOffset) {
-		delete this._selection.pointerOffset;
-	} else {
+	if (!this._selection.pointerOffset) {
 		// If either dimension is zero, the selection is invalid.
 		if (this._selection.width === 0 || this._selection.height === 0) {
 			delete this._selection;
@@ -115,10 +115,7 @@ SelectionTool.prototype.end = function (pointerState) {
  * @override
  */
 SelectionTool.prototype.deactivate = function () {
-	Utils.clearCanvas(this._preCxt);
-	this._drawSelectionContent();
-	this._cxt.drawImage(this._preCxt.canvas, 0, 0);
-	Utils.clearCanvas(this._preCxt);
+	this._saveSelection();
 	delete this._selection;
 };
 
@@ -152,4 +149,20 @@ SelectionTool.prototype._drawSelectionContent = function () {
 	this._preCxt.fillRect(this._selection.startX, this._selection.startY,
 		this._selection.width, this._selection.height);
 	this._preCxt.putImageData(this._selection.content, this._selection.x, this._selection.y);
+};
+
+/**
+ * Save the selection to the canvas if it was moved.
+ * @returns {Boolean} Whether the selection was saved.
+ */
+SelectionTool.prototype._saveSelection = function () {
+	if (!this._selection ||
+			(this._selection.x === this._selection.startX && this._selection.y === this._selection.startY)) {
+		return;
+	}
+	Utils.clearCanvas(this._preCxt);
+	this._drawSelectionContent();
+	this._cxt.drawImage(this._preCxt.canvas, 0, 0);
+	Utils.clearCanvas(this._preCxt);
+	undoStack.addState();
 };

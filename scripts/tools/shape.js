@@ -37,17 +37,8 @@ ShapeTool.prototype.start = function (pointerState) {
  * @param {Object} pointerState - The pointer coordinates
  */
 ShapeTool.prototype.move = function (pointerState) {
+	DrawingTool.prototype.move.apply(this, arguments);
+	
 	// Erase the previous preview.
 	Utils.clearCanvas(this._preCxt);
-	// Prepare the canvas to draw the updated preview.
-	this._prepareCanvas();
-};
-
-/**
- * Finish the shape when the pointer is released.
- * @override
- * @param {Object} pointerState - The pointer coordinates
- */
-ShapeTool.prototype.finish = function (pointerState) {
-	this.updatePreview(pointerState);
 };

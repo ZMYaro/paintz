@@ -60,6 +60,7 @@ DrawingTool.prototype.move = function (pointerState) {
  * @override
  * @param {Object} pointerState - The pointer coordinates
  */
-DrawingTool.prototype.finish = function (pointerState) {
-	this.updatePreview(pointerState);
+DrawingTool.prototype.end = function (pointerState) {
+	this._cxt.drawImage(this._preCxt.canvas, 0, 0);
+	undoStack.addState();
 };

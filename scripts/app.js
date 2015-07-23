@@ -55,6 +55,11 @@ function initToolbar() {
 	}
 
 	document.getElementById('tools').onchange = function (e) {
+		// Deactivate the current tool.
+		tools[localStorage.tool].deactivate();
+		// Clear the preview canvas.
+		Utils.clearCanvas(preCxt);
+		// Set and activate the newly-selected tool.
 		localStorage.tool = e.target.value;
 		tools[e.target.value].activate();
 	};
@@ -498,14 +503,6 @@ function endTool(e) {
 		x: Utils.getCanvasX(e.pageX),
 		y: Utils.getCanvasY(e.pageY)
 	});
-	
-	// Copy the preview to the “permanent” canvas.
-	cxt.drawImage(preCanvas, 0, 0);
-	// Clear the preview canvas.
-	Utils.clearCanvas(preCxt);
-	
-	// Add the change to the undo stack.
-	undoStack.addState();
 	
 	// Set the event listeners to start the next drawing.
 	preCanvas.addEventListener('pointerdown', startTool, false);

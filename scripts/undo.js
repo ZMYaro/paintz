@@ -83,6 +83,10 @@ var undoStack = {
 			this._updateUI();
 			return;
 		}
+		
+		// Warn the current tool of impending changes.
+		tools[localStorage.tool].deactivate();
+		
 		// Add the current state to the undo stack and restore the last state from
 		// the redo stack.
 		var restoreState = this._redoStack.pop();
@@ -90,6 +94,9 @@ var undoStack = {
 		this._applyState(restoreState);
 
 		this._updateUI();
+		
+		// Reactivate the current tool.
+		tools[localStorage.tool].activate();
 	},
 
 	/**
@@ -101,6 +108,10 @@ var undoStack = {
 			this._updateUI();
 			return;
 		}
+		
+		// Warn the current tool of impending changes.
+		tools[localStorage.tool].deactivate();
+		
 		// Add the current state to the redo stack and restore the last state from
 		// the undo stack.
 		var restoreState = this._undoStack.pop();
@@ -108,5 +119,8 @@ var undoStack = {
 		this._applyState(restoreState);
 
 		this._updateUI();
+		
+		// Reactivate the current tool.
+		tools[localStorage.tool].activate();
 	}
 };

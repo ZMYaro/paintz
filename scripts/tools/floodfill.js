@@ -182,4 +182,5 @@ FloodFillTool.prototype.start = function (pointerState) {
 	}
 	
 	this._fill(pointerState.x, pointerState.y);
+	undoStack.addState();
 };
