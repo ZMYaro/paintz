@@ -69,8 +69,8 @@ SelectionTool.prototype.move = function (pointerState) {
 	if (this._selection.pointerOffset) {
 		this._selection.x = pointerState.x - this._selection.pointerOffset.x;
 		this._selection.y = pointerState.y - this._selection.pointerOffset.y;
-		this._drawSelectionOutline();
 		this._drawSelectionContent();
+		this._drawSelectionOutline();
 	} else {
 		this._selection.width = pointerState.x - this._selection.x;
 		this._selection.height = pointerState.y - this._selection.y;
@@ -135,6 +135,7 @@ SelectionTool.prototype._drawSelectionOutline = function () {
 	this._preCxt.setLineDash([SelectionTool.OUTLINE_DASH_LENGTH, SelectionTool.OUTLINE_DASH_LENGTH]);
 	this._preCxt.strokeRect(this._selection.x, this._selection.y,
 		this._selection.width, this._selection.height);
+	this._preCxt.setLineDash([]);
 };
 
 /**
