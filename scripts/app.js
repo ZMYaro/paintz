@@ -466,9 +466,9 @@ function startTool(e) {
 	});
 	
 	// Set the event listeners to continue and end drawing.
-	document.body.addEventListener('pointermove', moveTool, false);
-	document.body.addEventListener('pointerup', endTool, false);
-	document.body.addEventListener('pointerleave', endTool, false);
+	document.addEventListener('pointermove', moveTool, false);
+	document.addEventListener('pointerup', endTool, false);
+	document.addEventListener('pointerleave', endTool, false);
 }
 
 /**
@@ -494,9 +494,9 @@ function endTool(e) {
 	e.stopPropagation();
 	
 	// Remove the event listeners for ending drawing.
-	document.body.removeEventListener('pointermove', moveTool, false);
-	document.body.removeEventListener('pointerup', endTool, false);
-	document.body.removeEventListener('pointerleave', endTool, false);
+	document.removeEventListener('pointermove', moveTool, false);
+	document.removeEventListener('pointerup', endTool, false);
+	document.removeEventListener('pointerleave', endTool, false);
 	
 	// Complete the task.
 	tools[localStorage.tool].end({
