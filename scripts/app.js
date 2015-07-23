@@ -428,7 +428,8 @@ function initTools() {
 		oval: new OvalTool(cxt, preCxt),
 		eraser: new EraserTool(cxt, preCxt),
 		floodFill: new FloodFillTool(cxt, preCxt),
-		eyedropper: new EyedropperTool(cxt, preCxt)
+		eyedropper: new EyedropperTool(cxt, preCxt),
+		selection: new SelectionTool(cxt, preCxt)
 	};
 	tools[localStorage.tool].activate();
 }

@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2015-07-23, v1
+# 2015-07-23, v2
 index.html
 audio/pacman_start.mp3
 images/cursors/eyedropper.png
@@ -43,6 +43,7 @@ scripts/tools/floodfill.js
 scripts/tools/line.js
 scripts/tools/oval.js
 scripts/tools/rectangle.js
+scripts/tools/selection.js
 scripts/tools/shape.js
 scripts/tools/tool.js
 styles/color_picker.css
