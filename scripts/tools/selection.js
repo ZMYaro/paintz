@@ -40,6 +40,8 @@ SelectionTool.prototype.start = function (pointerState) {
 		this._preCxt.canvas.style.cursor = 'move';
 	} else {
 		this._selection = {
+			startX: pointerState.x,
+			startY: pointerState.y,
 			x: pointerState.x,
 			y: pointerState.y,
 			width: 0,
@@ -65,6 +67,7 @@ SelectionTool.prototype.move = function (pointerState) {
 		this._selection.x = pointerState.x - this._selection.pointerOffset.x;
 		this._selection.y = pointerState.y - this._selection.pointerOffset.y;
 		this._drawSelectionOutline();
+		this._drawSelectionContent();
 	} else {
 		this._selection.width = pointerState.x - this._selection.x;
 		this._selection.height = pointerState.y - this._selection.y;
@@ -86,11 +89,13 @@ SelectionTool.prototype.end = function (pointerState) {
 		delete this._selection.pointerOffset;
 	} else {
 		if (this._selection.width < 0) {
-			this._selection.x += this._selection.width;
+			this._selection.startX += this._selection.width;
+			this._selection.x = this._selection.startX;
 			this._selection.width = Math.abs(this._selection.width);
 		}
 		if (this._selection.height < 0) {
-			this._selection.y += this._selection.height;
+			this._selection.startY += this._selection.height;
+			this._selection.y = this._selection.startY;
 			this._selection.height = Math.abs(this._selection.height);
 		}
 	}
@@ -101,6 +106,10 @@ SelectionTool.prototype.end = function (pointerState) {
  * @override
  */
 SelectionTool.prototype.deactivate = function () {
+	this._preCxt.clearRect(0, 0, this._preCxt.canvas.width, this._preCxt.canvas.height);
+	this._drawSelectionContent();
+	this._cxt.drawImage(this._preCxt.canvas, 0, 0);
+	this._preCxt.clearRect(0, 0, this._preCxt.canvas.width, this._preCxt.canvas.height);
 };
 
 /**
@@ -119,4 +128,18 @@ SelectionTool.prototype._drawSelectionOutline = function () {
 	this._preCxt.setLineDash([SelectionTool.OUTLINE_DASH_LENGTH, SelectionTool.OUTLINE_DASH_LENGTH]);
 	this._preCxt.strokeRect(this._selection.x, this._selection.y,
 		this._selection.width, this._selection.height);
+};
+
+/**
+ * Draw the selected content in its new location and the background color over its former location.
+ */
+SelectionTool.prototype._drawSelectionContent = function () {
+	if (!this._selection /*|| !this._selection.content*/) {
+		return;
+	}
+	
+	this._preCxt.fillStyle = localStorage.fillColor;
+	this._preCxt.fillRect(this._selection.startX, this._selection.startY,
+		this._selection.width, this._selection.height);
+	//this._preCxt.drawImage(this._selection.content, this._selection.x, this._selection.y);
 };
