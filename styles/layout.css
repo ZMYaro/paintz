@@ -158,6 +158,9 @@ body {
 #eyedropperTool {
 	background-image: url('../images/icons/eyedropper.png');
 }
+#selectionTool {
+	background-image: url('../images/icons/selection.png');
+}
 /* Outline options */
 #outlineOptions input[type="radio"] {
 	width: 42px;
