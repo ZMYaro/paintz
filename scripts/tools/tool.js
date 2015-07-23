@@ -37,3 +37,9 @@ Tool.prototype.move = function (pointerState) {
  */
 Tool.prototype.end = function (pointerState) {
 };
+
+/**
+ * Handle the tool no longer being the active tool.
+ */
+Tool.prototype.deactivate = function () {
+};

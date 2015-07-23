@@ -18,7 +18,25 @@ var Utils = {
 	getCanvasY: function (pageY) {
 		return pageY - preCanvas.offsetTop;
 	},
-
+	
+	/**
+	 * Check whether a point is inside a rectangle.
+	 * @param {Numebr} px - The x-coordinate of the point
+	 * @param {Numebr} py - The y-coordinate of the point
+	 * @param {Numebr} rx - The x-coordinate of the rectangle's upper-left corner
+	 * @param {Numebr} ry - The y-coordinate of the rectangle's upper-left corner
+	 * @param {Number} rw - The width of the rectangle
+	 * @param {Number} rh - The height of the rectangle
+	 * @returns {Boolean} Whether the point is inside the rectangle
+	 */
+	isPointInRect: function (px, py, rx, ry, rw, rh) {
+		if (px > rx && px < (rx + rw) &&
+				py > ry && py < (ry + rh)) {
+			return true;
+		}
+		return false;
+	},
+	
 	/**
 	 * Add dialog box functions to an element
 	 * @param {HTMLElement} element - The dialog's HTML element
