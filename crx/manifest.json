@@ -13,10 +13,10 @@
 	
 	"app": {
 		"urls": [
-			"http://paintz.zmyaro.com"
+			"*://paintz.zmyaro.com/"
 		],
 		"launch": {
-			"web_url": "http://paintz.zmyaro.com"
+			"web_url": "https://paintz.zmyaro.com"
 		}
 	},
 	"offline_enabled": true
