@@ -8,7 +8,7 @@ var DEFAULTS = {
 	lineColor: '#000000',
 	fillColor: '#ffffff',
 	tool: 'doodle',
-	ghostDraw: true,
+	ghostDraw: '',
 	maxUndoStackDepth: 50
 };
 
