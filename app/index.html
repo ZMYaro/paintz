@@ -147,9 +147,12 @@
 				<button id="settingsBtn" title="Settings">
 					<img src="images/icons/settings.png" alt="Settings" />
 				</button>
-				<br />
 				<button id="aboutBtn" title="About">
 					<img src="images/icons/info.png" alt="About" />
+				</button>
+				<br />
+				<button id="helpBtn" title="Help">
+					<img src="images/icons/help.png" alt="Help" />
 				</button>
 			</div>
 		</div>
@@ -281,6 +284,119 @@
 					<br />
 					<button type="button" onclick="parentElement.parentElement.close();">Cancel</button>
 					<button type="submit">Save</button>
+				</div>
+			</form>
+			<form id="helpDialog" class="dialog card z3" style="width: 640px;">
+				<h1>Help</h1>
+				<table>
+					<tr>
+						<th colspan="2">Actions</th>
+					</tr>
+					<tr>
+						<td>
+							<img src="images/icons/clear.png" alt="Clear icon" class="helpIcon" />
+						</td>
+						<td>
+							Clear your current drawing and start over.
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<img src="images/icons/open.png" alt="open icon" class="helpIcon" />
+						</td>
+						<td>
+							Open a new image for editing.
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<img src="images/icons/save.png" alt="save icon" class="helpIcon" />
+						</td>
+						<td>
+							Save your current drawing to your computer.
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<img src="images/icons/resize.png" alt="resize icon" class="helpIcon" />
+						</td>
+						<td>
+							Change the size of the drawing canvas.
+						</td>
+					</tr>
+					
+					<tr>
+						<th colspan="2">
+							Tools
+						</th>
+					</tr>
+					<tr>
+						<td>
+							<img src="images/icons/doodle.png" alt="doodle icon" class="helpIcon" />
+						</td>
+						<td>
+							Draw any shape you want in the current line color.  Right-click to use the current fill color.
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<img src="images/icons/line.png" alt="line icon" class="helpIcon" />
+						</td>
+						<td>
+							Draw a straight line in the current line color.  Right-click to use the current fill color.
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<img src="images/icons/rect.png" alt="rect icon" class="helpIcon" />
+						</td>
+						<td>
+							Draw a rectangle.  Right-click to swap the line and fill colors.
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<img src="images/icons/oval.png" alt="oval icon" class="helpIcon" />
+						</td>
+						<td>
+							Draw an oval.  Right-click to swap the line and fill colors.
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<img src="images/icons/eraser.png" alt="eraser icon" class="helpIcon" />
+						</td>
+						<td>
+							Cover any part of your drawing with the current fill color.  Right-click to use the current line color.
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<img src="images/icons/paint_bucket.png" alt="fill icon" class="helpIcon" />
+						</td>
+						<td>
+							Fill the section with the current line color.  Right-click to use the current fill color.
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<img src="images/icons/eyedropper.png" alt="eyedropper icon" class="helpIcon" />
+						</td>
+						<td>
+							Use the color under the cursor as the line color.  Right-click to select the fill color instead.
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<img src="images/icons/selection.png" alt="selection icon" class="helpIcon" />
+						</td>
+						<td>
+							Select a rectangular section of the image to move.
+						</td>
+					</tr>
+				</table>
+				<div style="text-align: right;">
+					<button type="submit">Close</button>
 				</div>
 			</form>
 			<form id="aboutDialog" class="dialog card z3" style="width: 640px;">

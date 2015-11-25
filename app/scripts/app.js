@@ -369,6 +369,11 @@ function initToolbar() {
 		settingsDialog.maxUndoStackDepth.value = localStorage.maxUndoStackDepth;
 		settingsDialog.open();
 	};
+	
+	// Help button and dialog.
+	var helpDialog = document.getElementById('helpDialog');
+	Utils.makeDialog(helpDialog);
+	document.getElementById('helpBtn').onclick = helpDialog.open;
 
 	// About button and dialog.
 	var aboutDialog = document.getElementById('aboutDialog');
