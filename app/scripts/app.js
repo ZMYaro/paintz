@@ -545,4 +545,9 @@ window.addEventListener('load', function () {
 	document.title = 'untitled.png - PaintZ'
 	
 	downloadLink = document.getElementById('downloadLink');
+	
+	if (!localStorage.firstRunDone) {
+		document.getElementById('helpDialog').open();
+		localStorage.firstRunDone = 'true';
+	}
 }, false);
