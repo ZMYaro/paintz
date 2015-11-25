@@ -121,7 +121,6 @@ hr {
 
 #helpDialog table {
 	text-align: left;
-	vertical-align: top;
 }
 .helpIcon {
 	width: 48px;
@@ -134,4 +133,5 @@ hr {
 	background-color: #3f51b5;
 	padding: 8px;
 	margin-right: 8px;
+	margin-top: 2px;
 }
