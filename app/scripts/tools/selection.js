@@ -121,6 +121,28 @@ SelectionTool.prototype.deactivate = function () {
 
 
 /**
+ * Drop the current selection and create a duplicate at (0,0).
+ */
+SelectionTool.prototype.duplicate = function () {
+	// Quit if there is no selection to duplicate.
+	if (!this._selection) {
+		return;
+	}
+	
+	// Stamp the selection at its current location.
+	this._saveSelection();
+	
+	// There is no starting region to cover.
+	this._selection.startX = this._preCxt.canvas.width + 10;
+	this._selection.startY = this._preCxt.canvas.height + 10;
+	// Move the selection to (0,0).
+	this._selection.x = 0;
+	this._selection.y = 0;
+	this._drawSelectionContent();
+	this._drawSelectionOutline();
+};
+
+/**
  * Select the entire canvas.
  * {Number} width - The width of the canvas
  * {Number} height - The height of the canvas
@@ -169,11 +191,13 @@ SelectionTool.prototype._drawSelectionContent = function () {
  * @returns {Boolean} Whether the selection was saved.
  */
 SelectionTool.prototype._saveSelection = function () {
+	Utils.clearCanvas(this._preCxt);
+	
 	if (!this._selection ||
 			(this._selection.x === this._selection.startX && this._selection.y === this._selection.startY)) {
 		return;
 	}
-	Utils.clearCanvas(this._preCxt);
+	
 	this._drawSelectionContent();
 	this._cxt.drawImage(this._preCxt.canvas, 0, 0);
 	Utils.clearCanvas(this._preCxt);

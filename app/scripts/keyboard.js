@@ -17,6 +17,16 @@ var keyManager = {
 					tools.selection.selectAll(canvas.width, canvas.height);
 				}
 				break;
+			case 68: // D
+				if (e.ctrlKey) {
+					e.preventDefault();
+					
+					if (localStorage.tool === 'selection') {
+						// Ctrl+D => Duplicate selection
+						tools.selection.duplicate();
+					}
+				}
+				break;
 			case 79: // O
 				if (e.ctrlKey) {
 					e.preventDefault();
