@@ -119,6 +119,18 @@ SelectionTool.prototype.deactivate = function () {
 	delete this._selection;
 };
 
+
+/**
+ * Select the entire canvas.
+ * {Number} width - The width of the canvas
+ * {Number} height - The height of the canvas
+ */
+SelectionTool.prototype.selectAll = function (width, height) {
+	this.start({x: 0, y: 0});
+	this.move({x: width, y: height});
+	this.end({x: width, y: height});
+};
+
 /**
  * Draw the dotted outline around the selection.
  */

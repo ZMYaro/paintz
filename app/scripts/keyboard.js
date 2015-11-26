@@ -14,9 +14,7 @@ var keyManager = {
 					// Update the toolbar.
 					document.getElementById('tools').tool.value = 'selection';
 					// Select the entire canvas.
-					tools.selection.start({x: 0, y: 0});
-					tools.selection.move({x: canvas.width, y: canvas.height});
-					tools.selection.end({x: canvas.width, y: canvas.height});
+					tools.selection.selectAll(canvas.width, canvas.height);
 				}
 				break;
 			case 79: // O
