@@ -202,3 +202,21 @@ body {
 #cursorCanvas, #downloadLink, #pacManStartSound {
 	display: none;
 }
+
+
+#canvas:-webkit-full-screen {
+	position: static;
+	margin: 0 auto;
+}
+#canvas:-moz-full-screen {
+	position: static;
+	margin: 0 auto;
+}
+#canvas:-ms-fullscreen {
+	position: static;
+	margin: 0 auto;
+}
+#canvas:fullscreen {
+	position: static;
+	margin: 0 auto;
+}

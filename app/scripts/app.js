@@ -343,7 +343,22 @@ function initToolbar() {
 	}, false);
 	// Save as button.
 	document.getElementById('saveBtn').addEventListener('click', downloadImage, false);
-
+	
+	// Full screen button.
+	document.getElementById('fullScreenBtn').onclick = function () {
+		if (canvas.requestFullscreen) {
+			canvas.requestFullscreen();
+		} else if (canvas.webkitRequestFullscreen) {
+			canvas.webkitRequestFullscreen();
+		} else if (canvas.mozRequestFullScreen) {
+			canvas.mozRequestFullScreen();
+		} else if (canvas.msRequestFullscreen) {
+			canvas.msRequestFullscreen();
+		} else {
+			alert('Sorry, your web browser does not support full screen mode.');
+		}
+	};
+	
 	// Settings button and dialog.
 	var settingsDialog = document.getElementById('settingsDialog');
 	Utils.makeDialog(settingsDialog);
