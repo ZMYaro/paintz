@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2015-07-23, v3
+# 2015-11-26, v1
 index.html
 audio/pacman_start.mp3
 images/cursors/eyedropper.png
@@ -10,6 +10,7 @@ images/icons/doodle.png
 images/icons/eraser.png
 images/icons/eyedropper.png
 images/icons/fill_only.png
+images/icons/help.png
 images/icons/info.png
 images/icons/line.png
 images/icons/open.png
