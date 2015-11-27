@@ -166,6 +166,9 @@ body {
 #selectionTool {
 	background-image: url('../images/icons/selection.png');
 }
+#panTool {
+	background-image: url('../images/icons/pan.png');
+}
 /* Outline options */
 #outlineOptions input[type="radio"] {
 	width: 42px;
