@@ -8,7 +8,7 @@ var DEFAULTS = {
 	lineColor: '#000000',
 	fillColor: '#ffffff',
 	tool: 'doodle',
-	ghostDraw: true,
+	ghostDraw: '',
 	maxUndoStackDepth: 50
 };
 
@@ -343,7 +343,22 @@ function initToolbar() {
 	}, false);
 	// Save as button.
 	document.getElementById('saveBtn').addEventListener('click', downloadImage, false);
-
+	
+	// Full screen button.
+	document.getElementById('fullScreenBtn').onclick = function () {
+		if (canvas.requestFullscreen) {
+			canvas.requestFullscreen();
+		} else if (canvas.webkitRequestFullscreen) {
+			canvas.webkitRequestFullscreen();
+		} else if (canvas.mozRequestFullScreen) {
+			canvas.mozRequestFullScreen();
+		} else if (canvas.msRequestFullscreen) {
+			canvas.msRequestFullscreen();
+		} else {
+			alert('Sorry, your web browser does not support full screen mode.');
+		}
+	};
+	
 	// Settings button and dialog.
 	var settingsDialog = document.getElementById('settingsDialog');
 	Utils.makeDialog(settingsDialog);
@@ -369,6 +384,11 @@ function initToolbar() {
 		settingsDialog.maxUndoStackDepth.value = localStorage.maxUndoStackDepth;
 		settingsDialog.open();
 	};
+	
+	// Help button and dialog.
+	var helpDialog = document.getElementById('helpDialog');
+	Utils.makeDialog(helpDialog);
+	document.getElementById('helpBtn').onclick = helpDialog.open;
 
 	// About button and dialog.
 	var aboutDialog = document.getElementById('aboutDialog');
@@ -434,7 +454,8 @@ function initTools() {
 		eraser: new EraserTool(cxt, preCxt),
 		floodFill: new FloodFillTool(cxt, preCxt),
 		eyedropper: new EyedropperTool(cxt, preCxt),
-		selection: new SelectionTool(cxt, preCxt)
+		selection: new SelectionTool(cxt, preCxt),
+		pan: new PanTool(cxt, preCxt)
 	};
 	tools[localStorage.tool].activate();
 }
@@ -540,4 +561,9 @@ window.addEventListener('load', function () {
 	document.title = 'untitled.png - PaintZ'
 	
 	downloadLink = document.getElementById('downloadLink');
+	
+	if (!localStorage.firstRunDone) {
+		document.getElementById('helpDialog').open();
+		localStorage.firstRunDone = 'true';
+	}
 }, false);

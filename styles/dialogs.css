@@ -8,6 +8,8 @@
 	top: 0;
 	right: 0;
 	bottom: 0;
+	
+	overflow: auto;
 
 	padding-top: 64px;
 
@@ -114,4 +116,22 @@ hr {
 	border-width: 1px 0 0;
 	border-color: #dfdfdf;
 	border-color: rgba(0,0,0,0.11);
+}
+
+
+#helpDialog table {
+	text-align: left;
+}
+.helpIcon {
+	width: 48px;
+	height: 48px;
+	
+	-webkit-border-radius: 50%;
+	   -moz-border-radius: 50%;
+	        border-radius: 50%;
+	
+	background-color: #3f51b5;
+	padding: 8px;
+	margin-right: 8px;
+	margin-top: 2px;
 }

@@ -166,6 +166,9 @@ body {
 #selectionTool {
 	background-image: url('../images/icons/selection.png');
 }
+#panTool {
+	background-image: url('../images/icons/pan.png');
+}
 /* Outline options */
 #outlineOptions input[type="radio"] {
 	width: 42px;
@@ -201,4 +204,22 @@ body {
 		}
 #cursorCanvas, #downloadLink, #pacManStartSound {
 	display: none;
+}
+
+
+#canvas:-webkit-full-screen {
+	position: static;
+	margin: 0 auto;
+}
+#canvas:-moz-full-screen {
+	position: static;
+	margin: 0 auto;
+}
+#canvas:-ms-fullscreen {
+	position: static;
+	margin: 0 auto;
+}
+#canvas:fullscreen {
+	position: static;
+	margin: 0 auto;
 }

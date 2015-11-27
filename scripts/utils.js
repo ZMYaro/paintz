@@ -95,13 +95,13 @@ var Utils = {
 
 	/**
 	 * A shim for supporting requestAnimationFrame in older browsers.
-	 * Inspired by Paul Irish.
+	 * Based on the one by Paul Irish.
 	 */
-	raf: (requestAnimationFrame ||
-		webkitRequestAnimationFrame ||
-		mozRequestAnimationFrame ||
-		msRequestAnimationFrame ||
-		oRequestAnimationFrame ||
+	raf: (window.requestAnimationFrame ||
+		window.webkitRequestAnimationFrame ||
+		window.mozRequestAnimationFrame ||
+		window.msRequestAnimationFrame ||
+		window.oRequestAnimationFrame ||
 		(function (func) {
 			setTimeout(func, 1000 / 60);
 		})).bind(window)
