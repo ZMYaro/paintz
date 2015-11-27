@@ -1,6 +1,18 @@
 var keyManager = {
 	_keyPressListener: function (e) {
 		switch (e.keyCode) {
+			case 8: // Backspace
+				if (localStorage.tool === 'selection') {
+					e.preventDefault();
+					tools.selection.clear();
+				}
+				break;
+			case 46: // Delete
+				if (localStorage.tool === 'selection') {
+					e.preventDefault();
+					tools.selection.clear();
+				}
+				break;
 			case 65: // A
 				if (e.ctrlKey) {
 					e.preventDefault();

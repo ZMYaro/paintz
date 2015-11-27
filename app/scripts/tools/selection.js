@@ -121,6 +121,23 @@ SelectionTool.prototype.deactivate = function () {
 
 
 /**
+ * Delete the currently selected content.
+ */
+SelectionTool.prototype.clear = function () {
+	// Quit if there is no selection to delete.
+	if (!this._selection) {
+		return;
+	}
+	
+	this._cxt.fillStyle = localStorage.fillColor;
+	this._cxt.fillRect(this._selection.startX, this._selection.startY,
+		this._selection.width, this._selection.height);
+	Utils.clearCanvas(this._preCxt);
+	undoStack.addState();
+	delete this._selection;
+};
+
+/**
  * Drop the current selection and create a duplicate at (0,0).
  */
 SelectionTool.prototype.duplicate = function () {
