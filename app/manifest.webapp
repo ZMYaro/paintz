@@ -1,6 +1,6 @@
 {
-	name: "PaintZ",
-	description: "Create and edit drawings.",
+	"name": "PaintZ",
+	"description": "Create and edit drawings.",
 	
 	"start_url": "/",
 	"display": "standalone",
