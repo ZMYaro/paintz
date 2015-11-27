@@ -45,6 +45,7 @@ scripts/tools/eyedropper.js
 scripts/tools/floodfill.js
 scripts/tools/line.js
 scripts/tools/oval.js
+scripts/tools/pan.js
 scripts/tools/rectangle.js
 scripts/tools/selection.js
 scripts/tools/shape.js

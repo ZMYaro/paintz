@@ -454,7 +454,8 @@ function initTools() {
 		eraser: new EraserTool(cxt, preCxt),
 		floodFill: new FloodFillTool(cxt, preCxt),
 		eyedropper: new EyedropperTool(cxt, preCxt),
-		selection: new SelectionTool(cxt, preCxt)
+		selection: new SelectionTool(cxt, preCxt),
+		pan: new PanTool(cxt, preCxt)
 	};
 	tools[localStorage.tool].activate();
 }
