@@ -92,6 +92,15 @@
 			border-style: none;
 		}
 
+input[type="number"] {
+	-webkit-appearance: none;
+	padding-right: 1em;
+}
+	input[type="number"]::-webkit-inner-spin-button,
+	input[type="number"]::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		        appearance: none;
+	}
 input[type="text"]:focus,
 input[type="search"]:focus,
 input[type="password"]:focus,
