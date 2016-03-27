@@ -245,8 +245,9 @@ function initToolbar() {
 	}, false);
 
 	// Clear button and dialog.
-	var clearDialog = document.getElementById('clearDialog');
-	Utils.makeDialog(clearDialog);
+	var clearDialog = document.getElementById('clearDialog'),
+		clearBtn = document.getElementById('clearBtn');
+	Utils.makeDialog(clearDialog, clearBtn);
 	clearDialog.onsubmit = function (e) {
 		e.preventDefault();
 		resetCanvas();
@@ -254,15 +255,16 @@ function initToolbar() {
 		undoStack.addState();
 		e.target.close();
 	};
-	document.getElementById('clearBtn').onclick = clearDialog.open;
+	clearBtn.onclick = clearDialog.open;
 
 	// Undo and redo buttons.
 	document.getElementById('undoBtn').onclick = undoStack.undo.bind(undoStack);
 	document.getElementById('redoBtn').onclick = undoStack.redo.bind(undoStack);
 
 	// Resize button and dialog.
-	var resizeDialog = document.getElementById('resizeDialog');
-	Utils.makeDialog(resizeDialog);
+	var resizeDialog = document.getElementById('resizeDialog'),
+		resizeBtn = document.getElementById('resizeBtn');
+	Utils.makeDialog(resizeDialog, resizeBtn);
 	resizeDialog.onsubmit = function (e) {
 		e.preventDefault();
 
@@ -291,7 +293,7 @@ function initToolbar() {
 
 		e.target.close();
 	};
-	document.getElementById('resizeBtn').onclick = function () {
+	resizeBtn.onclick = function () {
 		resizeDialog.width.value = localStorage.width;
 		resizeDialog.height.value = localStorage.height;
 		resizeDialog.open();
@@ -360,8 +362,9 @@ function initToolbar() {
 	};
 	
 	// Settings button and dialog.
-	var settingsDialog = document.getElementById('settingsDialog');
-	Utils.makeDialog(settingsDialog);
+	var settingsDialog = document.getElementById('settingsDialog'),
+		settingsBtn = document.getElementById('settingsBtn');
+	Utils.makeDialog(settingsDialog, settingsBtn);
 	settingsDialog.onsubmit = function (e) {
 		e.preventDefault();
 
@@ -379,21 +382,23 @@ function initToolbar() {
 
 		e.target.close();
 	};
-	document.getElementById('settingsBtn').onclick = function () {
+	settingsBtn.onclick = function () {
 		settingsDialog.ghostDraw.checked = localStorage.ghostDraw;
 		settingsDialog.maxUndoStackDepth.value = localStorage.maxUndoStackDepth;
 		settingsDialog.open();
 	};
 	
 	// Help button and dialog.
-	var helpDialog = document.getElementById('helpDialog');
-	Utils.makeDialog(helpDialog);
-	document.getElementById('helpBtn').onclick = helpDialog.open;
+	var helpDialog = document.getElementById('helpDialog'),
+		helpBtn = document.getElementById('helpBtn');
+	Utils.makeDialog(helpDialog, helpBtn);
+	helpBtn.onclick = helpDialog.open;
 
 	// About button and dialog.
-	var aboutDialog = document.getElementById('aboutDialog');
-	Utils.makeDialog(aboutDialog);
-	document.getElementById('aboutBtn').onclick = aboutDialog.open;
+	var aboutDialog = document.getElementById('aboutDialog'),
+		aboutBtn = document.getElementById('aboutBtn');
+	Utils.makeDialog(aboutDialog, aboutBtn);
+	aboutBtn.onclick = aboutDialog.open;
 }
 /**
  * Get the canvases and their drawing contexts, and set up event listeners.

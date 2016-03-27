@@ -48,16 +48,38 @@ var Utils = {
 	/**
 	 * Add dialog box functions to an element
 	 * @param {HTMLElement} element - The dialog's HTML element
+	 * @param {HTMLElement} [trigger] - The button that opens the dialog
 	 */
-	makeDialog: function (element) {
-		var dialogsContainer = document.getElementById('dialogs');
+	makeDialog: function (element, trigger) {
+		var toolbar = document.getElementById('toolbar'),
+			dialogsContainer = document.getElementById('dialogs');
+		
+		function setDialogTransformOrigin() {
+			// If there is no trigger element, do nothing.
+			if (typeof trigger === 'undefined') {
+				return;
+			}
+			element.style.WebkitTransformOrigin =
+				element.style.MozTransformOrigin =
+				element.style.MsTransformOrigin =
+				element.style.OTransformOrigin =
+				element.style.transformOrigin = (trigger.offsetLeft - toolbar.scrollLeft - element.offsetLeft) + 'px ' + (trigger.offsetTop - element.offsetTop) + 'px';
+			console.log(element.offsetLeft);
+			console.log(trigger.offsetLeft);
+			console.log('= ' + (element.offsetLeft - trigger.offsetLeft));
+			// Force a reflow.
+			element.offsetLeft;
+		}
+		
 		element.open = function () {
 			// Disable app keyboard shortcuts.
 			keyManager.disableAppShortcuts();
+			
 			// Show the dialog and dialog container.
 			dialogsContainer.style.display = 'block';
 			element.classList.add('visible');
-
+			setDialogTransformOrigin();
+			
 			setTimeout(function () {
 				dialogsContainer.classList.add('visible');
 				element.classList.add('open');
@@ -75,6 +97,8 @@ var Utils = {
 			if (e && e.preventDefault) {
 				e.preventDefault();
 			}
+			
+			setDialogTransformOrigin();
 			element.classList.remove('open');
 			dialogsContainer.classList.remove('visible');
 			// After the closing animation has completed, hide the dialog box element completely.
