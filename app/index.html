@@ -50,6 +50,7 @@
 		<script type="text/javascript" src="scripts/utils.js"></script>
 		<script type="text/javascript" src="scripts/keyboard.js"></script>
 		<script type="text/javascript" src="scripts/undo.js"></script>
+		<script type="text/javascript" src="scripts/zoom.js"></script>
 		
 		<script type="text/javascript" src="scripts/tools/tool.js"></script>
 		<script type="text/javascript" src="scripts/tools/drawing.js"></script>
@@ -166,7 +167,19 @@
 
 		<canvas class="z1" id="canvas" width="640" height="480"></canvas>
 		<canvas id="preCanvas" width="640" height="480" touch-action="none"></canvas>
-
+		
+		<div class="appBar z2" id="bottomBar" role="toolbar">
+			<input type="number" id="zoomPercent" value="100" maxlength="3" min="1" max="999" />
+			<span>%</span>
+			<button id="zoomOutBtn" title="Zoom out">
+				<img src="images/icons/zoom_out.png" alt="Zoom out" />
+			</button>
+			<input type="range" id="zoomSlider" list="zoomLevels" min="0" max="6" step="1" value="3" />
+			<button id="zoomInBtn" title="Zoom in">
+				<img src="images/icons/zoom_in.png" alt="Zoom in" />
+			</button>
+		</div>
+		
 		<div id="dialogs">
 			<form id="clearDialog" class="dialog card z3" style="width: 384px;">
 				<h1>Clear entire drawing?</h1>

@@ -84,14 +84,15 @@ DoodleTool.prototype.move = function (pointerState) {
  * @returns {String}
  */
 DoodleTool.getCursorCSS = function () {
-	cursorCanvas.width = cursorCanvas.height = parseInt(localStorage.lineWidth) + 2;
+	// Set the cursor size, capped at 128px.
+	cursorCanvas.width = cursorCanvas.height = Math.min(128, parseInt(localStorage.lineWidth) * zoomManager.level + 2);
 
 	cursorCxt.lineWidth = 1;
 	cursorCxt.strokeStyle = 'white';
 	cursorCxt.beginPath();
 	cursorCxt.arc(
 		cursorCanvas.width / 2, cursorCanvas.height / 2,
-		localStorage.lineWidth / 2,
+		localStorage.lineWidth * zoomManager.level / 2,
 		0, Math.PI * 2, false
 	);
 	cursorCxt.closePath();
@@ -102,7 +103,7 @@ DoodleTool.getCursorCSS = function () {
 	cursorCxt.beginPath();
 	cursorCxt.arc(
 		cursorCanvas.width / 2, cursorCanvas.height / 2,
-		localStorage.lineWidth / 2,
+		localStorage.lineWidth * zoomManager.level / 2,
 		0, Math.PI * 2, false
 	);
 	cursorCxt.closePath();

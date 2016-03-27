@@ -482,8 +482,8 @@ function startTool(e) {
 	// Initialize the new shape.
 	tools[localStorage.tool].start({
 		button: e.button,
-		x: Utils.getCanvasX(e.pageX),
-		y: Utils.getCanvasY(e.pageY)
+		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
+		y: Utils.getCanvasY(e.pageY) / zoomManager.level
 	});
 	
 	// Set the event listeners to continue and end drawing.
@@ -502,8 +502,8 @@ function moveTool(e) {
 	
 	// Update the shape.
 	tools[localStorage.tool].move({
-		x: Utils.getCanvasX(e.pageX),
-		y: Utils.getCanvasY(e.pageY)
+		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
+		y: Utils.getCanvasY(e.pageY) / zoomManager.level
 	});
 }
 /**
@@ -521,8 +521,8 @@ function endTool(e) {
 	
 	// Complete the task.
 	tools[localStorage.tool].end({
-		x: Utils.getCanvasX(e.pageX),
-		y: Utils.getCanvasY(e.pageY)
+		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
+		y: Utils.getCanvasY(e.pageY) / zoomManager.level
 	});
 	
 	// Set the event listeners to start the next drawing.
@@ -551,6 +551,7 @@ window.addEventListener('load', function () {
 	initCanvas();
 	initSettings();
 	initTools();
+	zoomManager.init();
 	// Get the canvas ready.
 	resetCanvas();
 	// Save the initial state.
