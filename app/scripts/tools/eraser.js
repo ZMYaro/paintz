@@ -97,7 +97,7 @@ EraserTool.prototype.move = function (pointerState) {
  */
 EraserTool.getCursorCSS = function () {
 	// Set the cursor size, capped at 128px.
-	cursorCanvas.width = cursorCanvas.height = Min(128, parseInt(localStorage.lineWidth) * zoomManager.level + 2);
+	cursorCanvas.width = cursorCanvas.height = Math.min(128, parseInt(localStorage.lineWidth) * zoomManager.level + 2);
 	
 	cursorCxt.lineWidth = 1;
 	cursorCxt.strokeStyle = 'black';
