@@ -46,7 +46,7 @@ var zoomManager = {
 		this._zoomPercentField.oninput = function () {
 			that.level = parseInt(this.value);
 		};
-		this._zoomSlider.onchange = function () {
+		this._zoomSlider.oninput = function () {
 			that.level = that.ZOOM_LEVELS[this.value];
 		};
 		this._zoomOutBtn.onclick = function () {
