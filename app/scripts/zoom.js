@@ -51,11 +51,11 @@ var zoomManager = {
 		};
 		this._zoomOutBtn.onclick = function () {
 			that._zoomSlider.stepDown();
-			that._zoomSlider.onchange();
+			that._zoomSlider.oninput();
 		};
 		this._zoomInBtn.onclick = function () {
 			that._zoomSlider.stepUp();
-			that._zoomSlider.onchange();
+			that._zoomSlider.oninput();
 		};
 	},
 	
