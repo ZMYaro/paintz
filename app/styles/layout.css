@@ -266,7 +266,7 @@ body {
 	position: absolute;
 	top: 112px; /* Toolbar offset */
 	left: 0;
-	margin: 20px 16px 16px;
+	margin: 20px 16px 48px;
 	
 	-ms-interpolation-mode: nearest-neighbor;
 	image-rendering: -webkit-optimize-contrast;
