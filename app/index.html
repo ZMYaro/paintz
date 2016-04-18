@@ -193,9 +193,24 @@
 			</form>
 			<form id="resizeDialog" class="dialog card z3" style="width: 384px;">
 				<h1>Resize</h1>
-				<input name="width" type="number" placeholder="Width" value="640" min="1" style="width: 40%;" />
-				&times;
-				<input name="height" type="number" placeholder="Height" value="480" min="1" style="width: 40%;" />
+				<ul class="list">
+					<li>
+						<input name="width" type="number" placeholder="Width" value="640" min="1" style="width: 40%;" />
+						&times;
+						<input name="height" type="number" placeholder="Height" value="480" min="1" style="width: 40%;" />
+					</li>
+					<li>
+						<label for="resizeCrop">
+							<input type="radio" name="resizeMode" value="crop" checked="checked" id="resizeCrop" />
+							Crop
+						</label>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<label for="resizeScale">
+							<input type="radio" name="resizeMode" value="scale" id="resizeScale" />
+							Scale
+						</label>
+					</li>
+				</ul>
 				<div style="text-align: right;">
 					<br />
 					<button type="button" onclick="parentElement.parentElement.close();">Cancel</button>

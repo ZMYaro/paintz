@@ -269,24 +269,29 @@ function initToolbar() {
 		e.preventDefault();
 
 		// Fetch the values from the form.
-		var width = parseInt(e.target.width.value);
-		var height = parseInt(e.target.height.value);
+		var newWidth = parseInt(e.target.width.value),
+			newHeight = parseInt(e.target.height.value),
+			mode = e.target.resizeMode.value;
 
 		// Validate the user's input.
-		if (!width || !height || isNaN(width) || isNaN(height) || width < 1 || height < 1) {
-			alert('The dimensions you entered were invalid.');
+		if (!newWidth || !newHeight || isNaN(newWidth) || isNaN(newHeight) || newWidth < 1 || newHeight < 1) {
+			alert('Please enter valid dimensions.');
 			return;
 		}
-
+		
 		preCxt.drawImage(canvas, 0, 0);
-		canvas.width = width;
-		canvas.height = height;
+		canvas.width = newWidth;
+		canvas.height = newHeight;
 		resetCanvas();
-		cxt.drawImage(preCanvas, 0, 0);
-		preCanvas.width = width;
-		preCanvas.height = height;
-		localStorage.width = width;
-		localStorage.height = height;
+		if (mode === 'scale') {
+			cxt.drawImage(preCanvas, 0, 0, newWidth, newHeight);
+		} else {
+			cxt.drawImage(preCanvas, 0, 0);
+		}
+		preCanvas.width = newWidth;
+		preCanvas.height = newHeight;
+		localStorage.width = newWidth;
+		localStorage.height = newHeight;
 
 		// Add the change to the undo stack.
 		undoStack.addState();
