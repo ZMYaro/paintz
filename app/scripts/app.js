@@ -452,6 +452,7 @@ function initSettings() {
  */
 function initTools() {
 	tools = {
+		pencil: new PencilTool(cxt, preCxt),
 		doodle: new DoodleTool(cxt, preCxt),
 		line: new LineTool(cxt, preCxt),
 		rect: new RectangleTool(cxt, preCxt),

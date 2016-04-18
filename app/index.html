@@ -55,6 +55,7 @@
 		<script type="text/javascript" src="scripts/tools/tool.js"></script>
 		<script type="text/javascript" src="scripts/tools/drawing.js"></script>
 		<script type="text/javascript" src="scripts/tools/shape.js"></script>
+		<script type="text/javascript" src="scripts/tools/pencil.js"></script>
 		<script type="text/javascript" src="scripts/tools/doodle.js"></script>
 		<script type="text/javascript" src="scripts/tools/line.js"></script>
 		<script type="text/javascript" src="scripts/tools/rectangle.js"></script>
@@ -93,16 +94,17 @@
 			</div>
 			<span class="divider"></span>
 			<form class="toolbox" id="tools">
+				<input type="radio" name="tool" value="pencil" id="pencilTool" title="Pencil" />
 				<input type="radio" name="tool" value="doodle" id="doodleTool" title="Doodle" />
 				<input type="radio" name="tool" value="line" id="lineTool" title="Line" />
 				<input type="radio" name="tool" value="rect" id="rectTool" title="Rectangle" />
 				<input type="radio" name="tool" value="oval" id="ovalTool" title="Oval" />
-				<input type="radio" name="tool" value="floodFill" id="floodFillTool" title="Flood fill" />
 				<br />
 				<input type="radio" name="tool" value="pan" id="panTool" title="Pan" />
 				<input type="radio" name="tool" value="selection" id="selectionTool" title="Selection" />
 				<input type="radio" name="tool" value="eraser" id="eraserTool" title="Eraser" />
 				<input type="radio" name="tool" value="eyedropper" id="eyedropperTool" title="Color picker" />
+				<input type="radio" name="tool" value="floodFill" id="floodFillTool" title="Flood fill" />
 			</form>
 			<span class="divider"></span>
 			<div class="toolbox">
@@ -350,6 +352,14 @@
 						<th colspan="2">
 							Tools
 						</th>
+					</tr>
+					<tr>
+						<td>
+							<img src="images/icons/pencil.png" alt="pencil icon" class="helpIcon" />
+						</td>
+						<td>
+							Draw single pixels in the current line color.  Right-click to use the current fill color.
+						</td>
 					</tr>
 					<tr>
 						<td>

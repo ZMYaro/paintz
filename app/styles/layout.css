@@ -159,6 +159,9 @@ body {
 				        transform: scale(1);
 			}
 /* Tools */
+#pencilTool {
+	background-image: url('../images/icons/pencil.png');
+}
 #doodleTool {
 	background-image: url('../images/icons/doodle.png');
 }
