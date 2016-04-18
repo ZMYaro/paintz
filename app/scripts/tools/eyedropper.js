@@ -16,7 +16,7 @@ EyedropperTool.prototype = Object.create(Tool.prototype);
  * @override
  */
 EyedropperTool.prototype.activate = function () {
-	this._preCxt.canvas.style.cursor = 'url(images/cursors/eyedropper.png) 3 15, default';
+	this._preCxt.canvas.style.cursor = 'url(images/cursors/eyedropper.cur), default';
 };
 
 /**

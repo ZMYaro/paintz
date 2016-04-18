@@ -127,7 +127,7 @@ FloodFillTool.prototype.activate = function () {
 	this._startColor = {};
 
 	
-	this._preCxt.canvas.style.cursor = 'url(images/cursors/paint_bucket.png) 3 15, default';
+	this._preCxt.canvas.style.cursor = 'url(images/cursors/paint_bucket.cur), default';
 };
 
 /**
