@@ -1,5 +1,5 @@
 var keyManager = {
-	_keyPressListener: function (e) {
+	_handleKeyDown: function (e) {
 		switch (e.keyCode) {
 			case 8: // Backspace
 				if (localStorage.tool === 'selection') {
@@ -71,10 +71,10 @@ var keyManager = {
 	},
 
 	enableAppShortcuts: function () {
-		window.addEventListener('keydown', this._keyPressListener, false);
+		window.addEventListener('keydown', this._handleKeyDown, false);
 	},
 
 	disableAppShortcuts: function () {
-		window.removeEventListener('keydown', this._keyPressListener, false);
+		window.removeEventListener('keydown', this._handleKeyDown, false);
 	}
 }
