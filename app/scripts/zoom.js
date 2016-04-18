@@ -17,6 +17,37 @@ var zoomManager = {
 	_zoomInBtn: undefined,
 	_zoomLevel: 1,
 	
+	get level() {
+		return this._zoomLevel;
+	},
+	
+	set level(percent) {
+		percent = Math.round(percent);
+		if (isNaN(percent) || percent < 1 || percent > 999) {
+			return;
+		}
+		
+		// Update the zoom UI.
+		this._zoomLevel = percent / 100;
+		this._zoomPercentField.value = percent;
+		this._zoomSlider.value = this._nearestZoomLevel(percent);
+		
+		// Resize the canvases accordingly.
+		canvas.style.WebkitTransform =
+			canvas.style.MozTransform =
+			canvas.style.MsTransform =
+			canvas.style.OTransform =
+			canvas.style.transform =
+			preCanvas.style.WebkitTransform =
+			preCanvas.style.MozTransform =
+			preCanvas.style.MsTransform =
+			preCanvas.style.OTransform =
+			preCanvas.style.transform = 'scale(' + percent / 100 + ')';
+		
+		// Allow the tool to update its cursor.
+		tools[localStorage.tool].activate();
+	},
+	
 	/**
 	 * Find the nearest zoom level to the given percentage.
 	 * @param {Number} percent - The specified zoom percentage
@@ -50,43 +81,20 @@ var zoomManager = {
 			that.level = that.ZOOM_LEVELS[this.value];
 		};
 		this._zoomOutBtn.onclick = function () {
-			that._zoomSlider.stepDown();
-			that._zoomSlider.oninput();
+			that.zoomOut();
 		};
 		this._zoomInBtn.onclick = function () {
-			that._zoomSlider.stepUp();
-			that._zoomSlider.oninput();
+			that.zoomIn();
 		};
 	},
 	
-	get level() {
-		return this._zoomLevel;
+	zoomIn: function () {
+		this._zoomSlider.stepUp();
+		this._zoomSlider.oninput();
 	},
 	
-	set level(percent) {
-		percent = Math.round(percent);
-		if (isNaN(percent) || percent < 1 || percent > 999) {
-			return;
-		}
-		
-		// Update the zoom UI.
-		this._zoomLevel = percent / 100;
-		this._zoomPercentField.value = percent;
-		this._zoomSlider.value = this._nearestZoomLevel(percent);
-		
-		// Resize the canvases accordingly.
-		canvas.style.WebkitTransform =
-			canvas.style.MozTransform =
-			canvas.style.MsTransform =
-			canvas.style.OTransform =
-			canvas.style.transform =
-			preCanvas.style.WebkitTransform =
-			preCanvas.style.MozTransform =
-			preCanvas.style.MsTransform =
-			preCanvas.style.OTransform =
-			preCanvas.style.transform = 'scale(' + percent / 100 + ')';
-		
-		// Allow the tool to update its cursor.
-		tools[localStorage.tool].activate();
+	zoomOut: function () {
+		this._zoomSlider.stepDown();
+		this._zoomSlider.oninput();
 	}
 };

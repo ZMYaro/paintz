@@ -67,6 +67,20 @@ var keyManager = {
 					undoStack.undo();
 				}
 				break;
+			case 187: // =/+
+				if (e.ctrlKey && e.altKey) {
+					e.preventDefault();
+					// Ctrl+Alt+= => Zoom in
+					zoomManager.zoomIn();
+				}
+				break;
+			case 189: // -/_
+				if (e.ctrlKey && e.altKey) {
+					e.preventDefault();
+					// Ctrl+Alt+- => Zoom out
+					zoomManager.zoomOut();
+				}
+				break;
 		}
 	},
 
