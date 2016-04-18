@@ -51,7 +51,7 @@ PencilTool.prototype.start = function (pointerState) {
 	
 	this._lineColor = Utils.colorToRGB(this._lineColor);
 	
-	this._drawPoint(pointerState.x, pointerState.y);
+	this._drawPoint(Math.floor(pointerState.x), Math.floor(pointerState.y));
 };
 
 /**

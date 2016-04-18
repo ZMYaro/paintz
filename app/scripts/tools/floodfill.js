@@ -142,6 +142,6 @@ FloodFillTool.prototype.start = function (pointerState) {
 		this._fillColor = Utils.colorToRGB(localStorage.fillColor);
 	}
 	
-	this._fill(pointerState.x, pointerState.y);
+	this._fill(Math.floor(pointerState.x), Math.floor(pointerState.y));
 	undoStack.addState();
 };
