@@ -103,9 +103,6 @@ var Utils = {
 				element.style.MsTransformOrigin =
 				element.style.OTransformOrigin =
 				element.style.transformOrigin = (trigger.offsetLeft - toolbar.scrollLeft - element.offsetLeft) + 'px ' + (trigger.offsetTop - element.offsetTop) + 'px';
-			console.log(element.offsetLeft);
-			console.log(trigger.offsetLeft);
-			console.log('= ' + (element.offsetLeft - trigger.offsetLeft));
 			// Force a reflow.
 			element.offsetLeft;
 		}
