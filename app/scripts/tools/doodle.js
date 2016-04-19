@@ -84,9 +84,16 @@ DoodleTool.prototype.move = function (pointerState) {
  * @returns {String}
  */
 DoodleTool.getCursorCSS = function () {
+	var size = parseInt(localStorage.lineWidth) * zoomManager.level + 2;
+	
 	// Set the cursor size, capped at 128px.
-	cursorCanvas.width = cursorCanvas.height = Math.min(128, parseInt(localStorage.lineWidth) * zoomManager.level + 2);
-
+	cursorCanvas.width = cursorCanvas.height = Math.min(128, size);
+	
+	// Switch to a crosshair when the cursor gets too big.
+	if (size > 128 * Math.sqrt(2)) {
+		return 'crosshair';
+	}
+	
 	cursorCxt.lineWidth = 1;
 	cursorCxt.strokeStyle = 'white';
 	cursorCxt.beginPath();
@@ -113,7 +120,7 @@ DoodleTool.getCursorCSS = function () {
 
 	var cursorCSS = 'url(' + cursorDataURL + ')'; // Data URL
 	cursorCSS += ' ' + (cursorCanvas.width / 2) + ' ' + (cursorCanvas.height / 2); // Positioning
-	cursorCSS += ', default'; // Fallback
+	cursorCSS += ', crosshair'; // Fallback
 
 	return cursorCSS;
 };
