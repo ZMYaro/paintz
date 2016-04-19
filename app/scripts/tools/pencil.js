@@ -7,11 +7,7 @@
  */
 function PencilTool(cxt, preCxt) {
 	DrawingTool.apply(this, arguments);
-	if (window.ImageData) {
-		this._imgData = new ImageData(1, 1);
-	} else if (cxt.createImageData) {
-		this._imageData = cxt.createImageData(1, 1);
-	}
+	this._imageData = cxt.createImageData(1, 1);
 }
 
 PencilTool.prototype = Object.create(DrawingTool.prototype);
