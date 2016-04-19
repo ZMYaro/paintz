@@ -29,11 +29,11 @@ PencilTool.prototype.activate = function () {
  */
 PencilTool.prototype._drawPoint = function (x, y) {
 	var cxt = localStorage.ghostDraw ? this._preCxt : this._cxt;
-	this._imgData.data[0] = this._lineColor.r;
-	this._imgData.data[1] = this._lineColor.g;
-	this._imgData.data[2] = this._lineColor.b;
-	this._imgData.data[3] = 255;
-	cxt.putImageData(this._imgData, x, y);
+	this._imageData.data[0] = this._lineColor.r;
+	this._imageData.data[1] = this._lineColor.g;
+	this._imageData.data[2] = this._lineColor.b;
+	this._imageData.data[3] = 255;
+	cxt.putImageData(this._imageData, x, y);
 };
 
 
