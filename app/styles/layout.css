@@ -302,16 +302,23 @@ body {
 #canvas:-webkit-full-screen {
 	position: static;
 	margin: 0 auto;
+	-webkit-transform: scale(1) !important;
+	        transform: scale(1) !important;
 }
 #canvas:-moz-full-screen {
 	position: static;
 	margin: 0 auto;
+	-moz-transform: scale(1) !important;
+	     transform: scale(1) !important;
 }
 #canvas:-ms-fullscreen {
 	position: static;
 	margin: 0 auto;
+	-ms-transform: scale(1) !important;
+	    transform: scale(1) !important;
 }
 #canvas:fullscreen {
 	position: static;
 	margin: 0 auto;
+	transform: scale(1) !important;
 }
