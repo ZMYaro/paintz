@@ -118,45 +118,6 @@ FloodFillTool.prototype._colorPixel = function (pixelPos) {
 };
 
 /**
- * Convert a CSS color to RGB values.
- * @param {String} cssColor - The CSS color to parse
- * @returns {Object} - A map of `r`, `g`, and `b` to their number values
- */
-FloodFillTool.prototype._colorToRGB = function (cssColor) {
-	if (cssColor.charAt(0) === '#') {
-		var result = (/^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i).exec(cssColor);
-		if (result) {
-			return {
-				r: parseInt(result[1], 16),
-				g: parseInt(result[2], 16),
-				b: parseInt(result[3], 16)
-			};
-		}
-	}
-	return {
-		black: {r: 0, g: 0, b: 0},
-		blue: {r: 0, g: 0, b: 255},
-		brown: {r: 165, g: 42, b: 42},
-		cyan: {r: 0, g: 255, b: 255},
-		gray: {r: 128, g: 128, b: 128},
-		green: {r: 0, g: 128, b: 0},
-		indigo : {r: 75, g: 0, b: 130},
-		lightblue: {r: 173, g: 216, b: 230},
-		lime: {r: 0, g: 255, b: 0},
-		magenta: {r: 255, g: 0, b: 255},
-		navy: {r: 0, g: 0, b: 128},
-		olive: {r: 128, g: 128, b: 0},
-		orange: {r: 255, g: 165, b: 0},
-		purple: {r: 128, g: 0, b: 128},
-		red: {r: 255, g: 0, b: 0},
-		teal: {r: 0, g: 128, b: 128},
-		violet: {r: 238, g: 130, b: 238},
-		white: {r: 255, g: 255, b: 255},
-		yellow: {r: 255, g: 255, b: 0}
-	}[cssColor];
-};
-
-/**
  * Handle the flood fill tool becoming the active tool.
  * @override
  */
@@ -166,7 +127,7 @@ FloodFillTool.prototype.activate = function () {
 	this._startColor = {};
 
 	
-	this._preCxt.canvas.style.cursor = 'url(images/cursors/paint_bucket.png) 3 15, default';
+	this._preCxt.canvas.style.cursor = 'url(images/cursors/paint_bucket.cur), default';
 };
 
 /**
@@ -176,11 +137,11 @@ FloodFillTool.prototype.activate = function () {
  */
 FloodFillTool.prototype.start = function (pointerState) {
 	if (pointerState.button !== 2) {
-		this._fillColor = this._colorToRGB(localStorage.lineColor);
+		this._fillColor = Utils.colorToRGB(localStorage.lineColor);
 	} else {
-		this._fillColor = this._colorToRGB(localStorage.fillColor);
+		this._fillColor = Utils.colorToRGB(localStorage.fillColor);
 	}
 	
-	this._fill(pointerState.x, pointerState.y);
+	this._fill(Math.floor(pointerState.x), Math.floor(pointerState.y));
 	undoStack.addState();
 };

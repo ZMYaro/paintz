@@ -10,15 +10,24 @@ body {
 	background-color: #e5e5e5;
 }
 
+.icon {
+	display: inline-block;
+	pointer-events: none;
+	z-index: -1;
+}
+
+#toolbar,
+#bottomBar {
+	background-color: #3f51b5;
+	overflow: hidden;
+}
+
 #toolbar {
 	height: 112px;
 	padding: 0;
 	
 	white-space: nowrap;
-	overflow: hidden;
 	overflow-x: auto;
-	
-	background-color: #3f51b5;
 }
 	#toolbar .divider {
 		display: inline-block;
@@ -55,12 +64,20 @@ body {
 			margin-top: 12px;
 			margin-bottom: 10px;
 			margin-left: 10px;
+			padding-left: 48px;
 		}
+			#toolbar select#lineWidth + .icon {
+				width: 32px;
+				height: 32px;
+				margin-left: -114px;
+				margin-bottom: -8px;
+			}
 
 .toolbox {
 	display: inline-block;
 	vertical-align: top;
 	margin: 0px;
+	margin-right: -8px;
 }
 	.toolbox input[type="radio"] {
 		-webkit-appearance: none;
@@ -142,6 +159,9 @@ body {
 				        transform: scale(1);
 			}
 /* Tools */
+#pencilTool {
+	background-image: url('../images/icons/pencil.png');
+}
 #doodleTool {
 	background-image: url('../images/icons/doodle.png');
 }
@@ -185,12 +205,84 @@ body {
 	background-image: url('../images/icons/outline_fill.png');
 }
 
+#bottomBar {
+	top: auto;
+	bottom: 0;
+	height: 32px;
+	padding: 0;
+	text-align: right;
+	
+	-webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 4px 17px 0, rgba(0, 0, 0, 0.19) 0 2px 20px 0;
+	   -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 4px 17px 0, rgba(0, 0, 0, 0.19) 0 2px 20px 0;
+	        box-shadow: rgba(0, 0, 0, 0.2) 0 4px 17px 0, rgba(0, 0, 0, 0.19) 0 2px 20px 0;
+}
+	#bottomBar button {
+		width: 42px;
+		height: 42px;
+		padding: 8px 8px;
+		margin: -4px 0;
+	}
+	#bottomBar button > img {
+		width: 24px;
+		height: 24px;
+	}
+	#zoomOutBtn {
+		margin-right: -12px;
+	}
+	#zoomInBtn {
+		margin-left: -12px;
+	}
+#zoomPercent,
+#zoomPercent + span,
+#zoomSlider {
+	font-size: 14px;
+	position: relative;
+	top: -4px;
+}
+	#zoomPercent {
+		text-align: right;
+		width: 3em;
+		padding-right: 1em;
+		-webkit-appearance: none;
+		        appearance: none;
+	}
+		#zoomPercent::-webkit-inner-spin-button,
+		#zoomPercent::-webkit-outer-spin-button {
+			-webkit-appearance: none;
+			        appearance: none;
+		}
+		#zoomPercent:focus {
+			border-bottom-color: white;
+		}
+		#zoomPercent + .icon {
+			margin-left: -18px;
+			margin-top: 1px;
+		}
+	#zoomSlider {
+		width: 128px;
+		max-width: 80%;
+		margin: 0 4px;
+		top: -5px;
+	}
 
 #canvas, #preCanvas {
 	position: absolute;
 	top: 112px; /* Toolbar offset */
 	left: 0;
-	margin: 20px 16px 16px;
+	margin: 20px 16px 48px;
+	
+	-ms-interpolation-mode: nearest-neighbor;
+	image-rendering: -webkit-optimize-contrast;
+	image-rendering: pixelated;
+	image-rendering: -moz-crisp-edges;
+	image-rendering:   -o-crisp-edges;
+	image-rendering:      crisp-edges;
+	
+	-webkit-transform-origin: 0 0;
+	   -moz-transform-origin: 0 0;
+	    -ms-transform-origin: 0 0;
+	     -o-transform-origin: 0 0;
+	        transform-origin: 0 0;
 }
 	#canvas {
 		z-index: 1;

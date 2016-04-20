@@ -1,9 +1,11 @@
 CACHE MANIFEST
-# 2015-11-27, v2
+# 2016-04-20, v1
 index.html
+manifest.webapp
 audio/pacman_start.mp3
-images/cursors/eyedropper.png
-images/cursors/paint_bucket.png
+images/cursors/eyedropper.cur
+images/cursors/paint_bucket.cur
+images/cursors/pencil.cur
 images/icons/clear.png
 images/icons/cws.png
 images/icons/doodle.png
@@ -14,18 +16,22 @@ images/icons/full_screen.png
 images/icons/help.png
 images/icons/info.png
 images/icons/line.png
+images/icons/line_weight.png
 images/icons/open.png
 images/icons/outline_fill.png
 images/icons/outline_only.png
 images/icons/oval.png
 images/icons/paint_bucket.png
 images/icons/pan.png
+images/icons/pencil.png
 images/icons/rect.png
 images/icons/redo.png
 images/icons/resize.png
 images/icons/save.png
 images/icons/selection.png
 images/icons/settings.png
+images/icons/zoom_in.png
+images/icons/zoom_out.png
 images/icons/undo.png
 images/logo/128.png
 images/logo/256.png
@@ -35,6 +41,7 @@ scripts/keyboard.js
 scripts/pacman.js
 scripts/undo.js
 scripts/utils.js
+scripts/zoom.js
 scripts/lib/colorpicker.min.js
 scripts/lib/material-touch.js
 scripts/lib/pep.min.js
@@ -46,6 +53,7 @@ scripts/tools/floodfill.js
 scripts/tools/line.js
 scripts/tools/oval.js
 scripts/tools/pan.js
+scripts/tools/pencil.js
 scripts/tools/rectangle.js
 scripts/tools/selection.js
 scripts/tools/shape.js

@@ -18,6 +18,7 @@
 #colorPicker button {
 	position: relative;
 	color: transparent;
+	font-size: 1px;
 }
 	#colorPicker button::before {
 		content: '';

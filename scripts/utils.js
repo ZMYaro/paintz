@@ -28,6 +28,45 @@ var Utils = {
 	},
 	
 	/**
+	 * Convert a CSS color to RGB values.
+	 * @param {String} cssColor - The CSS color to parse
+	 * @returns {Object} - A map of `r`, `g`, and `b` to their number values
+	 */
+	colorToRGB: function (cssColor) {
+		if (cssColor.charAt(0) === '#') {
+			var result = (/^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i).exec(cssColor);
+			if (result) {
+				return {
+					r: parseInt(result[1], 16),
+					g: parseInt(result[2], 16),
+					b: parseInt(result[3], 16)
+				};
+			}
+		}
+		return {
+			black: {r: 0, g: 0, b: 0},
+			blue: {r: 0, g: 0, b: 255},
+			brown: {r: 165, g: 42, b: 42},
+			cyan: {r: 0, g: 255, b: 255},
+			gray: {r: 128, g: 128, b: 128},
+			green: {r: 0, g: 128, b: 0},
+			indigo : {r: 75, g: 0, b: 130},
+			lightblue: {r: 173, g: 216, b: 230},
+			lime: {r: 0, g: 255, b: 0},
+			magenta: {r: 255, g: 0, b: 255},
+			navy: {r: 0, g: 0, b: 128},
+			olive: {r: 128, g: 128, b: 0},
+			orange: {r: 255, g: 165, b: 0},
+			purple: {r: 128, g: 0, b: 128},
+			red: {r: 255, g: 0, b: 0},
+			teal: {r: 0, g: 128, b: 128},
+			violet: {r: 238, g: 130, b: 238},
+			white: {r: 255, g: 255, b: 255},
+			yellow: {r: 255, g: 255, b: 0}
+		}[cssColor];
+	},
+	
+	/**
 	 * Check whether a point is inside a rectangle.
 	 * @param {Numebr} px - The x-coordinate of the point
 	 * @param {Numebr} py - The y-coordinate of the point
@@ -48,16 +87,35 @@ var Utils = {
 	/**
 	 * Add dialog box functions to an element
 	 * @param {HTMLElement} element - The dialog's HTML element
+	 * @param {HTMLElement} [trigger] - The button that opens the dialog
 	 */
-	makeDialog: function (element) {
-		var dialogsContainer = document.getElementById('dialogs');
+	makeDialog: function (element, trigger) {
+		var toolbar = document.getElementById('toolbar'),
+			dialogsContainer = document.getElementById('dialogs');
+		
+		function setDialogTransformOrigin() {
+			// If there is no trigger element, do nothing.
+			if (typeof trigger === 'undefined') {
+				return;
+			}
+			element.style.WebkitTransformOrigin =
+				element.style.MozTransformOrigin =
+				element.style.MsTransformOrigin =
+				element.style.OTransformOrigin =
+				element.style.transformOrigin = (trigger.offsetLeft - toolbar.scrollLeft - element.offsetLeft) + 'px ' + (trigger.offsetTop - element.offsetTop) + 'px';
+			// Force a reflow.
+			element.offsetLeft;
+		}
+		
 		element.open = function () {
 			// Disable app keyboard shortcuts.
 			keyManager.disableAppShortcuts();
+			
 			// Show the dialog and dialog container.
 			dialogsContainer.style.display = 'block';
 			element.classList.add('visible');
-
+			setDialogTransformOrigin();
+			
 			setTimeout(function () {
 				dialogsContainer.classList.add('visible');
 				element.classList.add('open');
@@ -75,6 +133,8 @@ var Utils = {
 			if (e && e.preventDefault) {
 				e.preventDefault();
 			}
+			
+			setDialogTransformOrigin();
 			element.classList.remove('open');
 			dialogsContainer.classList.remove('visible');
 			// After the closing animation has completed, hide the dialog box element completely.

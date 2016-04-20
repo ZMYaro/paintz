@@ -16,7 +16,7 @@ EyedropperTool.prototype = Object.create(Tool.prototype);
  * @override
  */
 EyedropperTool.prototype.activate = function () {
-	this._preCxt.canvas.style.cursor = 'url(images/cursors/eyedropper.png) 3 15, default';
+	this._preCxt.canvas.style.cursor = 'url(images/cursors/eyedropper.cur), default';
 };
 
 /**
@@ -38,7 +38,7 @@ EyedropperTool.prototype.move = function (pointerState) {
 	// Get the image's pixel data.
 	this._imageData = this._cxt.getImageData(0, 0, this._cxt.canvas.width, this._cxt.canvas.height);
 	// Get the cursor position and add it to the stack.
-	var pixelPos = (pointerState.y * this._imageData.width + pointerState.x) * 4;
+	var pixelPos = (Math.floor(pointerState.y) * this._imageData.width + Math.floor(pointerState.x)) * 4;
 	// Get the color of the clicked pixel.
 	var color = ColorPicker.rgb2hex({
 		r: this._imageData.data[pixelPos],

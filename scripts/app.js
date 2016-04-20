@@ -245,8 +245,9 @@ function initToolbar() {
 	}, false);
 
 	// Clear button and dialog.
-	var clearDialog = document.getElementById('clearDialog');
-	Utils.makeDialog(clearDialog);
+	var clearDialog = document.getElementById('clearDialog'),
+		clearBtn = document.getElementById('clearBtn');
+	Utils.makeDialog(clearDialog, clearBtn);
 	clearDialog.onsubmit = function (e) {
 		e.preventDefault();
 		resetCanvas();
@@ -254,44 +255,50 @@ function initToolbar() {
 		undoStack.addState();
 		e.target.close();
 	};
-	document.getElementById('clearBtn').onclick = clearDialog.open;
+	clearBtn.onclick = clearDialog.open;
 
 	// Undo and redo buttons.
 	document.getElementById('undoBtn').onclick = undoStack.undo.bind(undoStack);
 	document.getElementById('redoBtn').onclick = undoStack.redo.bind(undoStack);
 
 	// Resize button and dialog.
-	var resizeDialog = document.getElementById('resizeDialog');
-	Utils.makeDialog(resizeDialog);
+	var resizeDialog = document.getElementById('resizeDialog'),
+		resizeBtn = document.getElementById('resizeBtn');
+	Utils.makeDialog(resizeDialog, resizeBtn);
 	resizeDialog.onsubmit = function (e) {
 		e.preventDefault();
 
 		// Fetch the values from the form.
-		var width = parseInt(e.target.width.value);
-		var height = parseInt(e.target.height.value);
+		var newWidth = parseInt(e.target.width.value),
+			newHeight = parseInt(e.target.height.value),
+			mode = e.target.resizeMode.value;
 
 		// Validate the user's input.
-		if (!width || !height || isNaN(width) || isNaN(height) || width < 1 || height < 1) {
-			alert('The dimensions you entered were invalid.');
+		if (!newWidth || !newHeight || isNaN(newWidth) || isNaN(newHeight) || newWidth < 1 || newHeight < 1) {
+			alert('Please enter valid dimensions.');
 			return;
 		}
-
+		
 		preCxt.drawImage(canvas, 0, 0);
-		canvas.width = width;
-		canvas.height = height;
+		canvas.width = newWidth;
+		canvas.height = newHeight;
 		resetCanvas();
-		cxt.drawImage(preCanvas, 0, 0);
-		preCanvas.width = width;
-		preCanvas.height = height;
-		localStorage.width = width;
-		localStorage.height = height;
+		if (mode === 'scale') {
+			cxt.drawImage(preCanvas, 0, 0, newWidth, newHeight);
+		} else {
+			cxt.drawImage(preCanvas, 0, 0);
+		}
+		preCanvas.width = newWidth;
+		preCanvas.height = newHeight;
+		localStorage.width = newWidth;
+		localStorage.height = newHeight;
 
 		// Add the change to the undo stack.
 		undoStack.addState();
 
 		e.target.close();
 	};
-	document.getElementById('resizeBtn').onclick = function () {
+	resizeBtn.onclick = function () {
 		resizeDialog.width.value = localStorage.width;
 		resizeDialog.height.value = localStorage.height;
 		resizeDialog.open();
@@ -360,8 +367,9 @@ function initToolbar() {
 	};
 	
 	// Settings button and dialog.
-	var settingsDialog = document.getElementById('settingsDialog');
-	Utils.makeDialog(settingsDialog);
+	var settingsDialog = document.getElementById('settingsDialog'),
+		settingsBtn = document.getElementById('settingsBtn');
+	Utils.makeDialog(settingsDialog, settingsBtn);
 	settingsDialog.onsubmit = function (e) {
 		e.preventDefault();
 
@@ -379,21 +387,23 @@ function initToolbar() {
 
 		e.target.close();
 	};
-	document.getElementById('settingsBtn').onclick = function () {
+	settingsBtn.onclick = function () {
 		settingsDialog.ghostDraw.checked = localStorage.ghostDraw;
 		settingsDialog.maxUndoStackDepth.value = localStorage.maxUndoStackDepth;
 		settingsDialog.open();
 	};
 	
 	// Help button and dialog.
-	var helpDialog = document.getElementById('helpDialog');
-	Utils.makeDialog(helpDialog);
-	document.getElementById('helpBtn').onclick = helpDialog.open;
+	var helpDialog = document.getElementById('helpDialog'),
+		helpBtn = document.getElementById('helpBtn');
+	Utils.makeDialog(helpDialog, helpBtn);
+	helpBtn.onclick = helpDialog.open;
 
 	// About button and dialog.
-	var aboutDialog = document.getElementById('aboutDialog');
-	Utils.makeDialog(aboutDialog);
-	document.getElementById('aboutBtn').onclick = aboutDialog.open;
+	var aboutDialog = document.getElementById('aboutDialog'),
+		aboutBtn = document.getElementById('aboutBtn');
+	Utils.makeDialog(aboutDialog, aboutBtn);
+	aboutBtn.onclick = aboutDialog.open;
 }
 /**
  * Get the canvases and their drawing contexts, and set up event listeners.
@@ -447,6 +457,7 @@ function initSettings() {
  */
 function initTools() {
 	tools = {
+		pencil: new PencilTool(cxt, preCxt),
 		doodle: new DoodleTool(cxt, preCxt),
 		line: new LineTool(cxt, preCxt),
 		rect: new RectangleTool(cxt, preCxt),
@@ -482,8 +493,8 @@ function startTool(e) {
 	// Initialize the new shape.
 	tools[localStorage.tool].start({
 		button: e.button,
-		x: Utils.getCanvasX(e.pageX),
-		y: Utils.getCanvasY(e.pageY)
+		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
+		y: Utils.getCanvasY(e.pageY) / zoomManager.level
 	});
 	
 	// Set the event listeners to continue and end drawing.
@@ -502,8 +513,8 @@ function moveTool(e) {
 	
 	// Update the shape.
 	tools[localStorage.tool].move({
-		x: Utils.getCanvasX(e.pageX),
-		y: Utils.getCanvasY(e.pageY)
+		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
+		y: Utils.getCanvasY(e.pageY) / zoomManager.level
 	});
 }
 /**
@@ -521,8 +532,8 @@ function endTool(e) {
 	
 	// Complete the task.
 	tools[localStorage.tool].end({
-		x: Utils.getCanvasX(e.pageX),
-		y: Utils.getCanvasY(e.pageY)
+		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
+		y: Utils.getCanvasY(e.pageY) / zoomManager.level
 	});
 	
 	// Set the event listeners to start the next drawing.
@@ -551,6 +562,7 @@ window.addEventListener('load', function () {
 	initCanvas();
 	initSettings();
 	initTools();
+	zoomManager.init();
 	// Get the canvas ready.
 	resetCanvas();
 	// Save the initial state.
