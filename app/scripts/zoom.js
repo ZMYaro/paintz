@@ -1,6 +1,7 @@
 'use strict';
 
 var zoomManager = {
+	// Levels for the zoom slider.
 	ZOOM_LEVELS: [
 		25,
 		50,
@@ -11,10 +12,12 @@ var zoomManager = {
 		800
 	],
 	
+	// UI elements.
 	_zoomPercentField: undefined,
 	_zoomSlider: undefined,
 	_zoomOutBtn: undefined,
 	_zoomInBtn: undefined,
+	
 	_zoomLevel: 1,
 	
 	get level() {
@@ -63,6 +66,9 @@ var zoomManager = {
 		return i;
 	},
 	
+	/**
+	 * Initialize zoom controls and event listeners.
+	 */
 	init: function () {
 		this._zoomPercentField = document.getElementById('zoomPercent');
 		this._zoomSlider = document.getElementById('zoomSlider');
