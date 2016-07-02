@@ -1,5 +1,8 @@
 var keyManager = {
 	_handleKeyDown: function (e) {
+		// Use Command on Mac and iOS devices and Ctrl everywhere else.
+		var ctrlOrCmd = (!Utils.isApple && e.ctrlKey) || (Utils.isApple && e.metaKey);
+		
 		switch (e.keyCode) {
 			case 8: // Backspace
 				if (localStorage.tool === 'selection') {
@@ -29,8 +32,11 @@ var keyManager = {
 					tools.selection.selectAll(canvas.width, canvas.height);
 				}
 				break;
+			case 66: // B
+				//
+				break;
 			case 68: // D
-				if (e.ctrlKey) {
+				if (ctrlOrCmd) {
 					e.preventDefault();
 					
 					if (localStorage.tool === 'selection') {
@@ -40,42 +46,42 @@ var keyManager = {
 				}
 				break;
 			case 79: // O
-				if (e.ctrlKey) {
+				if (ctrlOrCmd) {
 					e.preventDefault();
 					// Ctrl+O => Open
 					document.getElementById('upload').click();
 				}
 				break;
 			case 83: // S
-				if (e.ctrlKey) {
+				if (ctrlOrCmd) {
 					e.preventDefault();
 					// Ctrl+S => Save
 					downloadImage();
 				}
 				break;
 			case 89: // Y
-				if (e.ctrlKey) {
+				if (ctrlOrCmd) {
 					e.preventDefault();
 					// Ctrl+Y => Redo
 					undoStack.redo();
 				}
 				break;
 			case 90: // Z
-				if (e.ctrlKey) {
+				if (ctrlOrCmd) {debugger;
 					e.preventDefault();
 					// Ctrl+Z => Undo
 					undoStack.undo();
 				}
 				break;
 			case 187: // =/+
-				if (e.ctrlKey && e.altKey) {
+				if (ctrlOrCmd && e.altKey) {
 					e.preventDefault();
 					// Ctrl+Alt+= => Zoom in
 					zoomManager.zoomIn();
 				}
 				break;
 			case 189: // -/_
-				if (e.ctrlKey && e.altKey) {
+				if (ctrlOrCmd && e.altKey) {
 					e.preventDefault();
 					// Ctrl+Alt+- => Zoom out
 					zoomManager.zoomOut();
