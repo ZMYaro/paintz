@@ -44,6 +44,22 @@ function initCWSLinks() {
 }
 
 /**
+ * Switch to the specified tool.
+ * @param {String} tool - The name of the tool to switch to
+ */
+function switchTool(tool) {
+	// Deactivate the current tool.
+	tools[localStorage.tool].deactivate();
+	// Clear the preview canvas.
+	Utils.clearCanvas(preCxt);
+	// Set and activate the newly-selected tool.
+	localStorage.tool = tool;
+	tools[tool].activate();
+	// Update the toolbar.
+	document.getElementById('tools').tool.value = tool;
+}
+
+/**
  * Get the toolbar form elements.
  */
 function initToolbar() {
@@ -55,13 +71,8 @@ function initToolbar() {
 	}
 
 	document.getElementById('tools').onchange = function (e) {
-		// Deactivate the current tool.
-		tools[localStorage.tool].deactivate();
-		// Clear the preview canvas.
-		Utils.clearCanvas(preCxt);
-		// Set and activate the newly-selected tool.
-		localStorage.tool = e.target.value;
-		tools[e.target.value].activate();
+		// Switch to the newly-selected tool.
+		switchTool(e.target.value);
 	};
 
 	document.getElementById('lineWidth').onchange = function (e) {
