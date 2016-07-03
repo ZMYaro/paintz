@@ -206,8 +206,6 @@ SelectionTool.prototype._updateSelectionOutline = function () {
 		zoomedWidth = Math.ceil(zoomManager.level * this._selection.width),
 		zoomedHeight = Math.ceil(zoomManager.level * this._selection.height);
 	
-	console.log(this._selection.x, this._selection.y, zoomedWidth, zoomedHeight);
-	
 	this._outline.style.WebkitTransform =
 		this._outline.style.MozTransform =
 		this._outline.style.MsTransform =
