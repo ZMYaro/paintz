@@ -157,7 +157,11 @@ var keyManager = {
 				break;
 			
 			case 90: // Z
-				if (ctrlOrCmd) {debugger;
+				if (ctrlOrCmd && e.shiftKey) {
+					e.preventDefault();
+					// Ctrl+Shift+Z => Redo
+					undoStack.redo();
+				} else if (ctrlOrCmd) {
 					e.preventDefault();
 					// Ctrl+Z => Undo
 					undoStack.undo();
