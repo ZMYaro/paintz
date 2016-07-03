@@ -7,6 +7,8 @@
  */
 function SelectionTool(cxt, preCxt) {
 	Tool.apply(this, arguments);
+	this._outline = document.createElement('div');
+	this._outline.className = 'floatingRegion';
 }
 
 SelectionTool.prototype = Object.create(Tool.prototype);
@@ -17,10 +19,6 @@ SelectionTool.prototype = Object.create(Tool.prototype);
  */
 SelectionTool.prototype.activate = function () {
 	this._preCxt.canvas.style.cursor = 'crosshair';
-	if (!this._outline) {
-		this._outline = document.createElement('div');
-		this._outline.className = 'floatingRegion';
-	}
 };
 
 /**
