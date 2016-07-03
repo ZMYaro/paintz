@@ -11,14 +11,16 @@ function SelectionTool(cxt, preCxt) {
 
 SelectionTool.prototype = Object.create(Tool.prototype);
 
-SelectionTool.OUTLINE_DASH_LENGTH = 6;
-
 /**
  * Handle the selection tool becoming the active tool.
  * @override
  */
 SelectionTool.prototype.activate = function () {
 	this._preCxt.canvas.style.cursor = 'crosshair';
+	if (!this._outline) {
+		this._outline = document.createElement('div');
+		this._outline.className = 'floatingRegion';
+	}
 };
 
 /**
@@ -27,6 +29,9 @@ SelectionTool.prototype.activate = function () {
  * @param {Object} pointerState - The pointer coordinates and button
  */
 SelectionTool.prototype.start = function (pointerState) {
+	pointerState.x = Math.round(pointerState.x);
+	pointerState.y = Math.round(pointerState.y);
+	
 	// If a selection exists and the pointer is inside it, drag the selection.
 	// Otherwise, start a new selection.
 	if (this._selection &&
@@ -50,6 +55,8 @@ SelectionTool.prototype.start = function (pointerState) {
 			width: 0,
 			height: 0
 		};
+		this._updateSelectionOutline();
+		document.body.appendChild(this._outline);
 	}
 };
 
@@ -63,6 +70,9 @@ SelectionTool.prototype.move = function (pointerState) {
 		return;
 	}
 	
+	pointerState.x = Math.round(pointerState.x);
+	pointerState.y = Math.round(pointerState.y);
+	
 	Utils.clearCanvas(this._preCxt);
 	
 	// If there is no pointer offset, then this must be a new selection.
@@ -70,11 +80,21 @@ SelectionTool.prototype.move = function (pointerState) {
 		this._selection.x = pointerState.x - this._selection.pointerOffset.x;
 		this._selection.y = pointerState.y - this._selection.pointerOffset.y;
 		this._drawSelectionContent();
-		this._drawSelectionOutline();
+		this._updateSelectionOutline();
 	} else {
-		this._selection.width = pointerState.x - this._selection.x;
-		this._selection.height = pointerState.y - this._selection.y;
-		this._drawSelectionOutline();
+		this._selection.width = pointerState.x - this._selection.startX;
+		this._selection.height = pointerState.y - this._selection.startY;
+		
+		// Keep x and y at the top-left corner.
+		if (this._selection.width < 0) {
+			this._selection.x = this._selection.startX + this._selection.width;
+			this._selection.width = Math.abs(this._selection.width);
+		}
+		if (this._selection.height < 0) {
+			this._selection.y = this._selection.startY + this._selection.height;
+			this._selection.height = Math.abs(this._selection.height);
+		}
+		this._updateSelectionOutline();
 	}
 };
 
@@ -84,6 +104,11 @@ SelectionTool.prototype.move = function (pointerState) {
  * @param {Object} pointerState - The pointer coordinates
  */
 SelectionTool.prototype.end = function (pointerState) {
+	pointerState.x = Math.round(pointerState.x);
+	pointerState.y = Math.round(pointerState.y);
+	
+	this.move(pointerState);
+	
 	this._preCxt.canvas.style.cursor = 'crosshair';
 	
 	// If a new selection was created, ensure the dimensions are valid values.
@@ -92,18 +117,14 @@ SelectionTool.prototype.end = function (pointerState) {
 		if (this._selection.width === 0 || this._selection.height === 0) {
 			delete this._selection;
 			Utils.clearCanvas(this._preCxt);
+			document.body.removeChild(this._outline);
 			return;
 		}
-		if (this._selection.width < 0) {
-			this._selection.startX += this._selection.width;
-			this._selection.x = this._selection.startX;
-			this._selection.width = Math.abs(this._selection.width);
-		}
-		if (this._selection.height < 0) {
-			this._selection.startY += this._selection.height;
-			this._selection.y = this._selection.startY;
-			this._selection.height = Math.abs(this._selection.height);
-		}
+		
+		// Update the start coordinates to the top-left corner.
+		this._selection.startX = this._selection.x;
+		this._selection.startY = this._selection.y;
+		
 		// Save the selected content in case the user moves it.
 		this._selection.content = this._cxt.getImageData(this._selection.startX, this._selection.startY,
 			this._selection.width, this._selection.height);
@@ -116,6 +137,9 @@ SelectionTool.prototype.end = function (pointerState) {
  */
 SelectionTool.prototype.deactivate = function () {
 	this._saveSelection();
+	if (document.body.contains(this._outline)) {
+		document.body.removeChild(this._outline);
+	}
 	delete this._selection;
 };
 
@@ -133,6 +157,7 @@ SelectionTool.prototype.clear = function () {
 	this._cxt.fillRect(this._selection.startX, this._selection.startY,
 		this._selection.width, this._selection.height);
 	Utils.clearCanvas(this._preCxt);
+	document.body.removeChild(this._outline);
 	undoStack.addState();
 	delete this._selection;
 };
@@ -171,22 +196,27 @@ SelectionTool.prototype.selectAll = function (width, height) {
 };
 
 /**
- * Draw the dotted outline around the selection.
+ * Update the outline element.
  */
-SelectionTool.prototype._drawSelectionOutline = function () {
+SelectionTool.prototype._updateSelectionOutline = function () {
 	if (!this._selection) {
 		return;
 	}
 	
-	this._preCxt.strokeStyle = 'white';
-	this._preCxt.lineWidth = 1;
-	this._preCxt.strokeRect(this._selection.x, this._selection.y,
-		this._selection.width, this._selection.height);
-	this._preCxt.strokeStyle = 'black';
-	this._preCxt.setLineDash([SelectionTool.OUTLINE_DASH_LENGTH, SelectionTool.OUTLINE_DASH_LENGTH]);
-	this._preCxt.strokeRect(this._selection.x, this._selection.y,
-		this._selection.width, this._selection.height);
-	this._preCxt.setLineDash([]);
+	var zoomedX = Math.floor(zoomManager.level * this._selection.x),
+		zoomedY = Math.floor(zoomManager.level * this._selection.y),
+		zoomedWidth = Math.ceil(zoomManager.level * this._selection.width),
+		zoomedHeight = Math.ceil(zoomManager.level * this._selection.height);
+	
+	console.log(this._selection.x, this._selection.y, zoomedWidth, zoomedHeight);
+	
+	this._outline.style.WebkitTransform =
+		this._outline.style.MozTransform =
+		this._outline.style.MsTransform =
+		this._outline.style.OTransform =
+		this._outline.style.transform = 'translate(' + zoomedX + 'px, ' + zoomedY + 'px)';
+	this._outline.style.width = zoomedWidth + 'px';
+	this._outline.style.height = zoomedHeight + 'px';
 };
 
 /**

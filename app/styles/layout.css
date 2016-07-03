@@ -265,25 +265,27 @@ body {
 		top: -5px;
 	}
 
-#canvas, #preCanvas {
+#canvas, #preCanvas, .floatingRegion {
 	position: absolute;
 	top: 112px; /* Toolbar offset */
 	left: 0;
 	margin: 20px 16px 48px;
-	
-	-ms-interpolation-mode: nearest-neighbor;
-	image-rendering: -webkit-optimize-contrast;
-	image-rendering: pixelated;
-	image-rendering: -moz-crisp-edges;
-	image-rendering:   -o-crisp-edges;
-	image-rendering:      crisp-edges;
-	
-	-webkit-transform-origin: 0 0;
-	   -moz-transform-origin: 0 0;
-	    -ms-transform-origin: 0 0;
-	     -o-transform-origin: 0 0;
-	        transform-origin: 0 0;
 }
+
+	#canvas, #preCanvas {
+		-ms-interpolation-mode: nearest-neighbor;
+		image-rendering: -webkit-optimize-contrast;
+		image-rendering: pixelated;
+		image-rendering: -moz-crisp-edges;
+		image-rendering:   -o-crisp-edges;
+		image-rendering:      crisp-edges;
+		
+		-webkit-transform-origin: 0 0;
+		   -moz-transform-origin: 0 0;
+		    -ms-transform-origin: 0 0;
+		     -o-transform-origin: 0 0;
+		        transform-origin: 0 0;
+	}
 	#canvas {
 		z-index: 1;
 	}
@@ -294,10 +296,18 @@ body {
 		#preCanvas.ghost {
 			opacity: 0.6;
 		}
+	.floatingRegion {
+		border: 1px solid white;
+		outline: 1px dashed black;
+		outline-offset: -1px;
+		cursor: move;
+		pointer-events: none;
+		z-index: 2;
+	}
+
 #cursorCanvas, #downloadLink, #pacManStartSound {
 	display: none;
 }
-
 
 #canvas:-webkit-full-screen {
 	position: static;
@@ -312,8 +322,8 @@ body {
 	     transform: scale(1) !important;
 }
 #canvas:-ms-fullscreen {
-	position: static;
 	margin: 0 auto;
+	position: static;
 	-ms-transform: scale(1) !important;
 	    transform: scale(1) !important;
 }
