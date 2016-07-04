@@ -7,6 +7,7 @@ var DEFAULTS = {
 	outlineOption: 'outlineFill',
 	lineColor: '#000000',
 	fillColor: '#ffffff',
+	fontSize: 16,
 	tool: 'doodle',
 	ghostDraw: '',
 	maxUndoStackDepth: 50
@@ -477,6 +478,7 @@ function initTools() {
 		floodFill: new FloodFillTool(cxt, preCxt),
 		eyedropper: new EyedropperTool(cxt, preCxt),
 		selection: new SelectionTool(cxt, preCxt),
+		text: new TextTool(cxt,preCxt),
 		pan: new PanTool(cxt, preCxt)
 	};
 	tools[localStorage.tool].activate();

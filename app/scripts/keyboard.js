@@ -1,4 +1,6 @@
 var keyManager = {
+	_enabled: false,
+	
 	_handleKeyDown: function (e) {
 		// Use Command on Mac and iOS devices and Ctrl everywhere else.
 		var ctrlOrCmd = ((!Utils.isApple && e.ctrlKey) || (Utils.isApple && e.metaKey)),
@@ -213,10 +215,16 @@ var keyManager = {
 	},
 
 	enableAppShortcuts: function () {
-		window.addEventListener('keydown', this._handleKeyDown, false);
+		if (!this._enabled) {
+			window.addEventListener('keydown', this._handleKeyDown, false);
+			this._enabled = true;
+		}
 	},
 
 	disableAppShortcuts: function () {
-		window.removeEventListener('keydown', this._handleKeyDown, false);
+		if (this._enabled) {
+			window.removeEventListener('keydown', this._handleKeyDown, false);
+			this._enabled = false;
+		}
 	}
 }

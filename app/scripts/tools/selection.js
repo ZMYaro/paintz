@@ -9,6 +9,7 @@ function SelectionTool(cxt, preCxt) {
 	Tool.apply(this, arguments);
 	this._outline = document.createElement('div');
 	this._outline.className = 'floatingRegion';
+	this._outline.style.cursor = 'move';
 }
 
 SelectionTool.prototype = Object.create(Tool.prototype);

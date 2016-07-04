@@ -296,11 +296,13 @@ body {
 		#preCanvas.ghost {
 			opacity: 0.6;
 		}
-	.floatingRegion {
+	.floatingRegion,
+	.floatingRegion:focus {
 		border: 1px solid white;
 		outline: 1px dashed black;
 		outline-offset: -1px;
-		cursor: move;
+		overflow: visible;
+		resize: none;
 		pointer-events: none;
 		z-index: 2;
 	}
