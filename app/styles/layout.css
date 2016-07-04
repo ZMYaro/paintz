@@ -186,6 +186,9 @@ body {
 #selectionTool {
 	background-image: url('../images/icons/selection.png');
 }
+#textTool {
+	background-image: url('../images/icons/text.png');
+}
 #panTool {
 	background-image: url('../images/icons/pan.png');
 }
