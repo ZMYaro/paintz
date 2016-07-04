@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2016-05-24, v1
+# 2016-07-03, v1
 index.html
 manifest.webapp
 audio/pacman_start.mp3
@@ -30,6 +30,7 @@ images/icons/resize.png
 images/icons/save.png
 images/icons/selection.png
 images/icons/settings.png
+images/icons/text.png
 images/icons/zoom_in.png
 images/icons/zoom_out.png
 images/icons/undo.png
@@ -57,6 +58,7 @@ scripts/tools/pencil.js
 scripts/tools/rectangle.js
 scripts/tools/selection.js
 scripts/tools/shape.js
+scripts/tools/text.js
 scripts/tools/tool.js
 styles/color_picker.css
 styles/dialogs.css
