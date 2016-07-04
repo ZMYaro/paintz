@@ -134,6 +134,13 @@ var keyManager = {
 				}
 				break;
 			
+			case 84: // T
+				if (noModifiers) {
+					e.preventDefault();
+					// T => Text tool
+					switchTool('text');
+				}
+			
 			case 88: // X
 				if (noModifiers) {
 					e.preventDefault();
