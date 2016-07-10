@@ -126,7 +126,7 @@ var keyManager = {
 				if (ctrlOrCmd) {
 					e.preventDefault();
 					// Ctrl+S => Save
-					downloadImage();
+					document.getElementById('saveDialog').open();
 				} else if (noModifiers) {
 					e.preventDefault();
 					// S => Selection tool

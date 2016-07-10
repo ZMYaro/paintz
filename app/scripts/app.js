@@ -268,7 +268,25 @@ function initToolbar() {
 		e.target.close();
 	};
 	clearBtn.onclick = clearDialog.open;
-
+	
+	// Save as button and dialog.
+	var saveDialog = document.getElementById('saveDialog'),
+		clearBtn = document.getElementById('saveBtn');
+	Utils.makeDialog(saveDialog, saveBtn);
+	saveDialog.onsubmit = function (e) {
+		e.preventDefault();
+		downloadLink.download =
+			saveDialog.fileName.value = fixExtension(saveDialog.fileName.value, saveDialog.fileType.value);
+		downloadImage();
+		e.target.close();
+	};
+	saveDialog.fileType.oninput = function () {
+		downloadLink.type = saveDialog.fileType.value;
+		downloadLink.download =
+			saveDialog.fileName.value = fixExtension(saveDialog.fileName.value, saveDialog.fileType.value);
+	};
+	saveBtn.onclick = saveDialog.open;
+	
 	// Undo and redo buttons.
 	document.getElementById('undoBtn').onclick = undoStack.undo.bind(undoStack);
 	document.getElementById('redoBtn').onclick = undoStack.redo.bind(undoStack);
@@ -360,8 +378,6 @@ function initToolbar() {
 	document.getElementById('openBtn').addEventListener('click', function (e) {
 		document.getElementById('upload').click();
 	}, false);
-	// Save as button.
-	document.getElementById('saveBtn').addEventListener('click', downloadImage, false);
 	
 	// Full screen button.
 	document.getElementById('fullScreenBtn').onclick = function () {
@@ -560,11 +576,40 @@ function resetCanvas() {
 	cxt.fillRect(0, 0, canvas.width, canvas.height);
 }
 
+/*
+ * Fix the extension on a file name to match a MIME type.
+ * @param {String} name - The file name to fix
+ * @param {String} type - The MIME type to match (JPEG or PNG)
+ * @returns {String} - The modified file name
+ */
+function fixExtension(name, type) {
+	var pngRegex = (/.+\.png$/i),
+		jpegRegex = (/.+\.jpe?g$/i),
+		fileExtRegex = (/\.[a-z0-9]{1,4}$/i);
+	
+	name = name.trim();
+	
+	if (type === 'image/png' && !pngRegex.test(name)) {
+		if (fileExtRegex.test(name)) {
+			return name.replace(fileExtRegex, '.png');
+		} else {
+			return name + '.png';
+		}
+	} else if (type === 'image/jpeg' && !jpegRegex.test(name)) {
+		if (fileExtRegex.test(name)) {
+			return name.replace(fileExtRegex, '.jpg');
+		} else {
+			return name + '.jpg';
+		}
+	}
+	return name;
+}
+
 /**
  * Export the canvas content to a PNG to be saved.
  */
 function downloadImage() {
-	downloadLink.href = canvas.toDataURL();
+	downloadLink.href = canvas.toDataURL(downloadLink.type || 'image/png');
 	downloadLink.click();
 }
 

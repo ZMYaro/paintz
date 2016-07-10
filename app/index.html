@@ -193,6 +193,19 @@
 					<button type="submit">Clear</button>
 				</div>
 			</form>
+			<form id="saveDialog" class="dialog card z3" style="width: 384px;">
+				<h1>Save as</h1>
+				<input name="fileName" type="text" placeholder="File name" value="untitled.png" style="margin: 0 8px; width: 96%; width: calc(100% - 16px);" />
+				<br />
+				<select name="fileType">
+					<option value="image/jpeg">JPEG (Joint Photographic Experts Group)</option>
+					<option value="image/png" selected="selected">PNG (Portable Network Graphics)</option>
+				</select>
+				<div style="text-align: right;">
+					<button type="button" onclick="this.parentElement.parentElement.close();">Cancel</button>
+					<button type="submit">Save</button>
+				</div>
+			</form>
 			<form id="resizeDialog" class="dialog card z3" style="width: 384px;">
 				<h1>Resize</h1>
 				<ul class="list">
@@ -527,7 +540,7 @@
 
 		<!-- Invisible elements. -->
 		<canvas id="cursorCanvas" width="64" height="64"></canvas>
-		<a id="downloadLink" download="untitled.png"></a>
+		<a id="downloadLink" type="image/png" download="untitled.png"></a>
 		<audio src="audio/pacman_start.mp3" id="pacManStartSound"></audio>
 	</body>
 </html>
