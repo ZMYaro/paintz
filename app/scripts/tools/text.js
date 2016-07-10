@@ -223,17 +223,20 @@ TextTool.prototype._saveText = function () {
 	}
 	
 	// Locate line breaks.
-	var words = (this._textElem.innerText || this.textElem.textContent).split(' '),
+	var words = (this._textElem.innerText || this.textElem.textContent).replace(/\n/g, ' \n ').split(' '),
 		line = '',
 		lines = [],
 		maxWidth = this._textRegion.width - (2 * TextTool.PADDING) - (2 * TextTool.BORDER_WIDTH);
 	
 	for (var i = 0; i < words.length; i++) {
-		if (Math.ceil(cxt.measureText(line + words[i]).width) > maxWidth) {
+		// Check for a line break.
+		if (words[i] === '\n' || Math.ceil(cxt.measureText(line + words[i]).width) > maxWidth) {
 			lines.push(line);
 			line = '';
 		}
-		line += words[i] + ' ';
+		if (words[i] !== '\n') {
+			line += words[i] + ' ';
+		}
 	}
 	lines.push(line); // Include any remaining line.
 	
@@ -243,7 +246,7 @@ TextTool.prototype._saveText = function () {
 	this._cxt.font = localStorage.fontSize + 'px sans-serif';
 	for (var i = 0; i < lines.length; i++) {
 		var x = this._textRegion.x + TextTool.PADDING + TextTool.BORDER_WIDTH,
-			y = this._textRegion.y + TextTool.PADDING + TextTool.BORDER_WIDTH + (localStorage.fontSize * i);
+			y = this._textRegion.y + TextTool.PADDING + TextTool.BORDER_WIDTH + ((parseInt(localStorage.fontSize) + 2) * i);
 		this._cxt.fillText(lines[i], x, y);
 	}
 	Utils.clearCanvas(this._preCxt);
