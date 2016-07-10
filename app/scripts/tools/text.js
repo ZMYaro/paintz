@@ -20,20 +20,7 @@ function TextTool(cxt, preCxt) {
 		this._textElem.style.transformOrigin = '0 0';
 	this._textElem.style.padding = TextTool.PADDING + 'px';
 	
-	this._textElem.onblur = (function () {
-		// Save any existing text.
-		this._saveText();
-		// Remove the text region and element.
-		delete this._textRegion;
-		if (document.body.contains(this._textElem)) {
-			try {
-				// Wrapping in a try block because sometimes contains incorrectly returns true.
-				document.body.removeChild(this._textElem);
-			} catch (ex) {}
-
-		}
-		keyManager.enableAppShortcuts();
-	}).bind(this);
+	this._textElem.onblur = this._removeTextElem.bind(this);
 }
 
 /** {Number} How close one has to click to grab the text box */
@@ -102,7 +89,9 @@ TextTool.prototype.start = function (pointerState) {
 		};
 		this._textElem.innerHTML = '';
 		this._updateTextElem();
-		document.body.appendChild(this._textElem);
+		if (!document.body.contains(this._textElem)) {
+			document.body.appendChild(this._textElem);
+		}
 	}
 	this._textElem.style.pointerEvents = null;
 	keyManager.disableAppShortcuts();
@@ -163,15 +152,7 @@ TextTool.prototype.end = function (pointerState) {
 	if (this._textRegion && !this._textRegion.pointerOffset) {
 		// If either dimension is zero, the region is invalid.
 		if (this._textRegion.width < TextTool.MIN_SIZE || this._textRegion.height < TextTool.MIN_SIZE) {
-			delete this._textRegion;
-			Utils.clearCanvas(this._preCxt);
-			if (document.body.contains(this._textElem)) {
-				try {
-					// Wrapping in a try block because sometimes contains incorrectly returns true.
-					document.body.removeChild(this._textElem);
-				} catch (ex) {}
-			}
-			keyManager.enableAppShortcuts();
+			this._removeTextElem();
 			return;
 		}
 		
@@ -189,16 +170,11 @@ TextTool.prototype.end = function (pointerState) {
  * @override
  */
 TextTool.prototype.deactivate = function () {
-	this._saveText();
-	if (document.body.contains(this._textElem)) {
-		document.body.removeChild(this._textElem);
-	}
-	keyManager.enableAppShortcuts();
-	delete this._textRegion;
+	this._removeTextElem();
 };
 
 /**
- * Update the textarea element.
+ * Update the text box element.
  */
 TextTool.prototype._updateTextElem = function () {
 	if (!this._textRegion) {
@@ -218,6 +194,23 @@ TextTool.prototype._updateTextElem = function () {
 			'scale(' + zoomManager.level + ')';
 	this._textElem.style.width = this._textRegion.width + 'px';
 	this._textElem.style.height = this._textRegion.height + 'px';
+};
+
+/**
+ * Remove the text box element.
+ */
+TextTool.prototype._removeTextElem = function () {
+	// Save any existing text.
+	this._saveText();
+	// Remove the text region and element.
+	delete this._textRegion;
+	if (document.body.contains(this._textElem)) {
+		try {
+			// Wrapping in a try block because sometimes contains incorrectly returns true.
+			document.body.removeChild(this._textElem);
+		} catch (ex) {}
+	}
+	keyManager.enableAppShortcuts();
 };
 
 /**
