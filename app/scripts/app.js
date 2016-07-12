@@ -238,7 +238,7 @@ function initToolbar() {
 	// Set up the event listener for the Pac-Man easter egg.
 	document.querySelector('#colorPicker button[data-value=\"#FFEB3B\"]').addEventListener('click', function (e) {
 		// If the button was Ctrl+Shift+clicked...
-		if (e.ctrlKey && e.shiftKey) {
+		if (((!Utils.isApple && e.ctrlKey) || (Utils.isApple && e.metaKey)) && e.shiftKey) {
 			e.preventDefault();
 			e.stopPropagation();
 			if (!window.pacMan) {
@@ -614,6 +614,11 @@ function downloadImage() {
 }
 
 window.addEventListener('load', function () {
+	// Update keyboard shortcut listings for Apple users.
+	if (Utils.isApple) {
+		document.body.innerHTML = document.body.innerHTML.replace(/Ctrl\+/g, '&#x2318;').replace(/Alt\+/g, '&#x2325;').replace(/Shift\+/g, '&#x21e7;');
+	}
+	
 	// Initialize everything.
 	initCWSLinks();
 	initToolbar();
