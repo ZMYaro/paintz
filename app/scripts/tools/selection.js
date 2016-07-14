@@ -81,6 +81,10 @@ SelectionTool.prototype.move = function (pointerState) {
 		this._drawSelectionContent();
 		this._updateSelectionOutline();
 	} else {
+		// Limit the region to the canvas.
+		pointerState.x = Math.max(0, Math.min(this._cxt.canvas.width, pointerState.x));
+		pointerState.y = Math.max(0, Math.min(this._cxt.canvas.height, pointerState.y));
+		
 		this._selection.width = pointerState.x - this._selection.startX;
 		this._selection.height = pointerState.y - this._selection.startY;
 		

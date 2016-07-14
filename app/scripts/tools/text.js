@@ -118,6 +118,10 @@ TextTool.prototype.move = function (pointerState) {
 		this._textRegion.y = pointerState.y - this._textRegion.pointerOffset.y;
 		this._updateTextElem();
 	} else {
+		// Limit the region to the canvas.
+		pointerState.x = Math.max(0, Math.min(this._cxt.canvas.width, pointerState.x));
+		pointerState.y = Math.max(0, Math.min(this._cxt.canvas.height, pointerState.y));
+		
 		this._textRegion.width = pointerState.x - this._textRegion.startX;
 		this._textRegion.height = pointerState.y - this._textRegion.startY;
 		
