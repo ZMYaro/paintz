@@ -140,6 +140,7 @@ var keyManager = {
 					// T => Text tool
 					switchTool('text');
 				}
+				break;
 			
 			case 88: // X
 				if (noModifiers) {
