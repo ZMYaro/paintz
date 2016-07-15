@@ -618,6 +618,8 @@ window.addEventListener('load', function () {
 	if (Utils.isApple) {
 		document.body.innerHTML = document.body.innerHTML.replace(/Ctrl\+/g, '&#x2318;').replace(/Alt\+/g, '&#x2325;').replace(/Shift\+/g, '&#x21e7;');
 	}
+	// Initialize keyboard shortcut dialog.
+	Utils.makeDialog(document.getElementById('keyboardDialog'));
 	
 	// Initialize everything.
 	initCWSLinks();

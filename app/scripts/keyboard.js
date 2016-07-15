@@ -194,6 +194,14 @@ var keyManager = {
 				}
 				break;
 			
+			case 191: // //?
+				if (e.shiftKey) {
+					e.preventDefault();
+					// ? => Keyboard shortcuts dialog
+					document.getElementById('keyboardDialog').open();
+				}
+				break;
+			
 			case 219: // [
 				if (noModifiers) {
 					e.preventDefault();
