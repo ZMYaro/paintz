@@ -26,9 +26,9 @@ var canvas,
  * Set up the Chrome Web Store links in the About dialog.
  */
 function initCWSLinks() {
-	if (window.chrome && chrome.app && chrome.app.isInstalled) {
+	if ((!window.chrome || !chrome.webstore) || (window.chrome && chrome.app && chrome.app.isInstalled)) {
 		document.getElementById('cwsInstallLink').style.display = 'none';
-		document.getElementById('cwsFeedbackLink').style.display = 'inline';
+		document.getElementById('cwsFeedbackLink').style.display = 'block';
 	} else {
 		document.getElementById('cwsInstallLink').onclick = function (e) {
 			if (chrome && chrome.webstore && chrome.webstore.install) {
@@ -37,7 +37,9 @@ function initCWSLinks() {
 				chrome.webstore.install(cwsLink, function () {
 					// Change links on successful installation.
 					document.getElementById('cwsInstallLink').style.display = 'none';
-					document.getElementById('cwsFeedbackLink').style.display = 'inline';
+					document.getElementById('cwsFeedbackLink').style.display = 'block';
+				}, function () {
+					window.open(e.target.href, '_blank');
 				});
 			}
 		};
