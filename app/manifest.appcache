@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2016-07-16, v3
+# 2016-07-16, v4
 index.html
 manifest.webapp
 audio/pacman_start.mp3
@@ -8,6 +8,7 @@ images/cursors/paint_bucket.cur
 images/cursors/pencil.cur
 images/icons/brush.png
 images/icons/clear.png
+images/icons/close.png
 images/icons/cws.png
 images/icons/eraser.png
 images/icons/eyedropper.png

@@ -187,14 +187,24 @@
 		
 		<div id="dialogs">
 			<form id="clearDialog" class="dialog card z3" style="width: 384px;">
-				<h1>Clear entire drawing?</h1>
+				<h1 role="toolbar" style="padding: 0;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+						<img src="images/icons/close.png" alt="Close" />
+					</button>
+					Clear entire drawing?
+				</h1>
 				<div style="text-align: right;">
 					<button type="button" onclick="this.parentElement.parentElement.close();">Cancel</button>
 					<button type="submit">Clear</button>
 				</div>
 			</form>
 			<form id="saveDialog" class="dialog card z3" style="width: 384px;">
-				<h1>Save as</h1>
+				<h1 role="toolbar" style="padding: 0;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+						<img src="images/icons/close.png" alt="Close" />
+					</button>
+					Save as
+				</h1>
 				<input name="fileName" type="text" placeholder="File name" value="untitled.png" style="margin: 0 8px; width: 96%; width: calc(100% - 16px);" />
 				<br />
 				<select name="fileType">
@@ -207,7 +217,12 @@
 				</div>
 			</form>
 			<form id="resizeDialog" class="dialog card z3" style="width: 384px;">
-				<h1>Resize</h1>
+				<h1 role="toolbar" style="padding: 0;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+						<img src="images/icons/close.png" alt="Close" />
+					</button>
+					Resize
+				</h1>
 				<ul class="list">
 					<li>
 						<input name="width" type="number" placeholder="Width" value="640" min="1" style="width: 40%;" />
@@ -233,7 +248,12 @@
 				</div>
 			</form>
 			<form id="colorPickerDialog" class="dialog card z3" style="width: 640px; max-width: none;">
-				<h1>Colors</h1>
+				<h1 role="toolbar" style="padding: 0;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+						<img src="images/icons/close.png" alt="Close" />
+					</button>
+					Colors
+				</h1>
 				<table cellpadding="0" style="margin: 0 auto;">
 					<tr>
 						<th colspan="3">Primary (line)</th>
@@ -318,7 +338,12 @@
 				</div>
 			</form>
 			<form id="settingsDialog" class="dialog card z3" style="width: 384px;">
-				<h1>Settings</h1>
+				<h1 role="toolbar" style="padding: 0;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+						<img src="images/icons/close.png" alt="Close" />
+					</button>
+					Settings
+				</h1>
 				<ul class="list">
 					<li>
 						<label for="ghostDrawCheckbox" role="button">
@@ -340,7 +365,12 @@
 				</div>
 			</form>
 			<form id="helpDialog" class="dialog card z3" style="width: 640px;">
-				<h1>PaintZ Help</h1>
+				<h1 role="toolbar" style="padding: 0;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+						<img src="images/icons/close.png" alt="Close" />
+					</button>
+					PaintZ Help
+				</h1>
 				<table>
 					<tr>
 						<th colspan="2">Document actions</th>
@@ -515,7 +545,12 @@
 				</div>
 			</form>
 			<form id="aboutDialog" class="dialog card z3" style="width: 640px;">
-				<h1>About PaintZ</h1>
+				<h1 role="toolbar" style="padding: 0;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+						<img src="images/icons/close.png" alt="Close" />
+					</button>
+					About PaintZ
+				</h1>
 				<p>PaintZ was developed by <a href="http://zmyaro.com" target="_blank">Zachary Yaro</a>.  The source code is available <a href="https://github.com/zmyaro/paintz" target="_blank">on GitHub</a>.</p>
 				<p>PaintZ uses the <a href="http://www.daviddurman.com/flexi-color-picker" target="_blank">Flexi Color Picker library</a>, <a href="https://materialz.zmyaro.com" target="_blank">MaterialZ CSS library</a>, and <a href="https://github.com/jquery/PEP" target="_blank">Pointer Events Polyfill</a>.</p>
 				<p>Icons and styling decisions were taken from or based on <a href="https://www.google.com/design/spec/material-design" target="_blank">Material Design</a> and <a href="http://materialdesignicons.com" target="_blank">Material Design Icons</a>.</p>
@@ -559,7 +594,12 @@
 				</div>
 			</form>
 			<form id="keyboardDialog" class="dialog card z3" style="width: 352px;">
-				<h1>Keyboard shortcuts</h1>
+				<h1 role="toolbar" style="padding: 0;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+						<img src="images/icons/close.png" alt="Close" />
+					</button>
+					Keyboard shortcuts
+				</h1>
 				<table style="width: 100%;">
 					<tr>
 						<th colspan="2">Document actions</th>
