@@ -32,9 +32,10 @@
 		background-color: rgba(128,128,128,0.5);
 	}
 .dialog {
-	margin: auto;
+	margin: 0 auto 16px;
+	max-width: 96%;
 	display: none;
-
+	
 	opacity: 0;
 	-webkit-transform: scale(0);
 	   -moz-transform: scale(0);
