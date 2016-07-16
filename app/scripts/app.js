@@ -279,6 +279,7 @@ function initToolbar() {
 		e.preventDefault();
 		downloadLink.download =
 			saveDialog.fileName.value = fixExtension(saveDialog.fileName.value, saveDialog.fileType.value);
+		document.title = saveDialog.fileName.value + ' - PaintZ';
 		downloadImage();
 		e.target.close();
 	};
