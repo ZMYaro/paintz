@@ -158,3 +158,15 @@ hr {
 	margin-right: 8px;
 	margin-top: 2px;
 }
+
+.dialog .list li img {
+	max-width: 24px;
+}
+	.dialog .list li img:first-child {
+		vertical-align: bottom;
+		max-width: 32px;
+		margin: -16px;
+		margin-right: 0;
+		padding: 14px 8px 14px 0;
+		float: left;
+	}
