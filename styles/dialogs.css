@@ -32,9 +32,10 @@
 		background-color: rgba(128,128,128,0.5);
 	}
 .dialog {
-	margin: auto;
+	margin: 0 auto 16px;
+	max-width: 96%;
 	display: none;
-
+	
 	opacity: 0;
 	-webkit-transform: scale(0);
 	   -moz-transform: scale(0);
@@ -158,3 +159,15 @@ hr {
 	margin-right: 8px;
 	margin-top: 2px;
 }
+
+.dialog .list li img {
+	max-width: 24px;
+}
+	.dialog .list li img:first-child {
+		vertical-align: bottom;
+		max-width: 32px;
+		margin: -16px;
+		margin-right: 0;
+		padding: 14px 8px 14px 0;
+		float: left;
+	}

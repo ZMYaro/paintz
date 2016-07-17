@@ -64,6 +64,7 @@
 		<script type="text/javascript" src="scripts/tools/floodfill.js"></script>
 		<script type="text/javascript" src="scripts/tools/eyedropper.js"></script>
 		<script type="text/javascript" src="scripts/tools/selection.js"></script>
+		<script type="text/javascript" src="scripts/tools/text.js"></script>
 		<script type="text/javascript" src="scripts/tools/pan.js"></script>
 		<script type="text/javascript" src="scripts/pacman.js"></script>
 		<script type="text/javascript" src="scripts/app.js"></script>
@@ -75,40 +76,41 @@
 					<img src="images/icons/clear.png" alt="Clear" />
 				</button>
 				<button id="openBtn" title="Open image... (Ctrl+O)">
-					<img src="images/icons/open.png" alt="Open..." />
+					<img src="images/icons/open.png" alt="Open image..." />
 				</button>
 				<input type="file" accept="image/*" id="upload" style="display: none;" />
 				<button id="saveBtn" title="Save as... (Ctrl+S)">
 					<img src="images/icons/save.png" alt="Save as..." />
 				</button>
 				<br />
-				<button id="undoBtn" title="Undo" disabled="disabled">
-					<img src="images/icons/undo.png" alt="Undo (Ctrl+Z)" />
+				<button id="undoBtn" title="Undo (Ctrl+Z)" disabled="disabled">
+					<img src="images/icons/undo.png" alt="Undo" />
 				</button>
-				<button id="redoBtn" title="Redo" disabled="disabled">
-					<img src="images/icons/redo.png" alt="Redo (Ctrl+Y)" />
+				<button id="redoBtn" title="Redo (Ctrl+Y)" disabled="disabled">
+					<img src="images/icons/redo.png" alt="Redo" />
 				</button>
-				<button id="resizeBtn" title="Resize...">
+				<button id="resizeBtn" title="Crop or scale...">
 					<img src="images/icons/resize.png" alt="Resize..." />
 				</button>
 			</div>
 			<span class="divider"></span>
 			<form class="toolbox" id="tools">
-				<input type="radio" name="tool" value="pencil" id="pencilTool" title="Pencil" />
-				<input type="radio" name="tool" value="doodle" id="doodleTool" title="Doodle" />
-				<input type="radio" name="tool" value="line" id="lineTool" title="Line" />
-				<input type="radio" name="tool" value="rect" id="rectTool" title="Rectangle" />
-				<input type="radio" name="tool" value="oval" id="ovalTool" title="Oval" />
+				<input type="radio" name="tool" value="pencil" id="pencilTool" title="Pencil (P)" />
+				<input type="radio" name="tool" value="doodle" id="doodleTool" title="Brush (B)" />
+				<input type="radio" name="tool" value="line" id="lineTool" title="Line (L)" />
+				<input type="radio" name="tool" value="rect" id="rectTool" title="Rectangle (R)" />
+				<input type="radio" name="tool" value="oval" id="ovalTool" title="Oval (O)" />
+				<input type="radio" name="tool" value="floodFill" id="floodFillTool" title="Flood fill (F)" />
 				<br />
-				<input type="radio" name="tool" value="pan" id="panTool" title="Pan" />
-				<input type="radio" name="tool" value="selection" id="selectionTool" title="Selection" />
-				<input type="radio" name="tool" value="eraser" id="eraserTool" title="Eraser" />
-				<input type="radio" name="tool" value="eyedropper" id="eyedropperTool" title="Color picker" />
-				<input type="radio" name="tool" value="floodFill" id="floodFillTool" title="Flood fill" />
+				<input type="radio" name="tool" value="pan" id="panTool" title="Pan (H)" />
+				<input type="radio" name="tool" value="selection" id="selectionTool" title="Selection (S)" />
+				<input type="radio" name="tool" value="eraser" id="eraserTool" title="Eraser (E)" />
+				<input type="radio" name="tool" value="eyedropper" id="eyedropperTool" title="Color picker (I)" />
+				<input type="radio" name="tool" value="text" id="textTool" title="Text (T)" />
 			</form>
 			<span class="divider"></span>
 			<div class="toolbox">
-				<select title="Line width" id="lineWidth">
+				<select title="Line width ([/])" id="lineWidth">
 					<option value="1">1</option>
 					<option value="2">2</option>
 					<option value="3">3</option>
@@ -136,7 +138,7 @@
 				</form>
 			</div>
 			<span class="divider"></span>
-			<button title="Selected colors" id="colors" class="z1" style="border-color: white; background-color: white;"></button>
+			<button title="Selected colors (click for advanced picker)" id="colors" class="z1" style="border-color: white; background-color: white;"></button>
 			<div class="toolbox" id="colorPicker">
 				<button title="Black" data-value="#000000">Black</button>
 				<button title="Red" data-value="#F44336">Red</button>
@@ -174,25 +176,53 @@
 		<div class="appBar z2" id="bottomBar" role="toolbar">
 			<input type="number" id="zoomPercent" value="100" maxlength="3" min="1" max="999" />
 			<span class="icon">%</span>
-			<button id="zoomOutBtn" title="Zoom out">
+			<button id="zoomOutBtn" title="Zoom out (Ctrl+Alt+-)">
 				<img src="images/icons/zoom_out.png" alt="Zoom out" />
 			</button>
 			<input type="range" id="zoomSlider" list="zoomLevels" min="0" max="6" step="1" value="3" />
-			<button id="zoomInBtn" title="Zoom in">
+			<button id="zoomInBtn" title="Zoom in (Ctrl+Alt+=)">
 				<img src="images/icons/zoom_in.png" alt="Zoom in" />
 			</button>
 		</div>
 		
 		<div id="dialogs">
 			<form id="clearDialog" class="dialog card z3" style="width: 384px;">
-				<h1>Clear entire drawing?</h1>
+				<h1 role="toolbar" style="padding: 0;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+						<img src="images/icons/close.png" alt="Close" />
+					</button>
+					Clear entire drawing?
+				</h1>
 				<div style="text-align: right;">
 					<button type="button" onclick="this.parentElement.parentElement.close();">Cancel</button>
 					<button type="submit">Clear</button>
 				</div>
 			</form>
+			<form id="saveDialog" class="dialog card z3" style="width: 384px;">
+				<h1 role="toolbar" style="padding: 0;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+						<img src="images/icons/close.png" alt="Close" />
+					</button>
+					Save as
+				</h1>
+				<input name="fileName" type="text" placeholder="File name" value="untitled.png" style="margin: 0 8px; width: 96%; width: calc(100% - 16px);" />
+				<br />
+				<select name="fileType">
+					<option value="image/jpeg">JPEG (Joint Photographic Experts Group)</option>
+					<option value="image/png" selected="selected">PNG (Portable Network Graphics)</option>
+				</select>
+				<div style="text-align: right;">
+					<button type="button" onclick="this.parentElement.parentElement.close();">Cancel</button>
+					<button type="submit">Save</button>
+				</div>
+			</form>
 			<form id="resizeDialog" class="dialog card z3" style="width: 384px;">
-				<h1>Resize</h1>
+				<h1 role="toolbar" style="padding: 0;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+						<img src="images/icons/close.png" alt="Close" />
+					</button>
+					Resize
+				</h1>
 				<ul class="list">
 					<li>
 						<input name="width" type="number" placeholder="Width" value="640" min="1" style="width: 40%;" />
@@ -217,8 +247,13 @@
 					<button type="submit">Resize</button>
 				</div>
 			</form>
-			<form id="colorPickerDialog" class="dialog card z3" style="width: 640px;">
-				<h1>Colors</h1>
+			<form id="colorPickerDialog" class="dialog card z3" style="width: 640px; max-width: none;">
+				<h1 role="toolbar" style="padding: 0;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+						<img src="images/icons/close.png" alt="Close" />
+					</button>
+					Colors
+				</h1>
 				<table cellpadding="0" style="margin: 0 auto;">
 					<tr>
 						<th colspan="3">Primary (line)</th>
@@ -303,7 +338,12 @@
 				</div>
 			</form>
 			<form id="settingsDialog" class="dialog card z3" style="width: 384px;">
-				<h1>Settings</h1>
+				<h1 role="toolbar" style="padding: 0;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+						<img src="images/icons/close.png" alt="Close" />
+					</button>
+					Settings
+				</h1>
 				<ul class="list">
 					<li>
 						<label for="ghostDrawCheckbox" role="button">
@@ -325,7 +365,12 @@
 				</div>
 			</form>
 			<form id="helpDialog" class="dialog card z3" style="width: 640px;">
-				<h1>PaintZ Help</h1>
+				<h1 role="toolbar" style="padding: 0;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+						<img src="images/icons/close.png" alt="Close" />
+					</button>
+					PaintZ Help
+				</h1>
 				<table>
 					<tr>
 						<th colspan="2">Document actions</th>
@@ -359,7 +404,7 @@
 							<img src="images/icons/resize.png" alt="resize icon" class="helpIcon" />
 						</td>
 						<td>
-							Change the size of the drawing canvas.
+							Crop or scale your drawing.
 						</td>
 					</tr>
 					<tr><td colspan="2">&nbsp;</td></tr>
@@ -373,15 +418,15 @@
 							<img src="images/icons/pencil.png" alt="pencil icon" class="helpIcon" />
 						</td>
 						<td>
-							Draw single pixels in the current line color.  Right-click to use the current fill color.
+							Draw single pixels in the current line color.  Right-click to use the current fill color.  Shortcut key: P.
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<img src="images/icons/doodle.png" alt="doodle icon" class="helpIcon" />
+							<img src="images/icons/brush.png" alt="brush icon" class="helpIcon" />
 						</td>
 						<td>
-							Draw any shape you want in the current line color.  Right-click to use the current fill color.
+							Draw any shape you want in the current line color.  Right-click to use the current fill color.  Shortcut key: B.
 						</td>
 					</tr>
 					<tr>
@@ -389,7 +434,7 @@
 							<img src="images/icons/line.png" alt="line icon" class="helpIcon" />
 						</td>
 						<td>
-							Draw a straight line in the current line color.  Right-click to use the current fill color.
+							Draw a straight line in the current line color.  Right-click to use the current fill color.  Shortcut key: L.
 						</td>
 					</tr>
 					<tr>
@@ -397,7 +442,7 @@
 							<img src="images/icons/rect.png" alt="rect icon" class="helpIcon" />
 						</td>
 						<td>
-							Draw a rectangle.  Right-click to swap the line and fill colors.
+							Draw a rectangle.  Right-click to swap the line and fill colors.  Shortcut key: R.
 						</td>
 					</tr>
 					<tr>
@@ -405,7 +450,7 @@
 							<img src="images/icons/oval.png" alt="oval icon" class="helpIcon" />
 						</td>
 						<td>
-							Draw an oval.  Right-click to swap the line and fill colors.
+							Draw an oval.  Right-click to swap the line and fill colors.  Shortcut key: O.
 						</td>
 					</tr>
 					<tr>
@@ -413,7 +458,7 @@
 							<img src="images/icons/paint_bucket.png" alt="fill icon" class="helpIcon" />
 						</td>
 						<td>
-							Fill the section with the current line color.  Right-click to use the current fill color.
+							Fill the section with the current line color.  Right-click to use the current fill color.  Shortcut key: F.
 						</td>
 					</tr>
 					<tr>
@@ -421,7 +466,7 @@
 							<img src="images/icons/pan.png" alt="pan icon" class="helpIcon" />
 						</td>
 						<td>
-							Grab and pan around your drawing by clicking and dragging.
+							Grab and pan around your drawing by clicking and dragging.  Shortcut key: H.
 						</td>
 					</tr>
 					<tr>
@@ -429,7 +474,7 @@
 							<img src="images/icons/selection.png" alt="selection icon" class="helpIcon" />
 						</td>
 						<td>
-							Select a rectangular section of your drawing to move (click and drag), duplicate (Ctrl+D), or delete (Backspace).
+							Select a rectangular section of your drawing to move (click and drag), duplicate (Ctrl+D), or delete (Backspace/Delete).  Shortcut key: S.
 						</td>
 					</tr>
 					<tr>
@@ -437,7 +482,7 @@
 							<img src="images/icons/eraser.png" alt="eraser icon" class="helpIcon" />
 						</td>
 						<td>
-							Cover any part of your drawing with the current fill color.  Right-click to use the current line color.
+							Cover any part of your drawing with the current fill color.  Right-click to use the current line color.  Shortcut key: E.
 						</td>
 					</tr>
 					<tr>
@@ -445,7 +490,15 @@
 							<img src="images/icons/eyedropper.png" alt="eyedropper icon" class="helpIcon" />
 						</td>
 						<td>
-							Use the color under the cursor as the line color.  Right-click to select the fill color instead.
+							Select a color in your drawing to use it as the line color.  Right-click to select the fill color instead. Shortcut key: I.
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<img src="images/icons/text.png" alt="text icon" class="helpIcon" />
+						</td>
+						<td>
+							Add text to your drawing in the current line color.  Shortcut key: T.
 						</td>
 					</tr>
 					<tr><td colspan="2">&nbsp;</td></tr>
@@ -492,32 +545,165 @@
 				</div>
 			</form>
 			<form id="aboutDialog" class="dialog card z3" style="width: 640px;">
-				<h1>About PaintZ</h1>
+				<h1 role="toolbar" style="padding: 0;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+						<img src="images/icons/close.png" alt="Close" />
+					</button>
+					About PaintZ
+				</h1>
 				<p>PaintZ was developed by <a href="http://zmyaro.com" target="_blank">Zachary Yaro</a>.  The source code is available <a href="https://github.com/zmyaro/paintz" target="_blank">on GitHub</a>.</p>
 				<p>PaintZ uses the <a href="http://www.daviddurman.com/flexi-color-picker" target="_blank">Flexi Color Picker library</a>, <a href="https://materialz.zmyaro.com" target="_blank">MaterialZ CSS library</a>, and <a href="https://github.com/jquery/PEP" target="_blank">Pointer Events Polyfill</a>.</p>
 				<p>Icons and styling decisions were taken from or based on <a href="https://www.google.com/design/spec/material-design" target="_blank">Material Design</a> and <a href="http://materialdesignicons.com" target="_blank">Material Design Icons</a>.</p>
 				<p>Pac-Man is owned by Namco.</p>
 				<hr />
-				<p>
-					<a href="https://chrome.google.com/webstore/detail/paintz/gdjcnhanmagpjdpilaehedkchegnkdoj" target="_blank" id="cwsInstallLink" style="text-decoration: none;">
-						<img src="images/icons/cws.png" style="width: 24px; height: 24px; vertical-align: bottom;" alt="CWS icon" />
-						<span style="text-decoration: underline;">Install PaintZ from the Chrome Web Store for easy access</span>
-					</a>
-					<a href="https://chrome.google.com/webstore/detail/paintz/gdjcnhanmagpjdpilaehedkchegnkdoj/support" target="_blank" id="cwsFeedbackLink" style="text-decoration: none; display: none;">
-						<img src="images/icons/cws.png" style="width: 24px; height: 24px; vertical-align: bottom;" alt="CWS icon" />
-						<span style="text-decoration: underline;">Submit feeback on the Chrome Web Store</span>
-					</a>
-				</p>
-				<p>
-					Follow PaintZ on
-					<a href="https://facebook.com/PaintZApp" target="_blank">Facebook</a>
-					or
-					<a href="https://plus.google.com/108921275567738228489" rel="publisher" target="_blank">Google+</a>
-				</p>
-				<div style="text-align: right;">
-					<div style="float: left; padding-top: 18px;">
+				<ul class="list">
+					<li>
+						<a href="https://chrome.google.com/webstore/detail/paintz/gdjcnhanmagpjdpilaehedkchegnkdoj" target="_blank" id="cwsInstallLink" role="button">
+							<img src="images/icons/cws.png" alt="" />
+							Install PaintZ from the Chrome Web Store for quick access
+						</a>
+						<a href="https://chrome.google.com/webstore/detail/paintz/gdjcnhanmagpjdpilaehedkchegnkdoj/support" target="_blank" id="cwsFeedbackLink" role="button" style="display: none;">
+							<img src="images/icons/cws.png" alt="" />
+							Submit feeback on the Chrome Web Store
+						</a>
+					</li>
+					<li>
+						<a href="https://github.com/zmyaro/paintz/issues" target="_blank" role="button">
+							<img src="images/icons/github.png" alt="" />
+							See bug reports and feature requests on GitHub
+						</a>
+					</li>
+					<li>
+						<a href="https://facebook.com/PaintZApp" target="_blank" role="button">
+							<img src="images/icons/fb.png" alt="" />
+							Like PaintZ on Facebook
+						</a>
+					</li>
+					<li>
+						<a href="https://plus.google.com/108921275567738228489" rel="publisher" target="_blank" role="button">
+							<img src="images/icons/gplus.png" alt="" />
+							Follow PaintZ on Google+
+						</a>
+					</li>
+				</ul>
+				<div style="text-align: right; margin-top: 12px;">
+					<div style="float: left; padding-top: 12px;">
 						<span style="color: rgba(0,0,0,0.1);">Ctrl+Shift+</span><div style="display: inline-block; background-color: yellow; width: 16px; height: 16px; -webkit-border-radius: 50%; -moz-border-radius: 50%; border-radius: 50%; margin-bottom: -2px;"></div>
 					</div>
+					<button type="submit">Close</button>
+				</div>
+			</form>
+			<form id="keyboardDialog" class="dialog card z3" style="width: 352px;">
+				<h1 role="toolbar" style="padding: 0;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+						<img src="images/icons/close.png" alt="Close" />
+					</button>
+					Keyboard shortcuts
+				</h1>
+				<table style="width: 100%;">
+					<tr>
+						<th colspan="2">Document actions</th>
+					</tr>
+					<tr>
+						<td><strong>Ctrl+O</strong></td>
+						<td>Open image</td>
+					</tr>
+					<tr>
+						<td><strong>Ctrl+S</strong></td>
+						<td>Save as</td>
+					</tr>
+					<tr>
+						<td><strong>Ctrl+Z</strong></td>
+						<td>Undo</td>
+					</tr>
+					<tr>
+						<td><strong>Ctrl+Y</strong></td>
+						<td>Redo</td>
+					</tr>
+					<tr>
+						<td><strong>Ctrl+Alt+=</strong></td>
+						<td>Zoom in</td>
+					</tr>
+					<tr>
+						<td><strong>Ctrl+Alt+-</strong></td>
+						<td>Zoom out</td>
+					</tr>
+					<tr><td colspan="2">&nbsp;</td></tr>
+					<tr>
+						<th colspan="2">Tools</th>
+					</tr>
+					<tr>
+						<td><strong>P</strong></td>
+						<td>Pencil</td>
+					</tr>
+					<tr>
+						<td><strong>B</strong></td>
+						<td>Brush</td>
+					</tr>
+					<tr>
+						<td><strong>L</strong></td>
+						<td>Line</td>
+					</tr>
+					<tr>
+						<td><strong>R</strong></td>
+						<td>Rectangle</td>
+					</tr>
+					<tr>
+						<td><strong>O</strong></td>
+						<td>Oval</td>
+					</tr>
+					<tr>
+						<td><strong>F</strong></td>
+						<td>Flood fill</td>
+					</tr>
+					<tr>
+						<td><strong>H</strong></td>
+						<td>Pan (hand)</td>
+					</tr>
+					<tr>
+						<td><strong>S</strong></td>
+						<td>Selection</td>
+					</tr>
+					<tr>
+						<td><strong>E</strong></td>
+						<td>Eraser</td>
+					</tr>
+					<tr>
+						<td><strong>I</strong></td>
+						<td>Eyedropper (color picker)</td>
+					</tr>
+					<tr>
+						<td><strong>T</strong></td>
+						<td>Text</td>
+					</tr>
+					<tr><td colspan="2">&nbsp;</td></tr>
+					<tr>
+						<th colspan="2">
+							Tool actions
+						</th>
+					</tr>
+					<tr>
+						<td><strong>[</strong></td>
+						<td>Decrease line width</td>
+					</tr>
+					<tr>
+						<td><strong>]</strong></td>
+						<td>Increase line width</td>
+					</tr>
+					<tr>
+						<td><strong>X</strong></td>
+						<td>Switch line and fill colors</td>
+					</tr>
+					<tr>
+						<td><strong>Ctrl+A</strong></td>
+						<td>Select all</td>
+					</tr>
+					<tr>
+						<td><strong>Ctrl+D</strong></td>
+						<td>Duplicate selection</td>
+					</tr>
+				</table>
+				<div style="text-align: right;">
 					<button type="submit">Close</button>
 				</div>
 			</form>
@@ -525,7 +711,7 @@
 
 		<!-- Invisible elements. -->
 		<canvas id="cursorCanvas" width="64" height="64"></canvas>
-		<a id="downloadLink" download="untitled.png"></a>
+		<a id="downloadLink" type="image/png" download="untitled.png"></a>
 		<audio src="audio/pacman_start.mp3" id="pacManStartSound"></audio>
 	</body>
 </html>

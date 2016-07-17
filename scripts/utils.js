@@ -3,6 +3,9 @@
 var Utils = {
 	DIALOG_TRANSITION_DURATION: 200, // In milliseconds.
 	
+	/** Whether the device runs Apple software. */
+	isApple: (navigator.userAgent.indexOf('Mac') !== -1),
+	
 	/**
 	 * Clear all graphics in a given canvas.
 	 * @param {CanvasRenderingContext2D} cxt - The rendering context of the canvas to clear

@@ -7,6 +7,7 @@ var DEFAULTS = {
 	outlineOption: 'outlineFill',
 	lineColor: '#000000',
 	fillColor: '#ffffff',
+	fontSize: 16,
 	tool: 'doodle',
 	ghostDraw: '',
 	maxUndoStackDepth: 50
@@ -25,9 +26,9 @@ var canvas,
  * Set up the Chrome Web Store links in the About dialog.
  */
 function initCWSLinks() {
-	if (window.chrome && chrome.app && chrome.app.isInstalled) {
+	if ((!window.chrome || !chrome.webstore) || (window.chrome && chrome.app && chrome.app.isInstalled)) {
 		document.getElementById('cwsInstallLink').style.display = 'none';
-		document.getElementById('cwsFeedbackLink').style.display = 'inline';
+		document.getElementById('cwsFeedbackLink').style.display = 'block';
 	} else {
 		document.getElementById('cwsInstallLink').onclick = function (e) {
 			if (chrome && chrome.webstore && chrome.webstore.install) {
@@ -36,11 +37,29 @@ function initCWSLinks() {
 				chrome.webstore.install(cwsLink, function () {
 					// Change links on successful installation.
 					document.getElementById('cwsInstallLink').style.display = 'none';
-					document.getElementById('cwsFeedbackLink').style.display = 'inline';
+					document.getElementById('cwsFeedbackLink').style.display = 'block';
+				}, function () {
+					window.open(e.target.href, '_blank');
 				});
 			}
 		};
 	}
+}
+
+/**
+ * Switch to the specified tool.
+ * @param {String} tool - The name of the tool to switch to
+ */
+function switchTool(tool) {
+	// Deactivate the current tool.
+	tools[localStorage.tool].deactivate();
+	// Clear the preview canvas.
+	Utils.clearCanvas(preCxt);
+	// Set and activate the newly-selected tool.
+	localStorage.tool = tool;
+	tools[tool].activate();
+	// Update the toolbar.
+	document.getElementById('tools').tool.value = tool;
 }
 
 /**
@@ -55,13 +74,8 @@ function initToolbar() {
 	}
 
 	document.getElementById('tools').onchange = function (e) {
-		// Deactivate the current tool.
-		tools[localStorage.tool].deactivate();
-		// Clear the preview canvas.
-		Utils.clearCanvas(preCxt);
-		// Set and activate the newly-selected tool.
-		localStorage.tool = e.target.value;
-		tools[e.target.value].activate();
+		// Switch to the newly-selected tool.
+		switchTool(e.target.value);
 	};
 
 	document.getElementById('lineWidth').onchange = function (e) {
@@ -226,7 +240,7 @@ function initToolbar() {
 	// Set up the event listener for the Pac-Man easter egg.
 	document.querySelector('#colorPicker button[data-value=\"#FFEB3B\"]').addEventListener('click', function (e) {
 		// If the button was Ctrl+Shift+clicked...
-		if (e.ctrlKey && e.shiftKey) {
+		if (((!Utils.isApple && e.ctrlKey) || (Utils.isApple && e.metaKey)) && e.shiftKey) {
 			e.preventDefault();
 			e.stopPropagation();
 			if (!window.pacMan) {
@@ -256,7 +270,26 @@ function initToolbar() {
 		e.target.close();
 	};
 	clearBtn.onclick = clearDialog.open;
-
+	
+	// Save as button and dialog.
+	var saveDialog = document.getElementById('saveDialog'),
+		clearBtn = document.getElementById('saveBtn');
+	Utils.makeDialog(saveDialog, saveBtn);
+	saveDialog.onsubmit = function (e) {
+		e.preventDefault();
+		saveDialog.fileName.value =
+			downloadLink.download = fixExtension(saveDialog.fileName.value, saveDialog.fileType.value);
+		document.title = saveDialog.fileName.value + ' - PaintZ';
+		downloadImage();
+		e.target.close();
+	};
+	saveDialog.fileType.oninput = function () {
+		downloadLink.type = saveDialog.fileType.value;
+		saveDialog.fileName.value =
+			downloadLink.download = fixExtension(saveDialog.fileName.value, saveDialog.fileType.value);
+	};
+	saveBtn.onclick = saveDialog.open;
+	
 	// Undo and redo buttons.
 	document.getElementById('undoBtn').onclick = undoStack.undo.bind(undoStack);
 	document.getElementById('redoBtn').onclick = undoStack.redo.bind(undoStack);
@@ -336,7 +369,8 @@ function initToolbar() {
 				
 				// Set the file name.
 				var fileName = file.name.replace(/\.[A-Za-z]+$/, '.png');
-				downloadLink.download = fileName;
+				document.getElementById('saveDialog').fileName.value =
+					downloadLink.download = fileName;
 				document.title = fileName + ' - PaintZ';
 			};
 			reader.readAsDataURL(file);
@@ -348,8 +382,6 @@ function initToolbar() {
 	document.getElementById('openBtn').addEventListener('click', function (e) {
 		document.getElementById('upload').click();
 	}, false);
-	// Save as button.
-	document.getElementById('saveBtn').addEventListener('click', downloadImage, false);
 	
 	// Full screen button.
 	document.getElementById('fullScreenBtn').onclick = function () {
@@ -466,6 +498,7 @@ function initTools() {
 		floodFill: new FloodFillTool(cxt, preCxt),
 		eyedropper: new EyedropperTool(cxt, preCxt),
 		selection: new SelectionTool(cxt, preCxt),
+		text: new TextTool(cxt,preCxt),
 		pan: new PanTool(cxt, preCxt)
 	};
 	tools[localStorage.tool].activate();
@@ -547,15 +580,51 @@ function resetCanvas() {
 	cxt.fillRect(0, 0, canvas.width, canvas.height);
 }
 
+/*
+ * Fix the extension on a file name to match a MIME type.
+ * @param {String} name - The file name to fix
+ * @param {String} type - The MIME type to match (JPEG or PNG)
+ * @returns {String} - The modified file name
+ */
+function fixExtension(name, type) {
+	var pngRegex = (/.+\.png$/i),
+		jpegRegex = (/.+\.jpe?g$/i),
+		fileExtRegex = (/\.[a-z0-9]{1,4}$/i);
+	
+	name = name.trim();
+	
+	if (type === 'image/png' && !pngRegex.test(name)) {
+		if (fileExtRegex.test(name)) {
+			return name.replace(fileExtRegex, '.png');
+		} else {
+			return name + '.png';
+		}
+	} else if (type === 'image/jpeg' && !jpegRegex.test(name)) {
+		if (fileExtRegex.test(name)) {
+			return name.replace(fileExtRegex, '.jpg');
+		} else {
+			return name + '.jpg';
+		}
+	}
+	return name;
+}
+
 /**
  * Export the canvas content to a PNG to be saved.
  */
 function downloadImage() {
-	downloadLink.href = canvas.toDataURL();
+	downloadLink.href = canvas.toDataURL(downloadLink.type || 'image/png');
 	downloadLink.click();
 }
 
 window.addEventListener('load', function () {
+	// Update keyboard shortcut listings for Apple users.
+	if (Utils.isApple) {
+		document.body.innerHTML = document.body.innerHTML.replace(/Ctrl\+/g, '&#x2318;').replace(/Alt\+/g, '&#x2325;').replace(/Shift\+/g, '&#x21e7;');
+	}
+	// Initialize keyboard shortcut dialog.
+	Utils.makeDialog(document.getElementById('keyboardDialog'));
+	
 	// Initialize everything.
 	initCWSLinks();
 	initToolbar();
