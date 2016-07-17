@@ -277,16 +277,16 @@ function initToolbar() {
 	Utils.makeDialog(saveDialog, saveBtn);
 	saveDialog.onsubmit = function (e) {
 		e.preventDefault();
-		downloadLink.download =
-			saveDialog.fileName.value = fixExtension(saveDialog.fileName.value, saveDialog.fileType.value);
+		saveDialog.fileName.value =
+			downloadLink.download = fixExtension(saveDialog.fileName.value, saveDialog.fileType.value);
 		document.title = saveDialog.fileName.value + ' - PaintZ';
 		downloadImage();
 		e.target.close();
 	};
 	saveDialog.fileType.oninput = function () {
 		downloadLink.type = saveDialog.fileType.value;
-		downloadLink.download =
-			saveDialog.fileName.value = fixExtension(saveDialog.fileName.value, saveDialog.fileType.value);
+		saveDialog.fileName.value =
+			downloadLink.download = fixExtension(saveDialog.fileName.value, saveDialog.fileType.value);
 	};
 	saveBtn.onclick = saveDialog.open;
 	
@@ -369,7 +369,8 @@ function initToolbar() {
 				
 				// Set the file name.
 				var fileName = file.name.replace(/\.[A-Za-z]+$/, '.png');
-				downloadLink.download = fileName;
+				document.getElementById('saveDialog').fileName.value =
+					downloadLink.download = fileName;
 				document.title = fileName + ' - PaintZ';
 			};
 			reader.readAsDataURL(file);
