@@ -1,5 +1,11 @@
 'use strict';
 
+// RegExes.
+var PNG_REGEX = (/.+\.png$/i),
+	JPEG_REGEX = (/.+\.(jpg|jpeg|jpe|jif|jfif|jfi)$/i),
+	FILE_EXT_REGEX = (/\.[a-z0-9]{1,4}$/i);
+
+// Default settings
 var DEFAULTS = {
 	width: 640,
 	height: 480,
@@ -273,22 +279,29 @@ function initToolbar() {
 	
 	// Save as button and dialog.
 	var saveDialog = document.getElementById('saveDialog'),
-		clearBtn = document.getElementById('saveBtn');
+		saveBtn = document.getElementById('saveBtn');
 	Utils.makeDialog(saveDialog, saveBtn);
-	saveDialog.onsubmit = function (e) {
-		e.preventDefault();
-		saveDialog.fileName.value =
-			downloadLink.download = fixExtension(saveDialog.fileName.value, saveDialog.fileType.value);
-		document.title = saveDialog.fileName.value + ' - PaintZ';
-		downloadImage();
-		e.target.close();
-	};
+	saveDialog.fileName.onchange =
+	saveDialog.fileType.onchange =
 	saveDialog.fileType.oninput = function () {
+		// Update file name.
+		var newName = fixExtension(saveDialog.fileName.value, saveDialog.fileType.value);
+		saveDialog.fileName.value = newName;
+		downloadLink.download = newName;
+		downloadLink.href = canvas.toDataURL(saveDialog.fileType.value);
+		
+		// Update file type.
 		downloadLink.type = saveDialog.fileType.value;
-		saveDialog.fileName.value =
-			downloadLink.download = fixExtension(saveDialog.fileName.value, saveDialog.fileType.value);
 	};
-	saveBtn.onclick = saveDialog.open;
+	saveBtn.onclick = function () {
+		// Export the canvas content to a PNG to be saved.
+		downloadLink.href = canvas.toDataURL(downloadLink.type || 'image/png');
+		saveDialog.open();
+	};
+	downloadLink.onclick = function () {
+		document.title = downloadLink.download + ' - PaintZ';
+		saveDialog.close();
+	};
 	
 	// Undo and redo buttons.
 	document.getElementById('undoBtn').onclick = undoStack.undo.bind(undoStack);
@@ -339,7 +352,6 @@ function initToolbar() {
 
 	// Uploader.
 	document.getElementById('upload').addEventListener('change', function (e) {
-		console.log(e);
 		if (window.File && window.FileReader && window.FileList && window.Blob) {
 			var file = e.target.files[0];
 			if (!file) {
@@ -367,8 +379,16 @@ function initToolbar() {
 				// Clear the undo and redo stacks.
 				undoStack.clear();
 				
-				// Set the file name.
-				var fileName = file.name.replace(/\.[A-Za-z]+$/, '.png');
+				// Set the file type and name.
+				var fileName = file.name;
+				if (JPEG_REGEX.test(fileName)) {
+					document.getElementById('saveDialog').fileType.value =
+						downloadLink.type = 'image/jpeg';
+				} else {
+					document.getElementById('saveDialog').fileType.value =
+						downloadLink.type = 'image/png';
+					fileName = fileName.replace(FILE_EXT_REGEX, '.png');
+				}
 				document.getElementById('saveDialog').fileName.value =
 					downloadLink.download = fileName;
 				document.title = fileName + ' - PaintZ';
@@ -587,34 +607,22 @@ function resetCanvas() {
  * @returns {String} - The modified file name
  */
 function fixExtension(name, type) {
-	var pngRegex = (/.+\.png$/i),
-		jpegRegex = (/.+\.jpe?g$/i),
-		fileExtRegex = (/\.[a-z0-9]{1,4}$/i);
-	
 	name = name.trim();
 	
-	if (type === 'image/png' && !pngRegex.test(name)) {
-		if (fileExtRegex.test(name)) {
-			return name.replace(fileExtRegex, '.png');
+	if (type === 'image/png' && !PNG_REGEX.test(name)) {
+		if (FILE_EXT_REGEX.test(name)) {
+			return name.replace(FILE_EXT_REGEX, '.png');
 		} else {
 			return name + '.png';
 		}
-	} else if (type === 'image/jpeg' && !jpegRegex.test(name)) {
-		if (fileExtRegex.test(name)) {
-			return name.replace(fileExtRegex, '.jpg');
+	} else if (type === 'image/jpeg' && !JPEG_REGEX.test(name)) {
+		if (FILE_EXT_REGEX.test(name)) {
+			return name.replace(FILE_EXT_REGEX, '.jpg');
 		} else {
 			return name + '.jpg';
 		}
 	}
 	return name;
-}
-
-/**
- * Export the canvas content to a PNG to be saved.
- */
-function downloadImage() {
-	downloadLink.href = canvas.toDataURL(downloadLink.type || 'image/png');
-	downloadLink.click();
 }
 
 window.addEventListener('load', function () {
@@ -624,6 +632,8 @@ window.addEventListener('load', function () {
 	}
 	// Initialize keyboard shortcut dialog.
 	Utils.makeDialog(document.getElementById('keyboardDialog'));
+	
+	downloadLink = document.getElementById('downloadLink');
 	
 	// Initialize everything.
 	initCWSLinks();
@@ -640,8 +650,6 @@ window.addEventListener('load', function () {
 	keyManager.enableAppShortcuts();
 	
 	document.title = 'untitled.png - PaintZ'
-	
-	downloadLink = document.getElementById('downloadLink');
 	
 	if (!localStorage.firstRunDone) {
 		document.getElementById('helpDialog').open();

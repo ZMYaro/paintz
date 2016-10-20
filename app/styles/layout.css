@@ -310,7 +310,7 @@ body {
 		z-index: 2;
 	}
 
-#cursorCanvas, #downloadLink, #pacManStartSound {
+#cursorCanvas, #pacManStartSound {
 	display: none;
 }
 

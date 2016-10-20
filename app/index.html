@@ -213,7 +213,7 @@
 				</select>
 				<div style="text-align: right;">
 					<button type="button" onclick="this.parentElement.parentElement.close();">Cancel</button>
-					<button type="submit">Save</button>
+					<a role="button" id="downloadLink" type="image/png" download="untitled.png" target="_blank">Save</a>
 				</div>
 			</form>
 			<form id="resizeDialog" class="dialog card z3" style="width: 384px;">
@@ -711,7 +711,6 @@
 
 		<!-- Invisible elements. -->
 		<canvas id="cursorCanvas" width="64" height="64"></canvas>
-		<a id="downloadLink" type="image/png" download="untitled.png"></a>
 		<audio src="audio/pacman_start.mp3" id="pacManStartSound"></audio>
 	</body>
 </html>
