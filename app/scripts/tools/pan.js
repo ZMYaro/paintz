@@ -17,6 +17,9 @@ PanTool.prototype = Object.create(Tool.prototype);
  */
 PanTool.prototype.activate = function () {
 	this._preCxt.canvas.style.cursor = 'move';
+	this._preCxt.canvas.style.cursor = '-webkit-grab';
+	this._preCxt.canvas.style.cursor = '-moz-grab';
+	this._preCxt.canvas.style.cursor = 'grab';
 };
 
 /**
@@ -31,6 +34,11 @@ PanTool.prototype.start = function (pointerState) {
 	
 	this._startX = pointerState.x;
 	this._startY = pointerState.y;
+	
+	// Switch to the grabbing cursor.
+	this._preCxt.canvas.style.cursor = '-webkit-grabbing';
+	this._preCxt.canvas.style.cursor = '-moz-grabbing';
+	this._preCxt.canvas.style.cursor = 'grabbing';
 };
 
 /**
@@ -52,5 +60,10 @@ PanTool.prototype.move = function (pointerState) {
 PanTool.prototype.end = function (pointerState) {
 	// Move to the final pointer position before stopping.
 	this.move(pointerState);
+	
+	// Reset to the non-grabbing cursor.
+	this._preCxt.canvas.style.cursor = '-webkit-grab';
+	this._preCxt.canvas.style.cursor = '-moz-grab';
+	this._preCxt.canvas.style.cursor = 'grab';
 };
 
