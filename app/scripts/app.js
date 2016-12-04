@@ -270,9 +270,32 @@ function initToolbar() {
 	Utils.makeDialog(clearDialog, clearBtn);
 	clearDialog.onsubmit = function (e) {
 		e.preventDefault();
-		resetCanvas();
-		// Add the change to the undo stack.
-		undoStack.addState();
+		
+		// Animate clearing the canvas.
+		var CENTER_X = 0,
+			CENTER_Y = -224,
+			MAX_RADIUS = Math.max(canvas.width, canvas.height) * 2,
+			STEP = Math.floor(MAX_RADIUS / 16),
+			radius = 224;
+		
+		function expandClearCircle() {
+			radius += STEP;
+			
+			cxt.fillStyle = localStorage.fillColor;
+			cxt.beginPath();
+			cxt.arc(CENTER_X, CENTER_Y, radius, 0, 2 * Math.PI);
+			cxt.closePath();
+			cxt.fill();
+			
+			if (radius < MAX_RADIUS) {
+				Utils.raf(expandClearCircle);
+			} else {
+				// Add the change to the undo stack.
+				undoStack.addState();
+			}
+		}
+		Utils.raf(expandClearCircle);
+		
 		e.target.close();
 	};
 	clearBtn.onclick = clearDialog.open;
