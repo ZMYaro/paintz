@@ -26,7 +26,8 @@ var canvas,
 	preCxt,
 	cursorCxt,
 	downloadLink,
-	tools;
+	tools,
+	progressSpinner;
 
 /**
  * Set up the Chrome Web Store links in the About dialog.
@@ -376,6 +377,8 @@ function initToolbar() {
 	// Uploader.
 	document.getElementById('upload').addEventListener('change', function (e) {
 		if (window.File && window.FileReader && window.FileList && window.Blob) {
+			progressSpinner.open();
+			
 			var file = e.target.files[0];
 			if (!file) {
 				return;
@@ -415,6 +418,7 @@ function initToolbar() {
 				document.getElementById('saveDialog').fileName.value =
 					downloadLink.download = fileName;
 				document.title = fileName + ' - PaintZ';
+				progressSpinner.close();
 			};
 			reader.readAsDataURL(file);
 		} else {
@@ -671,6 +675,9 @@ window.addEventListener('load', function () {
 	undoStack.addState();
 	// Enable keyboard shortcuts.
 	keyManager.enableAppShortcuts();
+	
+	progressSpinner = document.getElementById('progressSpinner');
+	Utils.makeDialog(progressSpinner);
 	
 	document.title = 'untitled.png - PaintZ'
 	

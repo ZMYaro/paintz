@@ -128,7 +128,10 @@ var Utils = {
 				if (firstInput) {
 					firstInput.focus();
 				} else {
-					element.querySelector('button[type=\"submit\"]').focus();
+					var submitButton = element.querySelector('button[type=\"submit\"]')
+					if (submitButton) {
+						submitButton.focus();
+					}
 				}
 			}, 1);
 		};
