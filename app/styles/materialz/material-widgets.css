@@ -254,6 +254,96 @@ body {
 	vertical-align: top;
 }
 
+progress.circular,
+progress.circular::before,
+progress.circular::after,
+*[role="progressbar"].circular,
+*[role="progressbar"].circular::before,
+*[role="progressbar"].circular::after {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	
+	background: transparent;
+	
+	border: 6px solid transparent;
+	border-top-color: currentColor;
+	
+	-webkit-animation-iteration-count: infinite;
+	-moz-animation-iteration-count: infinite;
+	-ms-animation-iteration-count: infinite;
+	-o-animation-iteration-count: infinite;
+	animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+	-moz-animation-timing-function: linear;
+	-ms-animation-timing-function: linear;
+	-o-animation-timing-function: linear;
+	animation-timing-function: linear;
+	-webkit-animation-duration: 1.5s;
+	-moz-animation-duration: 1.5s;
+	-ms-animation-duration: 1.5s;
+	-o-animation-duration: 1.5s;
+	animation-duration: 1.5s;
+}
+	progress.circular,
+	*[role="progressbar"].circular {
+		width: 48px;
+		height: 48px;
+		display: inline-block;
+		position: relative;
+		
+		-webkit-animation-name: materialz-circular-progress-part1;
+		   -moz-animation-name: materialz-circular-progress-part1;
+		    -ms-animation-name: materialz-circular-progress-part1;
+		     -o-animation-name: materialz-circular-progress-part1;
+		        animation-name: materialz-circular-progress-part1;
+	}
+	progress.circular::before,
+	progress.circular::after,
+	*[role="progressbar"].circular::before,
+	*[role="progressbar"].circular::after {
+		content: '';
+		display: block;
+		position: absolute;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		margin: -6px; /* Counter the parent element's border width */
+		border-top-color: inherit;
+	}
+	progress.circular::before,
+	*[role="progressbar"].circular::before {
+		-webkit-animation-name: materialz-circular-progress-part2;
+		   -moz-animation-name: materialz-circular-progress-part2;
+		    -ms-animation-name: materialz-circular-progress-part2;
+		     -o-animation-name: materialz-circular-progress-part2;
+		        animation-name: materialz-circular-progress-part2;
+	}
+	progress.circular::after,
+	*[role="progressbar"].circular::after {
+		-webkit-animation-name: materialz-circular-progress-part3;
+		   -moz-animation-name: materialz-circular-progress-part3;
+		    -ms-animation-name: materialz-circular-progress-part3;
+		     -o-animation-name: materialz-circular-progress-part3;
+		        animation-name: materialz-circular-progress-part3;
+	}
+	/* These allow the class to be applied to a <progress> element. */
+	progress.circular::-webkit-progress-bar,
+	progress.circular::-webkit-progress-value {
+		background: transparent;
+	}
+	progress.circular::-moz-progress-bar {
+		background: transparent;
+	}
+	progress.circular::-ms-fill {
+		background: transparent;
+	}
+
 @media (max-width: 600px) {
 	body {
 		padding-top: 72px; /* 56px toolbar + 16px padding */
@@ -265,4 +355,249 @@ body {
 		.appBar > *[role="toolbar"] {
 			margin: -12px;
 		}
+}
+
+@-webkit-keyframes materialz-circular-progress-part1 {
+	0% {
+		-webkit-transform: rotateZ(0deg);
+		        transform: rotateZ(0deg);
+	}
+	25% {
+		-webkit-transform: rotateZ(45deg);
+		        transform: rotateZ(45deg);
+	}
+	50% {
+		-webkit-transform: rotateZ(90deg);
+		        transform: rotateZ(90deg);
+	}
+	75% {
+		-webkit-transform: rotateZ(315deg);
+		        transform: rotateZ(315deg);
+	}
+	100% {
+		-webkit-transform: rotateZ(360deg);
+		        transform: rotateZ(360deg);
+	}
+}
+@-webkit-keyframes materialz-circular-progress-part2 {
+	0% {
+		-webkit-transform: rotateZ(0deg);
+		        transform: rotateZ(0deg);
+	}
+	25% {
+		-webkit-transform: rotateZ(89deg);
+		        transform: rotateZ(89deg);
+	}
+	50% {
+		-webkit-transform: rotateZ(89deg);
+		        transform: rotateZ(89deg);
+	}
+	75% {
+		-webkit-transform: rotateZ(0deg);
+		        transform: rotateZ(0deg);
+	}
+	100% {
+		-webkit-transform: rotateZ(0deg);
+		        transform: rotateZ(0deg);
+	}
+}
+@-webkit-keyframes materialz-circular-progress-part3 {
+	0% {
+		-webkit-transform: rotateZ(0deg);
+		        transform: rotateZ(0deg);
+	}
+	25% {
+		-webkit-transform: rotateZ(178deg);
+		        transform: rotateZ(178deg);
+	}
+	50% {
+		-webkit-transform: rotateZ(178deg);
+		        transform: rotateZ(178deg);
+	}
+	75% {
+		-webkit-transform: rotateZ(0deg);
+		        transform: rotateZ(0deg);
+	}
+	100% {
+		-webkit-transform: rotateZ(0deg);
+		        transform: rotateZ(0deg);
+	}
+}
+@-moz-keyframes materialz-circular-progress-part1 {
+	0% {
+		-moz-transform: rotateZ(0deg);
+		     transform: rotateZ(0deg);
+	}
+	25% {
+		-moz-transform: rotateZ(45deg);
+		     transform: rotateZ(45deg);
+	}
+	50% {
+		-moz-transform: rotateZ(90deg);
+		     transform: rotateZ(90deg);
+	}
+	75% {
+		-moz-transform: rotateZ(315deg);
+		     transform: rotateZ(315deg);
+	}
+	100% {
+		-moz-transform: rotateZ(360deg);
+		     transform: rotateZ(360deg);
+	}
+}
+@-moz-keyframes materialz-circular-progress-part2 {
+	0% {
+		-moz-transform: rotateZ(0deg);
+		     transform: rotateZ(0deg);
+	}
+	25% {
+		-moz-transform: rotateZ(89deg);
+		     transform: rotateZ(89deg);
+	}
+	50% {
+		-moz-transform: rotateZ(89deg);
+		     transform: rotateZ(89deg);
+	}
+	75% {
+		-moz-transform: rotateZ(0deg);
+		     transform: rotateZ(0deg);
+	}
+	100% {
+		-moz-transform: rotateZ(0deg);
+		     transform: rotateZ(0deg);
+	}
+}
+@-moz-keyframes materialz-circular-progress-part3 {
+	0% {
+		-moz-transform: rotateZ(0deg);
+		     transform: rotateZ(0deg);
+	}
+	25% {
+		-moz-transform: rotateZ(178deg);
+		     transform: rotateZ(178deg);
+	}
+	50% {
+		-moz-transform: rotateZ(178deg);
+		     transform: rotateZ(178deg);
+	}
+	75% {
+		-moz-transform: rotateZ(0deg);
+		     transform: rotateZ(0deg);
+	}
+	100% {
+		-moz-transform: rotateZ(0deg);
+		     transform: rotateZ(0deg);
+	}
+}
+@-o-keyframes materialz-circular-progress-part1 {
+	0% {
+		-o-transform: rotateZ(0deg);
+		   transform: rotateZ(0deg);
+	}
+	25% {
+		-o-transform: rotateZ(45deg);
+		   transform: rotateZ(45deg);
+	}
+	50% {
+		-o-transform: rotateZ(90deg);
+		   transform: rotateZ(90deg);
+	}
+	75% {
+		-o-transform: rotateZ(315deg);
+		   transform: rotateZ(315deg);
+	}
+	100% {
+		-o-transform: rotateZ(360deg);
+		   transform: rotateZ(360deg);
+	}
+}
+@-o-keyframes materialz-circular-progress-part2 {
+	0% {
+		-o-transform: rotateZ(0deg);
+		   transform: rotateZ(0deg);
+	}
+	25% {
+		-o-transform: rotateZ(89deg);
+		   transform: rotateZ(89deg);
+	}
+	50% {
+		-o-transform: rotateZ(89deg);
+		   transform: rotateZ(89deg);
+	}
+	75% {
+		-o-transform: rotateZ(0deg);
+		   transform: rotateZ(0deg);
+	}
+	100% {
+		-o-transform: rotateZ(0deg);
+		   transform: rotateZ(0deg);
+	}
+}
+@keyframes materialz-circular-progress-part3 {
+	0% {
+		transform: rotateZ(0deg);
+	}
+	25% {
+		transform: rotateZ(178deg);
+	}
+	50% {
+		transform: rotateZ(178deg);
+	}
+	75% {
+		transform: rotateZ(0deg);
+	}
+	100% {
+		transform: rotateZ(0deg);
+	}
+}
+@keyframes materialz-circular-progress-part1 {
+	0% {
+		transform: rotateZ(0deg);
+	}
+	25% {
+		transform: rotateZ(45deg);
+	}
+	50% {
+		transform: rotateZ(90deg);
+	}
+	75% {
+		transform: rotateZ(315deg);
+	}
+	100% {
+		transform: rotateZ(360deg);
+	}
+}
+@keyframes materialz-circular-progress-part2 {
+	0% {
+		transform: rotateZ(0deg);
+	}
+	25% {
+		transform: rotateZ(89deg);
+	}
+	50% {
+		transform: rotateZ(89deg);
+	}
+	75% {
+		transform: rotateZ(0deg);
+	}
+	100% {
+		transform: rotateZ(0deg);
+	}
+}
+@keyframes materialz-circular-progress-part3 {
+	0% {
+		transform: rotateZ(0deg);
+	}
+	25% {
+		transform: rotateZ(178deg);
+	}
+	50% {
+		transform: rotateZ(178deg);
+	}
+	75% {
+		transform: rotateZ(0deg);
+	}
+	100% {
+		transform: rotateZ(0deg);
+	}
 }
