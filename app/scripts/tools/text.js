@@ -94,6 +94,32 @@ TextTool.prototype.start = function (pointerState) {
 		}
 	}
 	this._textElem.style.pointerEvents = null;
+	
+	// Strip formatting on paste, if possible.
+	this._pasting = false;
+	var that = this;
+	this._textElem.addEventListener('paste', function (e) {
+		// Prevent recursion.
+		if (!that._pasting) {
+			if (e.originalEvent && e.originalEvent.clipboardData && e.originalEvent.clipboardData.getData) {
+				that._pasting = true;
+				e.preventDefault();
+				var pastedText = e.originalEvent.clipboardData.getData('text/plain');
+				document.execCommand('insertText', false, pastedText);
+			} else if (e.clipboardData && e.clipboardData.getData) {
+				that._pasting = true;
+				e.preventDefault();
+				var pastedText = e.clipboardData.getData('text/plain');
+				document.execCommand('insertText', false, pastedText);
+			} else if (window.clipboardData && window.clipboardData.getData) {
+				that._pasting = true;
+				e.preventDefault();
+				window.document.execCommand('ms-pasteTextOnly', false);
+			}
+		}
+		that.pasting = false;
+	}, false);
+	
 	keyManager.disableAppShortcuts();
 };
 
