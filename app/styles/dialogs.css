@@ -175,3 +175,15 @@ hr {
 		padding: 14px 8px 14px 0;
 		float: left;
 	}
+
+progress.circular {
+	border-top-color: #3f51b5;/*5767bd;*/
+}
+#progressSpinner {
+	display: none;
+	margin: auto;
+	top: 40%;
+}
+	#progressSpinner.visible {
+		display: block;
+	}

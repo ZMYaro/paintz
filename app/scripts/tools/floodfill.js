@@ -23,6 +23,7 @@ FloodFillTool.prototype._fill = function (startX, startY) {
 	}
 	
 	this._filling = true;
+	progressSpinner.open();
 	
 	// Get the pixel data.
 	this._imageData = this._cxt.getImageData(0, 0, this._cxt.canvas.width, this._cxt.canvas.height);
@@ -87,6 +88,7 @@ FloodFillTool.prototype._fill = function (startX, startY) {
 	this._cxt.putImageData(this._imageData, 0, 0);
 	
 	this._filling = false;
+	progressSpinner.close();
 };
 
 /**
