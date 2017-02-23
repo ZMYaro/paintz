@@ -14,28 +14,58 @@ PencilTool.prototype = Object.create(DrawingTool.prototype);
 
 
 /**
+ * Draw a point to the canvas.
+ * @param {Number} x - The x-coordinate of the point
+ * @param {Number} y - The y-coordinate of the point
+ * @param {CanvasRenderingContext2D} cxt - The context to draw to
+ */
+PencilTool.prototype._drawPoint = function (x, y, cxt) {
+	//var halfLineWidth = Math.floor(0.5 * this._cxt.lineWidth);
+	//cxt.fillRect(x - halfLineWidth, y - halfLineWidth, this._cxt.lineWidth, this._cxt.lineWidth);
+	cxt.fillRect(x, y, 1, 1);
+};
+	
+/**
+ * Draw a straight line.
+ * @param {Number} x1 - The x-coordinate of the start point
+ * @param {Number} y1 - The y-coordinate of the start point
+ * @param {Number} x2 - The x-coordinate of the end point
+ * @param {Number} y2 - The y-coordinate of the end point
+ * @param {CanvasRenderingContext2D} cxt - The context to draw to
+ */
+PencilTool.prototype._drawLine = function (x1, y1, x2, y2, cxt) {
+	var dx = Math.abs(x2 - x1), /** Line's change in x */
+		dy = -Math.abs(y2 - y1), /** Line's change in y */
+		sx = x1 < x2 ? 1 : -1, /** Sign of the change in x */
+		sy = y1 < y2 ? 1 : -1, /** Sign of the change in y */
+		err = dx + dy, /** Error increment */
+		e2; /** 2 * error increment */
+	
+	while (x1 !== x2 || y1 !== y2) {
+		e2 = 2 * err;
+		
+		// x-step
+		if (e2 >= dy) {
+			err += dy;
+			x1 += sx;
+		}
+		// y-step
+		if (e2 <= dx) {
+			err += dx;
+			y1 += sy;
+		}
+		
+		this._drawPoint(x1, y1, cxt);
+	}
+};
+
+/**
  * Handle the pencil tool becoming the active tool.
  * @override
  */
 PencilTool.prototype.activate = function () {
 	this._preCxt.canvas.style.cursor = 'url(images/cursors/pencil.cur), crosshair';
 };
-
-/**
- * Color in a point.
- * Draw a round end cap for the doodle.
- * @param {Number} x - The x-coordinate of the point
- * @param {Number} y - The y-coordinate of the point
- */
-PencilTool.prototype._drawPoint = function (x, y) {
-	var cxt = localStorage.ghostDraw ? this._preCxt : this._cxt;
-	this._imageData.data[0] = this._lineColor.r;
-	this._imageData.data[1] = this._lineColor.g;
-	this._imageData.data[2] = this._lineColor.b;
-	this._imageData.data[3] = 255;
-	cxt.putImageData(this._imageData, x, y);
-};
-
 
 /**
  * Handle a doodle being started by a pointer.
@@ -45,9 +75,14 @@ PencilTool.prototype._drawPoint = function (x, y) {
 PencilTool.prototype.start = function (pointerState) {
 	DrawingTool.prototype.start.apply(this, arguments);
 	
-	this._lineColor = Utils.colorToRGB(this._lineColor);
+	this._roundPointerState(pointerState);
 	
-	this._drawPoint(Math.floor(pointerState.x), Math.floor(pointerState.y));
+	this._lastX = pointerState.x;
+	this._lastY = pointerState.y;
+	
+	// Draw a round end cap at the start of the doodle.
+	var cxt = localStorage.ghostDraw ? this._preCxt : this._cxt;
+	this._drawPoint(pointerState.x, pointerState.y, cxt);
 };
 
 /**
@@ -58,5 +93,17 @@ PencilTool.prototype.start = function (pointerState) {
 PencilTool.prototype.move = function (pointerState) {
 	DrawingTool.prototype.move.apply(this, arguments);
 	
-	this._drawPoint(pointerState.x, pointerState.y);
+	this._roundPointerState(pointerState);
+	
+	var cxt = localStorage.ghostDraw ? this._preCxt : this._cxt;
+
+	// Connect to the existing preview.
+	cxt.lineWidth = this._lineWidth;
+	cxt.fillStyle = this._lineColor;
+	
+	this._drawLine(this._lastX, this._lastY, pointerState.x, pointerState.y, cxt);
+	
+	// Store the last x and y.
+	this._lastX = pointerState.x;
+	this._lastY = pointerState.y;
 };
