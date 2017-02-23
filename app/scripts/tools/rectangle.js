@@ -20,7 +20,7 @@ RectangleTool.prototype = Object.create(ShapeTool.prototype);
 RectangleTool.prototype.move = function (pointerState) {
 	ShapeTool.prototype.move.apply(this, arguments);
 	
-	if (localStorage.antiAlias) {
+	if (!localStorage.antiAlias) {
 		this._roundPointerState(pointerState);
 	}
 	
@@ -32,7 +32,7 @@ RectangleTool.prototype.move = function (pointerState) {
 	// Draw the new preview.
 	this._preCxt.strokeRect(x, y, width, height);
 	
-	if (localStorage.antiAlias) {
+	if (!localStorage.antiAlias) {
 		this._deAntiAlias();
 	}
 	
@@ -40,7 +40,7 @@ RectangleTool.prototype.move = function (pointerState) {
 	this._preCxt.fillRect(x, y, width, height);
 	this._preCxt.globalCompositeOperation = 'source-over';
 	
-	if (localStorage.outlineOption === 'fillOnly' && localStorage.antiAlias) {
+	if (localStorage.outlineOption === 'fillOnly' && !localStorage.antiAlias) {
 		this._deAntiAlias();
 	}
 };

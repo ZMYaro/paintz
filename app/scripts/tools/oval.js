@@ -20,7 +20,7 @@ OvalTool.prototype = Object.create(ShapeTool.prototype);
 OvalTool.prototype.move = function (pointerState) {
 	ShapeTool.prototype.move.apply(this, arguments);
 	
-	if (localStorage.antiAlias) {
+	if (!localStorage.antiAlias) {
 		this._roundPointerState(pointerState);
 	}
 	
@@ -42,7 +42,7 @@ OvalTool.prototype.move = function (pointerState) {
 	this._preCxt.restore(); // Restore the context to its original state.
 	this._preCxt.stroke();
 	
-	if (localStorage.antiAlias) {
+	if (!localStorage.antiAlias) {
 		this._deAntiAlias();
 	}
 	
@@ -50,7 +50,7 @@ OvalTool.prototype.move = function (pointerState) {
 	this._preCxt.fill();
 	this._preCxt.globalCompositeOperation = 'source-over';
 	
-	if (localStorage.outlineOption === 'fillOnly' && localStorage.antiAlias) {
+	if (localStorage.outlineOption === 'fillOnly' && !localStorage.antiAlias) {
 		this._deAntiAlias();
 	}
 };
