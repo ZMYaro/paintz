@@ -707,6 +707,32 @@
 					<button type="submit">Close</button>
 				</div>
 			</form>
+			<form id="welcomeDialog" class="dialog card z3" style="width: 512px;">
+				<h1 role="toolbar" style="padding: 0;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+						<img src="images/icons/close.png" alt="Close" />
+					</button>
+					Welcome to PaintZ!
+				</h1>
+				<img src="images/toolbar_annotated.png" alt="screenshot of the PaintZ toolbar with the toolbox, tool settings, color pallette, and help icon highlighted" style="display: block; width: 100%;" />
+				<p>
+					Select the brush tool
+					<img src="images/icons/brush.png" alt="brush icon" class="helpIcon welcomeIcon" />
+					and start painting!
+				</p>
+				<p>
+					Use the toolbox to switch drawing tools and the color palette to switch colors.
+				</p>
+				<p>
+					Click the
+					<img src="images/icons/help.png" alt="help icon" class="helpIcon welcomeIcon" />
+					icon to learn more about different drawing tools.
+				</p>
+				<div style="text-align: right;">
+					<button type="submit">Get started</button>
+				</div>
+			</form>
+			
 			
 			<progress class="circular" id="progressSpinner"></progress>
 		</div>
