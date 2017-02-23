@@ -164,6 +164,14 @@ hr {
 	margin-top: 2px;
 }
 
+.welcomeIcon {
+	vertical-align: top;
+	width: 32px;
+	height: 32px;
+	padding: 4px;
+	margin: -8px 2px;
+}
+
 .dialog .list li img {
 	max-width: 24px;
 }

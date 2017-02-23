@@ -483,6 +483,10 @@ function initToolbar() {
 		aboutBtn = document.getElementById('aboutBtn');
 	Utils.makeDialog(aboutDialog, aboutBtn);
 	aboutBtn.onclick = aboutDialog.open;
+	
+	// Welcome dialog.
+	var welcomeDialog = document.getElementById('welcomeDialog');
+	Utils.makeDialog(welcomeDialog, doodleTool);
 }
 /**
  * Get the canvases and their drawing contexts, and set up event listeners.
@@ -682,7 +686,7 @@ window.addEventListener('load', function () {
 	document.title = 'untitled.png - PaintZ'
 	
 	if (!localStorage.firstRunDone) {
-		document.getElementById('helpDialog').open();
+		document.getElementById('welcomeDialog').open();
 		localStorage.firstRunDone = 'true';
 	}
 }, false);
