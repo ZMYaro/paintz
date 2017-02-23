@@ -20,6 +20,10 @@ LineTool.prototype = Object.create(DrawingTool.prototype);
 LineTool.prototype.start = function (pointerState) {
 	DrawingTool.prototype.start.apply(this, arguments);
 	
+	if (localStorage.antiAlias) {
+		this._roundPointerState(pointerState);
+	}
+	
 	this.startX = pointerState.x;
 	this.startY = pointerState.y;
 };
@@ -31,7 +35,11 @@ LineTool.prototype.start = function (pointerState) {
  */
 LineTool.prototype.move = function (pointerState) {
 	DrawingTool.prototype.move.apply(this, arguments);
-
+	
+	if (localStorage.antiAlias) {
+		this._roundPointerState(pointerState);
+	}
+	
 	// Erase the previous preview.
 	Utils.clearCanvas(this._preCxt);
 	
@@ -43,4 +51,8 @@ LineTool.prototype.move = function (pointerState) {
 	this._preCxt.lineTo(pointerState.x, pointerState.y);
 	this._preCxt.closePath();
 	this._preCxt.stroke();
+	
+	if (localStorage.antiAlias) {
+		this._deAntiAlias();
+	}
 };
