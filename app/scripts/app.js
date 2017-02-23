@@ -16,6 +16,7 @@ var DEFAULTS = {
 	fontSize: 16,
 	tool: 'doodle',
 	ghostDraw: '',
+	antiAlias: true,
 	maxUndoStackDepth: 50
 };
 
@@ -460,14 +461,17 @@ function initToolbar() {
 			preCanvas.classList.remove('ghost');
 		}
 		
-		if (e.target.maxUndoStackDepth.value !== '') {
-			localStorage.maxUndoStackDepth = e.target.maxUndoStackDepth.value;
+		localStorage.antiAlias = e.target.antiAlias.checked ? 'true' : '';
+		
+		if (!isNaN(parseInt(e.target.maxUndoStackDepth.value))) {
+			localStorage.maxUndoStackDepth = parseInt(e.target.maxUndoStackDepth.value);
 		}
 
 		e.target.close();
 	};
 	settingsBtn.onclick = function () {
 		settingsDialog.ghostDraw.checked = localStorage.ghostDraw;
+		settingsDialog.antiAlias.checked = localStorage.antiAlias;
 		settingsDialog.maxUndoStackDepth.value = localStorage.maxUndoStackDepth;
 		settingsDialog.open();
 	};
