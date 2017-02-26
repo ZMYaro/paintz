@@ -43,6 +43,14 @@ var keyManager = {
 					break;
 				}
 			
+			case 67: // C
+				e.preventDefault();
+				if (!ctrlOrCmd) {
+					// C => Curve tool
+					switchTool('curve');
+					break;
+				}
+			
 			case 68: // D
 				if (ctrlOrCmd) {
 					e.preventDefault();

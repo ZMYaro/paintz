@@ -13,6 +13,24 @@ LineTool.prototype = Object.create(DrawingTool.prototype);
 
 
 /**
+ * Draw a line
+ * @param {Number} x1
+ * @param {Number} y1
+ * @param {Number} x2
+ * @param {Number} y2
+ * @param {CanvasRenderingContext2D} cxt
+ */
+LineTool.drawLine = function (x1, y1, x2, y2, cxt) {
+	cxt.lineWidth = this.lineWidth;
+	cxt.strokeStyle = this.lineColor;
+	cxt.beginPath();
+	cxt.moveTo(x1, y1);
+	cxt.lineTo(x2, y2);
+	cxt.closePath();
+	cxt.stroke();
+}
+
+/**
  * Handle a line being started by a pointer.
  * @override
  * @param {Object} pointerState - The pointer coordinates and button
@@ -44,13 +62,7 @@ LineTool.prototype.move = function (pointerState) {
 	Utils.clearCanvas(this._preCxt);
 	
 	// Draw the new preview.
-	this._preCxt.lineWidth = this.lineWidth;
-	this._preCxt.strokeStyle = this.lineColor;
-	this._preCxt.beginPath();
-	this._preCxt.moveTo(this.startX, this.startY);
-	this._preCxt.lineTo(pointerState.x, pointerState.y);
-	this._preCxt.closePath();
-	this._preCxt.stroke();
+	LineTool.drawLine(this.startX, this.startY, pointerState.x, pointerState.y, this._preCxt);
 	
 	if (!localStorage.antiAlias) {
 		this._deAntiAlias();

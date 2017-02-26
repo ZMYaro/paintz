@@ -168,6 +168,9 @@ body {
 #lineTool {
 	background-image: url('../images/icons/line.png');
 }
+#curveTool {
+	background-image: url('../images/icons/curve.png');
+}
 #rectTool {
 	background-image: url('../images/icons/rect.png');
 }

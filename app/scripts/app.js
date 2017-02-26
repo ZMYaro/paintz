@@ -547,6 +547,7 @@ function initTools() {
 		pencil: new PencilTool(cxt, preCxt),
 		doodle: new DoodleTool(cxt, preCxt),
 		line: new LineTool(cxt, preCxt),
+		curve: new CurveTool(cxt, preCxt),
 		rect: new RectangleTool(cxt, preCxt),
 		oval: new OvalTool(cxt, preCxt),
 		eraser: new EraserTool(cxt, preCxt),

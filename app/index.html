@@ -58,6 +58,7 @@
 		<script type="text/javascript" src="scripts/tools/pencil.js"></script>
 		<script type="text/javascript" src="scripts/tools/doodle.js"></script>
 		<script type="text/javascript" src="scripts/tools/line.js"></script>
+		<script type="text/javascript" src="scripts/tools/curve.js"></script>
 		<script type="text/javascript" src="scripts/tools/rectangle.js"></script>
 		<script type="text/javascript" src="scripts/tools/oval.js"></script>
 		<script type="text/javascript" src="scripts/tools/eraser.js"></script>
@@ -98,13 +99,14 @@
 				<input type="radio" name="tool" value="pencil" id="pencilTool" title="Pencil (P)" />
 				<input type="radio" name="tool" value="doodle" id="doodleTool" title="Brush (B)" />
 				<input type="radio" name="tool" value="line" id="lineTool" title="Line (L)" />
+				<input type="radio" name="tool" value="curve" id="curveTool" title="Curve (C)" />
 				<input type="radio" name="tool" value="rect" id="rectTool" title="Rectangle (R)" />
 				<input type="radio" name="tool" value="oval" id="ovalTool" title="Oval (O)" />
-				<input type="radio" name="tool" value="floodFill" id="floodFillTool" title="Flood fill (F)" />
 				<br />
 				<input type="radio" name="tool" value="pan" id="panTool" title="Pan (H)" />
 				<input type="radio" name="tool" value="selection" id="selectionTool" title="Selection (S)" />
 				<input type="radio" name="tool" value="eraser" id="eraserTool" title="Eraser (E)" />
+				<input type="radio" name="tool" value="floodFill" id="floodFillTool" title="Flood fill (F)" />
 				<input type="radio" name="tool" value="eyedropper" id="eyedropperTool" title="Color picker (I)" />
 				<input type="radio" name="tool" value="text" id="textTool" title="Text (T)" />
 			</form>
@@ -445,6 +447,14 @@
 					</tr>
 					<tr>
 						<td>
+							<img src="images/icons/curve.png" alt="curve icon" class="helpIcon" />
+						</td>
+						<td>
+							Draw a line in the current line color, then turn it into a curve.  Right-click to use the current fill color.  Shortcut key: C.
+						</td>
+					</tr>
+					<tr>
+						<td>
 							<img src="images/icons/rect.png" alt="rect icon" class="helpIcon" />
 						</td>
 						<td>
@@ -457,14 +467,6 @@
 						</td>
 						<td>
 							Draw an oval.  Right-click to swap the line and fill colors.  Shortcut key: O.
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<img src="images/icons/paint_bucket.png" alt="fill icon" class="helpIcon" />
-						</td>
-						<td>
-							Fill the section with the current line color.  Right-click to use the current fill color.  Shortcut key: F.
 						</td>
 					</tr>
 					<tr>
@@ -489,6 +491,14 @@
 						</td>
 						<td>
 							Cover any part of your drawing with the current fill color.  Right-click to use the current line color.  Shortcut key: E.
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<img src="images/icons/paint_bucket.png" alt="fill icon" class="helpIcon" />
+						</td>
+						<td>
+							Fill the section with the current line color.  Right-click to use the current fill color.  Shortcut key: F.
 						</td>
 					</tr>
 					<tr>
@@ -651,16 +661,16 @@
 						<td>Line</td>
 					</tr>
 					<tr>
+						<td><strong>C</strong></td>
+						<td>Curve</td>
+					</tr>
+					<tr>
 						<td><strong>R</strong></td>
 						<td>Rectangle</td>
 					</tr>
 					<tr>
 						<td><strong>O</strong></td>
 						<td>Oval</td>
-					</tr>
-					<tr>
-						<td><strong>F</strong></td>
-						<td>Flood fill</td>
 					</tr>
 					<tr>
 						<td><strong>H</strong></td>
@@ -673,6 +683,10 @@
 					<tr>
 						<td><strong>E</strong></td>
 						<td>Eraser</td>
+					</tr>
+					<tr>
+						<td><strong>F</strong></td>
+						<td>Flood fill</td>
 					</tr>
 					<tr>
 						<td><strong>I</strong></td>
