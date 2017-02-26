@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2016-12-17, v1
+# 2017-02-26, v1
 index.html
 404.html
 manifest.webapp
@@ -12,6 +12,7 @@ images/icons/brush.png
 images/icons/clear.png
 images/icons/close.png
 images/icons/cws.png
+images/icons/curve.png
 images/icons/eraser.png
 images/icons/eyedropper.png
 images/icons/fb.png
@@ -52,6 +53,7 @@ scripts/zoom.js
 scripts/lib/colorpicker.min.js
 scripts/lib/material-touch.js
 scripts/lib/pep.min.js
+scripts/tools/curve.js
 scripts/tools/doodle.js
 scripts/tools/drawing.js
 scripts/tools/eraser.js
