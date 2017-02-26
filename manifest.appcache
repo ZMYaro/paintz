@@ -1,15 +1,19 @@
 CACHE MANIFEST
-# 2016-07-16, v4
+# 2017-02-26, v2
 index.html
+404.html
 manifest.webapp
 audio/pacman_start.mp3
+images/toolbar_overview.png
 images/cursors/eyedropper.cur
 images/cursors/paint_bucket.cur
 images/cursors/pencil.cur
+images/icons/back.png
 images/icons/brush.png
 images/icons/clear.png
 images/icons/close.png
 images/icons/cws.png
+images/icons/curve.png
 images/icons/eraser.png
 images/icons/eyedropper.png
 images/icons/fb.png
@@ -50,6 +54,7 @@ scripts/zoom.js
 scripts/lib/colorpicker.min.js
 scripts/lib/material-touch.js
 scripts/lib/pep.min.js
+scripts/tools/curve.js
 scripts/tools/doodle.js
 scripts/tools/drawing.js
 scripts/tools/eraser.js

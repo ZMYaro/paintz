@@ -11,6 +11,30 @@ function Tool(cxt, preCxt) {
 }
 
 /**
+ * Undo anti-aliasing.
+ */
+Tool.prototype._deAntiAlias = function () {
+	var imageData = this._preCxt.getImageData(0, 0, this._preCxt.canvas.width, this._preCxt.canvas.height);
+	for (var i = 3; i < imageData.data.length; i += 4) {
+		if (imageData.data[i] >= 128) {
+			imageData.data[i] = 255;
+		} else {
+			imageData.data[i] = 0;
+		}
+	}
+	this._preCxt.putImageData(imageData, 0, 0);
+};
+
+/**
+ * Round down pointer coordinates.
+ * @param {Object} pointerState - The pointer coordinates and button
+ */
+Tool.prototype._roundPointerState = function (pointerState) {
+	pointerState.x = Math.floor(pointerState.x);
+	pointerState.y = Math.floor(pointerState.y);
+};
+
+/**
  * Handle the tool becoming the active tool.
  */
 Tool.prototype.activate = function () {

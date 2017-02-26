@@ -58,6 +58,7 @@
 		<script type="text/javascript" src="scripts/tools/pencil.js"></script>
 		<script type="text/javascript" src="scripts/tools/doodle.js"></script>
 		<script type="text/javascript" src="scripts/tools/line.js"></script>
+		<script type="text/javascript" src="scripts/tools/curve.js"></script>
 		<script type="text/javascript" src="scripts/tools/rectangle.js"></script>
 		<script type="text/javascript" src="scripts/tools/oval.js"></script>
 		<script type="text/javascript" src="scripts/tools/eraser.js"></script>
@@ -98,13 +99,14 @@
 				<input type="radio" name="tool" value="pencil" id="pencilTool" title="Pencil (P)" />
 				<input type="radio" name="tool" value="doodle" id="doodleTool" title="Brush (B)" />
 				<input type="radio" name="tool" value="line" id="lineTool" title="Line (L)" />
+				<input type="radio" name="tool" value="curve" id="curveTool" title="Curve (C)" />
 				<input type="radio" name="tool" value="rect" id="rectTool" title="Rectangle (R)" />
 				<input type="radio" name="tool" value="oval" id="ovalTool" title="Oval (O)" />
-				<input type="radio" name="tool" value="floodFill" id="floodFillTool" title="Flood fill (F)" />
 				<br />
 				<input type="radio" name="tool" value="pan" id="panTool" title="Pan (H)" />
 				<input type="radio" name="tool" value="selection" id="selectionTool" title="Selection (S)" />
 				<input type="radio" name="tool" value="eraser" id="eraserTool" title="Eraser (E)" />
+				<input type="radio" name="tool" value="floodFill" id="floodFillTool" title="Flood fill (F)" />
 				<input type="radio" name="tool" value="eyedropper" id="eyedropperTool" title="Color picker (I)" />
 				<input type="radio" name="tool" value="text" id="textTool" title="Text (T)" />
 			</form>
@@ -193,7 +195,7 @@
 					</button>
 					Clear entire drawing?
 				</h1>
-				<div style="text-align: right;">
+				<div style="text-align: right; margin: 0 -4px -4px 0;">
 					<button type="button" onclick="this.parentElement.parentElement.close();">Cancel</button>
 					<button type="submit">Clear</button>
 				</div>
@@ -211,12 +213,12 @@
 					<option value="image/jpeg">JPEG (Joint Photographic Experts Group)</option>
 					<option value="image/png" selected="selected">PNG (Portable Network Graphics)</option>
 				</select>
-				<div style="text-align: right;">
+				<div style="text-align: right; margin: 0 -4px -4px 0;">
 					<button type="button" onclick="this.parentElement.parentElement.close();">Cancel</button>
-					<button type="submit">Save</button>
+					<a role="button" id="downloadLink" type="image/png" download="untitled.png" target="_blank">Save</a>
 				</div>
 			</form>
-			<form id="resizeDialog" class="dialog card z3" style="width: 384px;">
+			<form id="resizeDialog" class="dialog card z3" style="width: 320px;">
 				<h1 role="toolbar" style="padding: 0;">
 					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
 						<img src="images/icons/close.png" alt="Close" />
@@ -225,9 +227,9 @@
 				</h1>
 				<ul class="list">
 					<li>
-						<input name="width" type="number" placeholder="Width" value="640" min="1" style="width: 40%;" />
+						<input name="width" type="number" placeholder="Width" value="640" min="1" style="width: 45%;" />
 						&times;
-						<input name="height" type="number" placeholder="Height" value="480" min="1" style="width: 40%;" />
+						<input name="height" type="number" placeholder="Height" value="480" min="1" style="width: 45%;" />
 					</li>
 					<li>
 						<label for="resizeCrop">
@@ -241,7 +243,7 @@
 						</label>
 					</li>
 				</ul>
-				<div style="text-align: right;">
+				<div style="text-align: right; margin: 0 -4px -4px 0;">
 					<br />
 					<button type="button" onclick="this.parentElement.parentElement.close();">Cancel</button>
 					<button type="submit">Resize</button>
@@ -331,7 +333,7 @@
 						</td>
 					</tr>
 				</table>
-				<div style="text-align: right;">
+				<div style="text-align: right; margin: 0 -4px -4px 0;">
 					<br />
 					<button type="button" onclick="this.parentElement.parentElement.close();">Cancel</button>
 					<button type="submit">Save</button>
@@ -352,13 +354,19 @@
 						</label>
 					</li>
 					<li>
+						<label for="antiAliasCheckbox" role="button">
+							<input type="checkbox" name="antiAlias" id="antiAliasCheckbox" style="float: right;" />
+							Smooth edges of shapes
+						</label>
+					</li>
+					<li>
 						<label for="maxUndoStackDepthInput">
 							<input type="number" min="1" max="1000" step="1" required="required" name="maxUndoStackDepth" id="maxUndoStackDepthInput" style="float: right;" />
 							Maximum undo levels
 						</label>
 					</li>
 				</ul>
-				<div style="text-align: right;">
+				<div style="text-align: right; margin: 0 -4px -4px 0;">
 					<br />
 					<button type="button" onclick="this.parentElement.parentElement.close();">Cancel</button>
 					<button type="submit">Save</button>
@@ -439,6 +447,14 @@
 					</tr>
 					<tr>
 						<td>
+							<img src="images/icons/curve.png" alt="curve icon" class="helpIcon" />
+						</td>
+						<td>
+							Draw a line in the current line color, then turn it into a curve.  Right-click to use the current fill color.  Shortcut key: C.
+						</td>
+					</tr>
+					<tr>
+						<td>
 							<img src="images/icons/rect.png" alt="rect icon" class="helpIcon" />
 						</td>
 						<td>
@@ -451,14 +467,6 @@
 						</td>
 						<td>
 							Draw an oval.  Right-click to swap the line and fill colors.  Shortcut key: O.
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<img src="images/icons/paint_bucket.png" alt="fill icon" class="helpIcon" />
-						</td>
-						<td>
-							Fill the section with the current line color.  Right-click to use the current fill color.  Shortcut key: F.
 						</td>
 					</tr>
 					<tr>
@@ -483,6 +491,14 @@
 						</td>
 						<td>
 							Cover any part of your drawing with the current fill color.  Right-click to use the current line color.  Shortcut key: E.
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<img src="images/icons/paint_bucket.png" alt="fill icon" class="helpIcon" />
+						</td>
+						<td>
+							Fill the section with the current line color.  Right-click to use the current fill color.  Shortcut key: F.
 						</td>
 					</tr>
 					<tr>
@@ -540,7 +556,7 @@
 						</td>
 					</tr>
 				</table>
-				<div style="text-align: right;">
+				<div style="text-align: right; margin: 0 -4px -4px 0;">
 					<button type="submit">Close</button>
 				</div>
 			</form>
@@ -552,7 +568,7 @@
 					About PaintZ
 				</h1>
 				<p>PaintZ was developed by <a href="http://zmyaro.com" target="_blank">Zachary Yaro</a>.  The source code is available <a href="https://github.com/zmyaro/paintz" target="_blank">on GitHub</a>.</p>
-				<p>PaintZ uses the <a href="http://www.daviddurman.com/flexi-color-picker" target="_blank">Flexi Color Picker library</a>, <a href="https://materialz.zmyaro.com" target="_blank">MaterialZ CSS library</a>, and <a href="https://github.com/jquery/PEP" target="_blank">Pointer Events Polyfill</a>.</p>
+				<p>PaintZ uses <a href="http://members.chello.at/easyfilter/canvas.html" target="_blank">easy.Filter</a>, <a href="http://www.daviddurman.com/flexi-color-picker" target="_blank">Flexi Color Picker</a>, <a href="https://materialz.zmyaro.com" target="_blank">MaterialZ</a>, and <a href="https://github.com/jquery/PEP" target="_blank">Pointer Events Polyfill</a>.</p>
 				<p>Icons and styling decisions were taken from or based on <a href="https://www.google.com/design/spec/material-design" target="_blank">Material Design</a> and <a href="http://materialdesignicons.com" target="_blank">Material Design Icons</a>.</p>
 				<p>Pac-Man is owned by Namco.</p>
 				<hr />
@@ -586,7 +602,7 @@
 						</a>
 					</li>
 				</ul>
-				<div style="text-align: right; margin-top: 12px;">
+				<div style="text-align: right; margin: 12px -4px -4px 0;">
 					<div style="float: left; padding-top: 12px;">
 						<span style="color: rgba(0,0,0,0.1);">Ctrl+Shift+</span><div style="display: inline-block; background-color: yellow; width: 16px; height: 16px; -webkit-border-radius: 50%; -moz-border-radius: 50%; border-radius: 50%; margin-bottom: -2px;"></div>
 					</div>
@@ -645,16 +661,16 @@
 						<td>Line</td>
 					</tr>
 					<tr>
+						<td><strong>C</strong></td>
+						<td>Curve</td>
+					</tr>
+					<tr>
 						<td><strong>R</strong></td>
 						<td>Rectangle</td>
 					</tr>
 					<tr>
 						<td><strong>O</strong></td>
 						<td>Oval</td>
-					</tr>
-					<tr>
-						<td><strong>F</strong></td>
-						<td>Flood fill</td>
 					</tr>
 					<tr>
 						<td><strong>H</strong></td>
@@ -667,6 +683,10 @@
 					<tr>
 						<td><strong>E</strong></td>
 						<td>Eraser</td>
+					</tr>
+					<tr>
+						<td><strong>F</strong></td>
+						<td>Flood fill</td>
 					</tr>
 					<tr>
 						<td><strong>I</strong></td>
@@ -703,15 +723,42 @@
 						<td>Duplicate selection</td>
 					</tr>
 				</table>
-				<div style="text-align: right;">
+				<div style="text-align: right; margin: 0 -4px -4px 0;">
 					<button type="submit">Close</button>
 				</div>
 			</form>
+			<form id="welcomeDialog" class="dialog card z3" style="width: 512px;">
+				<h1 role="toolbar" style="padding: 0;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+						<img src="images/icons/close.png" alt="Close" />
+					</button>
+					Welcome to PaintZ!
+				</h1>
+				<img src="images/toolbar_overview.png" alt="screenshot of the PaintZ toolbar with the toolbox, tool settings, color pallette, and help icon highlighted" style="display: block; width: 100%;" />
+				<p>
+					Select the brush tool
+					<img src="images/icons/brush.png" alt="brush icon" class="helpIcon welcomeIcon" />
+					and start painting!
+				</p>
+				<p>
+					Use the toolbox to switch drawing tools and the color palette to switch colors.
+				</p>
+				<p>
+					Click the
+					<img src="images/icons/help.png" alt="help icon" class="helpIcon welcomeIcon" />
+					icon to learn more about different drawing tools.
+				</p>
+				<div style="text-align: right; margin: 0 -4px -4px 0;">
+					<button type="submit">Get started</button>
+				</div>
+			</form>
+			
+			
+			<progress class="circular" id="progressSpinner"></progress>
 		</div>
 
 		<!-- Invisible elements. -->
 		<canvas id="cursorCanvas" width="64" height="64"></canvas>
-		<a id="downloadLink" type="image/png" download="untitled.png"></a>
 		<audio src="audio/pacman_start.mp3" id="pacManStartSound"></audio>
 	</body>
 </html>

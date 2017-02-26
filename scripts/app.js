@@ -1,5 +1,11 @@
 'use strict';
 
+// RegExes.
+var PNG_REGEX = (/.+\.png$/i),
+	JPEG_REGEX = (/.+\.(jpg|jpeg|jpe|jif|jfif|jfi)$/i),
+	FILE_EXT_REGEX = (/\.[a-z0-9]{1,4}$/i);
+
+// Default settings
 var DEFAULTS = {
 	width: 640,
 	height: 480,
@@ -10,6 +16,7 @@ var DEFAULTS = {
 	fontSize: 16,
 	tool: 'doodle',
 	ghostDraw: '',
+	antiAlias: true,
 	maxUndoStackDepth: 50
 };
 
@@ -20,7 +27,8 @@ var canvas,
 	preCxt,
 	cursorCxt,
 	downloadLink,
-	tools;
+	tools,
+	progressSpinner;
 
 /**
  * Set up the Chrome Web Store links in the About dialog.
@@ -264,31 +272,61 @@ function initToolbar() {
 	Utils.makeDialog(clearDialog, clearBtn);
 	clearDialog.onsubmit = function (e) {
 		e.preventDefault();
-		resetCanvas();
-		// Add the change to the undo stack.
-		undoStack.addState();
+		
+		// Animate clearing the canvas.
+		var CENTER_X = 0,
+			CENTER_Y = -224,
+			MAX_RADIUS = Math.max(canvas.width, canvas.height) * 2,
+			STEP = Math.floor(MAX_RADIUS / 16),
+			radius = 224;
+		
+		function expandClearCircle() {
+			radius += STEP;
+			
+			cxt.fillStyle = localStorage.fillColor;
+			cxt.beginPath();
+			cxt.arc(CENTER_X, CENTER_Y, radius, 0, 2 * Math.PI);
+			cxt.closePath();
+			cxt.fill();
+			
+			if (radius < MAX_RADIUS) {
+				Utils.raf(expandClearCircle);
+			} else {
+				// Add the change to the undo stack.
+				undoStack.addState();
+			}
+		}
+		Utils.raf(expandClearCircle);
+		
 		e.target.close();
 	};
 	clearBtn.onclick = clearDialog.open;
 	
 	// Save as button and dialog.
 	var saveDialog = document.getElementById('saveDialog'),
-		clearBtn = document.getElementById('saveBtn');
+		saveBtn = document.getElementById('saveBtn');
 	Utils.makeDialog(saveDialog, saveBtn);
-	saveDialog.onsubmit = function (e) {
-		e.preventDefault();
-		saveDialog.fileName.value =
-			downloadLink.download = fixExtension(saveDialog.fileName.value, saveDialog.fileType.value);
-		document.title = saveDialog.fileName.value + ' - PaintZ';
-		downloadImage();
-		e.target.close();
-	};
+	saveDialog.fileName.onchange =
+	saveDialog.fileType.onchange =
 	saveDialog.fileType.oninput = function () {
+		// Update file name.
+		var newName = fixExtension(saveDialog.fileName.value, saveDialog.fileType.value);
+		saveDialog.fileName.value = newName;
+		downloadLink.download = newName;
+		downloadLink.href = canvas.toDataURL(saveDialog.fileType.value);
+		
+		// Update file type.
 		downloadLink.type = saveDialog.fileType.value;
-		saveDialog.fileName.value =
-			downloadLink.download = fixExtension(saveDialog.fileName.value, saveDialog.fileType.value);
 	};
-	saveBtn.onclick = saveDialog.open;
+	saveBtn.onclick = function () {
+		// Export the canvas content to a PNG to be saved.
+		downloadLink.href = canvas.toDataURL(downloadLink.type || 'image/png');
+		saveDialog.open();
+	};
+	downloadLink.onclick = function () {
+		document.title = downloadLink.download + ' - PaintZ';
+		saveDialog.close();
+	};
 	
 	// Undo and redo buttons.
 	document.getElementById('undoBtn').onclick = undoStack.undo.bind(undoStack);
@@ -339,8 +377,9 @@ function initToolbar() {
 
 	// Uploader.
 	document.getElementById('upload').addEventListener('change', function (e) {
-		console.log(e);
 		if (window.File && window.FileReader && window.FileList && window.Blob) {
+			progressSpinner.open();
+			
 			var file = e.target.files[0];
 			if (!file) {
 				return;
@@ -367,11 +406,20 @@ function initToolbar() {
 				// Clear the undo and redo stacks.
 				undoStack.clear();
 				
-				// Set the file name.
-				var fileName = file.name.replace(/\.[A-Za-z]+$/, '.png');
+				// Set the file type and name.
+				var fileName = file.name;
+				if (JPEG_REGEX.test(fileName)) {
+					document.getElementById('saveDialog').fileType.value =
+						downloadLink.type = 'image/jpeg';
+				} else {
+					document.getElementById('saveDialog').fileType.value =
+						downloadLink.type = 'image/png';
+					fileName = fileName.replace(FILE_EXT_REGEX, '.png');
+				}
 				document.getElementById('saveDialog').fileName.value =
 					downloadLink.download = fileName;
 				document.title = fileName + ' - PaintZ';
+				progressSpinner.close();
 			};
 			reader.readAsDataURL(file);
 		} else {
@@ -413,14 +461,17 @@ function initToolbar() {
 			preCanvas.classList.remove('ghost');
 		}
 		
-		if (e.target.maxUndoStackDepth.value !== '') {
-			localStorage.maxUndoStackDepth = e.target.maxUndoStackDepth.value;
+		localStorage.antiAlias = e.target.antiAlias.checked ? 'true' : '';
+		
+		if (!isNaN(parseInt(e.target.maxUndoStackDepth.value))) {
+			localStorage.maxUndoStackDepth = parseInt(e.target.maxUndoStackDepth.value);
 		}
 
 		e.target.close();
 	};
 	settingsBtn.onclick = function () {
 		settingsDialog.ghostDraw.checked = localStorage.ghostDraw;
+		settingsDialog.antiAlias.checked = localStorage.antiAlias;
 		settingsDialog.maxUndoStackDepth.value = localStorage.maxUndoStackDepth;
 		settingsDialog.open();
 	};
@@ -436,6 +487,10 @@ function initToolbar() {
 		aboutBtn = document.getElementById('aboutBtn');
 	Utils.makeDialog(aboutDialog, aboutBtn);
 	aboutBtn.onclick = aboutDialog.open;
+	
+	// Welcome dialog.
+	var welcomeDialog = document.getElementById('welcomeDialog');
+	Utils.makeDialog(welcomeDialog, doodleTool);
 }
 /**
  * Get the canvases and their drawing contexts, and set up event listeners.
@@ -492,6 +547,7 @@ function initTools() {
 		pencil: new PencilTool(cxt, preCxt),
 		doodle: new DoodleTool(cxt, preCxt),
 		line: new LineTool(cxt, preCxt),
+		curve: new CurveTool(cxt, preCxt),
 		rect: new RectangleTool(cxt, preCxt),
 		oval: new OvalTool(cxt, preCxt),
 		eraser: new EraserTool(cxt, preCxt),
@@ -587,34 +643,22 @@ function resetCanvas() {
  * @returns {String} - The modified file name
  */
 function fixExtension(name, type) {
-	var pngRegex = (/.+\.png$/i),
-		jpegRegex = (/.+\.jpe?g$/i),
-		fileExtRegex = (/\.[a-z0-9]{1,4}$/i);
-	
 	name = name.trim();
 	
-	if (type === 'image/png' && !pngRegex.test(name)) {
-		if (fileExtRegex.test(name)) {
-			return name.replace(fileExtRegex, '.png');
+	if (type === 'image/png' && !PNG_REGEX.test(name)) {
+		if (FILE_EXT_REGEX.test(name)) {
+			return name.replace(FILE_EXT_REGEX, '.png');
 		} else {
 			return name + '.png';
 		}
-	} else if (type === 'image/jpeg' && !jpegRegex.test(name)) {
-		if (fileExtRegex.test(name)) {
-			return name.replace(fileExtRegex, '.jpg');
+	} else if (type === 'image/jpeg' && !JPEG_REGEX.test(name)) {
+		if (FILE_EXT_REGEX.test(name)) {
+			return name.replace(FILE_EXT_REGEX, '.jpg');
 		} else {
 			return name + '.jpg';
 		}
 	}
 	return name;
-}
-
-/**
- * Export the canvas content to a PNG to be saved.
- */
-function downloadImage() {
-	downloadLink.href = canvas.toDataURL(downloadLink.type || 'image/png');
-	downloadLink.click();
 }
 
 window.addEventListener('load', function () {
@@ -624,6 +668,8 @@ window.addEventListener('load', function () {
 	}
 	// Initialize keyboard shortcut dialog.
 	Utils.makeDialog(document.getElementById('keyboardDialog'));
+	
+	downloadLink = document.getElementById('downloadLink');
 	
 	// Initialize everything.
 	initCWSLinks();
@@ -639,12 +685,13 @@ window.addEventListener('load', function () {
 	// Enable keyboard shortcuts.
 	keyManager.enableAppShortcuts();
 	
+	progressSpinner = document.getElementById('progressSpinner');
+	Utils.makeDialog(progressSpinner);
+	
 	document.title = 'untitled.png - PaintZ'
 	
-	downloadLink = document.getElementById('downloadLink');
-	
 	if (!localStorage.firstRunDone) {
-		document.getElementById('helpDialog').open();
+		document.getElementById('welcomeDialog').open();
 		localStorage.firstRunDone = 'true';
 	}
 }, false);

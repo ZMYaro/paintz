@@ -75,19 +75,23 @@
 		font-weight: 300;
 		opacity: 0.8;
 	}
-	.dialog button[type="submit"] {
+	.dialog button[type="submit"],
+	#downloadLink {
 		background-color: #3f51b5;
 		color: white;
 	}
 		.dialog button[type="submit"]:hover,
-		.dialog button[type="submit"]:focus {
+		.dialog button[type="submit"]:focus,
+		#downloadLink:hover,
+		#downloadLink:focus {
 			background-color: #4b5cb9;
 		}
-		.dialog button[type="submit"]:active {
+		.dialog button[type="submit"]:active,
+		#downloadLink:active {
 			background-color: #5767bd;
 		}
 	.dialog .list {
-		margin: -8px 0;
+		margin: -8px -16px;
 	}
 		.dialog .list li {
 			border-style: none;
@@ -160,14 +164,33 @@ hr {
 	margin-top: 2px;
 }
 
+.welcomeIcon {
+	vertical-align: top;
+	width: 32px;
+	height: 32px;
+	padding: 4px;
+	margin: -8px 2px;
+}
+
 .dialog .list li img {
 	max-width: 24px;
 }
 	.dialog .list li img:first-child {
 		vertical-align: bottom;
 		max-width: 32px;
-		margin: -16px;
-		margin-right: 0;
+		margin: -16px 0;
 		padding: 14px 8px 14px 0;
 		float: left;
+	}
+
+progress.circular {
+	border-top-color: #3f51b5;/*5767bd;*/
+}
+#progressSpinner {
+	display: none;
+	margin: auto;
+	top: 40%;
+}
+	#progressSpinner.visible {
+		display: block;
 	}
