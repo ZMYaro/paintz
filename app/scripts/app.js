@@ -5,6 +5,10 @@ var PNG_REGEX = (/.+\.png$/i),
 	JPEG_REGEX = (/.+\.(jpg|jpeg|jpe|jif|jfif|jfi)$/i),
 	FILE_EXT_REGEX = (/\.[a-z0-9]{1,4}$/i);
 
+// Other global constants.
+var MIN_SIZE = 1,
+	MAX_SIZE = 99999;
+
 // Default settings
 var DEFAULTS = {
 	width: 640,
@@ -340,8 +344,8 @@ function initToolbar() {
 		e.preventDefault();
 
 		// Fetch the values from the form.
-		var newWidth = parseInt(e.target.width.value),
-			newHeight = parseInt(e.target.height.value),
+		var newWidth = Math.max(MIN_SIZE, Math.min(MAX_SIZE, parseInt(e.target.width.value))),
+			newHeight = Math.max(MIN_SIZE, Math.min(MAX_SIZE, parseInt(e.target.height.value))),
 			mode = e.target.resizeMode.value;
 
 		// Validate the user's input.
