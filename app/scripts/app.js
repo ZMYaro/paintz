@@ -363,6 +363,8 @@ function initToolbar() {
 		preCanvas.height = newHeight;
 		localStorage.width = newWidth;
 		localStorage.height = newHeight;
+		
+		document.getElementById('resolution').innerHTML = newWidth + ' &times; ' + newHeight + 'px';
 
 		// Add the change to the undo stack.
 		undoStack.addState();
@@ -678,6 +680,8 @@ window.addEventListener('load', function () {
 	initSettings();
 	initTools();
 	zoomManager.init();
+	// Update the resolution in the bottom bar.
+	document.getElementById('resolution').innerHTML = localStorage.width + ' &times; ' + localStorage.height + 'px';
 	// Get the canvas ready.
 	resetCanvas();
 	// Save the initial state.

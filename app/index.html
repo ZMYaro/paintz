@@ -176,15 +176,18 @@
 		<canvas id="preCanvas" width="640" height="480" touch-action="none"></canvas>
 		
 		<div class="appBar z2" id="bottomBar" role="toolbar">
-			<input type="number" id="zoomPercent" value="100" maxlength="3" min="1" max="999" />
-			<span class="icon">%</span>
-			<button id="zoomOutBtn" title="Zoom out (Ctrl+Alt+-)">
-				<img src="images/icons/zoom_out.png" alt="Zoom out" />
-			</button>
-			<input type="range" id="zoomSlider" list="zoomLevels" min="0" max="6" step="1" value="3" />
-			<button id="zoomInBtn" title="Zoom in (Ctrl+Alt+=)">
-				<img src="images/icons/zoom_in.png" alt="Zoom in" />
-			</button>
+			<span id="resolution"></span>
+			<span id="zoomContainer">
+				<input type="number" id="zoomPercent" value="100" maxlength="3" min="1" max="999" />
+				<span class="icon">%</span>
+				<button id="zoomOutBtn" title="Zoom out (Ctrl+Alt+-)">
+					<img src="images/icons/zoom_out.png" alt="Zoom out" />
+				</button>
+				<input type="range" id="zoomSlider" list="zoomLevels" min="0" max="6" step="1" value="3" />
+				<button id="zoomInBtn" title="Zoom in (Ctrl+Alt+=)">
+					<img src="images/icons/zoom_in.png" alt="Zoom in" />
+				</button>
+			</span>
 		</div>
 		
 		<div id="dialogs">
