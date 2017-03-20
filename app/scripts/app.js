@@ -698,7 +698,10 @@ window.addEventListener('load', function () {
 	
 	document.title = 'untitled.png - PaintZ'
 	
-	if (!localStorage.firstRunDone) {
+	if (localStorage.firstRunDone) {
+		progressSpinner.close();
+	} else {
+		progressSpinner.classList.remove('visible');
 		document.getElementById('welcomeDialog').open();
 		localStorage.firstRunDone = 'true';
 	}
