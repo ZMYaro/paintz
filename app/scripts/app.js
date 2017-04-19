@@ -395,37 +395,41 @@ function initToolbar() {
 				return;
 			}
 			var reader = new FileReader();
-			reader.onload = function (ev) {
+			reader.onload = function () {
 				var image = new Image();
-				image.src = ev.target.result;
-				// There is no need to clear the canvas.  Resizing the canvas will do that.
-				canvas.width = image.width;
-				canvas.height = image.height;
-				preCanvas.width = image.width;
-				preCanvas.height = image.height;
-				localStorage.width = image.width;
-				localStorage.height = image.height;
-				cxt.fillStyle = 'white';
-				cxt.fillRect(0, 0, canvas.width, canvas.height);
-				cxt.drawImage(image, 0, 0);
 				
-				// Clear the undo and redo stacks.
-				undoStack.clear();
-				
-				// Set the file type and name.
-				var fileName = file.name;
-				if (JPEG_REGEX.test(fileName)) {
-					document.getElementById('saveDialog').fileType.value =
-						downloadLink.type = 'image/jpeg';
-				} else {
-					document.getElementById('saveDialog').fileType.value =
-						downloadLink.type = 'image/png';
-					fileName = fileName.replace(FILE_EXT_REGEX, '.png');
-				}
-				document.getElementById('saveDialog').fileName.value =
-					downloadLink.download = fileName;
-				document.title = fileName + ' - PaintZ';
-				progressSpinner.close();
+				image.onload = function () {
+					// There is no need to clear the canvas.  Resizing the canvas will do that.
+					canvas.width = this.width;
+					canvas.height = this.height;
+					preCanvas.width = this.width;
+					preCanvas.height = this.height;
+					localStorage.width = this.width;
+					localStorage.height = this.height;
+					document.getElementById('resolution').innerHTML = this.width + ' &times; ' + this.height + 'px';
+					cxt.fillStyle = 'white';
+					cxt.fillRect(0, 0, canvas.width, canvas.height);
+					cxt.drawImage(this, 0, 0);
+					
+					// Clear the undo and redo stacks.
+					undoStack.clear();
+					
+					// Set the file type and name.
+					var fileName = file.name;
+					if (JPEG_REGEX.test(fileName)) {
+						document.getElementById('saveDialog').fileType.value =
+							downloadLink.type = 'image/jpeg';
+					} else {
+						document.getElementById('saveDialog').fileType.value =
+							downloadLink.type = 'image/png';
+						fileName = fileName.replace(FILE_EXT_REGEX, '.png');
+					}
+					document.getElementById('saveDialog').fileName.value =
+						downloadLink.download = fileName;
+					document.title = fileName + ' - PaintZ';
+					progressSpinner.close();
+				};
+				image.src = this.result;
 			};
 			reader.readAsDataURL(file);
 		} else {
