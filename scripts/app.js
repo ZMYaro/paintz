@@ -5,8 +5,13 @@ var PNG_REGEX = (/.+\.png$/i),
 	JPEG_REGEX = (/.+\.(jpg|jpeg|jpe|jif|jfif|jfi)$/i),
 	FILE_EXT_REGEX = (/\.[a-z0-9]{1,4}$/i);
 
+// Other global constants.
+var MIN_SIZE = 1,
+	MAX_SIZE = 99999;
+
 // Default settings
 var DEFAULTS = {
+	title: 'untitled.png',
 	width: 640,
 	height: 480,
 	lineWidth: 2,
@@ -292,11 +297,13 @@ function initToolbar() {
 			if (radius < MAX_RADIUS) {
 				Utils.raf(expandClearCircle);
 			} else {
-				// Add the change to the undo stack.
+				// Finish clearing and add the change to the undo stack.
 				undoStack.addState();
+				resetCanvas();
 			}
 		}
 		Utils.raf(expandClearCircle);
+		document.title = DEFAULTS.title + ' - PaintZ';
 		
 		e.target.close();
 	};
@@ -340,8 +347,8 @@ function initToolbar() {
 		e.preventDefault();
 
 		// Fetch the values from the form.
-		var newWidth = parseInt(e.target.width.value),
-			newHeight = parseInt(e.target.height.value),
+		var newWidth = Math.max(MIN_SIZE, Math.min(MAX_SIZE, parseInt(e.target.width.value))),
+			newHeight = Math.max(MIN_SIZE, Math.min(MAX_SIZE, parseInt(e.target.height.value))),
 			mode = e.target.resizeMode.value;
 
 		// Validate the user's input.
@@ -363,6 +370,8 @@ function initToolbar() {
 		preCanvas.height = newHeight;
 		localStorage.width = newWidth;
 		localStorage.height = newHeight;
+		
+		document.getElementById('resolution').innerHTML = newWidth + ' &times; ' + newHeight + 'px';
 
 		// Add the change to the undo stack.
 		undoStack.addState();
@@ -389,37 +398,41 @@ function initToolbar() {
 				return;
 			}
 			var reader = new FileReader();
-			reader.onload = function (ev) {
+			reader.onload = function () {
 				var image = new Image();
-				image.src = ev.target.result;
-				// There is no need to clear the canvas.  Resizing the canvas will do that.
-				canvas.width = image.width;
-				canvas.height = image.height;
-				preCanvas.width = image.width;
-				preCanvas.height = image.height;
-				localStorage.width = image.width;
-				localStorage.height = image.height;
-				cxt.fillStyle = 'white';
-				cxt.fillRect(0, 0, canvas.width, canvas.height);
-				cxt.drawImage(image, 0, 0);
 				
-				// Clear the undo and redo stacks.
-				undoStack.clear();
-				
-				// Set the file type and name.
-				var fileName = file.name;
-				if (JPEG_REGEX.test(fileName)) {
-					document.getElementById('saveDialog').fileType.value =
-						downloadLink.type = 'image/jpeg';
-				} else {
-					document.getElementById('saveDialog').fileType.value =
-						downloadLink.type = 'image/png';
-					fileName = fileName.replace(FILE_EXT_REGEX, '.png');
-				}
-				document.getElementById('saveDialog').fileName.value =
-					downloadLink.download = fileName;
-				document.title = fileName + ' - PaintZ';
-				progressSpinner.close();
+				image.onload = function () {
+					// There is no need to clear the canvas.  Resizing the canvas will do that.
+					canvas.width = this.width;
+					canvas.height = this.height;
+					preCanvas.width = this.width;
+					preCanvas.height = this.height;
+					localStorage.width = this.width;
+					localStorage.height = this.height;
+					document.getElementById('resolution').innerHTML = this.width + ' &times; ' + this.height + 'px';
+					cxt.fillStyle = 'white';
+					cxt.fillRect(0, 0, canvas.width, canvas.height);
+					cxt.drawImage(this, 0, 0);
+					
+					// Clear the undo and redo stacks.
+					undoStack.clear();
+					
+					// Set the file type and name.
+					var fileName = file.name;
+					if (JPEG_REGEX.test(fileName)) {
+						document.getElementById('saveDialog').fileType.value =
+							downloadLink.type = 'image/jpeg';
+					} else {
+						document.getElementById('saveDialog').fileType.value =
+							downloadLink.type = 'image/png';
+						fileName = fileName.replace(FILE_EXT_REGEX, '.png');
+					}
+					document.getElementById('saveDialog').fileName.value =
+						downloadLink.download = fileName;
+					document.title = fileName + ' - PaintZ';
+					progressSpinner.close();
+				};
+				image.src = this.result;
 			};
 			reader.readAsDataURL(file);
 		} else {
@@ -678,6 +691,8 @@ window.addEventListener('load', function () {
 	initSettings();
 	initTools();
 	zoomManager.init();
+	// Update the resolution in the bottom bar.
+	document.getElementById('resolution').innerHTML = localStorage.width + ' &times; ' + localStorage.height + 'px';
 	// Get the canvas ready.
 	resetCanvas();
 	// Save the initial state.
@@ -688,9 +703,12 @@ window.addEventListener('load', function () {
 	progressSpinner = document.getElementById('progressSpinner');
 	Utils.makeDialog(progressSpinner);
 	
-	document.title = 'untitled.png - PaintZ'
+	document.title = DEFAULTS.title + ' - PaintZ'
 	
-	if (!localStorage.firstRunDone) {
+	if (localStorage.firstRunDone) {
+		progressSpinner.close();
+	} else {
+		progressSpinner.classList.remove('visible');
 		document.getElementById('welcomeDialog').open();
 		localStorage.firstRunDone = 'true';
 	}

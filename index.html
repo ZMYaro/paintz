@@ -172,22 +172,25 @@
 			</div>
 		</div>
 
-		<canvas class="z1" id="canvas" width="640" height="480"></canvas>
-		<canvas id="preCanvas" width="640" height="480" touch-action="none"></canvas>
+		<canvas class="z1" id="canvas" width="1" height="1"></canvas>
+		<canvas id="preCanvas" width="1" height="1" touch-action="none"></canvas>
 		
 		<div class="appBar z2" id="bottomBar" role="toolbar">
-			<input type="number" id="zoomPercent" value="100" maxlength="3" min="1" max="999" />
-			<span class="icon">%</span>
-			<button id="zoomOutBtn" title="Zoom out (Ctrl+Alt+-)">
-				<img src="images/icons/zoom_out.png" alt="Zoom out" />
-			</button>
-			<input type="range" id="zoomSlider" list="zoomLevels" min="0" max="6" step="1" value="3" />
-			<button id="zoomInBtn" title="Zoom in (Ctrl+Alt+=)">
-				<img src="images/icons/zoom_in.png" alt="Zoom in" />
-			</button>
+			<span id="resolution"></span>
+			<span id="zoomContainer">
+				<input type="number" id="zoomPercent" value="100" maxlength="3" min="1" max="999" />
+				<span class="icon">%</span>
+				<button id="zoomOutBtn" title="Zoom out (Ctrl+Alt+-)">
+					<img src="images/icons/zoom_out.png" alt="Zoom out" />
+				</button>
+				<input type="range" id="zoomSlider" list="zoomLevels" min="0" max="6" step="1" value="3" />
+				<button id="zoomInBtn" title="Zoom in (Ctrl+Alt+=)">
+					<img src="images/icons/zoom_in.png" alt="Zoom in" />
+				</button>
+			</span>
 		</div>
 		
-		<div id="dialogs">
+		<div id="dialogs" style="display: block;">
 			<form id="clearDialog" class="dialog card z3" style="width: 384px;">
 				<h1 role="toolbar" style="padding: 0;">
 					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
@@ -227,9 +230,9 @@
 				</h1>
 				<ul class="list">
 					<li>
-						<input name="width" type="number" placeholder="Width" value="640" min="1" style="width: 45%;" />
+						<input name="width" type="number" placeholder="Width" value="640" min="1" max="99999" style="width: 45%;" />
 						&times;
-						<input name="height" type="number" placeholder="Height" value="480" min="1" style="width: 45%;" />
+						<input name="height" type="number" placeholder="Height" value="480" min="1" max="99999" style="width: 45%;" />
 					</li>
 					<li>
 						<label for="resizeCrop">
@@ -754,7 +757,7 @@
 			</form>
 			
 			
-			<progress class="circular" id="progressSpinner"></progress>
+			<progress class="circular visible" id="progressSpinner"></progress>
 		</div>
 
 		<!-- Invisible elements. -->
