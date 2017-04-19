@@ -11,6 +11,7 @@ var MIN_SIZE = 1,
 
 // Default settings
 var DEFAULTS = {
+	title: 'untitled.png',
 	width: 640,
 	height: 480,
 	lineWidth: 2,
@@ -296,11 +297,13 @@ function initToolbar() {
 			if (radius < MAX_RADIUS) {
 				Utils.raf(expandClearCircle);
 			} else {
-				// Add the change to the undo stack.
+				// Finish clearing and add the change to the undo stack.
 				undoStack.addState();
+				resetCanvas();
 			}
 		}
 		Utils.raf(expandClearCircle);
+		document.title = DEFAULTS.title + ' - PaintZ';
 		
 		e.target.close();
 	};
@@ -700,7 +703,7 @@ window.addEventListener('load', function () {
 	progressSpinner = document.getElementById('progressSpinner');
 	Utils.makeDialog(progressSpinner);
 	
-	document.title = 'untitled.png - PaintZ'
+	document.title = DEFAULTS.title + ' - PaintZ'
 	
 	if (localStorage.firstRunDone) {
 		progressSpinner.close();
