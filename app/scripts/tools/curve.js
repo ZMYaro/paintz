@@ -233,7 +233,7 @@ CurveTool.prototype.move = function (pointerState) {
 	}
 	
 	if (!localStorage.antiAlias) {
-		this._deAntiAlias();
+		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
 	}
 };
 

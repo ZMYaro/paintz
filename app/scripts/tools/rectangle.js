@@ -32,10 +32,12 @@ RectangleTool.prototype.move = function (pointerState) {
 	// Draw the new preview.
 	this._preCxt.strokeRect(x, y, width, height);
 	
+	// Draw the stroke first.
 	if (!localStorage.antiAlias) {
-		this._deAntiAlias();
+		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
 	}
 	
+	// Change the composite operation to ensure the filled region does not affect the de-anti-aliased outline.
 	this._preCxt.globalCompositeOperation = 'destination-over';
 	this._preCxt.fillRect(x, y, width, height);
 	this._preCxt.globalCompositeOperation = 'source-over';

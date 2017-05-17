@@ -56,7 +56,7 @@ DoodleTool.prototype.start = function (pointerState) {
 	
 	// De-anti-alias.
 	if (!localStorage.antiAlias) {
-		this._deAntiAlias();
+		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
 	}
 };
 
@@ -86,7 +86,7 @@ DoodleTool.prototype.move = function (pointerState) {
 	
 	// De-anti-alias.
 	if (!localStorage.antiAlias) {
-		this._deAntiAlias();
+		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
 	}
 	
 	// Store the last x and y.
