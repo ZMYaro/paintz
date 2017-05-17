@@ -65,6 +65,6 @@ LineTool.prototype.move = function (pointerState) {
 	LineTool.drawLine(this.startX, this.startY, pointerState.x, pointerState.y, this._preCxt);
 	
 	if (!localStorage.antiAlias) {
-		this._deAntiAlias();
+		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
 	}
 };

@@ -12,14 +12,27 @@ function Tool(cxt, preCxt) {
 
 /**
  * Undo anti-aliasing.
+ * @param {Object} [color] - The color every pixel on the canvas should be
  */
-Tool.prototype._deAntiAlias = function () {
+Tool.prototype._deAntiAlias = function (color) {
 	var imageData = this._preCxt.getImageData(0, 0, this._preCxt.canvas.width, this._preCxt.canvas.height);
 	for (var i = 3; i < imageData.data.length; i += 4) {
 		if (imageData.data[i] >= 128) {
+			// Set > 50% opaque pixels to be fully opaque.
 			imageData.data[i] = 255;
+			
+			// If a color was specified, ensure each pixel matches that color.
+			if (color) {
+				imageData.data[i - 3] = color.r;
+				imageData.data[i - 2] = color.g;
+				imageData.data[i - 1] = color.b;
+			}
 		} else {
-			imageData.data[i] = 0;
+			// Reset < 50% opaque pixels to transparent black.
+			imageData.data[i] =
+			imageData.data[i - 3] =
+				imageData.data[i - 2] =
+				imageData.data[i - 1] = 0;
 		}
 	}
 	this._preCxt.putImageData(imageData, 0, 0);

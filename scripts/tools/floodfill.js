@@ -42,6 +42,7 @@ FloodFillTool.prototype._fill = function (startX, startY) {
 			this._fillColor.g === this._startColor.g &&
 			this._fillColor.b === this._startColor.b) {
 		this._filling = false;
+		progressSpinner.close();
 		return;
 	}
 	

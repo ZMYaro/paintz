@@ -30,9 +30,8 @@ OvalTool.prototype.move = function (pointerState) {
 		radY = (pointerState.y - this.startY) / 2;
 	
 	
-	// Draw the new preview.
+	// Prepare the new preview.
 	this._preCxt.lineWidth = this.lineWidth;
-	this._preCxt.strokeStyle = this.lineColor;
 	this._preCxt.fillStyle = this.fillColor;
 	this._preCxt.save(); // Save the drawing context's state.
 	this._preCxt.beginPath();
@@ -40,12 +39,15 @@ OvalTool.prototype.move = function (pointerState) {
 	this._preCxt.scale(radX, radY);
 	this._preCxt.arc(1, 1, 1, 0, 2 * Math.PI, false);
 	this._preCxt.restore(); // Restore the context to its original state.
+	
+	// Draw the stroke first.
 	this._preCxt.stroke();
 	
 	if (!localStorage.antiAlias) {
-		this._deAntiAlias();
+		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
 	}
 	
+	// Change the composite operation to ensure the filled region does not affect the de-anti-aliased outline.
 	this._preCxt.globalCompositeOperation = 'destination-over';
 	this._preCxt.fill();
 	this._preCxt.globalCompositeOperation = 'source-over';
