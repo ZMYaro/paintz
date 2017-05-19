@@ -59,6 +59,17 @@ PencilTool.prototype._drawLine = function (x1, y1, x2, y2, cxt) {
 	}
 };
 
+
+/**
+ * Update the canvas's drawing context with the shape's properties.
+ * @override
+ */
+PencilTool.prototype._prepareCanvas = function () {
+	this._preCxt.lineWidth = this._lineWidth;
+	// Set the fill style to be the line color because drawPoint uses fillRect.
+	this._preCxt.fillStyle = this._lineColor;
+};
+
 /**
  * Handle the pencil tool becoming the active tool.
  * @override
@@ -80,9 +91,9 @@ PencilTool.prototype.start = function (pointerState) {
 	this._lastX = pointerState.x;
 	this._lastY = pointerState.y;
 	
-	// Draw a round end cap at the start of the doodle.
-	var cxt = localStorage.ghostDraw ? this._preCxt : this._cxt;
-	this._drawPoint(pointerState.x, pointerState.y, cxt);
+	// Draw a dot at the start of the doodle.
+	this._prepareCanvas();
+	this._drawPoint(pointerState.x, pointerState.y, this._preCxt);
 };
 
 /**
@@ -94,14 +105,9 @@ PencilTool.prototype.move = function (pointerState) {
 	DrawingTool.prototype.move.apply(this, arguments);
 	
 	this._roundPointerState(pointerState);
-	
-	var cxt = localStorage.ghostDraw ? this._preCxt : this._cxt;
 
 	// Connect to the existing preview.
-	cxt.lineWidth = this._lineWidth;
-	cxt.fillStyle = this._lineColor;
-	
-	this._drawLine(this._lastX, this._lastY, pointerState.x, pointerState.y, cxt);
+	this._drawLine(this._lastX, this._lastY, pointerState.x, pointerState.y, this._preCxt);
 	
 	// Store the last x and y.
 	this._lastX = pointerState.x;
