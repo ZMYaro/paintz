@@ -1,62 +1,62 @@
-window.addEventListener("load", function(e) {
-	// Do not run the script on Chrome 32 or higher.
-	/*if(/Chrome\/[3-9][2-9]/.test(navigator.userAgent)) {
-		return;
-	}*/
-	
-	// Create an array of all input elements.
-	var inputElems = Array.prototype.slice.call(document.getElementsByTagName("button")).concat(
-		Array.prototype.slice.call(document.getElementsByTagName("select"))).concat(
-		Array.prototype.slice.call(document.getElementsByTagName("input")));
-	
-	// If they can be found, identify all elements with role="button".
-	if(document.querySelectorAll) {
-		inputElems = inputElems.concat(
-			Array.prototype.slice.call(document.querySelectorAll("*[role=\"button\"]")));
-	}
-	
-	var elemTypes = ["button", "select"];
-	var inputTypes = ["button", "checkbox", "radio", "range", "reset", "submit"];
-	
-	for(var i = 0; i < inputElems.length; i++) {
-		// If the element is a supported form element,
-		if(elemTypes.indexOf(inputElems[i].tagName.toLowerCase()) !== -1 ||
-				// Or the element is a supported <input> type,
-				(inputElems[i].type && inputTypes.indexOf(inputElems[i].type.toLowerCase()) !== -1) ||
-				// Or the element has role="button",
-				(inputElems[i].getAttribute("role") && inputElems[i].getAttribute("role").toLowerCase() === "button")) {
-			// Add the touch event listeners.
-			inputElems[i].addEventListener("touchstart", makeActive, false);
-			inputElems[i].addEventListener("touchend", makeInactive, false);
-			inputElems[i].addEventListener("touchcancel", makeInactive, false);
-		}
-	}
-	
+/* Script for triggering element active states when touched
+ * Supplement to the MaterialZ CSS library
+ *
+ * Copyright 2016 Zachary Yaro
+ * Released under the MIT license
+ * https://materialz.zmyaro.com/LICENSE.txt
+ */
+
+ (function () {
+	var ELEM_TYPES = ["button", "select"],
+		INPUT_TYPES = ["button", "checkbox", "radio", "range", "reset", "submit"];
 	
 	/**
-	 * Adds the ‚Äúactive‚Äù class to the touched element
+	 * Check whether a given element is a supported form element.
+	 * @param {HTMLElement} elem
+	 */
+	function isSupported(elem) {
+		// Check whether the element is a supported form element,
+		return (ELEM_TYPES.indexOf(elem.tagName.toLowerCase()) !== -1 ||
+			// a supported <input> type,
+			(elem.type && INPUT_TYPES.indexOf(elem.type.toLowerCase()) !== -1) ||
+			// or has role="button".
+			elem.getAttribute('role') === 'button');
+	}
+	
+	/**
+	 * Add the ìactiveî class to the touched element
 	 * @param {TouchEvent} e
 	 */
 	function makeActive(e) {
-		if(!!e.srcElement.classList) { // use classList API if available
-			e.srcElement.classList.add("active");
-		} else {
-			e.srcElement.className += " active";
+		if (isSupported(e.target)) {
+			if(!!e.target.classList) { // use classList API if available
+				e.target.classList.add("active");
+			} else {
+				e.target.className += " active";
+			}
+			e.stopPropagation();
 		}
-		
 	}
 	
 	/**
-	 * Removes the ‚Äúactive‚Äù class from the touched element
+	 * Remove the ìactiveî class from the touched element
 	 * @param {TouchEvent} e
 	 */
 	function makeInactive(e) {
-		if(!!e.srcElement.classList) { // use classList API if available
-			e.srcElement.classList.remove("active");
-		} else {
-			e.srcElement.className = e.srcElement.className.replace(/\s*active/g, "");
+		if (isSupported(e.target)) {
+			if(!!e.target.classList) { // use classList API if available
+				e.target.classList.remove("active");
+			} else {
+				e.target.className = e.srcElement.className.replace(/\s*active/g, "");
+			}
+			e.stopPropagation();
 		}
-		
 	}
-}, false);
-
+	
+	window.addEventListener('load', function(e) {
+		// Add the event listeners to the body.
+		document.body.addEventListener('touchstart', makeActive, false);
+		document.body.addEventListener("touchend", makeInactive, false);
+		document.body.addEventListener("touchcancel", makeInactive, false);
+	}, false);
+})();

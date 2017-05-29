@@ -28,58 +28,70 @@ body {
 	        transition-property: padding;
 }
 
-*[role="toolbar"] {
-	padding: 16px;
-	font-size: 24px;
+[role="toolbar"] {
+	padding: 20px 16px;
+	font-size: 20px;
 }
-	*[role="toolbar"] button,
-	*[role="toolbar"] *[role="button"],
-	*[role="toolbar"] input[type="button"],
-	*[role="toolbar"] input[type="submit"],
-	*[role="toolbar"] input[type="reset"] {
+	[role="toolbar"] button,
+	[role="toolbar"] [role="button"],
+	[role="toolbar"] input[type="button"],
+	[role="toolbar"] input[type="submit"],
+	[role="toolbar"] input[type="reset"] {
 		-webkit-box-sizing: border-box;
 		   -moz-box-sizing: border-box;
 		        box-sizing: border-box;
 		
 		vertical-align: top;
 		min-width: 0;
-		width: 56px;
-		height: 56px;
-		margin: -12px -2px; /* -12px to counter the toolbar's padding */
-		padding: 12px;
+		margin: -8px 0; /* Counter the toolbar's padding */
+		padding: 8px 6px;
 		
 		background-color: transparent;
 		background-image: none;
 		
 		border-style: none;
 		border-width: 0px;
-		-webkit-border-radius: 50%;
-		   -moz-border-radius: 50%;
-				border-radius: 50%;
+		-webkit-border-radius: 24px;
+		   -moz-border-radius: 24px;
+				border-radius: 24px;
 	}
-		*[role="toolbar"] button:hover,
-		*[role="toolbar"] button:focus,
-		*[role="toolbar"] *[role="button"]:hover,
-		*[role="toolbar"] *[role="button"]:focus,
-		*[role="toolbar"] input[type="button"]:hover,
-		*[role="toolbar"] input[type="button"]:focus,
-		*[role="toolbar"] input[type="submit"]:hover,
-		*[role="toolbar"] input[type="submit"]:focus,
-		*[role="toolbar"] input[type="reset"]:hover,
-		*[role="toolbar"] input[type="reset"]:focus {
+		[role="toolbar"] button:not(:disabled):hover,
+		[role="toolbar"] button:focus,
+		[role="toolbar"] [role="button"]:hover,
+		[role="toolbar"] [role="button"]:focus,
+		[role="toolbar"] input[type="button"]:not(:disabled):hover,
+		[role="toolbar"] input[type="button"]:focus,
+		[role="toolbar"] input[type="submit"]:not(:disabled):hover,
+		[role="toolbar"] input[type="submit"]:focus,
+		[role="toolbar"] input[type="reset"]:not(:disabled):hover,
+		[role="toolbar"] input[type="reset"]:focus {
 			background-color: rgba(0,0,0,0.07);
 		}
-		*[role="toolbar"] button:enabled:active,
-		*[role="toolbar"] button:enabled.active,
-		*[role="toolbar"] *[role="button"]:active,
-		*[role="toolbar"] *[role="button"].active,
-		*[role="toolbar"] input[type="button"]:active,
-		*[role="toolbar"] input[type="button"].active,
-		*[role="toolbar"] input[type="submit"]:active,
-		*[role="toolbar"] input[type="submit"].active,
-		*[role="toolbar"] input[type="reset"]:active,
-		*[role="toolbar"] input[type="reset"].active {
+		[role="toolbar"] button:not(:disabled):active,
+		[role="toolbar"] button:not(:disabled).active,
+		[role="toolbar"] [role="button"]:active,
+		[role="toolbar"] [role="button"].active,
+		[role="toolbar"] input[type="button"]:not(:disabled):active,
+		[role="toolbar"] input[type="button"]:not(:disabled).active,
+		[role="toolbar"] input[type="submit"]:not(:disabled):active,
+		[role="toolbar"] input[type="submit"]:not(:disabled).active,
+		[role="toolbar"] input[type="reset"]:not(:disabled):active,
+		[role="toolbar"] input[type="reset"]:not(:disabled).active {
 			background-color: rgba(0,0,0,0.13);
+		}
+		[role="toolbar"] button img,
+		[role="toolbar"] button [role="img"],
+		[role="toolbar"] [role="button"] img,
+		[role="toolbar"] [role="button"] [role="img"],
+		[role="toolbar"] input[type="button"] img,
+		[role="toolbar"] input[type="button"] [role="img"],
+		[role="toolbar"] input[type="submit"] img,
+		[role="toolbar"] input[type="submit"] [role="img"],
+		[role="toolbar"] input[type="reset"] img,
+		[role="toolbar"] input[type="reset"] [role="img"] {
+			height: 24px;
+			margin: -5px 2px;
+			pointer-events: none;
 		}
 
 .appBar { /* the top action bar should be a <header> element */
@@ -91,10 +103,9 @@ body {
 	top: 0px;
 	left: 0px;
 	right: 0px;
-	height: 64px;
 	
-	padding: 16px;
-	font-size: 24px;
+	padding: 20px 16px;
+	font-size: 20px;
 	
 	z-index: 3;
 	
@@ -117,51 +128,51 @@ body {
 	     -o-transition-property: height, padding, font-size;
 	        transition-property: height, padding, font-size;
 }
-	.appBar > *[role="toolbar"] {
-		margin: -16px;
+	.appBar > [role="toolbar"] {
+		margin: -20px -16px;
 	}
-		.appBar > *[role="toolbar"] button:hover,
-		.appBar > *[role="toolbar"] button:focus,
-		.appBar > *[role="toolbar"] *[role="button"]:hover,
-		.appBar > *[role="toolbar"] *[role="button"]:focus,
-		.appBar > *[role="toolbar"] input[type="button"]:hover,
-		.appBar > *[role="toolbar"] input[type="button"]:focus,
-		.appBar > *[role="toolbar"] input[type="submit"]:hover,
-		.appBar > *[role="toolbar"] input[type="submit"]:focus,
-		.appBar > *[role="toolbar"] input[type="reset"]:hover,
-		.appBar > *[role="toolbar"] input[type="reset"]:focus,
-		.appBar[role="toolbar"] button:hover,
+		.appBar > [role="toolbar"] button:not(:disabled):hover,
+		.appBar > [role="toolbar"] button:focus,
+		.appBar > [role="toolbar"] [role="button"]:hover,
+		.appBar > [role="toolbar"] [role="button"]:focus,
+		.appBar > [role="toolbar"] input[type="button"]:not(:disabled):hover,
+		.appBar > [role="toolbar"] input[type="button"]:focus,
+		.appBar > [role="toolbar"] input[type="submit"]:not(:disabled):hover,
+		.appBar > [role="toolbar"] input[type="submit"]:focus,
+		.appBar > [role="toolbar"] input[type="reset"]:not(:disabled):hover,
+		.appBar > [role="toolbar"] input[type="reset"]:focus,
+		.appBar[role="toolbar"] button:not(:disabled):hover,
 		.appBar[role="toolbar"] button:focus,
-		.appBar[role="toolbar"] *[role="button"]:hover,
-		.appBar[role="toolbar"] *[role="button"]:focus,
-		.appBar[role="toolbar"] input[type="button"]:hover,
+		.appBar[role="toolbar"] [role="button"]:hover,
+		.appBar[role="toolbar"] [role="button"]:focus,
+		.appBar[role="toolbar"] input[type="button"]:not(:disabled):hover,
 		.appBar[role="toolbar"] input[type="button"]:focus,
-		.appBar[role="toolbar"] input[type="submit"]:hover,
+		.appBar[role="toolbar"] input[type="submit"]:not(:disabled):hover,
 		.appBar[role="toolbar"] input[type="submit"]:focus,
-		.appBar[role="toolbar"] input[type="reset"]:hover,
+		.appBar[role="toolbar"] input[type="reset"]:not(:disabled):hover,
 		.appBar[role="toolbar"] input[type="reset"]:focus {
 			background-color: rgba(255,255,255,0.07);
 		}
-		.appBar > *[role="toolbar"] button:enabled:active,
-		.appBar > *[role="toolbar"] button:enabled.active,
-		.appBar > *[role="toolbar"] *[role="button"]:active,
-		.appBar > *[role="toolbar"] *[role="button"].active,
-		.appBar > *[role="toolbar"] input[type="button"]:active,
-		.appBar > *[role="toolbar"] input[type="button"].active,
-		.appBar > *[role="toolbar"] input[type="submit"]:active,
-		.appBar > *[role="toolbar"] input[type="submit"].active,
-		.appBar > *[role="toolbar"] input[type="reset"]:active,
-		.appBar > *[role="toolbar"] input[type="reset"].active,
-		.appBar[role="toolbar"] button:enabled:active,
-		.appBar[role="toolbar"] button:enabled.active,
-		.appBar[role="toolbar"] *[role="button"]:active,
-		.appBar[role="toolbar"] *[role="button"].active,
-		.appBar[role="toolbar"] input[type="button"]:active,
-		.appBar[role="toolbar"] input[type="button"].active,
-		.appBar[role="toolbar"] input[type="submit"]:active,
-		.appBar[role="toolbar"] input[type="submit"].active,
-		.appBar[role="toolbar"] input[type="reset"]:active,
-		.appBar[role="toolbar"] input[type="reset"].active {
+		.appBar > [role="toolbar"] button:not(:disabled):active,
+		.appBar > [role="toolbar"] button:not(:disabled).active,
+		.appBar > [role="toolbar"] [role="button"]:active,
+		.appBar > [role="toolbar"] [role="button"].active,
+		.appBar > [role="toolbar"] input[type="button"]:not(:disabled):active,
+		.appBar > [role="toolbar"] input[type="button"]:not(:disabled).active,
+		.appBar > [role="toolbar"] input[type="submit"]:not(:disabled):active,
+		.appBar > [role="toolbar"] input[type="submit"]:not(:disabled).active,
+		.appBar > [role="toolbar"] input[type="reset"]:not(:disabled):active,
+		.appBar > [role="toolbar"] input[type="reset"]:not(:disabled).active,
+		.appBar[role="toolbar"] button:not(:disabled):active,
+		.appBar[role="toolbar"] button:not(:disabled).active,
+		.appBar[role="toolbar"] [role="button"]:active,
+		.appBar[role="toolbar"] [role="button"].active,
+		.appBar[role="toolbar"] input[type="button"]:not(:disabled):active,
+		.appBar[role="toolbar"] input[type="button"]:not(:disabled).active,
+		.appBar[role="toolbar"] input[type="submit"]:not(:disabled):active,
+		.appBar[role="toolbar"] input[type="submit"]:not(:disabled).active,
+		.appBar[role="toolbar"] input[type="reset"]:not(:disabled):active,
+		.appBar[role="toolbar"] input[type="reset"]:not(:disabled).active {
 			background-color: rgba(255,255,255,0.13);
 		}
 
@@ -185,7 +196,7 @@ body {
 		}
 		
 		.list li button,
-		.list li *[role="button"],
+		.list li [role="button"],
 		.list li input[type="button"],
 		.list li input[type="submit"],
 		.list li input[type="reset"] {
@@ -208,29 +219,29 @@ body {
 			   -moz-box-shadow: none;
 			        box-shadow: none;
 		}
-			.list li button:hover,
-			.list li *[role="button"]:hover,
-			.list li input[type="button"]:hover,
-			.list li input[type="submit"]:hover,
-			.list li input[type="reset"]:hover,
+			.list li button:not(:disabled):hover,
 			.list li button:focus,
-			.list li *[role="button"]:focus,
+			.list li [role="button"]:hover,
+			.list li [role="button"]:focus,
+			.list li input[type="button"]:not(:disabled):hover,
 			.list li input[type="button"]:focus,
+			.list li input[type="submit"]:not(:disabled):hover,
 			.list li input[type="submit"]:focus,
+			.list li input[type="reset"]:not(:disabled):hover,
 			.list li input[type="reset"]:focus {
 				background-color: #f2f2f2;
 				background-color: rgba(0, 0, 0, 0.05);
 			}
-			.list li button:enabled:active,
-			.list li button:enabled.active,
-			.list li *[role="button"]:active,
-			.list li *[role="button"].active,
-			.list li input[type="button"]:enabled:active,
-			.list li input[type="button"]:enabled.active,
-			.list li input[type="submit"]:enabled:active,
-			.list li input[type="submit"]:enabled.active,
-			.list li input[type="reset"]:enabled:active,
-			.list li input[type="reset"]:enabled.active {
+			.list li button:not(:disabled):active,
+			.list li button:not(:disabled).active,
+			.list li [role="button"]:active,
+			.list li [role="button"].active,
+			.list li input[type="button"]:not(:disabled):active,
+			.list li input[type="button"]:not(:disabled).active,
+			.list li input[type="submit"]:not(:disabled):active,
+			.list li input[type="submit"]:not(:disabled).active,
+			.list li input[type="reset"]:not(:disabled):active,
+			.list li input[type="reset"]:not(:disabled).active {
 				-webkit-box-shadow: none;
 				   -moz-box-shadow: none;
 				        box-shadow: none;
@@ -257,9 +268,9 @@ body {
 progress.circular,
 progress.circular::before,
 progress.circular::after,
-*[role="progressbar"].circular,
-*[role="progressbar"].circular::before,
-*[role="progressbar"].circular::after {
+[role="progressbar"].circular,
+[role="progressbar"].circular::before,
+[role="progressbar"].circular::after {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -290,7 +301,7 @@ progress.circular::after,
 	animation-duration: 1.5s;
 }
 	progress.circular,
-	*[role="progressbar"].circular {
+	[role="progressbar"].circular {
 		width: 48px;
 		height: 48px;
 		display: inline-block;
@@ -304,8 +315,8 @@ progress.circular::after,
 	}
 	progress.circular::before,
 	progress.circular::after,
-	*[role="progressbar"].circular::before,
-	*[role="progressbar"].circular::after {
+	[role="progressbar"].circular::before,
+	[role="progressbar"].circular::after {
 		content: '';
 		display: block;
 		position: absolute;
@@ -317,7 +328,7 @@ progress.circular::after,
 		border-top-color: inherit;
 	}
 	progress.circular::before,
-	*[role="progressbar"].circular::before {
+	[role="progressbar"].circular::before {
 		-webkit-animation-name: materialz-circular-progress-part2;
 		   -moz-animation-name: materialz-circular-progress-part2;
 		    -ms-animation-name: materialz-circular-progress-part2;
@@ -325,7 +336,7 @@ progress.circular::after,
 		        animation-name: materialz-circular-progress-part2;
 	}
 	progress.circular::after,
-	*[role="progressbar"].circular::after {
+	[role="progressbar"].circular::after {
 		-webkit-animation-name: materialz-circular-progress-part3;
 		   -moz-animation-name: materialz-circular-progress-part3;
 		    -ms-animation-name: materialz-circular-progress-part3;
@@ -348,12 +359,12 @@ progress.circular::after,
 	body {
 		padding-top: 72px; /* 56px toolbar + 16px padding */
 	}
+	[role="toolbar"],
 	.appBar {
-		height: 56px;
-		padding: 12px;
+		padding: 16px;
 	}
-		.appBar > *[role="toolbar"] {
-			margin: -12px;
+		.appBar > [role="toolbar"] {
+			margin: -16px;
 		}
 }
 

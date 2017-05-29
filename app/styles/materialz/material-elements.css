@@ -7,6 +7,7 @@
  */
 
 @charset "UTF-8";
+@import url(//fonts.googleapis.com/css?family=Roboto+Mono:400italic,400|Roboto:400,400italic,500,500italic,700,700italic);
 
 ::selection {
 	background-color: #40c4ff;
@@ -57,7 +58,7 @@ a {
 }
 
 button,
-*[role="button"],
+[role="button"],
 input,
 select,
 textarea {
@@ -74,7 +75,7 @@ textarea {
 
 /* Clickable elements */
 button,
-*[role="button"],
+[role="button"],
 input[type="button"],
 input[type="submit"],
 input[type="reset"],
@@ -87,7 +88,7 @@ select[size="1"] {
 }
 
 /* --------======== BUTTONS and DROP-DOWNS ========-------- */
-button, *[role="button"],
+button, [role="button"],
 input[type="button"],
 input[type="submit"],
 input[type="reset"],
@@ -101,9 +102,12 @@ select[size="1"] {
 	-webkit-border-radius: 3px;
 	   -moz-border-radius: 3px;
 	        border-radius: 3px;
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	        user-select: none;
 }
 	button,
-	*[role="button"],
+	[role="button"],
 	input[type="button"],
 	input[type="submit"],
 	input[type="reset"] {
@@ -126,14 +130,14 @@ select[size="1"] {
 		text-overflow: '';
 	}
 	button:not(:disabled):hover,
-	*[role="button"]:not(:disabled):hover,
+	[role="button"]:not(:disabled):hover,
 	input[type="button"]:not(:disabled):hover,
 	input[type="submit"]:not(:disabled):hover,
 	input[type="reset"]:not(:disabled):hover,
 	select:not(:disabled):hover,
 	select[size="1"]:not(:disabled):hover,
 	button:focus,
-	*[role="button"]:focus,
+	[role="button"]:focus,
 	input[type="button"]:focus,
 	input[type="submit"]:focus,
 	input[type="reset"]:focus,
@@ -144,14 +148,14 @@ select[size="1"] {
 	}
 	/* The “active” class is used to force the appearance of the active/pressed state */
 	button:not(:disabled):active,
-	*[role="button"]:not(:disabled):active,
+	[role="button"]:not(:disabled):active,
 	input[type="button"]:not(:disabled):active,
 	input[type="submit"]:not(:disabled):active,
 	input[type="reset"]:not(:disabled):active,
 	select:not([size]):not(:disabled):active,
 	select[size="1"]:not(:disabled):active,
 	button:not(:disabled).active,
-	*[role="button"]:not(:disabled).active,
+	[role="button"]:not(:disabled).active,
 	input[type="button"]:not(:disabled).active,
 	input[type="submit"]:not(:disabled).active,
 	input[type="reset"]:not(:disabled).active,
@@ -519,7 +523,7 @@ textarea {
 
 *:disabled,
 button:disabled,
-*[role="button"]:disabled,
+[role="button"]:disabled,
 input[type="button"]:disabled,
 input[type="submit"]:disabled,
 input[type="reset"]:disabled,

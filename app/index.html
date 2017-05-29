@@ -96,19 +96,55 @@
 			</div>
 			<span class="divider"></span>
 			<form class="toolbox" id="tools">
-				<input type="radio" name="tool" value="pencil" id="pencilTool" title="Pencil (P)" />
-				<input type="radio" name="tool" value="doodle" id="doodleTool" title="Brush (B)" />
-				<input type="radio" name="tool" value="line" id="lineTool" title="Line (L)" />
-				<input type="radio" name="tool" value="curve" id="curveTool" title="Curve (C)" />
-				<input type="radio" name="tool" value="rect" id="rectTool" title="Rectangle (R)" />
-				<input type="radio" name="tool" value="oval" id="ovalTool" title="Oval (O)" />
+				<input type="radio" name="tool" value="pencil" id="pencilTool" />
+				<label role="button" for="pencilTool" title="Pencil (P)">
+					<img src="images/icons/pencil.png" alt="Pencil" />
+				</label>
+				<input type="radio" name="tool" value="doodle" id="doodleTool" />
+				<label role="button" for="doodleTool" title="Brush (B)">
+					<img src="images/icons/brush.png" alt="Brush" />
+				</label>
+				<input type="radio" name="tool" value="line" id="lineTool" />
+				<label role="button" for="lineTool" title="Line (L)">
+					<img src="images/icons/line.png" alt="Line" />
+				</label>
+				<input type="radio" name="tool" value="curve" id="curveTool" />
+				<label role="button" for="curveTool" title="Curve (C)">
+					<img src="images/icons/curve.png" alt="Curve" />
+				</label>
+				<input type="radio" name="tool" value="rect" id="rectTool" />
+				<label role="button" for="rectTool" title="Rectangle (R)">
+					<img src="images/icons/rect.png" alt="Rectangle" />
+				</label>
+				<input type="radio" name="tool" value="oval" id="ovalTool" />
+				<label role="button" for="ovalTool" title="Oval (O)">
+					<img src="images/icons/oval.png" alt="Oval" />
+				</label>
 				<br />
-				<input type="radio" name="tool" value="pan" id="panTool" title="Pan (H)" />
-				<input type="radio" name="tool" value="selection" id="selectionTool" title="Selection (S)" />
-				<input type="radio" name="tool" value="eraser" id="eraserTool" title="Eraser (E)" />
-				<input type="radio" name="tool" value="floodFill" id="floodFillTool" title="Flood fill (F)" />
-				<input type="radio" name="tool" value="eyedropper" id="eyedropperTool" title="Color picker (I)" />
-				<input type="radio" name="tool" value="text" id="textTool" title="Text (T)" />
+				<input type="radio" name="tool" value="pan" id="panTool" />
+				<label role="button" for="panTool" title="Pan (H)">
+					<img src="images/icons/pan.png" alt="Pan" />
+				</label>
+				<input type="radio" name="tool" value="selection" id="selectionTool" />
+				<label role="button" for="selectionTool" title="Selection (S)">
+					<img src="images/icons/selection.png" alt="Selection" />
+				</label>
+				<input type="radio" name="tool" value="eraser" id="eraserTool" />
+				<label role="button" for="eraserTool" title="Eraser (E)">
+					<img src="images/icons/eraser.png" alt="Eraser" />
+				</label>
+				<input type="radio" name="tool" value="floodFill" id="floodFillTool" />
+				<label role="button" for="floodFillTool" title="Flood fill (F)">
+					<img src="images/icons/paint_bucket.png" alt="Flood fill" />
+				</label>
+				<input type="radio" name="tool" value="eyedropper" id="eyedropperTool" />
+				<label role="button" for="eyedropperTool" title="Color picker (I)">
+					<img src="images/icons/eyedropper.png" alt="Color picker" />
+				</label>
+				<input type="radio" name="tool" value="text" id="textTool" />
+				<label role="button" for="textTool" title="Text (T)">
+					<img src="images/icons/text.png" alt="Text" />
+				</label>
 			</form>
 			<span class="divider"></span>
 			<div class="toolbox">
@@ -134,9 +170,18 @@
 				<img class="icon" src="images/icons/line_weight.png" alt="" />
 				<br />
 				<form id="outlineOptions">
-					<input type="radio" name="outlineOption" value="outlineOnly" id="outlineOnly" title="Outline only" />
-					<input type="radio" name="outlineOption" value="fillOnly" id="fillOnly" title="Fill only" />
-					<input type="radio" name="outlineOption" value="outlineFill" id="outlineFill" title="Outline and fill" />
+					<input type="radio" name="outlineOption" value="outlineOnly" id="outlineOnly" />
+					<label role="button" for="outlineOnly" title="Outline only">
+						<img src="images/icons/outline_only.png" alt="Outline only" />
+					</label>
+					<input type="radio" name="outlineOption" value="fillOnly" id="fillOnly" />
+					<label role="button" for="fillOnly" title="Fill only">
+						<img src="images/icons/fill_only.png" alt="Fill only" />
+					</label>
+					<input type="radio" name="outlineOption" value="outlineFill" id="outlineFill" />
+					<label role="button" for="outlineFill" title="Outline and fill">
+						<img src="images/icons/outline_fill.png" alt="Outline and fill" />
+					</label>
 				</form>
 			</div>
 			<span class="divider"></span>
@@ -193,7 +238,7 @@
 		<div id="dialogs" style="display: block;">
 			<form id="clearDialog" class="dialog card z3" style="width: 384px;">
 				<h1 role="toolbar" style="padding: 0;">
-					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -8px;">
 						<img src="images/icons/close.png" alt="Close" />
 					</button>
 					Clear entire drawing?
@@ -205,7 +250,7 @@
 			</form>
 			<form id="saveDialog" class="dialog card z3" style="width: 384px;">
 				<h1 role="toolbar" style="padding: 0;">
-					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -8px;">
 						<img src="images/icons/close.png" alt="Close" />
 					</button>
 					Save as
@@ -223,7 +268,7 @@
 			</form>
 			<form id="resizeDialog" class="dialog card z3" style="width: 320px;">
 				<h1 role="toolbar" style="padding: 0;">
-					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -8px;">
 						<img src="images/icons/close.png" alt="Close" />
 					</button>
 					Resize
@@ -254,7 +299,7 @@
 			</form>
 			<form id="colorPickerDialog" class="dialog card z3" style="width: 640px; max-width: none;">
 				<h1 role="toolbar" style="padding: 0;">
-					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -8px;">
 						<img src="images/icons/close.png" alt="Close" />
 					</button>
 					Colors
@@ -344,7 +389,7 @@
 			</form>
 			<form id="settingsDialog" class="dialog card z3" style="width: 384px;">
 				<h1 role="toolbar" style="padding: 0;">
-					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -8px;">
 						<img src="images/icons/close.png" alt="Close" />
 					</button>
 					Settings
@@ -377,7 +422,7 @@
 			</form>
 			<form id="helpDialog" class="dialog card z3" style="width: 640px;">
 				<h1 role="toolbar" style="padding: 0;">
-					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -8px;">
 						<img src="images/icons/close.png" alt="Close" />
 					</button>
 					PaintZ Help
@@ -565,7 +610,7 @@
 			</form>
 			<form id="aboutDialog" class="dialog card z3" style="width: 640px;">
 				<h1 role="toolbar" style="padding: 0;">
-					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -8px;">
 						<img src="images/icons/close.png" alt="Close" />
 					</button>
 					About PaintZ
@@ -614,7 +659,7 @@
 			</form>
 			<form id="keyboardDialog" class="dialog card z3" style="width: 352px;">
 				<h1 role="toolbar" style="padding: 0;">
-					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -8px;">
 						<img src="images/icons/close.png" alt="Close" />
 					</button>
 					Keyboard shortcuts
@@ -732,7 +777,7 @@
 			</form>
 			<form id="welcomeDialog" class="dialog card z3" style="width: 512px;">
 				<h1 role="toolbar" style="padding: 0;">
-					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -12px;">
+					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -8px;">
 						<img src="images/icons/close.png" alt="Close" />
 					</button>
 					Welcome to PaintZ!
