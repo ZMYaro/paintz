@@ -26,6 +26,10 @@ body {
 	padding: 2px 4px;
 	white-space: nowrap;
 	overflow-x: auto;
+	
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	        user-select: none;
 }
 	#toolbar .divider {
 		display: inline-block;
