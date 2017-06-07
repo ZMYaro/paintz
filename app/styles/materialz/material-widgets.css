@@ -89,6 +89,7 @@ body {
 		[role="toolbar"] input[type="submit"] [role="img"],
 		[role="toolbar"] input[type="reset"] img,
 		[role="toolbar"] input[type="reset"] [role="img"] {
+			width: 24px;
 			height: 24px;
 			margin: -5px 2px;
 			pointer-events: none;

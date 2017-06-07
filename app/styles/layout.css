@@ -14,6 +14,7 @@ body {
 	display: inline-block;
 	pointer-events: none;
 	z-index: -1;
+	fill: #ffffff;
 }
 
 #toolbar,
@@ -44,6 +45,11 @@ body {
 	#toolbar [role="button"] {
 		margin: 4px 2px;
 	}
+		#toolbar button svg,
+		#toolbar [role="button"] svg {
+			fill: #ffffff;
+		}
+	
 	#toolbar select {
 		background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAAICAYAAACs/DyzAAAAOUlEQVQ4y93PwQ0AMAgDMUZn8/BHqgr5Hd7AISnlyyAwk4ycmWTllklmbphk5z7JG7lH8lauJdG5AlouFwB1jHPVAAAAAElFTkSuQmCC');
 	}
@@ -159,10 +165,12 @@ body {
 }
 button#zoomOutBtn {
 	margin-right: -6px;
+	fill: #ffffff;
 }
 button#zoomInBtn {
 	margin-left: -6px;
 	margin-right: -6px;
+	fill: #ffffff;
 }
 #zoomPercent {
 	text-align: right;

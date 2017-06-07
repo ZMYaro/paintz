@@ -146,13 +146,30 @@ hr {
 	border-color: rgba(0,0,0,0.11);
 }
 
+.dialog svg {
+	fill: rgba(0, 0, 0, 0.54);
+}
+
+.dialog .list li svg {
+	width: 24px;
+	height: 24px;
+}
+	.dialog .list li svg:first-child {
+		box-sizing: content-box;
+		vertical-align: bottom;
+		margin: -16px 0;
+		padding: 14px 8px 14px 0;
+		float: left;
+	}
 
 #helpDialog table {
 	text-align: left;
 }
 .helpIcon {
-	width: 48px;
-	height: 48px;
+	box-sizing: content-box;
+	
+	width: 24px;
+	height: 24px;
 	
 	-webkit-border-radius: 50%;
 	   -moz-border-radius: 50%;
@@ -163,25 +180,14 @@ hr {
 	margin-right: 8px;
 	margin-top: 2px;
 }
-
+	svg.helpIcon {
+		fill: #ffffff;
+	}
 .welcomeIcon {
 	vertical-align: top;
-	width: 32px;
-	height: 32px;
 	padding: 4px;
 	margin: -8px 2px;
 }
-
-.dialog .list li img {
-	max-width: 24px;
-}
-	.dialog .list li img:first-child {
-		vertical-align: bottom;
-		max-width: 32px;
-		margin: -16px 0;
-		padding: 14px 8px 14px 0;
-		float: left;
-	}
 
 progress.circular {
 	border-top-color: #3f51b5;/*5767bd;*/
