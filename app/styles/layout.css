@@ -24,7 +24,7 @@ body {
 }
 
 #toolbar {
-	padding: 2px 4px;
+	padding: 0;
 	white-space: nowrap;
 	overflow-x: auto;
 	
