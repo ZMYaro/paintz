@@ -175,7 +175,7 @@ button#zoomInBtn {
 #preCanvas,
 .floatingRegion {
 	position: absolute;
-	top: 116px; /* Toolbar offset */
+	top: 104px; /* Toolbar offset */
 	left: 0;
 	margin: 20px 16px 48px;
 }
@@ -265,7 +265,7 @@ button#zoomInBtn {
 	#canvas,
 	#preCanvas,
 	.floatingRegion {
-		top: 108px;
+		top: 96px;
 	}
 }
 @media (max-width: 480px) {
