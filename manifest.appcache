@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2017-05-19, v1
+# 2018-06-07, v1
 index.html
 404.html
 manifest.webapp
@@ -82,6 +82,3 @@ styles/fonts/roboto.css
 styles/materialz/material-depth.css
 styles/materialz/material-elements.css
 styles/materialz/material-widgets.css
-
-NETWORK:
-https://widget.battleforthenet.com/widget.js
