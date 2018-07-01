@@ -3,8 +3,8 @@ var keyManager = {
 	
 	_handleKeyDown: function (e) {
 		// Use Command on Mac and iOS devices and Ctrl everywhere else.
-		var ctrlOrCmd = ((!Utils.isApple && e.ctrlKey) || (Utils.isApple && e.metaKey)),
-			noModifiers = (!e.shiftKey && !e.ctrlKey && !e.altKey && !e.metaKey);
+		var ctrlOrCmd = Utils.checkPlatformCtrlKey(e),
+			noModifiers = !Utils.checkModifierKeys(e);
 		
 		switch (e.keyCode) {
 			case 8: // Backspace

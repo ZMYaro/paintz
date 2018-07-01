@@ -108,7 +108,7 @@ function initToolbar() {
 	for (var i = 0; i < colors.length; i++) {
 		// Handle left click.
 		colors[i].addEventListener('click', function (e) {
-			if (!e.altKey && !e.ctrlKey && !e.shiftKey) {
+			if (!Utils.checkModifierKeys(e)) {
 				e.preventDefault();
 				e.stopPropagation();
 				if (e.button === 0) {
@@ -253,7 +253,7 @@ function initToolbar() {
 	// Set up the event listener for the Pac-Man easter egg.
 	document.querySelector('#colorPicker button[data-value=\"#FFEB3B\"]').addEventListener('click', function (e) {
 		// If the button was Ctrl+Shift+clicked...
-		if (((!Utils.isApple && e.ctrlKey) || (Utils.isApple && e.metaKey)) && e.shiftKey) {
+		if (Utils.checkPlatformCtrlKey(e) && e.shiftKey) {
 			e.preventDefault();
 			e.stopPropagation();
 			if (!window.pacMan) {

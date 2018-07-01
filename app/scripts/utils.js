@@ -7,6 +7,25 @@ var Utils = {
 	isApple: (navigator.userAgent.indexOf('Mac') !== -1),
 	
 	/**
+	 * Check whether any modifier keys are pressed for the given event.
+	 * @param {MouseEvent} e - The event for which to check the keys
+	 * @returns {Boolean} - Whether any modifier key is pressed
+	 */
+	checkModifierKeys: function (e) {
+		return (e.altKey || e.ctrlKey || e.shiftKey || e.metaKey);
+	},
+	
+	/**
+	 * Check whether the Ctrl key, or the equivalent for this platform, is pressed for the given event.
+	 * @param {MouseEvent} e - The event for which to check the key
+	 * @returns {Boalean} - Whether the appropriate key is pressed
+	 */
+	checkPlatformCtrlKey: function (e) {
+		// On MacOS and iOS, check Cmd; on other platforms (Windows, Linux), check Ctrl.
+		return ((!Utils.isApple && e.ctrlKey) || (Utils.isApple && e.metaKey));
+	},
+	
+	/**
 	 * Clear all graphics in a given canvas.
 	 * @param {CanvasRenderingContext2D} cxt - The rendering context of the canvas to clear
 	 */
@@ -17,6 +36,7 @@ var Utils = {
 	/**
 	 * Get the x-coordinate of a click within the canvas.
 	 * @param {Number} pageX - The x-coordinate relative to the page
+	 * @returns {Number}
 	 */
 	getCanvasX: function (pageX) {
 		return pageX - preCanvas.offsetLeft;
@@ -25,6 +45,7 @@ var Utils = {
 	/**
 	 * Get the y-coordinate of a click within the canvas.
 	 * @param {Number} pageY - The y-coordinate relative to the page
+	 * @returns {Number}
 	 */
 	getCanvasY: function (pageY) {
 		return pageY - preCanvas.offsetTop;
