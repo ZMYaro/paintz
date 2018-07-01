@@ -595,6 +595,8 @@ function startTool(e) {
 	// Initialize the new shape.
 	tools[localStorage.tool].start({
 		button: e.button,
+		ctrlKey: Utils.checkPlatformCtrlKey(e),
+		shiftKey: e.shiftKey,
 		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
 		y: Utils.getCanvasY(e.pageY) / zoomManager.level
 	});

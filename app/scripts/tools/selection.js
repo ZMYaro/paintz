@@ -41,6 +41,11 @@ SelectionTool.prototype.start = function (pointerState) {
 			x: pointerState.x - this._selection.x,
 			y: pointerState.y - this._selection.y
 		};
+		if (pointerState.ctrlKey) {
+			// If the Ctrl key is pressed, save a copy of the selection.
+			this._saveSelection();
+			this._selection.firstMove = false;
+		}
 		this._preCxt.canvas.style.cursor = 'move';
 	} else {
 		// Save any existing selection.
@@ -52,7 +57,8 @@ SelectionTool.prototype.start = function (pointerState) {
 			x: pointerState.x,
 			y: pointerState.y,
 			width: 0,
-			height: 0
+			height: 0,
+			firstMove: true
 		};
 		this._updateSelectionOutline();
 		document.body.appendChild(this._outline);
@@ -228,10 +234,19 @@ SelectionTool.prototype._drawSelectionContent = function () {
 		return;
 	}
 	
+	if (this._selection.firstMove) {
+		this._drawSelectionStartCover();
+	}
+	this._preCxt.putImageData(this._selection.content, this._selection.x, this._selection.y);
+};
+
+/**
+ * Draw the background color over the selection's starting location.
+ */
+SelectionTool.prototype._drawSelectionStartCover = function () {
 	this._preCxt.fillStyle = localStorage.fillColor;
 	this._preCxt.fillRect(this._selection.startX, this._selection.startY,
 		this._selection.width, this._selection.height);
-	this._preCxt.putImageData(this._selection.content, this._selection.x, this._selection.y);
 };
 
 /**
