@@ -293,7 +293,7 @@
 		
 		<div id="dialogs" style="display: block;">
 			<form id="clearDialog" class="dialog card z3" style="width: 384px;">
-				<h1 role="toolbar" style="padding: 0;">
+				<h1 role="toolbar" class="dialog-header">
 					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -8px;">
 						<svg role="img">
 							<title>Close</title>
@@ -302,13 +302,13 @@
 					</button>
 					Clear entire drawing?
 				</h1>
-				<div style="text-align: right; margin: 0 -4px -4px 0;">
+				<div class="dialog-footer">
 					<button type="button" onclick="this.parentElement.parentElement.close();">Cancel</button>
 					<button type="submit">Clear</button>
 				</div>
 			</form>
 			<form id="saveDialog" class="dialog card z3" style="width: 384px;">
-				<h1 role="toolbar" style="padding: 0;">
+				<h1 role="toolbar" class="dialog-header">
 					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -8px;">
 						<svg role="img">
 							<title>Close</title>
@@ -323,13 +323,13 @@
 					<option value="image/jpeg">JPEG (Joint Photographic Experts Group)</option>
 					<option value="image/png" selected="selected">PNG (Portable Network Graphics)</option>
 				</select>
-				<div style="text-align: right; margin: 0 -4px -4px 0;">
+				<div class="dialog-footer">
 					<button type="button" onclick="this.parentElement.parentElement.close();">Cancel</button>
 					<a role="button" id="downloadLink" type="image/png" download="untitled.png" target="_blank">Save</a>
 				</div>
 			</form>
 			<form id="resizeDialog" class="dialog card z3" style="width: 320px;">
-				<h1 role="toolbar" style="padding: 0;">
+				<h1 role="toolbar" class="dialog-header">
 					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -8px;">
 						<svg role="img">
 							<title>Close</title>
@@ -356,14 +356,13 @@
 						</label>
 					</li>
 				</ul>
-				<div style="text-align: right; margin: 0 -4px -4px 0;">
-					<br />
+				<div class="dialog-footer">
 					<button type="button" onclick="this.parentElement.parentElement.close();">Cancel</button>
 					<button type="submit">Resize</button>
 				</div>
 			</form>
 			<form id="colorPickerDialog" class="dialog card z3" style="width: 640px; max-width: none;">
-				<h1 role="toolbar" style="padding: 0;">
+				<h1 role="toolbar" class="dialog-header">
 					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -8px;">
 						<svg role="img">
 							<title>Close</title>
@@ -449,14 +448,13 @@
 						</td>
 					</tr>
 				</table>
-				<div style="text-align: right; margin: 0 -4px -4px 0;">
-					<br />
+				<div class="dialog-footer">
 					<button type="button" onclick="this.parentElement.parentElement.close();">Cancel</button>
 					<button type="submit">Save</button>
 				</div>
 			</form>
 			<form id="settingsDialog" class="dialog card z3" style="width: 384px;">
-				<h1 role="toolbar" style="padding: 0;">
+				<h1 role="toolbar" class="dialog-header">
 					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -8px;">
 						<svg role="img">
 							<title>Close</title>
@@ -485,14 +483,13 @@
 						</label>
 					</li>
 				</ul>
-				<div style="text-align: right; margin: 0 -4px -4px 0;">
-					<br />
+				<div class="dialog-footer">
 					<button type="button" onclick="this.parentElement.parentElement.close();">Cancel</button>
 					<button type="submit">Save</button>
 				</div>
 			</form>
 			<form id="helpDialog" class="dialog card z3" style="width: 640px;">
-				<h1 role="toolbar" style="padding: 0;">
+				<h1 role="toolbar" class="dialog-header">
 					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -8px;">
 						<svg role="img">
 							<title>Close</title>
@@ -738,12 +735,12 @@
 						</td>
 					</tr>
 				</table>
-				<div style="text-align: right; margin: 0 -4px -4px 0;">
+				<div class="dialog-footer">
 					<button type="submit">Close</button>
 				</div>
 			</form>
 			<form id="aboutDialog" class="dialog card z3" style="width: 640px;">
-				<h1 role="toolbar" style="padding: 0;">
+				<h1 role="toolbar" class="dialog-header">
 					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -8px;">
 						<svg role="img">
 							<title>Close</title>
@@ -752,7 +749,7 @@
 					</button>
 					About PaintZ
 				</h1>
-				<p>PaintZ was developed by <a href="http://zmyaro.com" target="_blank">Zachary Yaro</a>.  The source code is available <a href="https://github.com/zmyaro/paintz" target="_blank">on GitHub</a>.</p>
+				<p style="margin-top: 0.5em;">PaintZ was developed by <a href="http://zmyaro.com" target="_blank">Zachary Yaro</a>.  The source code is available <a href="https://github.com/zmyaro/paintz" target="_blank">on GitHub</a>.</p>
 				<p>PaintZ uses <a href="http://members.chello.at/easyfilter/canvas.html" target="_blank">easy.Filter</a>, <a href="http://www.daviddurman.com/flexi-color-picker" target="_blank">Flexi Color Picker</a>, <a href="https://materialz.zmyaro.com" target="_blank">MaterialZ</a>, and <a href="https://github.com/jquery/PEP" target="_blank">Pointer Events Polyfill</a>.</p>
 				<p>Icons and styling decisions were taken from or based on <a href="https://www.google.com/design/spec/material-design" target="_blank">Material Design</a> and <a href="http://materialdesignicons.com" target="_blank">Material Design Icons</a>.</p>
 				<p>Pac-Man is owned by Namco.</p>
@@ -816,7 +813,7 @@
 						</a>
 					</li>
 				</ul>
-				<div style="text-align: right; margin: 12px -4px -4px 0;">
+				<div class="dialog-footer" style="padding-left: 16px;">
 					<div style="float: left; padding-top: 12px;">
 						<span style="color: rgba(0,0,0,0.1);">Ctrl+Shift+</span><div style="display: inline-block; background-color: yellow; width: 16px; height: 16px; -webkit-border-radius: 50%; -moz-border-radius: 50%; border-radius: 50%; margin-bottom: -2px;"></div>
 					</div>
@@ -824,7 +821,7 @@
 				</div>
 			</form>
 			<form id="keyboardDialog" class="dialog card z3" style="width: 352px;">
-				<h1 role="toolbar" style="padding: 0;">
+				<h1 role="toolbar" class="dialog-header">
 					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -8px;">
 						<svg role="img">
 							<title>Close</title>
@@ -940,12 +937,12 @@
 						<td>Duplicate selection</td>
 					</tr>
 				</table>
-				<div style="text-align: right; margin: 0 -4px -4px 0;">
+				<div class="dialog-footer">
 					<button type="submit">Close</button>
 				</div>
 			</form>
 			<form id="welcomeDialog" class="dialog card z3" style="width: 512px;">
-				<h1 role="toolbar" style="padding: 0;">
+				<h1 role="toolbar" class="dialog-header">
 					<button type="button" onclick="this.parentElement.parentElement.close();" style="float: right; margin-right: -8px;">
 						<svg role="img">
 							<title>Close</title>
@@ -974,7 +971,7 @@
 					</svg>
 					button to learn more about different drawing tools.
 				</p>
-				<div style="text-align: right; margin: 0 -4px -4px 0;">
+				<div class="dialog-footer">
 					<button type="submit">Get started</button>
 				</div>
 			</form>

@@ -503,7 +503,7 @@ function initToolbar() {
 	
 	// Welcome dialog.
 	var welcomeDialog = document.getElementById('welcomeDialog');
-	Utils.makeDialog(welcomeDialog, doodleTool);
+	Utils.makeDialog(welcomeDialog, helpBtn);
 }
 /**
  * Get the canvases and their drawing contexts, and set up event listeners.

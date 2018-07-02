@@ -73,7 +73,6 @@
 	.dialog h1 {
 		margin-top: 0;
 		font-weight: 300;
-		opacity: 0.8;
 	}
 	.dialog button[type="submit"],
 	#downloadLink {
@@ -95,8 +94,29 @@
 		fill: rgba(0, 0, 0, 0.54);
 	}
 	
+	.dialog .dialog-header,
+	.dialog .dialog-footer {
+		position: sticky;
+		background-color: white;
+	}
+		.dialog .dialog-header {
+			top: -64px;
+			margin: -16px;
+			padding: 16px;
+			margin-bottom: 4px;
+			padding-bottom: 8px;
+		}
+		.dialog .dialog-footer {
+			bottom: 0;
+			text-align: right;
+			margin: -16px;
+			padding: 12px;
+			margin-top: -4px;
+			padding-top: 8px;
+		}
+	
 	.dialog .list {
-		margin: -8px -16px;
+		margin: 0 -16px;
 	}
 		.dialog .list li {
 			border-style: none;
@@ -179,6 +199,7 @@ hr {
 	border-width: 1px 0 0;
 	border-color: #dfdfdf;
 	border-color: rgba(0,0,0,0.11);
+	margin: 0;
 }
 
 #helpDialog table {
