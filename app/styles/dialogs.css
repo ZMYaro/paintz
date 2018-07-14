@@ -101,6 +101,13 @@
 			padding: 16px;
 			margin-bottom: 4px;
 			padding-bottom: 8px;
+			
+			-webkit-border-top-left-radius:  2px;
+			-webkit-border-top-right-radius: 2px;
+			   -moz-border-radius-topleft:   2px;
+			   -moz-border-radius-topright:  2px;
+			        border-top-left-radius:  2px;
+			        border-top-right-radius: 2px;
 		}
 			.dialog .dialog-header .closeButton {
 				float: right;
@@ -113,6 +120,13 @@
 			padding: 12px;
 			margin-top: -4px;
 			padding-top: 8px;
+			
+			-webkit-border-bottom-left-radius:  2px;
+			-webkit-border-bottom-right-radius: 2px;
+			   -moz-border-radius-bottomleft:   2px;
+			   -moz-border-radius-bottomright:  2px;
+			        border-bottom-left-radius:  2px;
+			        border-bottom-right-radius: 2px;
 		}
 	
 	.dialog .list {
