@@ -153,18 +153,21 @@
 					float: left;
 				}
 			
-			.dialog .list li.social-links [role="button"] {
-				margin-left: -2px;
-				margin-right: -2px;
-				padding: 8px 6px;
-				-webkit-border-radius: 24px;
-				   -moz-border-radius: 24px;
-				        border-radius: 24px;
+			.dialog .list li .social-links {
+				display: inline-block;
 			}
-				.dialog .list li.social-links [role="button"] svg {
-					padding: 0;
-					margin: 2px 4px;
+				.dialog .list li .social-links [role="button"] {
+					margin-left: -2px;
+					margin-right: -2px;
+					padding: 8px 6px;
+					-webkit-border-radius: 24px;
+					   -moz-border-radius: 24px;
+					        border-radius: 24px;
 				}
+					.dialog .list li .social-links [role="button"] svg {
+						padding: 0;
+						margin: 2px 4px;
+					}
 
 input[type="text"]:focus,
 input[type="search"]:focus,
