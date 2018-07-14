@@ -1,0 +1,33 @@
+<h1 role="toolbar" class="dialog-header">
+	<button type="button" class="closeButton">
+		<svg role="img">
+			<title>Close</title>
+			<use xlink:href="images/icons/clear.svg#icon"></use>
+		</svg>
+	</button>
+	Settings
+</h1>
+<ul class="list">
+	<li>
+		<label for="ghostDrawCheckbox" role="button">
+			<input type="checkbox" name="ghostDraw" id="ghostDrawCheckbox" style="float: right;" />
+			Semi-transparent drawing previews
+		</label>
+	</li>
+	<li>
+		<label for="antiAliasCheckbox" role="button">
+			<input type="checkbox" name="antiAlias" id="antiAliasCheckbox" style="float: right;" />
+			Smooth edges of shapes
+		</label>
+	</li>
+	<li>
+		<label for="maxUndoStackDepthInput">
+			<input type="number" min="1" max="1000" step="1" required="required" name="maxUndoStackDepth" id="maxUndoStackDepthInput" style="float: right;" />
+			Maximum undo levels
+		</label>
+	</li>
+</ul>
+<div class="dialog-footer">
+	<button type="button" class="closeButton">Cancel</button>
+	<button type="submit">Save</button>
+</div>

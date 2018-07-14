@@ -1,0 +1,31 @@
+<h1 role="toolbar" class="dialog-header">
+	<button type="button" class="closeButton">
+		<svg role="img">
+			<title>Close</title>
+			<use xlink:href="images/icons/clear.svg#icon"></use>
+		</svg>
+	</button>
+	Resize
+</h1>
+<ul class="list">
+	<li>
+		<input name="width" type="number" placeholder="Width" value="640" min="1" max="99999" style="width: 45%;" />
+		&times;
+		<input name="height" type="number" placeholder="Height" value="480" min="1" max="99999" style="width: 45%;" />
+	</li>
+	<li>
+		<label for="resizeCrop">
+			<input type="radio" name="resizeMode" value="crop" checked="checked" id="resizeCrop" />
+			Crop
+		</label>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<label for="resizeScale">
+			<input type="radio" name="resizeMode" value="scale" id="resizeScale" />
+			Scale
+		</label>
+	</li>
+</ul>
+<div class="dialog-footer">
+	<button type="button" class="closeButton">Cancel</button>
+	<button type="submit">Resize</button>
+</div>

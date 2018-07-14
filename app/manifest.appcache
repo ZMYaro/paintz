@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2018-07-01, v1
+# 2018-07-13, v1
 index.html
 404.html
 manifest.webapp
@@ -47,12 +47,32 @@ images/icons/undo.svg
 images/logo/128.png
 images/logo/256.png
 images/logo/favicon.ico
+partials/dialogs/about.html
+partials/dialogs/clear.html
+partials/dialogs/color_picker.html
+partials/dialogs/help.html
+partials/dialogs/keyboard.html
+partials/dialogs/resize.html
+partials/dialogs/save.html
+partials/dialogs/settings.html
+partials/dialogs/welcome.html
 scripts/app.js
 scripts/keyboard.js
 scripts/pacman.js
+scripts/progress_spinner.js
 scripts/undo.js
 scripts/utils.js
 scripts/zoom.js
+scripts/dialogs/dialog.js
+scripts/dialogs/about.js
+scripts/dialogs/clear.js
+scripts/dialogs/color_picker.js
+scripts/dialogs/help.js
+scripts/dialogs/keyboard.js
+scripts/dialogs/resize.js
+scripts/dialogs/save.js
+scripts/dialogs/settings.js
+scripts/dialogs/welcome.js
 scripts/lib/colorpicker.min.js
 scripts/lib/material-touch.js
 scripts/lib/pep.min.js

@@ -31,33 +31,11 @@ var canvas,
 	cxt,
 	preCxt,
 	cursorCxt,
-	downloadLink,
 	tools,
+	dialogsContainer,
+	keyboardDialog,
+	saveDialog,
 	progressSpinner;
-
-/**
- * Set up the Chrome Web Store links in the About dialog.
- */
-function initCWSLinks() {
-	if ((!window.chrome || !chrome.webstore) || (window.chrome && chrome.app && chrome.app.isInstalled)) {
-		document.getElementById('cwsInstallLink').style.display = 'none';
-		document.getElementById('cwsFeedbackLink').style.display = 'block';
-	} else {
-		document.getElementById('cwsInstallLink').onclick = function (e) {
-			if (chrome && chrome.webstore && chrome.webstore.install) {
-				e.preventDefault();
-				var cwsLink = document.querySelector('link[rel=\"chrome-webstore-item\"]').href;
-				chrome.webstore.install(cwsLink, function () {
-					// Change links on successful installation.
-					document.getElementById('cwsInstallLink').style.display = 'none';
-					document.getElementById('cwsFeedbackLink').style.display = 'block';
-				}, function () {
-					window.open(e.target.href, '_blank');
-				});
-			}
-		};
-	}
-}
 
 /**
  * Switch to the specified tool.
@@ -132,123 +110,8 @@ function initToolbar() {
 		}, false);
 	}
 	// Set up the color picker dialog.
-	var colorPickerDialog = document.getElementById('colorPickerDialog');
-	Utils.makeDialog(colorPickerDialog);
-	var colorPickers = {
-		line: new ColorPicker(
-			document.getElementById('lineColorSlider'),
-			document.getElementById('lineColorPicker'),
-			function (hex, hsv, rgb, pickerCoords) {
-				updateColorFields('line', pickerCoords, hex, hsv, rgb);
-			}
-		),
-		fill: new ColorPicker(
-			document.getElementById('fillColorSlider'),
-			document.getElementById('fillColorPicker'),
-			function (hex, hsv, rgb, pickerCoords) {
-				updateColorFields('fill', pickerCoords, hex, hsv, rgb);
-			}
-		)
-	};
-	function limitValue(value, min, max) {
-		if (value < min) {
-			return min;
-		}
-		if (value > max) {
-			return max;
-		}
-		return value;
-	}
-	function updateColorPickerHex(e) {
-		var type = e.target.name.match(/line|fill/)[0];
-		var hex = colorPickerDialog[type + 'ColorHex'].value;
-		// Quit if anything but a valid hex code was entered.
-		if (!hex.match(/#[0-9A-Fa-f]{6}/)) {
-			return;
-		}
-		colorPickers[type].setHex(hex);
-	}
-	function updateColorPickerHSL(e) {
-		var type = e.target.name.match(/line|fill/)[0];
-		var h = colorPickerDialog[type + 'ColorHue'].value || 0;
-		h = limitValue(h, 0, 360);
-		var s = (colorPickerDialog[type + 'ColorSaturation'].value || 0) / 100;
-		s = limitValue(s, 0, 100);
-		var l = (colorPickerDialog[type + 'ColorLightness'].value || 0) / 100;
-		l = limitValue(l, 0, 100);
-		colorPickers[type].setHsv({h: h, s: s, v: l});
-	}
-	function updateColorPickerRGB(e) {
-		var type = e.target.name.match(/line|fill/)[0];
-		var r = colorPickerDialog[type + 'ColorRed'].value || 0;
-		r = limitValue(r, 0, 255);
-		var g = colorPickerDialog[type + 'ColorGreen'].value || 0;
-		g = limitValue(g, 0, 255);
-		var b = colorPickerDialog[type + 'ColorBlue'].value || 0;
-		b = limitValue(b, 0, 255);
-		colorPickers[type].setRgb({r: r, g: g, b: b});
-	}
-	function updateColorFields(type, pickerCoords, hex, hsv, rgb) {
-		hsv.h = limitValue(hsv.h, 0, 360);
-		hsv.s = limitValue(hsv.s, 0, 100);
-		hsv.v = limitValue(hsv.v, 0, 100);
-		rgb.r = limitValue(rgb.r, 0, 255);
-		rgb.g = limitValue(rgb.g, 0, 255);
-		rgb.b = limitValue(rgb.b, 0, 255);
-		hex = ColorPicker.rgb2hex(rgb);
-		if (pickerCoords) {
-			var pickerIndicator = colorPickers[type].pickerElement.getElementsByClassName('picker-indicator')[0];
-			pickerIndicator.style.left = (hsv.s * 100) + '%';
-			pickerIndicator.style.top = (100 - hsv.v * 100) + '%';
-		}
-		var sliderIndicator = colorPickers[type].slideElement.getElementsByClassName('slide-indicator')[0];
-		sliderIndicator.style.top = (hsv.h / 360 * 100) + '%';
-
-		document.getElementById(type + 'ColorSample').style.backgroundColor = hex;
-		colorPickerDialog[type + 'ColorHex'].value = hex;
-		colorPickerDialog[type + 'ColorHue'].value = Math.floor(hsv.h);
-		colorPickerDialog[type + 'ColorSaturation'].value = Math.floor(hsv.s * 100);
-		colorPickerDialog[type + 'ColorLightness'].value = Math.floor(hsv.v * 100);
-		colorPickerDialog[type + 'ColorRed'].value = rgb.r;
-		colorPickerDialog[type + 'ColorGreen'].value = rgb.g;
-		colorPickerDialog[type + 'ColorBlue'].value = rgb.b;
-	}
-	colorPickerDialog.onsubmit = function (e) {
-		e.preventDefault();
-
-		if (e.target.lineColorHex.value !== '') {
-			localStorage.lineColor = e.target.lineColorHex.value;
-			colorIndicator.style.borderColor = e.target.lineColorHex.value;
-		}
-		if (e.target.fillColorHex.value !== '') {
-			localStorage.fillColor = e.target.fillColorHex.value;
-			colorIndicator.style.backgroundColor = e.target.fillColorHex.value;
-		}
-
-		e.target.close();
-	};
-	colorPickerDialog.lineColorHex.oninput =
-		colorPickerDialog.fillColorHex.oninput = updateColorPickerHex;
-	colorPickerDialog.lineColorHue.oninput =
-		colorPickerDialog.lineColorSaturation.oninput =
-		colorPickerDialog.lineColorLightness.oninput =
-		colorPickerDialog.fillColorHue.oninput =
-		colorPickerDialog.fillColorSaturation.oninput =
-		colorPickerDialog.fillColorLightness.oninput = updateColorPickerHSL;
-	colorPickerDialog.lineColorRed.oninput =
-		colorPickerDialog.lineColorGreen.oninput =
-		colorPickerDialog.lineColorBlue.oninput =
-		colorPickerDialog.fillColorRed.oninput =
-		colorPickerDialog.fillColorGreen.oninput =
-		colorPickerDialog.fillColorBlue.oninput = updateColorPickerRGB;
-	colorIndicator.onclick = function () {
-		colorPickers.line.setHex(localStorage.lineColor);
-		colorPickerDialog.lineColorHex.value = localStorage.lineColor;
-		colorPickers.fill.setHex(localStorage.fillColor);
-		colorPickerDialog.fillColorHex.value = localStorage.fillColor;
-
-		colorPickerDialog.open();
-	};
+	var colorPickerDialog = new ColorPickerDialog(colorIndicator);
+	colorIndicator.onclick = colorPickerDialog.open.bind(colorPickerDialog);
 
 	// Set up the event listener for the Pac-Man easter egg.
 	document.querySelector('#colorPicker button[data-value=\"#FFEB3B\"]').addEventListener('click', function (e) {
@@ -272,122 +135,28 @@ function initToolbar() {
 	}, false);
 
 	// Clear button and dialog.
-	var clearDialog = document.getElementById('clearDialog'),
-		clearBtn = document.getElementById('clearBtn');
-	Utils.makeDialog(clearDialog, clearBtn);
-	clearDialog.onsubmit = function (e) {
-		e.preventDefault();
-		
-		// Animate clearing the canvas.
-		var CENTER_X = 0,
-			CENTER_Y = -224,
-			MAX_RADIUS = Math.max(canvas.width, canvas.height) * 2,
-			STEP = Math.floor(MAX_RADIUS / 16),
-			radius = 224;
-		
-		function expandClearCircle() {
-			radius += STEP;
-			
-			cxt.fillStyle = localStorage.fillColor;
-			cxt.beginPath();
-			cxt.arc(CENTER_X, CENTER_Y, radius, 0, 2 * Math.PI);
-			cxt.closePath();
-			cxt.fill();
-			
-			if (radius < MAX_RADIUS) {
-				Utils.raf(expandClearCircle);
-			} else {
-				// Finish clearing and add the change to the undo stack.
-				undoStack.addState();
-				resetCanvas();
-			}
-		}
-		Utils.raf(expandClearCircle);
-		document.title = DEFAULTS.title + ' - PaintZ';
-		
-		e.target.close();
-	};
-	clearBtn.onclick = clearDialog.open;
+	var clearBtn = document.getElementById('clearBtn'),
+		clearDialog = new ClearDialog(clearBtn);
+	clearBtn.onclick = clearDialog.open.bind(clearDialog);
 	
 	// Save as button and dialog.
-	var saveDialog = document.getElementById('saveDialog'),
-		saveBtn = document.getElementById('saveBtn');
-	Utils.makeDialog(saveDialog, saveBtn);
-	saveDialog.fileName.onchange =
-	saveDialog.fileType.onchange =
-	saveDialog.fileType.oninput = function () {
-		// Update file name.
-		var newName = fixExtension(saveDialog.fileName.value, saveDialog.fileType.value);
-		saveDialog.fileName.value = newName;
-		downloadLink.download = newName;
-		downloadLink.href = canvas.toDataURL(saveDialog.fileType.value);
-		
-		// Update file type.
-		downloadLink.type = saveDialog.fileType.value;
-	};
-	saveBtn.onclick = function () {
-		// Export the canvas content to a PNG to be saved.
-		downloadLink.href = canvas.toDataURL(downloadLink.type || 'image/png');
-		saveDialog.open();
-	};
-	downloadLink.onclick = function () {
-		document.title = downloadLink.download + ' - PaintZ';
-		saveDialog.close();
-	};
+	var saveBtn = document.getElementById('saveBtn');
+	saveDialog = new SaveDialog(saveBtn);
+	saveBtn.onclick = saveDialog.open.bind(saveDialog);
 	
 	// Undo and redo buttons.
 	document.getElementById('undoBtn').onclick = undoStack.undo.bind(undoStack);
 	document.getElementById('redoBtn').onclick = undoStack.redo.bind(undoStack);
 
 	// Resize button and dialog.
-	var resizeDialog = document.getElementById('resizeDialog'),
-		resizeBtn = document.getElementById('resizeBtn');
-	Utils.makeDialog(resizeDialog, resizeBtn);
-	resizeDialog.onsubmit = function (e) {
-		e.preventDefault();
-
-		// Fetch the values from the form.
-		var newWidth = Math.max(MIN_SIZE, Math.min(MAX_SIZE, parseInt(e.target.width.value))),
-			newHeight = Math.max(MIN_SIZE, Math.min(MAX_SIZE, parseInt(e.target.height.value))),
-			mode = e.target.resizeMode.value;
-
-		// Validate the user's input.
-		if (!newWidth || !newHeight || isNaN(newWidth) || isNaN(newHeight) || newWidth < 1 || newHeight < 1) {
-			alert('Please enter valid dimensions.');
-			return;
-		}
-		
-		preCxt.drawImage(canvas, 0, 0);
-		canvas.width = newWidth;
-		canvas.height = newHeight;
-		resetCanvas();
-		if (mode === 'scale') {
-			cxt.drawImage(preCanvas, 0, 0, newWidth, newHeight);
-		} else {
-			cxt.drawImage(preCanvas, 0, 0);
-		}
-		preCanvas.width = newWidth;
-		preCanvas.height = newHeight;
-		localStorage.width = newWidth;
-		localStorage.height = newHeight;
-		
-		document.getElementById('resolution').innerHTML = newWidth + ' &times; ' + newHeight + 'px';
-
-		// Add the change to the undo stack.
-		undoStack.addState();
-
-		e.target.close();
-	};
-	resizeBtn.onclick = function () {
-		resizeDialog.width.value = localStorage.width;
-		resizeDialog.height.value = localStorage.height;
-		resizeDialog.open();
-	};
+	var resizeBtn = document.getElementById('resizeBtn'),
+		resizeDialog = new ResizeDialog(resizeBtn);
+	resizeBtn.onclick = resizeDialog.open.bind(resizeDialog);
 
 	// Uploader.
 	document.getElementById('upload').addEventListener('change', function (e) {
 		if (window.File && window.FileReader && window.FileList && window.Blob) {
-			progressSpinner.open();
+			progressSpinner.show();
 			
 			var file = e.target.files[0];
 			if (!file) {
@@ -418,19 +187,20 @@ function initToolbar() {
 					undoStack.clear();
 					
 					// Set the file type and name.
+					// TODO: Make this not access SaveDialog private properties.
 					var fileName = file.name;
 					if (JPEG_REGEX.test(fileName)) {
-						document.getElementById('saveDialog').fileType.value =
-							downloadLink.type = 'image/jpeg';
+						saveDialog._element.fileType.value =
+							saveDialog._downloadLink.type = 'image/jpeg';
 					} else {
-						document.getElementById('saveDialog').fileType.value =
-							downloadLink.type = 'image/png';
+						saveDialog._element.fileType.value =
+							saveDialog._downloadLink.type = 'image/png';
 						fileName = fileName.replace(FILE_EXT_REGEX, '.png');
 					}
-					document.getElementById('saveDialog').fileName.value =
-						downloadLink.download = fileName;
+					saveDialog._element.fileName.value =
+						saveDialog._downloadLink.download = fileName;
 					document.title = fileName + ' - PaintZ';
-					progressSpinner.close();
+					progressSpinner.hide();
 				};
 				image.src = this.result;
 			};
@@ -460,50 +230,19 @@ function initToolbar() {
 	};
 	
 	// Settings button and dialog.
-	var settingsDialog = document.getElementById('settingsDialog'),
-		settingsBtn = document.getElementById('settingsBtn');
-	Utils.makeDialog(settingsDialog, settingsBtn);
-	settingsDialog.onsubmit = function (e) {
-		e.preventDefault();
-
-		if (e.target.ghostDraw.checked) {
-			localStorage.ghostDraw = 'true';
-			preCanvas.classList.add('ghost');
-		} else {
-			localStorage.ghostDraw = '';
-			preCanvas.classList.remove('ghost');
-		}
-		
-		localStorage.antiAlias = e.target.antiAlias.checked ? 'true' : '';
-		
-		if (!isNaN(parseInt(e.target.maxUndoStackDepth.value))) {
-			localStorage.maxUndoStackDepth = parseInt(e.target.maxUndoStackDepth.value);
-		}
-
-		e.target.close();
-	};
-	settingsBtn.onclick = function () {
-		settingsDialog.ghostDraw.checked = localStorage.ghostDraw;
-		settingsDialog.antiAlias.checked = localStorage.antiAlias;
-		settingsDialog.maxUndoStackDepth.value = localStorage.maxUndoStackDepth;
-		settingsDialog.open();
-	};
+	var settingsBtn = document.getElementById('settingsBtn'),
+		settingsDialog = new SettingsDialog(settingsBtn);
+	settingsBtn.onclick = settingsDialog.open.bind(settingsDialog);
 	
 	// Help button and dialog.
-	var helpDialog = document.getElementById('helpDialog'),
-		helpBtn = document.getElementById('helpBtn');
-	Utils.makeDialog(helpDialog, helpBtn);
-	helpBtn.onclick = helpDialog.open;
+	var helpBtn = document.getElementById('helpBtn'),
+		helpDialog = new HelpDialog(helpBtn);
+	helpBtn.onclick = helpDialog.open.bind(helpDialog);
 
 	// About button and dialog.
-	var aboutDialog = document.getElementById('aboutDialog'),
-		aboutBtn = document.getElementById('aboutBtn');
-	Utils.makeDialog(aboutDialog, aboutBtn);
-	aboutBtn.onclick = aboutDialog.open;
-	
-	// Welcome dialog.
-	var welcomeDialog = document.getElementById('welcomeDialog');
-	Utils.makeDialog(welcomeDialog, helpBtn);
+	var aboutBtn = document.getElementById('aboutBtn'),
+		aboutDialog = new AboutDialog(aboutBtn);
+	aboutBtn.onclick = aboutDialog.open.bind(aboutDialog);
 }
 /**
  * Get the canvases and their drawing contexts, and set up event listeners.
@@ -518,10 +257,10 @@ function initCanvas() {
 	// Get the cursor canvas.
 	cursorCanvas = document.getElementById('cursorCanvas');
 	cursorCxt = cursorCanvas.getContext('2d');
-
+	
 	cxt.lineCap = 'round';
 	preCxt.lineCap = 'round';
-
+	
 	// Set up event listeners for drawing.
 	preCanvas.addEventListener('pointerdown', startTool, false);
 	preCanvas.oncontextmenu = function (e) {
@@ -682,12 +421,10 @@ window.addEventListener('load', function () {
 		document.body.innerHTML = document.body.innerHTML.replace(/Ctrl\+/g, '&#x2318;').replace(/Alt\+/g, '&#x2325;').replace(/Shift\+/g, '&#x21e7;');
 	}
 	// Initialize keyboard shortcut dialog.
-	Utils.makeDialog(document.getElementById('keyboardDialog'));
+	keyboardDialog = new KeyboardDialog();
 	
-	downloadLink = document.getElementById('downloadLink');
 	
 	// Initialize everything.
-	initCWSLinks();
 	initToolbar();
 	initCanvas();
 	initSettings();
@@ -702,16 +439,22 @@ window.addEventListener('load', function () {
 	// Enable keyboard shortcuts.
 	keyManager.enableAppShortcuts();
 	
-	progressSpinner = document.getElementById('progressSpinner');
-	Utils.makeDialog(progressSpinner);
+	dialogsContainer = document.getElementById('dialogs');
+	progressSpinner = new ProgressSpinner();
 	
 	document.title = DEFAULTS.title + ' - PaintZ'
 	
-	if (localStorage.firstRunDone) {
-		progressSpinner.close();
-	} else {
-		progressSpinner.classList.remove('visible');
-		document.getElementById('welcomeDialog').open();
+	// Hide the loading indicator.
+	dialogsContainer.removeChild(document.getElementById('loadingIndicator'));
+	
+	if (!localStorage.firstRunDone) {
+		// Show the welcome dialog if this is the user's first time using PaintZ (in this browser).
+		var welcomeDialog = new WelcomeDialog(document.getElementById('helpBtn'));
+		welcomeDialog.open();
 		localStorage.firstRunDone = 'true';
+	} else {
+		// Otherwise, just hide the dialog container.
+		dialogsContainer.classList.remove('visible');
+		dialogsContainer.style.display = 'none';
 	}
 }, false);

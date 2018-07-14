@@ -206,7 +206,7 @@ var keyManager = {
 				if (e.shiftKey) {
 					e.preventDefault();
 					// ? => Keyboard shortcuts dialog
-					document.getElementById('keyboardDialog').open();
+					keyboardDialog.open();
 				}
 				break;
 			

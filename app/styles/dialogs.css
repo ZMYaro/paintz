@@ -34,7 +34,6 @@
 .dialog {
 	margin: 0 auto 16px;
 	max-width: 96%;
-	display: none;
 	
 	opacity: 0;
 	-webkit-transform: scale(0);
@@ -59,9 +58,6 @@
 	     -o-transition-property: opacity, -o-transform, transform;
 	        transition-property: opacity, transform;
 }
-	.dialog.visible {
-		display: block;
-	}
 	.dialog.open {
 		opacity: 1;
 		-webkit-transform: scale(1);
@@ -106,6 +102,10 @@
 			margin-bottom: 4px;
 			padding-bottom: 8px;
 		}
+			.dialog .dialog-header .closeButton {
+				float: right;
+				margin-right: -8px;
+			}
 		.dialog .dialog-footer {
 			bottom: 0;
 			text-align: right;
@@ -232,11 +232,3 @@ hr {
 progress.circular {
 	border-top-color: #3f51b5;/*5767bd;*/
 }
-#progressSpinner {
-	display: none;
-	margin: auto;
-	top: 40%;
-}
-	#progressSpinner.visible {
-		display: block;
-	}

@@ -23,7 +23,7 @@ FloodFillTool.prototype._fill = function (startX, startY) {
 	}
 	
 	this._filling = true;
-	progressSpinner.open();
+	progressSpinner.show();
 	
 	// Get the pixel data.
 	this._imageData = this._cxt.getImageData(0, 0, this._cxt.canvas.width, this._cxt.canvas.height);
@@ -42,7 +42,7 @@ FloodFillTool.prototype._fill = function (startX, startY) {
 			this._fillColor.g === this._startColor.g &&
 			this._fillColor.b === this._startColor.b) {
 		this._filling = false;
-		progressSpinner.close();
+		progressSpinner.hide();
 		return;
 	}
 	
@@ -89,7 +89,7 @@ FloodFillTool.prototype._fill = function (startX, startY) {
 	this._cxt.putImageData(this._imageData, 0, 0);
 	
 	this._filling = false;
-	progressSpinner.close();
+	progressSpinner.hide();
 };
 
 /**

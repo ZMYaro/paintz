@@ -1,8 +1,6 @@
 'use strict';
 
 var Utils = {
-	DIALOG_TRANSITION_DURATION: 200, // In milliseconds.
-	
 	/** Whether the device runs Apple software. */
 	isApple: (navigator.userAgent.indexOf('Mac') !== -1),
 	
@@ -31,6 +29,41 @@ var Utils = {
 	 */
 	clearCanvas: function (cxt) {
 		cxt.clearRect(0, 0, cxt.canvas.width, cxt.canvas.height);
+	},
+	
+	/**
+	 * Constrain a value between a minimum and maximum.
+	 * @param {Number} value - The value to constrain
+	 * @param {Number} min - The minimum value to allow
+	 * @param {Number} max - The maximum value to allow
+	 * @returns {Number} `value` or the closest number between `min` and `max`
+	 */
+	constrainValue: function (value, min, max) {
+		return Math.max(min, Math.min(max, value));
+	},
+	
+	/**
+	 * Load a file.
+	 * @param {String} path - The path to the file
+	 * @param {Function} successCallback - Called and passed the file's contents when the file loads
+	 * @param {Function} [failureCallback] - Called and passed the error code and response text if the file fails to load
+	 */
+	fetch: function (path, successCallback, failureCallback) {
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState === 4) {
+				if (xhr.status === 200) {
+					successCallback(xhr.responseText);
+				} else {
+					console.error('Failed to load ' + path);
+					if (typeof(failureCallback) === 'function') {
+						failureCallback(xhr.status + ' ' + xhr.responseText);
+					}
+				}
+			}
+		};
+		xhr.open('GET', path, true);
+		xhr.send();
 	},
 	
 	/**
@@ -108,78 +141,6 @@ var Utils = {
 		return false;
 	},
 	
-	/**
-	 * Add dialog box functions to an element
-	 * @param {HTMLElement} element - The dialog's HTML element
-	 * @param {HTMLElement} [trigger] - The button that opens the dialog
-	 */
-	makeDialog: function (element, trigger) {
-		var toolbar = document.getElementById('toolbar'),
-			dialogsContainer = document.getElementById('dialogs');
-		
-		function setDialogTransformOrigin() {
-			// If there is no trigger element, do nothing.
-			if (typeof trigger === 'undefined') {
-				return;
-			}
-			element.style.WebkitTransformOrigin =
-				element.style.MozTransformOrigin =
-				element.style.MsTransformOrigin =
-				element.style.OTransformOrigin =
-				element.style.transformOrigin = (trigger.offsetLeft - toolbar.scrollLeft - element.offsetLeft) + 'px ' + (trigger.offsetTop - element.offsetTop) + 'px';
-			// Force a reflow.
-			element.offsetLeft;
-		}
-		
-		element.open = function () {
-			// Disable app keyboard shortcuts.
-			keyManager.disableAppShortcuts();
-			
-			// Show the dialog and dialog container.
-			dialogsContainer.style.display = 'block';
-			element.classList.add('visible');
-			setDialogTransformOrigin();
-			
-			setTimeout(function () {
-				dialogsContainer.classList.add('visible');
-				element.classList.add('open');
-				// Focus the first form element in the dialog.  If there are no input
-				// elements, focus the submit button.
-				var firstInput = element.querySelector('input, select, textarea');
-				if (firstInput) {
-					firstInput.focus();
-				} else {
-					var submitButton = element.querySelector('button[type=\"submit\"]')
-					if (submitButton) {
-						submitButton.focus();
-					}
-				}
-			}, 1);
-		};
-		element.close = function (e) {
-			if (e && e.preventDefault) {
-				e.preventDefault();
-			}
-			
-			setDialogTransformOrigin();
-			element.classList.remove('open');
-			dialogsContainer.classList.remove('visible');
-			// After the closing animation has completed, hide the dialog box element completely.
-			setTimeout(function () {
-				// Hide the dialog and dialog container.
-				element.classList.remove('visible');
-				dialogsContainer.style.display = 'none';
-				// Re-enable app keyboard shortcuts.
-				keyManager.enableAppShortcuts();
-			}, Utils.DIALOG_TRANSITION_DURATION);
-		};
-		if (element instanceof HTMLFormElement) {
-			element.onsubmit = function (e) {
-				e.target.close();
-			};
-		}
-	},
-
 	/**
 	 * A shim for supporting requestAnimationFrame in older browsers.
 	 * Based on the one by Paul Irish.
