@@ -31,28 +31,31 @@ AboutDialog.prototype._setUp = function (contents) {
  * Set the correct Chrome Web Store link to appear depending on the user's browser and whether the app is installed.
  */
 AboutDialog.prototype._initCWSLinks = function () {
-	var cwsInstallLink = this._element.querySelector('#cwsInstallLink'),
-		cwsFeedbackLink = this._element.querySelector('#cwsFeedbackLink');
-	
 	if ((!window.chrome || !chrome.webstore) || (window.chrome && chrome.app && chrome.app.isInstalled)) {
 		// If this is not Chrome or the CWS app is already installed, do not ask the user to install.
-		cwsInstallLink.style.display = 'none';
-		cwsFeedbackLink.style.display = 'block';
-	} else {
-		// If the app is not installed, enable inline installation if the user's browser supports it.
-		cwsInstallLink.onclick = function (e) {
-			if (chrome && chrome.webstore && chrome.webstore.install) {
-				e.preventDefault();
-				var cwsLink = document.querySelector('link[rel=\"chrome-webstore-item\"]').href;
-				chrome.webstore.install(cwsLink, function () {
-					// Change links on successful installation.
-					cwsInstallLink.style.display = 'none';
-					cwsFeedbackLink.style.display = 'block';
-				}, function () {
-					// If triggering installation fails, just open the CWS page.
-					window.open(e.target.href, '_blank');
-				});
-			}
+		return;
+	}
+	
+	var installLink = this._element.querySelector('#cwsInstallLink'),
+		feedbackLink = this._element.querySelector('#cwsFeedbackLink');
+	
+	// Switch which link's row is visible.
+	feedbackLink.parentElement.style.display = 'none';
+	installLink.parentElement.style.removeProperty('display');
+	
+	// Enable inline installation if the user's browser supports it.
+	if (chrome.webstore.install) {
+		installLink.onclick = function (e) {
+			e.preventDefault();
+			var cwsURL = document.querySelector('link[rel=\"chrome-webstore-item\"]').href;
+			chrome.webstore.install(cwsURL, function () {
+				// Change links on successful installation.
+				installLink.parentElement.style.display = 'none';
+				feedbackLink.parentElement.style.removeProperty('display');
+			}, function () {
+				// If triggering installation fails, just open the CWS page.
+				window.open(e.target.href, '_blank');
+			});
 		};
 	}
 };
