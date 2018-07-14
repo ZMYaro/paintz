@@ -52,9 +52,11 @@ AboutDialog.prototype._initCWSLinks = function () {
 				// Change links on successful installation.
 				installLink.parentElement.style.display = 'none';
 				feedbackLink.parentElement.style.removeProperty('display');
-			}, function () {
-				// If triggering installation fails, just open the CWS page.
-				window.open(e.target.href, '_blank');
+			}, function (err) {
+				// If triggering installation fails, just open the CWS page if Chrome did not already do so.
+				if (err.indexOf('The user will be redirected to the Chrome Web Store') === -1) {
+					window.open(e.target.href, '_blank');
+				}
 			});
 		};
 	}
