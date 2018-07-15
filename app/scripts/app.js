@@ -444,8 +444,8 @@ window.addEventListener('load', function () {
 	
 	document.title = DEFAULTS.title + ' - PaintZ'
 	
-	// Hide the loading indicator.
-	dialogsContainer.removeChild(document.getElementById('loadingIndicator'));
+	// Hide the splash screen.
+	document.body.removeChild(document.getElementById('splashScreen'));
 	
 	if (!localStorage.firstRunDone) {
 		// Show the welcome dialog if this is the user's first time using PaintZ (in this browser).

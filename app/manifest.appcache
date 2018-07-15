@@ -46,6 +46,7 @@ images/icons/zoom_out.svg
 images/icons/undo.svg
 images/logo/128.png
 images/logo/256.png
+images/logo/512.png
 images/logo/favicon.ico
 partials/dialogs/about.html
 partials/dialogs/clear.html
@@ -94,6 +95,7 @@ scripts/tools/tool.js
 styles/color_picker.css
 styles/dialogs.css
 styles/layout.css
+styles/splash_screen.css
 styles/fonts/Roboto-Bold.ttf
 styles/fonts/Roboto-BoldItalic.ttf
 styles/fonts/Roboto-Italic.ttf

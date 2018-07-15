@@ -39,6 +39,7 @@
 		<link rel="stylesheet" type="text/css" href="styles/materialz/material-depth.css" />
 
 		<link rel="stylesheet" type="text/css" href="styles/fonts/roboto.css" />
+		<link rel="stylesheet" type="text/css" href="styles/splash_screen.css" />
 		<link rel="stylesheet" type="text/css" href="styles/layout.css" />
 		<link rel="stylesheet" type="text/css" href="styles/dialogs.css" />
 		<link rel="stylesheet" type="text/css" href="styles/color_picker.css" />
@@ -303,10 +304,22 @@
 			</span>
 		</div>
 		
-		<div id="dialogs" class="visible" style="display: block;">
-			<progress class="circular" id="loadingIndicator" style="display: block; margin: auto; top: 40%;"></progress>
+		<!-- Dialogs container -->
+		<div id="dialogs"></div>
+		
+		<!-- Splash screen -->
+		<div id="splashScreen">
+			<img src="images/logo/512.png" alt="PaintZ logo" />
+			<br />
+			<noscript style="margin: 0 16px;">
+				PaintZ requires JavaScript to function.  Please <a href="https://enable-javascript.com" target="_blank">enable JavaScript</a> to use PaintZ.
+			</noscript>
+			<br />
+			<script type="text/javascript">
+				document.write('<progress class="circular"></progress>');
+			</script>
 		</div>
-
+		
 		<!-- Invisible elements. -->
 		<canvas id="cursorCanvas" width="64" height="64"></canvas>
 		<audio src="audio/pacman_start.mp3" id="pacManStartSound"></audio>
