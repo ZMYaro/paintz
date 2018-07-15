@@ -15,6 +15,10 @@ ResizeDialog.prototype = Object.create(Dialog.prototype);
 // Define constants.
 /** @override @constant {String} The width of the dialog, as a CSS value */
 ResizeDialog.prototype.WIDTH = '320px';
+/** @constant {Number} The minimum canvas width/height */
+ResizeDialog.prototype.MIN_SIZE = 1,
+/** @constant {Number} The maximum canvas width/height */
+ResizeDialog.prototype.MAX_SIZE = 99999;
 
 /**
  * @override
@@ -40,8 +44,8 @@ ResizeDialog.prototype._showCurrentSize = function () {
  */
 ResizeDialog.prototype._saveNewSize = function () {
 	// Fetch the values from the form.
-	var newWidth = Math.max(MIN_SIZE, Math.min(MAX_SIZE, parseInt(this._element.width.value))),
-		newHeight = Math.max(MIN_SIZE, Math.min(MAX_SIZE, parseInt(this._element.height.value))),
+	var newWidth = Utils.constrainValue(parseInt(this._element.width.value), this.MIN_SIZE, this.MAX_SIZE),
+		newHeight = Utils.constrainValue(parseInt(this._element.height.value), this.MIN_SIZE, this.MAX_SIZE),
 		mode = this._element.resizeMode.value;
 
 	// Validate the user's input.

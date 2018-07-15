@@ -5,10 +5,6 @@ var PNG_REGEX = (/.+\.png$/i),
 	JPEG_REGEX = (/.+\.(jpg|jpeg|jpe|jif|jfif|jfi)$/i),
 	FILE_EXT_REGEX = (/\.[a-z0-9]{1,4}$/i);
 
-// Other global constants.
-var MIN_SIZE = 1,
-	MAX_SIZE = 99999;
-
 // Default settings
 var DEFAULTS = {
 	title: 'untitled.png',
