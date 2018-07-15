@@ -32,6 +32,7 @@ var canvas,
 	preCxt,
 	cursorCxt,
 	tools,
+	zoomManager,
 	dialogsContainer,
 	keyboardDialog,
 	saveDialog,
@@ -425,11 +426,11 @@ window.addEventListener('load', function () {
 	
 	
 	// Initialize everything.
+	zoomManager = new ZoomManager();
 	initToolbar();
 	initCanvas();
 	initSettings();
 	initTools();
-	zoomManager.init();
 	// Update the resolution in the bottom bar.
 	document.getElementById('resolution').innerHTML = localStorage.width + ' &times; ' + localStorage.height + 'px';
 	// Get the canvas ready.
