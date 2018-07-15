@@ -10,6 +10,7 @@ function ColorPickerDialog(trigger) {
 	
 	this.colorPickers;
 	
+	this._element.id = 'colorPickerDialog';
 	this._element.addEventListener('submit', this._saveNewColors.bind(this));
 }
 // Extend Dialog.

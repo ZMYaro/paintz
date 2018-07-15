@@ -7,6 +7,7 @@
  */
 function HelpDialog(trigger) {
 	Dialog.call(this, 'help', trigger);
+	this._element.id = 'helpDialog';
 }
 // Extend Dialog.
 HelpDialog.prototype = Object.create(Dialog.prototype);
