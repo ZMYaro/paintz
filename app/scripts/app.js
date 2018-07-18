@@ -30,6 +30,7 @@ var canvas,
 	tools,
 	zoomManager,
 	dialogsContainer,
+	toolbar = {},
 	keyboardDialog,
 	saveDialog,
 	progressSpinner;
@@ -54,193 +55,15 @@ function switchTool(tool) {
  * Get the toolbar form elements.
  */
 function initToolbar() {
-	var forms = document.getElementsByTagName('form');
-	for (var i = 0; i < forms.length; i++) {
-		forms[i].addEventListener('submit', function (e) {
-			e.preventDefault();
-		}, false);
-	}
-
-	document.getElementById('tools').onchange = function (e) {
-		// Switch to the newly-selected tool.
-		switchTool(e.target.value);
+	toolbar = {
+		image: new ImageToolbox(),
+		tools: new ToolsToolbox(),
+		drawToolOptions: new DrawToolOptionsToolbox(),
+		colorPicker: new ColorPickerToolbox(),
+		app: new AppToolbox()
 	};
-
-	document.getElementById('lineWidth').onchange = function (e) {
-		localStorage.lineWidth = e.target.value;
-		// Some tools' cursors change with the line width, so reactivate the tool.
-		tools[localStorage.tool].activate();
-	};
-	
-	document.getElementById('outlineOptions').onchange = function (e) {
-		localStorage.outlineOption = e.target.value;
-	}
-
-	// Set up the toolbar color picker.
-	var colorPicker = document.getElementById('colorPicker'),
-		colorIndicator = document.getElementById('colors'),
-		colors = colorPicker.getElementsByTagName('button');
-	for (var i = 0; i < colors.length; i++) {
-		// Handle left click.
-		colors[i].addEventListener('click', function (e) {
-			if (!Utils.checkModifierKeys(e)) {
-				e.preventDefault();
-				e.stopPropagation();
-				if (e.button === 0) {
-					localStorage.lineColor = e.target.dataset.value;
-					colorIndicator.style.borderColor = e.target.dataset.value;
-					// Some tools' cursors change with the line color, so reactivate the cursor.
-					tools[localStorage.tool].activate();
-				}
-			}
-		}, false);
-		// Handle right click.
-		colors[i].addEventListener('contextmenu', function (e) {
-			e.preventDefault();
-			e.stopPropagation();
-			if (e.button === 2) {
-				localStorage.fillColor = e.target.dataset.value;
-				colorIndicator.style.backgroundColor = e.target.dataset.value;
-				// Some tools' cursors change with the fill color, so reactivate the cursor.
-				tools[localStorage.tool].activate();
-			}
-		}, false);
-	}
-	// Set up the color picker dialog.
-	var colorPickerDialog = new ColorPickerDialog(colorIndicator);
-	colorIndicator.onclick = colorPickerDialog.open.bind(colorPickerDialog);
-
-	// Set up the event listener for the Pac-Man easter egg.
-	document.querySelector('#colorPicker button[data-value=\"#FFEB3B\"]').addEventListener('click', function (e) {
-		// If the button was Ctrl+Shift+clicked...
-		if (Utils.checkPlatformCtrlKey(e) && e.shiftKey) {
-			e.preventDefault();
-			e.stopPropagation();
-			if (!window.pacMan) {
-				// If Pac-Man has not been started, create and start a new Pac-Man.
-				window.pacMan = new PacMan(canvas);
-				window.pacMan.start();
-				// Update the button to show the easter egg has been activated.
-				e.target.className = 'pacman';
-			} else {
-				// If Pac-Man is running, delete Pac-Man.
-				window.pacMan.stop();
-				delete window.pacMan;
-				e.target.classList.remove('pacman');
-			}
-		}
-	}, false);
-
-	// Clear button and dialog.
-	var clearBtn = document.getElementById('clearBtn'),
-		clearDialog = new ClearDialog(clearBtn);
-	clearBtn.onclick = clearDialog.open.bind(clearDialog);
-	
-	// Save as button and dialog.
-	var saveBtn = document.getElementById('saveBtn');
-	saveDialog = new SaveDialog(saveBtn);
-	saveBtn.onclick = saveDialog.open.bind(saveDialog);
-	
-	// Undo and redo buttons.
-	document.getElementById('undoBtn').onclick = undoStack.undo.bind(undoStack);
-	document.getElementById('redoBtn').onclick = undoStack.redo.bind(undoStack);
-
-	// Resize button and dialog.
-	var resizeBtn = document.getElementById('resizeBtn'),
-		resizeDialog = new ResizeDialog(resizeBtn);
-	resizeBtn.onclick = resizeDialog.open.bind(resizeDialog);
-
-	// Uploader.
-	document.getElementById('upload').addEventListener('change', function (e) {
-		if (window.File && window.FileReader && window.FileList && window.Blob) {
-			progressSpinner.show();
-			
-			var file = e.target.files[0];
-			if (!file) {
-				return;
-			}
-			if (!file.type.match('image.*')) {
-				alert('PaintZ can only open valid image files.');
-				return;
-			}
-			var reader = new FileReader();
-			reader.onload = function () {
-				var image = new Image();
-				
-				image.onload = function () {
-					// There is no need to clear the canvas.  Resizing the canvas will do that.
-					canvas.width = this.width;
-					canvas.height = this.height;
-					preCanvas.width = this.width;
-					preCanvas.height = this.height;
-					localStorage.width = this.width;
-					localStorage.height = this.height;
-					document.getElementById('resolution').innerHTML = this.width + ' &times; ' + this.height + 'px';
-					cxt.fillStyle = 'white';
-					cxt.fillRect(0, 0, canvas.width, canvas.height);
-					cxt.drawImage(this, 0, 0);
-					
-					// Clear the undo and redo stacks.
-					undoStack.clear();
-					
-					// Set the file type and name.
-					// TODO: Make this not access SaveDialog private properties.
-					var fileName = file.name;
-					if (JPEG_REGEX.test(fileName)) {
-						saveDialog._element.fileType.value =
-							saveDialog._downloadLink.type = 'image/jpeg';
-					} else {
-						saveDialog._element.fileType.value =
-							saveDialog._downloadLink.type = 'image/png';
-						fileName = fileName.replace(FILE_EXT_REGEX, '.png');
-					}
-					saveDialog._element.fileName.value =
-						saveDialog._downloadLink.download = fileName;
-					document.title = fileName + ' - PaintZ';
-					progressSpinner.hide();
-				};
-				image.src = this.result;
-			};
-			reader.readAsDataURL(file);
-		} else {
-			alert('Please switch to a browser that supports the file APIs such as Google Chrome or Internet Explorer 11.');
-		}
-	}, false);
-	// Open button.
-	document.getElementById('openBtn').addEventListener('click', function (e) {
-		document.getElementById('upload').click();
-	}, false);
-	
-	// Full screen button.
-	document.getElementById('fullScreenBtn').onclick = function () {
-		if (canvas.requestFullscreen) {
-			canvas.requestFullscreen();
-		} else if (canvas.webkitRequestFullscreen) {
-			canvas.webkitRequestFullscreen();
-		} else if (canvas.mozRequestFullScreen) {
-			canvas.mozRequestFullScreen();
-		} else if (canvas.msRequestFullscreen) {
-			canvas.msRequestFullscreen();
-		} else {
-			alert('Sorry, your web browser does not support full screen mode.');
-		}
-	};
-	
-	// Settings button and dialog.
-	var settingsBtn = document.getElementById('settingsBtn'),
-		settingsDialog = new SettingsDialog(settingsBtn);
-	settingsBtn.onclick = settingsDialog.open.bind(settingsDialog);
-	
-	// Help button and dialog.
-	var helpBtn = document.getElementById('helpBtn'),
-		helpDialog = new HelpDialog(helpBtn);
-	helpBtn.onclick = helpDialog.open.bind(helpDialog);
-
-	// About button and dialog.
-	var aboutBtn = document.getElementById('aboutBtn'),
-		aboutDialog = new AboutDialog(aboutBtn);
-	aboutBtn.onclick = aboutDialog.open.bind(aboutDialog);
 }
+
 /**
  * Get the canvases and their drawing contexts, and set up event listeners.
  */
@@ -281,11 +104,6 @@ function initSettings() {
 	if (localStorage.ghostDraw) {
 		preCanvas.classList.add('ghost');
 	}
-	document.getElementById('lineWidth').value = localStorage.lineWidth;
-	document.getElementById('outlineOptions').outlineOption.value = localStorage.outlineOption;
-	document.getElementById('colors').style.borderColor = localStorage.lineColor;
-	document.getElementById('colors').style.backgroundColor = localStorage.fillColor;
-	document.getElementById('tools').tool.value = localStorage.tool;
 }
 
 /**
@@ -423,16 +241,16 @@ window.addEventListener('load', function () {
 	
 	// Initialize everything.
 	zoomManager = new ZoomManager();
-	initToolbar();
 	initCanvas();
 	initSettings();
 	initTools();
+	initToolbar();
 	// Update the resolution in the bottom bar.
 	document.getElementById('resolution').innerHTML = localStorage.width + ' &times; ' + localStorage.height + 'px';
 	// Get the canvas ready.
 	resetCanvas();
 	// Save the initial state.
-	undoStack.addState();
+	//undoStack.addState();
 	// Enable keyboard shortcuts.
 	keyManager.enableAppShortcuts();
 	
@@ -446,12 +264,9 @@ window.addEventListener('load', function () {
 	
 	if (!localStorage.firstRunDone) {
 		// Show the welcome dialog if this is the user's first time using PaintZ (in this browser).
-		var welcomeDialog = new WelcomeDialog(document.getElementById('helpBtn'));
+		//var welcomeDialog = new WelcomeDialog(document.getElementById('helpBtn'));
+		var welcomeDialog = new WelcomeDialog();
 		welcomeDialog.open();
 		localStorage.firstRunDone = 'true';
-	} else {
-		// Otherwise, just hide the dialog container.
-		dialogsContainer.classList.remove('visible');
-		dialogsContainer.style.display = 'none';
 	}
 }, false);

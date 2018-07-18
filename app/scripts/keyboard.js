@@ -161,8 +161,8 @@ var keyManager = {
 					localStorage.fillColor = oldLine;
 					
 					// Update the toolbar.
-					document.getElementById('colors').style.borderColor = localStorage.lineColor;
-					document.getElementById('colors').style.backgroundColor = localStorage.fillColor;
+					toolbar.colorPicker.colorIndicator.style.borderColor = localStorage.lineColor;
+					toolbar.colorPicker.colorIndicator.style.backgroundColor = localStorage.fillColor;
 				}
 				break;
 			

@@ -2,7 +2,7 @@
 
 /**
  * @class
- * Create a new Dialog instance.
+ * Create a new Dialog instance.  A dialog is a box that displays over the rest of the page and must be closed to interact with the rest of the page.
  * @param {String} contentFileName - The name of the HTML partial file with the dialog's contents
  * @param {HTMLElement} [trigger] - The button that triggers the dialog, if any
  */

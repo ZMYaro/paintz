@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2018-07-14, v1
+# 2018-07-15, v6
 index.html
 404.html
 manifest.webapp
@@ -57,10 +57,18 @@ partials/dialogs/resize.html
 partials/dialogs/save.html
 partials/dialogs/settings.html
 partials/dialogs/welcome.html
+partials/toolbar/app.html
+partials/toolbar/color_picker.html
+partials/toolbar/draw_tool_options.html
+partials/toolbar/image.html
+partials/toolbar/select_tool_options.html
+partials/toolbar/text_tool_options.html
+partials/toolbar/tools.html
 scripts/app.js
 scripts/keyboard.js
 scripts/pacman.js
 scripts/progress_spinner.js
+scripts/settings.js
 scripts/undo.js
 scripts/utils.js
 scripts/zoom.js
@@ -77,6 +85,12 @@ scripts/dialogs/welcome.js
 scripts/lib/colorpicker.min.js
 scripts/lib/material-touch.js
 scripts/lib/pep.min.js
+scripts/toolbar/app.js
+scripts/toolbar/color_picker.js
+scripts/toolbar/draw_tool_options.js
+scripts/toolbar/image.js
+scripts/toolbar/toolbox.js
+scripts/toolbar/tools.js
 scripts/tools/curve.js
 scripts/tools/doodle.js
 scripts/tools/drawing.js

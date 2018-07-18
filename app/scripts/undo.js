@@ -2,7 +2,17 @@ var undoStack = {
 	_undoStack: [],
 	_redoStack: [],
 	_currentState: undefined,
-
+	
+	/** @returns {Boolean} Whether there is an available redo state */
+	get canRedo() {
+		return this._redoStack.length > 0;
+	},
+	
+	/** @returns {Boolean} Whether there is an available undo state */
+	get canUndo() {
+		return this._undoStack.length > 0;
+	},
+	
 	/**
 	 * Apply an image state.
 	 * @param {Object} state - The state to apply.
@@ -24,17 +34,10 @@ var undoStack = {
 	 */
 	_updateUI: function () {
 		// Update the redo button.
-		if (this._redoStack.length === 0) {
-			document.getElementById('redoBtn').disabled = true;
-		} else {
-			document.getElementById('redoBtn').disabled = false;
-		}
+		toolbar.image.redoBtn.disabled = !this.canRedo;
+		
 		// Update the undo button.
-		if (this._undoStack.length === 0) {
-			document.getElementById('undoBtn').disabled = true;
-		} else {
-			document.getElementById('undoBtn').disabled = false;
-		}
+		toolbar.image.undoBtn.disabled = !this.canUndo;
 	},
 
 	/**
@@ -79,7 +82,7 @@ var undoStack = {
 	 */
 	redo: function () {
 		// Quit if the redo stack is empty.
-		if (this._redoStack.length === 0) {
+		if (!this.canRedo) {
 			this._updateUI();
 			return;
 		}
@@ -104,7 +107,7 @@ var undoStack = {
 	 */
 	undo: function () {
 		// Quit if the undo stack is empty.
-		if (this._undoStack.length === 0) {
+		if (!this.canUndo) {
 			this._updateUI();
 			return;
 		}

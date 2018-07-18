@@ -129,7 +129,7 @@ ColorPickerDialog.prototype._updateColorFields = function (type, hex, hsv, rgb, 
 	var sliderIndicator = this.colorPickers[type].slideElement.getElementsByClassName('slide-indicator')[0];
 	sliderIndicator.style.top = (hsv.h / 360 * 100) + '%';
 
-	document.getElementById(type + 'ColorSample').style.backgroundColor = hex;
+	this._element.querySelector('#' + type + 'ColorSample').style.backgroundColor = hex;
 	this._element[type + 'ColorHex'].value = hex;
 	this._element[type + 'ColorHue'].value = Math.floor(hsv.h);
 	this._element[type + 'ColorSaturation'].value = Math.floor(hsv.s * 100);

@@ -41,6 +41,7 @@
 		<link rel="stylesheet" type="text/css" href="styles/fonts/roboto.css" />
 		<link rel="stylesheet" type="text/css" href="styles/splash_screen.css" />
 		<link rel="stylesheet" type="text/css" href="styles/layout.css" />
+		<link rel="stylesheet" type="text/css" href="styles/toolbars.css" />
 		<link rel="stylesheet" type="text/css" href="styles/dialogs.css" />
 		<link rel="stylesheet" type="text/css" href="styles/color_picker.css" />
 		
@@ -65,6 +66,13 @@
 		<script type="text/javascript" src="scripts/dialogs/settings.js"></script>
 		<script type="text/javascript" src="scripts/dialogs/welcome.js"></script>
 		
+		<script type="text/javascript" src="scripts/toolbar/toolbox.js"></script>
+		<script type="text/javascript" src="scripts/toolbar/app.js"></script>
+		<script type="text/javascript" src="scripts/toolbar/color_picker.js"></script>
+		<script type="text/javascript" src="scripts/toolbar/draw_tool_options.js"></script>
+		<script type="text/javascript" src="scripts/toolbar/image.js"></script>
+		<script type="text/javascript" src="scripts/toolbar/tools.js"></script>
+		
 		<script type="text/javascript" src="scripts/tools/tool.js"></script>
 		<script type="text/javascript" src="scripts/tools/drawing.js"></script>
 		<script type="text/javascript" src="scripts/tools/shape.js"></script>
@@ -84,203 +92,7 @@
 		<script type="text/javascript" src="scripts/app.js"></script>
 	</head>
 	<body>
-		<div class="appBar z2" id="toolbar" role="toolbar">
-			<div class="toolbox">
-				<button id="clearBtn" title="Clear">
-					<svg role="img">
-						<use xlink:href="images/icons/clear.svg#icon"></use>
-					</svg>
-				</button>
-				<button id="openBtn" title="Open image... (Ctrl+O)">
-					<svg role="img">
-						<use xlink:href="images/icons/open.svg#icon"></use>
-					</svg>
-				</button>
-				<input type="file" accept="image/*" id="upload" style="display: none;" />
-				<button id="saveBtn" title="Save as... (Ctrl+S)">
-					<svg role="img">
-						<use xlink:href="images/icons/save.svg#icon"></use>
-					</svg>
-				</button>
-				<br />
-				<button id="undoBtn" title="Undo (Ctrl+Z)" disabled="disabled">
-					<svg role="img">
-						<use xlink:href="images/icons/undo.svg#icon"></use>
-					</svg>
-				</button>
-				<button id="redoBtn" title="Redo (Ctrl+Y)" disabled="disabled">
-					<svg role="img">
-						<use xlink:href="images/icons/redo.svg#icon"></use>
-					</svg>
-				</button>
-				<button id="resizeBtn" title="Crop or scale...">
-					<svg role="img">
-						<use xlink:href="images/icons/resize.svg#icon"></use>
-					</svg>
-				</button>
-			</div>
-			<span class="divider"></span>
-			<form class="toolbox" id="tools">
-				<input type="radio" name="tool" value="pencil" id="pencilTool" />
-				<label role="button" for="pencilTool" title="Pencil (P)">
-					<svg role="img">
-						<use xlink:href="images/icons/pencil.svg#icon"></use>
-					</svg>
-				</label>
-				<input type="radio" name="tool" value="doodle" id="doodleTool" />
-				<label role="button" for="doodleTool" title="Brush (B)">
-					<svg role="img">
-						<use xlink:href="images/icons/brush.svg#icon"></use>
-					</svg>
-				</label>
-				<input type="radio" name="tool" value="line" id="lineTool" />
-				<label role="button" for="lineTool" title="Line (L)">
-					<svg role="img">
-						<use xlink:href="images/icons/line.svg#icon"></use>
-					</svg>
-				</label>
-				<input type="radio" name="tool" value="curve" id="curveTool" />
-				<label role="button" for="curveTool" title="Curve (C)">
-					<svg role="img">
-						<use xlink:href="images/icons/curve.svg#icon"></use>
-					</svg>
-				</label>
-				<input type="radio" name="tool" value="rect" id="rectTool" />
-				<label role="button" for="rectTool" title="Rectangle (R)">
-					<svg role="img">
-						<use xlink:href="images/icons/rect.svg#icon"></use>
-					</svg>
-				</label>
-				<input type="radio" name="tool" value="oval" id="ovalTool" />
-				<label role="button" for="ovalTool" title="Oval (O)">
-					<svg role="img">
-						<use xlink:href="images/icons/oval.svg#icon"></use>
-					</svg>
-				</label>
-				<br />
-				<input type="radio" name="tool" value="pan" id="panTool" />
-				<label role="button" for="panTool" title="Pan (H)">
-					<svg role="img">
-						<use xlink:href="images/icons/pan.svg#icon"></use>
-					</svg>
-				</label>
-				<input type="radio" name="tool" value="selection" id="selectionTool" />
-				<label role="button" for="selectionTool" title="Selection (S)">
-					<svg role="img">
-						<use xlink:href="images/icons/select.svg#icon"></use>
-					</svg>
-				</label>
-				<input type="radio" name="tool" value="eraser" id="eraserTool" />
-				<label role="button" for="eraserTool" title="Eraser (E)">
-					<svg role="img">
-						<use xlink:href="images/icons/eraser.svg#icon"></use>
-					</svg>
-				</label>
-				<input type="radio" name="tool" value="floodFill" id="floodFillTool" />
-				<label role="button" for="floodFillTool" title="Flood fill (F)">
-					<svg role="img">
-						<use xlink:href="images/icons/paint_bucket.svg#icon"></use>
-					</svg>
-				</label>
-				<input type="radio" name="tool" value="eyedropper" id="eyedropperTool" />
-				<label role="button" for="eyedropperTool" title="Color picker (I)">
-					<svg role="img">
-						<use xlink:href="images/icons/eyedropper.svg#icon"></use>
-					</svg>
-				</label>
-				<input type="radio" name="tool" value="text" id="textTool" />
-				<label role="button" for="textTool" title="Text (T)">
-					<svg role="img">
-						<use xlink:href="images/icons/text.svg#icon"></use>
-					</svg>
-				</label>
-			</form>
-			<span class="divider"></span>
-			<div class="toolbox">
-				<select title="Line width ([/])" id="lineWidth">
-					<option value="1">1</option>
-					<option value="2">2</option>
-					<option value="3">3</option>
-					<option value="4">4</option>
-					<option value="5">5</option>
-					<option value="6">6</option>
-					<option value="7">7</option>
-					<option value="8">8</option>
-					<option value="9">9</option>
-					<option value="10">10</option>
-					<option value="12">12</option>
-					<option value="14">14</option>
-					<option value="16">16</option>
-					<option value="18">18</option>
-					<option value="20">20</option>
-					<option value="25">25</option>
-					<option value="30">30</option>
-				</select>
-				<svg role="img" class="icon">
-					<use xlink:href="images/icons/line_weight.svg#icon"></use>
-				</svg>
-				<br />
-				<form id="outlineOptions">
-					<input type="radio" name="outlineOption" value="outlineOnly" id="outlineOnly" />
-					<label role="button" for="outlineOnly" title="Outline only">
-						<svg role="img">
-							<use xlink:href="images/icons/outline_only.svg#icon"></use>
-						</svg>
-					</label>
-					<input type="radio" name="outlineOption" value="fillOnly" id="fillOnly" />
-					<label role="button" for="fillOnly" title="Fill only">
-						<svg role="img">
-							<use xlink:href="images/icons/fill_only.svg#icon"></use>
-						</svg>
-					</label>
-					<input type="radio" name="outlineOption" value="outlineFill" id="outlineFill" />
-					<label role="button" for="outlineFill" title="Outline and fill">
-						<svg role="img">
-							<use xlink:href="images/icons/outline_fill.svg#icon"></use>
-						</svg>
-					</label>
-				</form>
-			</div>
-			<span class="divider"></span>
-			<button title="Selected colors (click for advanced picker)" id="colors" class="z1" style="border-color: white; background-color: white;"></button>
-			<div class="toolbox" id="colorPicker">
-				<button title="Black" aria-label="Black" data-value="#000000"></button>
-				<button title="Red" aria-label="Red" data-value="#F44336"></button>
-				<button title="Orange" aria-label="Orange" data-value="#FF9800"></button>
-				<button title="Yellow" aria-label="Yellow" data-value="#FFEB3B"></button>
-				<button title="Lime" aria-label="Lime" data-value="#76FF03"></button>
-				<br />
-				<button title="White" aria-label="White" data-value="#FFFFFF"></button>
-				<button title="Green" aria-label="Green" data-value="#4CAF50"></button>
-				<button title="Light blue" aria-label="Light blue" data-value="#80D8FF"></button>
-				<button title="Blue" aria-label="Blue" data-value="#2962FF"></button>
-				<button title="Purple" aria-label="Purple" data-value="#9C27B0"></button>
-			</div>
-			<span class="divider"></span>
-			<div class="toolbox">
-				<button id="fullScreenBtn" title="Full screen">
-					<svg role="img">
-						<use xlink:href="images/icons/full_screen.svg#icon"></use>
-					</svg>
-				</button>
-				<button id="aboutBtn" title="About">
-					<svg role="img">
-						<use xlink:href="images/icons/info.svg#icon"></use>
-					</svg>
-				</button>
-				<br />
-				<button id="settingsBtn" title="Settings">
-					<svg role="img">
-						<use xlink:href="images/icons/settings.svg#icon"></use>
-					</svg>
-				</button>
-				<button id="helpBtn" title="Help">
-					<svg role="img">
-						<use xlink:href="images/icons/help.svg#icon"></use>
-					</svg>
-				</button>
-			</div>
-		</div>
+		<div class="appBar z2" id="toolbar" role="toolbar"></div>
 
 		<canvas class="z1" id="canvas" width="1" height="1"></canvas>
 		<canvas id="preCanvas" width="1" height="1" touch-action="none"></canvas>
