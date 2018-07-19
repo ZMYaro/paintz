@@ -23,7 +23,7 @@
 		
 		<link rel="author" href="https://plus.google.com/+ZacharyYaro" />
 		<link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/gdjcnhanmagpjdpilaehedkchegnkdoj" />
-
+		
 		<meta name="msapplication-tooltip" content="Create and edit drawings" />
 		<meta name="msapplication-navbutton-color" content="#3f51b5" />
 		
@@ -33,11 +33,11 @@
 		<link rel="icon" sizes="128x128" href="images/logo/128.png" />
 		<link rel="icon" sizes="256x256" href="images/logo/256.png" />
 		<link rel="apple-touch-icon-precomposed" sizes="128x128" href="images/logo/128.png" />
-
+		
 		<link rel="stylesheet" type="text/css" href="styles/materialz/material-elements.css" />
 		<link rel="stylesheet" type="text/css" href="styles/materialz/material-widgets.css" />
 		<link rel="stylesheet" type="text/css" href="styles/materialz/material-depth.css" />
-
+		
 		<link rel="stylesheet" type="text/css" href="styles/fonts/roboto.css" />
 		<link rel="stylesheet" type="text/css" href="styles/splash_screen.css" />
 		<link rel="stylesheet" type="text/css" href="styles/layout.css" />
@@ -45,15 +45,20 @@
 		<link rel="stylesheet" type="text/css" href="styles/dialogs.css" />
 		<link rel="stylesheet" type="text/css" href="styles/color_picker.css" />
 		
+		<!-- Libraries and polyfills -->
 		<script type="text/javascript" src="scripts/lib/material-touch.js"></script>
 		<script type="text/javascript" src="scripts/lib/colorpicker.min.js"></script>
 		<script type="text/javascript" src="scripts/lib/pep.min.js"></script>
 		
+		<!-- Helper functions -->
 		<script type="text/javascript" src="scripts/utils.js"></script>
+		
+		<!-- Managers -->
 		<script type="text/javascript" src="scripts/keyboard.js"></script>
 		<script type="text/javascript" src="scripts/undo.js"></script>
 		<script type="text/javascript" src="scripts/zoom.js"></script>
 		
+		<!-- Dialogs -->
 		<script type="text/javascript" src="scripts/progress_spinner.js"></script>
 		<script type="text/javascript" src="scripts/dialogs/dialog.js"></script>
 		<script type="text/javascript" src="scripts/dialogs/about.js"></script>
@@ -66,6 +71,7 @@
 		<script type="text/javascript" src="scripts/dialogs/settings.js"></script>
 		<script type="text/javascript" src="scripts/dialogs/welcome.js"></script>
 		
+		<!-- Toolbar -->
 		<script type="text/javascript" src="scripts/toolbar/toolbox.js"></script>
 		<script type="text/javascript" src="scripts/toolbar/app.js"></script>
 		<script type="text/javascript" src="scripts/toolbar/color_picker.js"></script>
@@ -73,6 +79,7 @@
 		<script type="text/javascript" src="scripts/toolbar/image.js"></script>
 		<script type="text/javascript" src="scripts/toolbar/tools.js"></script>
 		
+		<!-- Drawing tools -->
 		<script type="text/javascript" src="scripts/tools/tool.js"></script>
 		<script type="text/javascript" src="scripts/tools/drawing.js"></script>
 		<script type="text/javascript" src="scripts/tools/shape.js"></script>
@@ -88,15 +95,23 @@
 		<script type="text/javascript" src="scripts/tools/selection.js"></script>
 		<script type="text/javascript" src="scripts/tools/text.js"></script>
 		<script type="text/javascript" src="scripts/tools/pan.js"></script>
+		
+		<!-- Pac-Man easter egg -->
 		<script type="text/javascript" src="scripts/pacman.js"></script>
+		
+		<!-- Core app -->
 		<script type="text/javascript" src="scripts/app.js"></script>
 	</head>
 	<body>
+		<!-- Top toolbar -->
 		<div class="appBar z2" id="toolbar" role="toolbar"></div>
-
+		
+		<!-- Image canvas -->
 		<canvas class="z1" id="canvas" width="1" height="1"></canvas>
+		<!-- Drawing canvas -->
 		<canvas id="preCanvas" width="1" height="1" touch-action="none"></canvas>
 		
+		<!-- Bottom toolbar -->
 		<div class="appBar z2" id="bottomBar" role="toolbar">
 			<span id="resolution"></span>
 			<span id="zoomContainer">
@@ -132,7 +147,7 @@
 			</script>
 		</div>
 		
-		<!-- Invisible elements. -->
+		<!-- Invisible elements -->
 		<canvas id="cursorCanvas" width="64" height="64"></canvas>
 		<audio src="audio/pacman_start.mp3" id="pacManStartSound"></audio>
 	</body>
