@@ -19,6 +19,7 @@
 	-webkit-justify-content: center;
 	        justify-content: center;
 	align-items: center;
+	text-align: center;
 	
 	color: white;
 	
@@ -26,6 +27,10 @@
 }
 	#splashScreen a {
 		color: #97d9f2;
+	}
+	#splashScreen p {
+		max-width: 600px;
+		margin: 0 16px;
 	}
 	#splashScreen img {
 		display: block;

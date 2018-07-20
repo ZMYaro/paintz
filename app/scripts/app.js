@@ -257,13 +257,16 @@ window.addEventListener('load', function () {
 	
 	masterLoadPromise.then(postLoadInit);
 	masterLoadPromise.catch(function (err) {
-		var errorMessage = document.createElement('p');
-		errorMessage.innerHTML = 'Oops, something went wrong!  Maybe try again later?<br /><br />If this keeps happening, you can tell the developer: ';
+		var errorDisplay = document.createElement('p'),
+			errorMessage = document.createElement('span');
+		errorDisplay.innerHTML = 'Oops, something went wrong!  Maybe try again later?<br /><br />If this keeps happening, you can tell the developer: ';
+		errorMessage.style.display = 'inline-block';
 		errorMessage.innerText += '\u201c' + err + '\u201d';
+		errorDisplay.appendChild(errorMessage);
 		
 		var splashScreen = document.getElementById('splashScreen');
 		splashScreen.removeChild(splashScreen.querySelector('progress'));
-		splashScreen.appendChild(errorMessage);
+		splashScreen.appendChild(errorDisplay);
 	});
 }, false);
 
