@@ -12,7 +12,7 @@ function Toolbox(contentFileName) {
 	
 	var toolbar = document.getElementById('toolbar');
 	
-	// Add a divider, if necessary.
+	// Add a divider to the toolbar, if necessary.
 	if (toolbar.childElementCount !== 0) {
 		var divider = document.createElement('span');
 		divider.className = 'divider';
@@ -23,9 +23,8 @@ function Toolbox(contentFileName) {
 	toolbar.appendChild(this._element);
 	
 	// Fetch the toolbox content, then set up the toolbox.
-	Utils.fetch(
-		this.PARTIALS_DIR + contentFileName + '.html',
-		this._setUp.bind(this));
+	this.loadPromise = Utils.fetch(this.PARTIALS_DIR + contentFileName + '.html');
+	this.loadPromise.then(this._setUp.bind(this));
 }
 
 // Define constants.
@@ -41,4 +40,9 @@ Toolbox.prototype.CSS_CLASS = 'toolbox';
  */
 Toolbox.prototype._setUp = function (contents) {
 	this._element.innerHTML = contents;
+	
+	// Update keyboard shortcut listings for Apple users.
+	if (Utils.isApple) {
+		this._element.innerHTML = this._element.innerHTML.replace(/Ctrl\+/g, '&#x2318;').replace(/Alt\+/g, '&#x2325;').replace(/Shift\+/g, '&#x21e7;');
+	}
 };

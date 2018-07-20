@@ -6,6 +6,11 @@
  */
 function AppToolbox() {
 	Toolbox.call(this, 'app');
+	
+	// Create relevant dialogs.
+	dialogs.settings = new SettingsDialog();
+	dialogs.help = new HelpDialog();
+	dialogs.about = new AboutDialog();
 }
 // Extend Toolbox.
 AppToolbox.prototype = Object.create(Toolbox.prototype);
@@ -36,17 +41,17 @@ AppToolbox.prototype._setUp = function (contents) {
 	}, false);
 	
 	// Settings button and dialog.
-	var settingsBtn = this._element.querySelector('#settingsBtn'),
-		settingsDialog = new SettingsDialog(settingsBtn);
-	settingsBtn.addEventListener('click', settingsDialog.open.bind(settingsDialog), false);
+	var settingsBtn = this._element.querySelector('#settingsBtn');
+	dialogs.settings.trigger = settingsBtn;
+	settingsBtn.addEventListener('click', dialogs.settings.open.bind(dialogs.settings), false);
 	
 	// Help button and dialog.
-	var helpBtn = this._element.querySelector('#helpBtn'),
-		helpDialog = new HelpDialog(helpBtn);
-	helpBtn.addEventListener('click', helpDialog.open.bind(helpDialog), false);
+	var helpBtn = this._element.querySelector('#helpBtn');
+	dialogs.help.trigger = helpBtn;
+	helpBtn.addEventListener('click', dialogs.help.open.bind(dialogs.help), false);
 
 	// About button and dialog.
-	var aboutBtn = this._element.querySelector('#aboutBtn'),
-		aboutDialog = new AboutDialog(aboutBtn);
-	aboutBtn.addEventListener('click', aboutDialog.open.bind(aboutDialog), false);
+	var aboutBtn = this._element.querySelector('#aboutBtn');
+	dialogs.about.trigger = aboutBtn;
+	aboutBtn.addEventListener('click', dialogs.about.open.bind(dialogs.about), false);
 };

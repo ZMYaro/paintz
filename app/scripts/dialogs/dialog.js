@@ -22,9 +22,8 @@ function Dialog(contentFileName, trigger) {
 	this.trigger = trigger;
 	
 	// Fetch the dialog content, then set up the dialog.
-	Utils.fetch(
-		this.PARTIALS_DIR + contentFileName + '.html',
-		this._setUp.bind(this));
+	this.loadPromise = Utils.fetch(this.PARTIALS_DIR + contentFileName + '.html');
+	this.loadPromise.then(this._setUp.bind(this));
 }
 
 // Define constants.
@@ -46,6 +45,11 @@ Dialog.prototype.TRANSITION_DURATION = 200;
  */
 Dialog.prototype._setUp = function (contents) {
 	this._element.innerHTML = contents;
+	
+	// Update keyboard shortcut listings for Apple users.
+	if (Utils.isApple) {
+		this._element.innerHTML = this._element.innerHTML.replace(/Ctrl\+/g, '&#x2318;').replace(/Alt\+/g, '&#x2325;').replace(/Shift\+/g, '&#x21e7;');
+	}
 	
 	// Set up all close buttons.
 	Array.prototype.slice.call(this._element.querySelectorAll('.closeButton')).forEach(function (closeButton) {

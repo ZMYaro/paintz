@@ -134,7 +134,7 @@ var keyManager = {
 				if (ctrlOrCmd) {
 					e.preventDefault();
 					// Ctrl+S => Save
-					document.getElementById('saveDialog').open();
+					dialogs.save.open();
 				} else if (noModifiers) {
 					e.preventDefault();
 					// S => Selection tool
@@ -206,7 +206,7 @@ var keyManager = {
 				if (e.shiftKey) {
 					e.preventDefault();
 					// ? => Keyboard shortcuts dialog
-					keyboardDialog.open();
+					dialogs.keyboard.open();
 				}
 				break;
 			

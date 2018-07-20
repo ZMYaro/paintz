@@ -1,5 +1,16 @@
 'use strict';
 
+// Polyfills.
+Object.values = Object.values || function (obj) {
+	var vals = [];
+	for (var key in obj) {
+		if (obj.hasOwnProperty(obj[key]) && obj.propertyIsEnumerable(obj[key])) {
+			vals.push(obj[key]);
+		}
+	}
+	return vals;
+};
+
 var Utils = {
 	/** Whether the device runs Apple software. */
 	isApple: (navigator.userAgent.indexOf('Mac') !== -1),
@@ -49,21 +60,23 @@ var Utils = {
 	 * @param {Function} [failureCallback] - Called and passed the error code and response text if the file fails to load
 	 */
 	fetch: function (path, successCallback, failureCallback) {
-		var xhr = new XMLHttpRequest();
-		xhr.onreadystatechange = function () {
-			if (xhr.readyState === 4) {
-				if (xhr.status === 200) {
-					successCallback(xhr.responseText);
-				} else {
-					console.error('Failed to load ' + path);
-					if (typeof(failureCallback) === 'function') {
-						failureCallback(xhr.status + ' ' + xhr.responseText);
+		return new Promise(function (resolve, reject) {
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState === 4) {
+					if (xhr.status === 200) {
+						resolve(xhr.responseText);
+					} else {
+						console.error('Failed to load ' + path);
+						if (typeof(failureCallback) === 'function') {
+							reject(xhr.status + ' ' + xhr.responseText);
+						}
 					}
 				}
-			}
-		};
-		xhr.open('GET', path, true);
-		xhr.send();
+			};
+			xhr.open('GET', path, true);
+			xhr.send();
+		});
 	},
 	
 	/**

@@ -30,6 +30,7 @@ var canvas,
 	tools,
 	zoomManager,
 	dialogsContainer,
+	dialogs = {},
 	toolbar = {},
 	keyboardDialog,
 	saveDialog,
@@ -231,13 +232,8 @@ function fixExtension(name, type) {
 }
 
 window.addEventListener('load', function () {
-	// Update keyboard shortcut listings for Apple users.
-	if (Utils.isApple) {
-		document.body.innerHTML = document.body.innerHTML.replace(/Ctrl\+/g, '&#x2318;').replace(/Alt\+/g, '&#x2325;').replace(/Shift\+/g, '&#x21e7;');
-	}
 	// Initialize keyboard shortcut dialog.
-	keyboardDialog = new KeyboardDialog();
-	
+	dialogs.keyboard = new KeyboardDialog();
 	
 	// Initialize everything.
 	zoomManager = new ZoomManager();
@@ -245,18 +241,43 @@ window.addEventListener('load', function () {
 	initSettings();
 	initTools();
 	initToolbar();
+	progressSpinner = new ProgressSpinner();
+	
+	// Get saved reference to the dialogs container.
+	dialogsContainer = document.getElementById('dialogs');
+	
 	// Update the resolution in the bottom bar.
 	document.getElementById('resolution').innerHTML = localStorage.width + ' &times; ' + localStorage.height + 'px';
+	
+	
+	// Wait for all the toolbar and dialog content to load.
+	var loadingObjects = Object.values(toolbar).concat(Object.values(dialogs)),
+		loadPromises = loadingObjects.map(function (obj) { return obj.loadPromise; }),
+		masterLoadPromise = Promise.all(loadPromises);
+	
+	masterLoadPromise.then(postLoadInit);
+	masterLoadPromise.catch(function (err) {
+		var errorMessage = document.createElement('p');
+		errorMessage.innerHTML = 'Oops, something went wrong!  Maybe try again later?<br /><br />If this keeps happening, you can tell the developer: ';
+		errorMessage.innerText += '\u201c' + err + '\u201d';
+		
+		var splashScreen = document.getElementById('splashScreen');
+		splashScreen.removeChild(splashScreen.querySelector('progress'));
+		splashScreen.appendChild(errorMessage);
+	});
+}, false);
+
+function postLoadInit() {
 	// Get the canvas ready.
 	resetCanvas();
+	
 	// Save the initial state.
-	//undoStack.addState();
+	undoStack.addState();
+	
 	// Enable keyboard shortcuts.
 	keyManager.enableAppShortcuts();
 	
-	dialogsContainer = document.getElementById('dialogs');
-	progressSpinner = new ProgressSpinner();
-	
+	// Set the title once everything else is ready.
 	document.title = DEFAULTS.title + ' - PaintZ'
 	
 	// Hide the splash screen.
@@ -264,9 +285,10 @@ window.addEventListener('load', function () {
 	
 	if (!localStorage.firstRunDone) {
 		// Show the welcome dialog if this is the user's first time using PaintZ (in this browser).
-		//var welcomeDialog = new WelcomeDialog(document.getElementById('helpBtn'));
-		var welcomeDialog = new WelcomeDialog();
-		welcomeDialog.open();
-		localStorage.firstRunDone = 'true';
+		var welcomeDialog = new WelcomeDialog(document.getElementById('helpBtn'));
+		welcomeDialog.loadPromise.then(function () {
+			welcomeDialog.open();
+			localStorage.firstRunDone = 'true';
+		});
 	}
-}, false);
+}

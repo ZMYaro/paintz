@@ -14,6 +14,9 @@ function ColorPickerToolbox() {
 	// Create the color indicator and add it before the toolbox itself.
 	this._createColorIndicator();
 	document.getElementById('toolbar').insertBefore(this.colorIndicator, this._element);
+	
+	// Create color picker dialog.
+	dialogs.colorPicker = new ColorPickerDialog();
 }
 // Extend Toolbox.
 ColorPickerToolbox.prototype = Object.create(Toolbox.prototype);
@@ -28,8 +31,8 @@ ColorPickerToolbox.prototype._setUp = function (contents) {
 	Toolbox.prototype._setUp.call(this, contents);
 	
 	// Set up the color picker dialog.
-	var colorPickerDialog = new ColorPickerDialog(this.colorIndicator);
-	this.colorIndicator.addEventListener('click', colorPickerDialog.open.bind(colorPickerDialog), false);
+	dialogs.colorPicker.trigger = this.colorIndicator;
+	this.colorIndicator.addEventListener('click', dialogs.colorPicker.open.bind(dialogs.colorPicker), false);
 	
 	// Set up the toolbar color picker.
 	var colorButtons = Array.prototype.slice.call(this._element.getElementsByTagName('button')),

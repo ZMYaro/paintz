@@ -12,6 +12,11 @@ function ImageToolbox() {
 	this.redoBtn;
 	/** {HTMLButtonElement} The undo button */
 	this.undoBtn;
+	
+	// Create relevant dialogs.
+	dialogs.clear = new ClearDialog();
+	dialogs.save = new SaveDialog();
+	dialogs.resize = new ResizeDialog();
 }
 // Extend Toolbox.
 ImageToolbox.prototype = Object.create(Toolbox.prototype);
@@ -26,14 +31,14 @@ ImageToolbox.prototype._setUp = function (contents) {
 	Toolbox.prototype._setUp.call(this, contents);
 	
 	// Clear button and dialog.
-	var clearBtn = this._element.querySelector('#clearBtn'),
-		clearDialog = new ClearDialog(clearBtn);
-	clearBtn.addEventListener('click', clearDialog.open.bind(clearDialog), false);
+	var clearBtn = this._element.querySelector('#clearBtn');
+	dialogs.clear.trigger = clearBtn;
+	clearBtn.addEventListener('click', dialogs.clear.open.bind(dialogs.clear), false);
 	
 	// Save as button and dialog.
 	var saveBtn = this._element.querySelector('#saveBtn');
-	saveDialog = new SaveDialog(saveBtn);
-	saveBtn.addEventListener('click', saveDialog.open.bind(saveDialog), false);
+	dialogs.save.trigger = saveBtn;
+	saveBtn.addEventListener('click', dialogs.save.open.bind(dialogs.save), false);
 	
 	// Uploader.
 	var uploadInput = this._element.querySelector('#upload');
@@ -45,16 +50,15 @@ ImageToolbox.prototype._setUp = function (contents) {
 	}, false);
 	
 	// Undo and redo buttons.
-	this.undoBtn = this._element.querySelector('#undoBtn'),
+	this.undoBtn = this._element.querySelector('#undoBtn');
 	this.redoBtn = this._element.querySelector('#redoBtn');
 	this.undoBtn.addEventListener('click', undoStack.undo.bind(undoStack), false);
 	this.redoBtn.addEventListener('click', undoStack.redo.bind(undoStack), false);
-	undoStack.addState();
 	
 	// Resize button and dialog.
-	var resizeBtn = this._element.querySelector('#resizeBtn'),
-		resizeDialog = new ResizeDialog(resizeBtn);
-	resizeBtn.addEventListener('click', resizeDialog.open.bind(resizeDialog), false);
+	var resizeBtn = this._element.querySelector('#resizeBtn');
+	dialogs.resize.trigger = resizeBtn;
+	resizeBtn.addEventListener('click', dialogs.resize.open.bind(dialogs.resize), false);
 };
 
 /**
