@@ -56,10 +56,8 @@ var Utils = {
 	/**
 	 * Load a file.
 	 * @param {String} path - The path to the file
-	 * @param {Function} successCallback - Called and passed the file's contents when the file loads
-	 * @param {Function} [failureCallback] - Called and passed the error code and response text if the file fails to load
 	 */
-	fetch: function (path, successCallback, failureCallback) {
+	fetch: function (path) {
 		return new Promise(function (resolve, reject) {
 			var xhr = new XMLHttpRequest();
 			xhr.onreadystatechange = function () {
@@ -67,10 +65,7 @@ var Utils = {
 					if (xhr.status === 200) {
 						resolve(xhr.responseText);
 					} else {
-						console.error('Failed to load ' + path);
-						if (typeof(failureCallback) === 'function') {
-							reject(xhr.status + ' ' + xhr.responseText);
-						}
+						reject('Error ' + xhr.status + ' while attempting to load ' + path);
 					}
 				}
 			};
