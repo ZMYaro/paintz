@@ -190,7 +190,7 @@ SelectionTool.prototype.duplicate = function () {
 	this._selection.x = 0;
 	this._selection.y = 0;
 	this._drawSelectionContent();
-	this._drawSelectionOutline();
+	this._updateSelectionOutline();
 };
 
 /**
