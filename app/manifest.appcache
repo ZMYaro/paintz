@@ -85,7 +85,7 @@ scripts/dialogs/welcome.js
 scripts/lib/colorpicker.min.js
 scripts/lib/material-touch.js
 scripts/lib/pep.min.js
-scripts/lib/promises.auto.min.js
+scripts/lib/promise.auto.min.js
 scripts/toolbar/app.js
 scripts/toolbar/color_picker.js
 scripts/toolbar/draw_tool_options.js
