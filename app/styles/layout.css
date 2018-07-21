@@ -12,7 +12,8 @@ body {
 
 #canvas,
 #preCanvas,
-.floatingRegion {
+.floatingRegion,
+.floatingToolbar {
 	position: absolute;
 	top: 104px; /* Toolbar offset */
 	left: 0;
@@ -53,6 +54,25 @@ body {
 		resize: none;
 		pointer-events: none;
 		z-index: 2;
+	}
+
+.floatingToolbar {
+	position: absolute;
+	padding: 0;
+	z-index: 3;
+}
+	.floatingToolbar button {
+		margin: 0;
+		-webkit-border-radius: 2px;
+		   -moz-border-radius: 2px;
+		        border-radius: 2px;
+	}
+	.floatingToolbar [role="img"] {
+		width: 24px;
+		height: 24px;
+	}
+	.floatingToolbar svg {
+		fill: #000000;
 	}
 
 #cursorCanvas,

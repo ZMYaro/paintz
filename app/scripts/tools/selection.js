@@ -10,6 +10,8 @@ function SelectionTool(cxt, preCxt) {
 	this._outline = document.createElement('div');
 	this._outline.className = 'floatingRegion';
 	this._outline.style.cursor = 'move';
+	
+	this._toolbar = new FloatingSelectionToolbar();
 }
 
 SelectionTool.prototype = Object.create(Tool.prototype);
@@ -30,6 +32,9 @@ SelectionTool.prototype.activate = function () {
 SelectionTool.prototype.start = function (pointerState) {
 	pointerState.x = Math.round(pointerState.x);
 	pointerState.y = Math.round(pointerState.y);
+	
+	// Hide the selection toolbar.
+	this._toolbar.hide();
 	
 	// If a selection exists and the pointer is inside it, drag the selection.
 	// Otherwise, start a new selection.
@@ -138,6 +143,11 @@ SelectionTool.prototype.end = function (pointerState) {
 		this._selection.content = this._cxt.getImageData(this._selection.startX, this._selection.startY,
 			this._selection.width, this._selection.height);
 	}
+	
+	// Show the selection toolbar if there is an active selection.
+	if (this._selection) {
+		this._toolbar.show();
+	}
 };
 
 /**
@@ -146,6 +156,7 @@ SelectionTool.prototype.end = function (pointerState) {
  */
 SelectionTool.prototype.deactivate = function () {
 	this._saveSelection();
+	this._toolbar.hide();
 	if (document.body.contains(this._outline)) {
 		document.body.removeChild(this._outline);
 	}
@@ -166,6 +177,7 @@ SelectionTool.prototype.clear = function () {
 	this._cxt.fillRect(this._selection.startX, this._selection.startY,
 		this._selection.width, this._selection.height);
 	Utils.clearCanvas(this._preCxt);
+	this._toolbar.hide();
 	document.body.removeChild(this._outline);
 	undoStack.addState();
 	delete this._selection;
@@ -216,6 +228,9 @@ SelectionTool.prototype._updateSelectionOutline = function () {
 		zoomedY = Math.floor(zoomManager.level * this._selection.y),
 		zoomedWidth = Math.ceil(zoomManager.level * this._selection.width),
 		zoomedHeight = Math.ceil(zoomManager.level * this._selection.height);
+	
+	this._toolbar.x = Math.max(-8, zoomedX + 8);
+	this._toolbar.y = Math.max(-56, zoomedY - 52);
 	
 	this._outline.style.WebkitTransform =
 		this._outline.style.MozTransform =
