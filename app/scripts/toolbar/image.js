@@ -102,15 +102,15 @@ ImageToolbox.prototype._handleFileUpload = function (e) {
 				// TODO: Make this not access SaveDialog private properties.
 				var fileName = file.name;
 				if (JPEG_REGEX.test(fileName)) {
-					saveDialog._element.fileType.value =
-						saveDialog._downloadLink.type = 'image/jpeg';
+					dialogs.save._element.fileType.value =
+						dialogs.save._downloadLink.type = 'image/jpeg';
 				} else {
-					saveDialog._element.fileType.value =
-						saveDialog._downloadLink.type = 'image/png';
+					dialogs.save._element.fileType.value =
+						dialogs.save._downloadLink.type = 'image/png';
 					fileName = fileName.replace(FILE_EXT_REGEX, '.png');
 				}
-				saveDialog._element.fileName.value =
-					saveDialog._downloadLink.download = fileName;
+				dialogs.save._element.fileName.value =
+					dialogs.save._downloadLink.download = fileName;
 				document.title = fileName + ' - PaintZ';
 				progressSpinner.hide();
 			};
