@@ -186,6 +186,14 @@ var keyManager = {
 				}
 				break;
 			
+			case 112: // F1
+				if (noModifiers) {
+					e.preventDefault();
+					// F1 => Open help dialog
+					dialogs.help.open();
+				}
+				break;
+			
 			case 187: // =/+
 				if (ctrlOrCmd && e.altKey) {
 					e.preventDefault();
