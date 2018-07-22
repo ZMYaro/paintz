@@ -94,6 +94,7 @@ scripts/toolbar/app.js
 scripts/toolbar/color_picker.js
 scripts/toolbar/draw_tool_options.js
 scripts/toolbar/image.js
+scripts/toolbar/toolbar.js
 scripts/toolbar/toolbox.js
 scripts/toolbar/tools.js
 scripts/tools/curve.js

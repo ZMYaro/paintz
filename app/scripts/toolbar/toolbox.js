@@ -10,17 +10,17 @@ function Toolbox(contentFileName) {
 	this._element = document.createElement('div');
 	this._element.className = this.CSS_CLASS;
 	
-	var toolbar = document.getElementById('toolbar');
+	var toolbarElement = document.getElementById('toolbar');
 	
 	// Add a divider to the toolbar, if necessary.
-	if (toolbar.childElementCount !== 0) {
+	if (toolbarElement.childElementCount !== 0) {
 		var divider = document.createElement('span');
 		divider.className = 'divider';
-		toolbar.appendChild(divider);
+		toolbarElement.appendChild(divider);
 	}
 	
 	// Add the toolbox to the toolbar.
-	toolbar.appendChild(this._element);
+	toolbarElement.appendChild(this._element);
 	
 	// Fetch the toolbox content, then set up the toolbox.
 	this.loadPromise = Utils.fetch(this.PARTIALS_DIR + contentFileName + '.html');

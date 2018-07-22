@@ -53,19 +53,6 @@ function switchTool(tool) {
 }
 
 /**
- * Get the toolbar form elements.
- */
-function initToolbar() {
-	toolbar = {
-		image: new ImageToolbox(),
-		tools: new ToolsToolbox(),
-		drawToolOptions: new DrawToolOptionsToolbox(),
-		colorPicker: new ColorPickerToolbox(),
-		app: new AppToolbox()
-	};
-}
-
-/**
  * Get the canvases and their drawing contexts, and set up event listeners.
  */
 function initCanvas() {
@@ -240,7 +227,7 @@ window.addEventListener('load', function () {
 	initCanvas();
 	initSettings();
 	initTools();
-	initToolbar();
+	toolbar = new ToolbarManager();
 	progressSpinner = new ProgressSpinner();
 	
 	// Get saved reference to the dialogs container.
@@ -251,9 +238,8 @@ window.addEventListener('load', function () {
 	
 	
 	// Wait for all the toolbar and dialog content to load.
-	var loadingObjects = Object.values(toolbar).concat(Object.values(dialogs)),
-		loadPromises = loadingObjects.map(function (obj) { return obj.loadPromise; }),
-		masterLoadPromise = Promise.all(loadPromises);
+	var dialogLoadPromises = Object.values(dialogs).map(function (dialog) { return dialog.loadPromise; }),
+		masterLoadPromise = Promise.all([toolbar.loadPromise, dialogLoadPromises]);
 	
 	masterLoadPromise.then(postLoadInit);
 	masterLoadPromise.catch(function (err) {

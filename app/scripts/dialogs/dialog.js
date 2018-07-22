@@ -68,8 +68,7 @@ Dialog.prototype._setTransformOrigin = function () {
 	}
 	
 	// Calculate the new transform origin.
-	var toolbar = document.getElementById('toolbar'),
-		originX = (this.trigger.offsetLeft - toolbar.scrollLeft - this._element.offsetLeft),
+	var originX = (this.trigger.offsetLeft - toolbar.scrollLeft - this._element.offsetLeft),
 		originY = (this.trigger.offsetTop - this._element.offsetTop);
 	
 	// Set the transform origin.

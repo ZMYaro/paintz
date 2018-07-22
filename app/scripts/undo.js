@@ -34,10 +34,10 @@ var undoStack = {
 	 */
 	_updateUI: function () {
 		// Update the redo button.
-		toolbar.image.redoBtn.disabled = !this.canRedo;
+		toolbar.toolboxes.image.redoBtn.disabled = !this.canRedo;
 		
 		// Update the undo button.
-		toolbar.image.undoBtn.disabled = !this.canUndo;
+		toolbar.toolboxes.image.undoBtn.disabled = !this.canUndo;
 	},
 
 	/**
