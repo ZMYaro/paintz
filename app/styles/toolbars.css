@@ -94,7 +94,6 @@
 	display: inline-block;
 	vertical-align: top;
 	margin: 0px;
-	margin-right: -4px;
 }
 	.toolbox input[type="radio"] {
 		display: none;
