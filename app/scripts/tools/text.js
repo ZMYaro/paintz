@@ -42,6 +42,7 @@ TextTool.prototype = Object.create(Tool.prototype);
  */
 TextTool.prototype.activate = function () {
 	this._preCxt.canvas.style.cursor = 'crosshair';
+	toolbar.switchToolOptionsToolbox(toolbar.toolboxes.noToolOptions);
 	this._textElem.style.color = localStorage.lineColor;
 	this._textElem.style.font = localStorage.fontSize + 'px sans-serif';
 	this._textElem.style.WebkitTransform =

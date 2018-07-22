@@ -64,6 +64,7 @@ partials/toolbar/app.html
 partials/toolbar/color_picker.html
 partials/toolbar/draw_tool_options.html
 partials/toolbar/image.html
+partials/toolbar/no_tool_options.html
 partials/toolbar/select_tool_options.html
 partials/toolbar/text_tool_options.html
 partials/toolbar/tools.html

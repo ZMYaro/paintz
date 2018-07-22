@@ -18,8 +18,9 @@ PanTool.prototype = Object.create(Tool.prototype);
 PanTool.prototype.activate = function () {
 	this._preCxt.canvas.style.cursor = 'move';
 	this._preCxt.canvas.style.cursor = '-webkit-grab';
-	this._preCxt.canvas.style.cursor = '-moz-grab';
-	this._preCxt.canvas.style.cursor = 'grab';
+	this._preCxt.canvas.style.cursor =    '-moz-grab';
+	this._preCxt.canvas.style.cursor =         'grab';
+	toolbar.switchToolOptionsToolbox(toolbar.toolboxes.noToolOptions);
 };
 
 /**

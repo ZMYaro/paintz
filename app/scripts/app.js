@@ -226,8 +226,8 @@ window.addEventListener('load', function () {
 	zoomManager = new ZoomManager();
 	initCanvas();
 	initSettings();
-	initTools();
 	toolbar = new ToolbarManager();
+	initTools();
 	progressSpinner = new ProgressSpinner();
 	
 	// Get saved reference to the dialogs container.

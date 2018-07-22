@@ -27,6 +27,7 @@ DrawingTool.prototype._prepareCanvas = function () {
  */
 DrawingTool.prototype.activate = function () {
 	this._preCxt.canvas.style.cursor = 'crosshair';
+	toolbar.switchToolOptionsToolbox(toolbar.toolboxes.drawToolOptions);
 };
 
 /**

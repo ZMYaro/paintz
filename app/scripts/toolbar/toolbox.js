@@ -12,13 +12,6 @@ function Toolbox(contentFileName) {
 	
 	var toolbarElement = document.getElementById('toolbar');
 	
-	// Add a divider to the toolbar, if necessary.
-	if (toolbarElement.childElementCount !== 0) {
-		var divider = document.createElement('span');
-		divider.className = 'divider';
-		toolbarElement.appendChild(divider);
-	}
-	
 	// Add the toolbox to the toolbar.
 	toolbarElement.appendChild(this._element);
 	
@@ -45,4 +38,18 @@ Toolbox.prototype._setUp = function (contents) {
 	if (Utils.isApple) {
 		this._element.innerHTML = this._element.innerHTML.replace(/Ctrl\+/g, '&#x2318;').replace(/Alt\+/g, '&#x2325;').replace(/Shift\+/g, '&#x21e7;');
 	}
+};
+
+/**
+ * Hide the toolbox from the toolbar.
+ */
+Toolbox.prototype.hide = function () {
+	this._element.style.display = 'none';
+};
+
+/**
+ * Un-hide the toolbox.
+ */
+Toolbox.prototype.show = function () {
+	this._element.style.removeProperty('display');
 };
