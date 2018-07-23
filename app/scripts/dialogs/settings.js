@@ -33,6 +33,7 @@ SettingsDialog.prototype._showCurrentSettings = function () {
 	this._element.ghostDraw.checked = localStorage.ghostDraw;
 	this._element.antiAlias.checked = localStorage.antiAlias;
 	this._element.maxUndoStackDepth.value = localStorage.maxUndoStackDepth;
+	this._element.theme.value = localStorage.theme;
 };
 
 /**
@@ -53,4 +54,7 @@ SettingsDialog.prototype._saveNewSettings = function () {
 	if (!isNaN(parseInt(this._element.maxUndoStackDepth.value))) {
 		localStorage.maxUndoStackDepth = parseInt(this._element.maxUndoStackDepth.value);
 	}
+	
+	localStorage.theme = this._element.theme.value;
+	document.getElementById('themeStyleLink').href = 'styles/themes/' + this._element.theme.value + '.css';
 };

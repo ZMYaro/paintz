@@ -18,7 +18,8 @@ var DEFAULTS = {
 	tool: 'doodle',
 	ghostDraw: '',
 	antiAlias: true,
-	maxUndoStackDepth: 50
+	maxUndoStackDepth: 50,
+	theme: 'default'
 };
 
 var canvas,
@@ -92,6 +93,8 @@ function initSettings() {
 	if (localStorage.ghostDraw) {
 		preCanvas.classList.add('ghost');
 	}
+	
+	document.getElementById('themeStyleLink').href = 'styles/themes/' + localStorage.theme + '.css';
 }
 
 /**
