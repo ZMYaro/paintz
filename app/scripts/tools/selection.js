@@ -22,7 +22,7 @@ SelectionTool.prototype = Object.create(Tool.prototype);
  */
 SelectionTool.prototype.activate = function () {
 	this._preCxt.canvas.style.cursor = 'crosshair';
-	toolbar.switchToolOptionsToolbox(toolbar.toolboxes.noToolOptions);
+	toolbar.switchToolOptionsToolbox(toolbar.toolboxes.selectToolOptions);
 };
 
 /**

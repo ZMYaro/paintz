@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2018-07-15, v6
+# 2018-07-22, v1
 index.html
 404.html
 manifest.webapp
@@ -40,6 +40,7 @@ images/icons/redo.svg
 images/icons/resize.svg
 images/icons/save.svg
 images/icons/select.svg
+images/icons/select_all.svg
 images/icons/settings.svg
 images/icons/text.svg
 images/icons/twitter.svg
@@ -95,6 +96,8 @@ scripts/toolbar/app.js
 scripts/toolbar/color_picker.js
 scripts/toolbar/draw_tool_options.js
 scripts/toolbar/image.js
+scripts/toolbar/no_tool_options.js
+scripts/toolbar/select_tool_options.js
 scripts/toolbar/toolbar.js
 scripts/toolbar/toolbox.js
 scripts/toolbar/tools.js
