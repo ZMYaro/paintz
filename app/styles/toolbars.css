@@ -2,12 +2,10 @@
 	display: inline-block;
 	pointer-events: none;
 	z-index: -1;
-	fill: #ffffff;
 }
 
 #toolbar,
 #bottomBar {
-	background-color: #3f51b5;
 	overflow: hidden;
 }
 
@@ -27,7 +25,6 @@
 		margin: 10px 4px;
 		padding: 0;
 		width: 1px;
-		background-color: rgba(255,255,255,0.5);
 	}
 	#toolbar button,
 	#toolbar [role="button"] {
@@ -39,7 +36,6 @@
 			margin-left: 0;
 			margin-right: 0;
 			
-			fill: #ffffff;
 			-webkit-transition: fill 0.15s linear;
 			   -moz-transition: fill 0.15s linear;
 			    -ms-transition: fill 0.15s linear;
@@ -47,9 +43,9 @@
 			        transition: fill 0.15s linear;
 		}
 			#toolbar input[type="radio"] + label[role="button"] {
-				-webkit-box-shadow: inset 0 0 0 0 white;
-				   -moz-box-shadow: inset 0 0 0 0 rgba(255, 255, 255, 0); /* Firefox draws small rings even when the blur and spread are zero. */
-				        box-shadow: inset 0 0 0 0 white;
+				-webkit-box-shadow: inset 0 0 0 0;
+				   -moz-box-shadow: inset 0 0 0 0;
+				        box-shadow: inset 0 0 0 0;
 				-webkit-transition: -webkit-box-shadow 0.15s linear;
 				   -moz-transition:    -moz-box-shadow 0.15s linear;
 				    -ms-transition:         box-shadow 0.15s linear;
@@ -57,38 +53,22 @@
 				        transition:         box-shadow 0.15s linear;
 			}
 				#toolbar input[type="radio"]:checked + label[role="button"] {
-					-webkit-box-shadow: inset 0 0 0 22px white;
-					   -moz-box-shadow: inset 0 0 0 22px white;
-					        box-shadow: inset 0 0 0 22px white;
+					-webkit-box-shadow: inset 0 0 0 22px;
+					   -moz-box-shadow: inset 0 0 0 22px;
+					        box-shadow: inset 0 0 0 22px;
 				}
-					#toolbar input[type="radio"]:checked + label[role="button"] svg {
-						fill: #3f51b5;
-					}
-	
-	#toolbar select {
-		background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAAICAYAAACs/DyzAAAAOUlEQVQ4y93PwQ0AMAgDMUZn8/BHqgr5Hd7AISnlyyAwk4ycmWTllklmbphk5z7JG7lH8lauJdG5AlouFwB1jHPVAAAAAElFTkSuQmCC');
+	#toolbar select#lineWidth {
+		margin-top: 4px;
+		margin-left: 10px;
+		margin-right: 8px;
+		padding-left: 48px;
 	}
-		#toolbar select:hover,
-		#toolbar select:focus {
-			background-color: rgba(255,255,255,0.07);
+		#toolbar select#lineWidth + .icon {
+			width: 24px;
+			height: 24px;
+			margin-left: -110px;
+			margin-bottom: -5px;
 		}
-		#toolbar select:active,
-		#toolbar select.active {
-			background-color: rgba(255,255,255,0.13);
-		}
-
-		#toolbar select#lineWidth {
-			margin-top: 4px;
-			margin-left: 10px;
-			margin-right: 8px;
-			padding-left: 48px;
-		}
-			#toolbar select#lineWidth + .icon {
-				width: 24px;
-				height: 24px;
-				margin-left: -110px;
-				margin-bottom: -5px;
-			}
 
 .toolbox {
 	display: inline-block;
@@ -137,12 +117,10 @@
 }
 button#zoomOutBtn {
 	margin-right: -6px;
-	fill: #ffffff;
 }
 button#zoomInBtn {
 	margin-left: -6px;
 	margin-right: -6px;
-	fill: #ffffff;
 }
 #zoomPercent {
 	text-align: right;
@@ -157,9 +135,6 @@ button#zoomInBtn {
 	#zoomPercent::-webkit-outer-spin-button {
 		-webkit-appearance: none;
 				appearance: none;
-	}
-	#zoomPercent:focus {
-		border-bottom-color: white;
 	}
 	#zoomPercent + .icon {
 		margin-left: -18px;

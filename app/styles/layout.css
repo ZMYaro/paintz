@@ -6,10 +6,6 @@
 	        box-sizing: border-box;
 }
 
-body {
-	background-color: #e5e5e5;
-}
-
 #canvas,
 #preCanvas,
 .floatingRegion,
@@ -70,9 +66,6 @@ body {
 	.floatingToolbar [role="img"] {
 		width: 24px;
 		height: 24px;
-	}
-	.floatingToolbar svg {
-		fill: #000000;
 	}
 
 #cursorCanvas,

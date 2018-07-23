@@ -55,30 +55,6 @@ body {
 		   -moz-border-radius: 24px;
 				border-radius: 24px;
 	}
-		[role="toolbar"] button:not(:disabled):hover,
-		[role="toolbar"] button:focus,
-		[role="toolbar"] [role="button"]:hover,
-		[role="toolbar"] [role="button"]:focus,
-		[role="toolbar"] input[type="button"]:not(:disabled):hover,
-		[role="toolbar"] input[type="button"]:focus,
-		[role="toolbar"] input[type="submit"]:not(:disabled):hover,
-		[role="toolbar"] input[type="submit"]:focus,
-		[role="toolbar"] input[type="reset"]:not(:disabled):hover,
-		[role="toolbar"] input[type="reset"]:focus {
-			background-color: rgba(0,0,0,0.07);
-		}
-		[role="toolbar"] button:not(:disabled):active,
-		[role="toolbar"] button:not(:disabled).active,
-		[role="toolbar"] [role="button"]:active,
-		[role="toolbar"] [role="button"].active,
-		[role="toolbar"] input[type="button"]:not(:disabled):active,
-		[role="toolbar"] input[type="button"]:not(:disabled).active,
-		[role="toolbar"] input[type="submit"]:not(:disabled):active,
-		[role="toolbar"] input[type="submit"]:not(:disabled).active,
-		[role="toolbar"] input[type="reset"]:not(:disabled):active,
-		[role="toolbar"] input[type="reset"]:not(:disabled).active {
-			background-color: rgba(0,0,0,0.13);
-		}
 		[role="toolbar"] button img,
 		[role="toolbar"] button [role="img"],
 		[role="toolbar"] [role="button"] img,
@@ -220,36 +196,6 @@ body {
 			   -moz-box-shadow: none;
 			        box-shadow: none;
 		}
-			.list li button:not(:disabled):hover,
-			.list li button:focus,
-			.list li [role="button"]:hover,
-			.list li [role="button"]:focus,
-			.list li input[type="button"]:not(:disabled):hover,
-			.list li input[type="button"]:focus,
-			.list li input[type="submit"]:not(:disabled):hover,
-			.list li input[type="submit"]:focus,
-			.list li input[type="reset"]:not(:disabled):hover,
-			.list li input[type="reset"]:focus {
-				background-color: #f2f2f2;
-				background-color: rgba(0, 0, 0, 0.05);
-			}
-			.list li button:not(:disabled):active,
-			.list li button:not(:disabled).active,
-			.list li [role="button"]:active,
-			.list li [role="button"].active,
-			.list li input[type="button"]:not(:disabled):active,
-			.list li input[type="button"]:not(:disabled).active,
-			.list li input[type="submit"]:not(:disabled):active,
-			.list li input[type="submit"]:not(:disabled).active,
-			.list li input[type="reset"]:not(:disabled):active,
-			.list li input[type="reset"]:not(:disabled).active {
-				-webkit-box-shadow: none;
-				   -moz-box-shadow: none;
-				        box-shadow: none;
-				
-				background-color: #e3e3e3;
-				background-color: rgba(0, 0, 0, 0.09);
-			}
 
 .card {
 	background-color: white;
@@ -264,6 +210,8 @@ body {
 	margin: 8px;
 	padding: 16px;
 	vertical-align: top;
+	
+	overflow: hidden;
 }
 
 progress.circular,

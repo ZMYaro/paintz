@@ -1,0 +1,97 @@
+body {
+	background-color: #e5e5e5;
+}
+
+hr {
+	border-color: #dfdfdf;
+	border-color: rgba(0, 0, 0, 0.11);
+}
+
+input[type="text"]:focus,
+input[type="search"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+	border-color: #5767bd;
+}
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
+	border-color: #5767bd;
+	color: #5767bd;
+}
+	input[type="radio"]:checked::after {
+		color: #5767bd;
+	}
+
+.appBar[role="toolbar"] {
+	background-color: #3f51b5;
+}
+	.appBar[role="toolbar"] .divider {
+		background-color: rgba(255, 255, 255, 0.5);
+	}
+	.icon,
+	.appBar[role="toolbar"] button,
+	.appBar[role="toolbar"] [role="button"] {
+		fill: #ffffff;
+	}
+	.appBar[role="toolbar"] input[type="radio"] + label[role="button"] {
+		color: white;
+	}
+		.appBar[role="toolbar"] input[type="radio"]:checked + label[role="button"] {
+			fill: #3f51b5;
+		}
+	.appBar[role="toolbar"] select {
+		background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAAICAYAAACs/DyzAAAAOUlEQVQ4y93PwQ0AMAgDMUZn8/BHqgr5Hd7AISnlyyAwk4ycmWTllklmbphk5z7JG7lH8lauJdG5AlouFwB1jHPVAAAAAElFTkSuQmCC');
+	}
+		.appBar[role="toolbar"] select:not(:disabled):hover,
+		.appBar[role="toolbar"] select:not(:disabled):focus {
+			background-color: rgba(255, 255, 255, 0.07);
+		}
+		.appBar[role="toolbar"] select:not(:disabled):active,
+		.appBar[role="toolbar"] select:not(:disabled).active {
+			background-color: rgba(255, 255, 255, 0.13);
+		}
+.floatingToolbar svg {
+	fill: #000000;
+}
+
+#zoomPercent:not(:disabled):focus {
+	border-bottom-color: white;
+}
+#zoomSlider {
+	background-color: white;
+}
+	#zoomSlider::-moz-range-track {
+		background-color: white;
+	}
+	#zoomSlider::-ms-track {
+		background-color: white;
+	}
+	#zoomSlider::-webkit-slider-thumb {
+		background-color: white;
+	}
+	#zoomSlider::-moz-range-thumb {
+		background-color: white;
+	}
+
+#dialogs {
+	background-color: transparent;
+	background-color: rgba(128,128,128,0);
+}
+	#dialogs.visible {
+		background-color: gray;
+		background-color: rgba(128,128,128,0.5);
+	}
+.dialog .dialog-header,
+.dialog .dialog-footer {
+	background-color: white;
+}
+.dialog svg {
+	fill: rgba(0, 0, 0, 0.54);
+}
+.dialog .helpIcon {
+	background-color: #3f51b5;
+	fill: #ffffff;
+}

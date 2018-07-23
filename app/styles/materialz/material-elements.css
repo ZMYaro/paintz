@@ -25,6 +25,14 @@ body {
 	background-color: #fafafa;
 }
 
+/* --------======== BORDERS ========--------*/
+hr {
+	border-width: 1px 0 0;
+}
+fieldset {
+	border-width: 1px;
+}
+
 /* --------======== MONOSPACE ELEMENTS ========--------*/
 code,
 kbd,
@@ -130,36 +138,36 @@ select[size="1"] {
 		text-overflow: '';
 	}
 	button:not(:disabled):hover,
-	[role="button"]:not(:disabled):hover,
-	input[type="button"]:not(:disabled):hover,
-	input[type="submit"]:not(:disabled):hover,
-	input[type="reset"]:not(:disabled):hover,
-	select:not(:disabled):hover,
-	select[size="1"]:not(:disabled):hover,
 	button:focus,
+	[role="button"]:not(:disabled):hover,
 	[role="button"]:focus,
+	input[type="button"]:not(:disabled):hover,
 	input[type="button"]:focus,
+	input[type="submit"]:not(:disabled):hover,
 	input[type="submit"]:focus,
+	input[type="reset"]:not(:disabled):hover,
 	input[type="reset"]:focus,
+	select:not([size]):not(:disabled):hover,
 	select:not([size]):focus,
+	select[size="1"]:not(:disabled):hover,
 	select[size="1"]:focus {
 		background-color: #e2e3e3;
 		background-color: rgba(128, 128, 128, 0.2);
 	}
 	/* The “active” class is used to force the appearance of the active/pressed state */
 	button:not(:disabled):active,
-	[role="button"]:not(:disabled):active,
-	input[type="button"]:not(:disabled):active,
-	input[type="submit"]:not(:disabled):active,
-	input[type="reset"]:not(:disabled):active,
-	select:not([size]):not(:disabled):active,
-	select[size="1"]:not(:disabled):active,
 	button:not(:disabled).active,
+	[role="button"]:not(:disabled):active,
 	[role="button"]:not(:disabled).active,
+	input[type="button"]:not(:disabled):active,
 	input[type="button"]:not(:disabled).active,
+	input[type="submit"]:not(:disabled):active,
 	input[type="submit"]:not(:disabled).active,
+	input[type="reset"]:not(:disabled):active,
 	input[type="reset"]:not(:disabled).active,
+	select:not([size]):not(:disabled):active,
 	select:not([size]):not(:disabled).active,
+	select[size="1"]:not(:disabled):active,
 	select[size="1"]:not(:disabled).active {
 		background-color: #c4c5c5;
 		background-color: rgba(128, 128, 128, 0.4);
@@ -187,21 +195,21 @@ input[type="checkbox"] {
 	background-color: transparent;
 	background-repeat: no-repeat;
 	
-	-webkit-transition-duration: 0.125s;
-	   -moz-transition-duration: 0.125s;
-	    -ms-transition-duration: 0.125s;
-	     -o-transition-duration: 0.125s;
-	        transition-duration: 0.125s;
+	-webkit-transition-duration: 0.13s;
+	   -moz-transition-duration: 0.13s;
+	    -ms-transition-duration: 0.13s;
+	     -o-transition-duration: 0.13s;
+	        transition-duration: 0.13s;
 	-webkit-transition-timing-function: linear;
 	   -moz-transition-timing-function: linear;
 	    -ms-transition-timing-function: linear;
 	     -o-transition-timing-function: linear;
 	        transition-timing-function: linear;
-	-webkit-transition-property: border-color, -webkit-box-shadow, box-shadow;
-	   -moz-transition-property: border-color, -moz-box-shadow, box-shadow;
-	    -ms-transition-property: border-color, box-shadow;
-	     -o-transition-property: border-color, box-shadow;
-	        transition-property: border-color, box-shadow;
+	-webkit-transition-property: border-color, color, -webkit-box-shadow, box-shadow;
+	   -moz-transition-property: border-color, color,    -moz-box-shadow, box-shadow;
+	    -ms-transition-property: border-color, color,                     box-shadow;
+	     -o-transition-property: border-color, color,                     box-shadow;
+	        transition-property: border-color, color,                     box-shadow;
 }
 	input[type="radio"]::-ms-check,
 	input[type="checkbox"]::-ms-check {
@@ -234,28 +242,27 @@ input[type="radio"] {
 		
 		background-color: transparent;
 		
-		-webkit-transition-delay: 0.07s, 0.07s, 0, 0;
-		   -moz-transition-delay: 0.07s, 0.07s, 0, 0;
-		    -ms-transition-delay: 0.07s, 0, 0;
-			 -o-transition-delay: 0.07s, 0, 0;
-			    transition-delay: 0.07s, 0;
-		-webkit-transition-duration: 0.13s, 0.13s 0.07s, 0.07s;
-		   -moz-transition-duration: 0.13s, 0.13s 0.07s, 0.07s;
-		    -ms-transition-duration: 0.13s, 0.07s, 0.07s;
-		     -o-transition-duration: 0.13s, 0.07s, 0.07s;
-		        transition-duration: 0.13s, 0.07s;
+		-webkit-transition-delay: 0s, 0s, 0.07s, 0.07s;
+		   -moz-transition-delay: 0s, 0s, 0.07s, 0.07s;
+		    -ms-transition-delay:     0s, 0.07s, 0.07s;
+			 -o-transition-delay:     0s, 0.07s, 0.07s;
+			    transition-delay:     0s,        0.07s;
+		-webkit-transition-duration: 0.13s, 0.13s, 0.07s, 0.07s;
+		   -moz-transition-duration: 0.13s, 0.13s, 0.07s, 0.07s;
+		    -ms-transition-duration:        0.13s, 0.07s, 0.07s;
+		     -o-transition-duration:        0.13s, 0.07s, 0.07s;
+		        transition-duration:        0.13s,        0.07s;
 		-webkit-transition-timing-function: linear;
 		   -moz-transition-timing-function: linear;
 		    -ms-transition-timing-function: linear;
 		     -o-transition-timing-function: linear;
 		        transition-timing-function: linear;
 		-webkit-transition-property: -webkit-box-shadow, box-shadow, -webkit-transform, transform;
-		   -moz-transition-property: -moz-box-shadow, box-shadow, -moz-transform, transform;
-		    -ms-transition-property: box-shadow, -ms-transform, transform;
-		     -o-transition-property: box-shadow, -o-transform, transform;
-		        transition-property: box-shadow, transform, background-color;
+		   -moz-transition-property:    -moz-box-shadow, box-shadow,    -moz-transform, transform;
+		    -ms-transition-property:                     box-shadow,     -ms-transform, transform;
+		     -o-transition-property:                     box-shadow,      -o-transform, transform;
+		        transition-property:                     box-shadow,                    transform;
 		
-		color: black;
 		-webkit-box-shadow: inset 0 0 0 0;
 		   -moz-box-shadow: inset 0 0 0 0;
 		        box-shadow: inset 0 0 0 0;
@@ -273,7 +280,7 @@ input[type="radio"] {
 			     -o-transition-delay: 0, 0.13s, 0.13s;
 			        transition-delay: 0, 0.13s;
 			
-			color: #40c4ff;
+			color: inherit;
 			-webkit-box-shadow: inset 0 0 0 10px;
 			   -moz-box-shadow: inset 0 0 0 10px;
 			        box-shadow: inset 0 0 0 10px;
