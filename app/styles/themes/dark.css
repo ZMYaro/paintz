@@ -49,9 +49,10 @@ select[size="1"] {
 		fill: rgba(255, 255, 255, 0.9);
 	}
 	.appBar[role="toolbar"] input[type="radio"] + label[role="button"] {
-		color: rgba(255, 255, 255, 0.9);
+		//color: rgba(255, 255, 255, 0.9);
 	}
 		.appBar[role="toolbar"] input[type="radio"]:checked + label[role="button"] {
+			color: #7986cb;
 			fill: #212121;
 		}
 		.appBar[role="toolbar"] select:not(:disabled):hover,
@@ -115,6 +116,6 @@ select[size="1"] {
 	fill: rgba(255, 255, 255, 0.54);
 }
 .dialog .helpIcon {
-	background-color: white;
-	fill: #212121;
+	background-color: #7986cb;
+	fill: #424242;
 }
