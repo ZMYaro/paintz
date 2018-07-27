@@ -7,6 +7,7 @@
  */
 function SettingsDialog(trigger) {
 	Dialog.call(this, 'settings', trigger);
+	this._element.id = 'settingsDialog';
 	this._element.addEventListener('submit', this._saveNewSettings.bind(this));
 }
 // Extend Dialog.

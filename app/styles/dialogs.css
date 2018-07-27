@@ -79,6 +79,29 @@
 		#downloadLink:active {
 			background-color: #5767bd;
 		}
+	.dialog#settingsDialog select:not([size]),
+	.dialog#settingsDialog select[size="1"] {
+		display: block;
+		width: 100%;
+		width: calc(100% + 32px);
+		margin: -16px;
+		padding-top: 16px;
+		padding-bottom: 16px;
+		text-align: right;
+		text-align-last: right;
+		-webkit-border-radius: 0;
+		   -moz-border-radius: 0;
+		        border-radius: 0;
+	}
+		.dialog#settingsDialog select:not([size]) + label,
+		.dialog#settingsDialog select[size="1"] + label {
+			/* Move it up to align with the <select>'s text. */
+			display: block;
+			margin-top: -35px;
+			/* Keep it on top of the <select> so it does not get covered by its background color. */
+			position: relative;
+			pointer-events: none;
+		}
 	
 	.dialog .dialog-header,
 	.dialog .dialog-footer {
