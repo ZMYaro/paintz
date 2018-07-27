@@ -140,9 +140,9 @@ FloodFillTool.prototype.activate = function () {
  */
 FloodFillTool.prototype.start = function (pointerState) {
 	if (pointerState.button !== 2) {
-		this._fillColor = Utils.colorToRGB(localStorage.lineColor);
+		this._fillColor = Utils.colorToRGB(settings.get('lineColor'));
 	} else {
-		this._fillColor = Utils.colorToRGB(localStorage.fillColor);
+		this._fillColor = Utils.colorToRGB(settings.get('fillColor'));
 	}
 	
 	this._fill(Math.floor(pointerState.x), Math.floor(pointerState.y));

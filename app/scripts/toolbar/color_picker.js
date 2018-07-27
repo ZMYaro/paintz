@@ -56,8 +56,8 @@ ColorPickerToolbox.prototype._createColorIndicator = function () {
 	this.colorIndicator.title = 'Selected colors (click for advanced picker)';
 	this.colorIndicator.id = 'colors';
 	this.colorIndicator.className = 'z1';
-	this.colorIndicator.style.borderColor = localStorage.lineColor;
-	this.colorIndicator.style.backgroundColor = localStorage.fillColor;
+	this.colorIndicator.style.borderColor = settings.get('lineColor');
+	this.colorIndicator.style.backgroundColor = settings.get('fillColor');
 };
 
 /**
@@ -76,21 +76,21 @@ ColorPickerToolbox.prototype._handleColorButtonClick = function (e) {
 		e.stopPropagation();
 		
 		// If the left mouse button was used, set the line color.
-		localStorage.lineColor = e.target.dataset.value;
+		settings.set('lineColor', e.target.dataset.value);
 		this.colorIndicator.style.borderColor = e.target.dataset.value;
 		
 		// Some tools' cursors change with the line color, so reactivate the cursor.
-		tools[localStorage.tool].activate();
+		tools[settings.get('tool')].activate();
 	} else if (e.button === 2) {
 		e.preventDefault();
 		e.stopPropagation();
 		
 		// If the left mouse button was used, set the fill color.
-		localStorage.fillColor = e.target.dataset.value;
+		settings.set('fillColor', e.target.dataset.value);
 		this.colorIndicator.style.backgroundColor = e.target.dataset.value;
 		
 		// Some tools' cursors change with the fill color, so reactivate the cursor.
-		tools[localStorage.tool].activate();
+		tools[settings.get('tool')].activate();
 	}
 };
 

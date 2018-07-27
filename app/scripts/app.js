@@ -1,26 +1,10 @@
 'use strict';
 
-// RegExes.
+// Constants.
 var PNG_REGEX = (/.+\.png$/i),
 	JPEG_REGEX = (/.+\.(jpg|jpeg|jpe|jif|jfif|jfi)$/i),
-	FILE_EXT_REGEX = (/\.[a-z0-9]{1,4}$/i);
-
-// Default settings
-var DEFAULTS = {
-	title: 'untitled.png',
-	width: 640,
-	height: 480,
-	lineWidth: 2,
-	outlineOption: 'outlineFill',
-	lineColor: '#000000',
-	fillColor: '#ffffff',
-	fontSize: 16,
-	tool: 'doodle',
-	ghostDraw: '',
-	antiAlias: true,
-	maxUndoStackDepth: 50,
-	theme: 'default'
-};
+	FILE_EXT_REGEX = (/\.[a-z0-9]{1,4}$/i),
+	DEFAULT_TITLE = 'untitled.png';
 
 var canvas,
 	preCanvas,
@@ -31,6 +15,7 @@ var canvas,
 	tools,
 	zoomManager,
 	dialogsContainer,
+	settings,
 	dialogs = {},
 	toolbar = {},
 	keyboardDialog,
@@ -43,11 +28,11 @@ var canvas,
  */
 function switchTool(tool) {
 	// Deactivate the current tool.
-	tools[localStorage.tool].deactivate();
+	tools[settings.get('tool')].deactivate();
 	// Clear the preview canvas.
 	Utils.clearCanvas(preCxt);
 	// Set and activate the newly-selected tool.
-	localStorage.tool = tool;
+	settings.set('tool', tool);
 	tools[tool].activate();
 	// Update the toolbar.
 	document.getElementById('tools').tool.value = tool;
@@ -78,26 +63,6 @@ function initCanvas() {
 }
 
 /**
- * Fetch the settings from localStorage.
- */
-function initSettings() {
-	for (var setting in DEFAULTS) {
-		if (!(setting in localStorage)) {
-			localStorage[setting] = DEFAULTS[setting];
-		}
-	}
-	canvas.width = localStorage.width;
-	canvas.height = localStorage.height;
-	preCanvas.width = localStorage.width;
-	preCanvas.height = localStorage.height;
-	if (localStorage.ghostDraw) {
-		preCanvas.classList.add('ghost');
-	}
-	
-	document.getElementById('themeStyleLink').href = 'styles/themes/' + localStorage.theme + '.css';
-}
-
-/**
  * Initialize the tools.
  */
 function initTools() {
@@ -115,7 +80,7 @@ function initTools() {
 		text: new TextTool(cxt,preCxt),
 		pan: new PanTool(cxt, preCxt)
 	};
-	tools[localStorage.tool].activate();
+	tools[settings.get('tool')].activate();
 }
 
 /**
@@ -138,7 +103,7 @@ function startTool(e) {
 	canvas.focus();
 	
 	// Initialize the new shape.
-	tools[localStorage.tool].start({
+	tools[settings.get('tool')].start({
 		button: e.button,
 		ctrlKey: Utils.checkPlatformCtrlKey(e),
 		shiftKey: e.shiftKey,
@@ -161,7 +126,7 @@ function moveTool(e) {
 	e.stopPropagation();
 	
 	// Update the shape.
-	tools[localStorage.tool].move({
+	tools[settings.get('tool')].move({
 		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
 		y: Utils.getCanvasY(e.pageY) / zoomManager.level
 	});
@@ -180,7 +145,7 @@ function endTool(e) {
 	document.removeEventListener('pointerleave', endTool, false);
 	
 	// Complete the task.
-	tools[localStorage.tool].end({
+	tools[settings.get('tool')].end({
 		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
 		y: Utils.getCanvasY(e.pageY) / zoomManager.level
 	});
@@ -192,7 +157,7 @@ function endTool(e) {
  * Overwrite the canvas with the current fill color.
  */
 function resetCanvas() {
-	cxt.fillStyle = localStorage.fillColor;
+	cxt.fillStyle = settings.get('fillColor');
 	cxt.fillRect(0, 0, canvas.width, canvas.height);
 }
 
@@ -226,9 +191,9 @@ window.addEventListener('load', function () {
 	dialogs.keyboard = new KeyboardDialog();
 	
 	// Initialize everything.
-	zoomManager = new ZoomManager();
 	initCanvas();
-	initSettings();
+	settings = new SettingsManager();
+	zoomManager = new ZoomManager();
 	toolbar = new ToolbarManager();
 	initTools();
 	progressSpinner = new ProgressSpinner();
@@ -237,7 +202,7 @@ window.addEventListener('load', function () {
 	dialogsContainer = document.getElementById('dialogs');
 	
 	// Update the resolution in the bottom bar.
-	document.getElementById('resolution').innerHTML = localStorage.width + ' &times; ' + localStorage.height + 'px';
+	document.getElementById('resolution').innerHTML = settings.get('width') + ' &times; ' + settings.get('height') + 'px';
 	
 	
 	// Wait for all the toolbar and dialog content to load.
@@ -270,17 +235,17 @@ function postLoadInit() {
 	keyManager.enableAppShortcuts();
 	
 	// Set the title once everything else is ready.
-	document.title = DEFAULTS.title + ' - PaintZ'
+	document.title = DEFAULT_TITLE + ' - PaintZ'
 	
 	// Hide the splash screen.
 	document.body.removeChild(document.getElementById('splashScreen'));
 	
-	if (!localStorage.firstRunDone) {
+	if (!settings.get('firstRunDone')) {
 		// Show the welcome dialog if this is the user's first time using PaintZ (in this browser).
 		var welcomeDialog = new WelcomeDialog(document.getElementById('helpBtn'));
 		welcomeDialog.loadPromise.then(function () {
 			welcomeDialog.open();
-			localStorage.firstRunDone = 'true';
+			settings.set('firstRunDone', true);
 		});
 	}
 }

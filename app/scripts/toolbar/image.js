@@ -88,8 +88,8 @@ ImageToolbox.prototype._handleFileUpload = function (e) {
 				canvas.height = this.height;
 				preCanvas.width = this.width;
 				preCanvas.height = this.height;
-				localStorage.width = this.width;
-				localStorage.height = this.height;
+				settings.set('width', this.width);
+				settings.set('height', this.height);
 				document.getElementById('resolution').innerHTML = this.width + ' &times; ' + this.height + 'px';
 				cxt.fillStyle = 'white';
 				cxt.fillRect(0, 0, canvas.width, canvas.height);

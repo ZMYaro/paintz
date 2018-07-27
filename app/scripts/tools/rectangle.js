@@ -20,7 +20,7 @@ RectangleTool.prototype = Object.create(ShapeTool.prototype);
 RectangleTool.prototype.move = function (pointerState) {
 	ShapeTool.prototype.move.apply(this, arguments);
 	
-	if (!localStorage.antiAlias) {
+	if (!settings.get('antiAlias')) {
 		this._roundPointerState(pointerState);
 	}
 	
@@ -33,7 +33,7 @@ RectangleTool.prototype.move = function (pointerState) {
 	this._preCxt.strokeRect(x, y, width, height);
 	
 	// Draw the stroke first.
-	if (!localStorage.antiAlias) {
+	if (!settings.get('antiAlias')) {
 		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
 	}
 	
@@ -42,7 +42,7 @@ RectangleTool.prototype.move = function (pointerState) {
 	this._preCxt.fillRect(x, y, width, height);
 	this._preCxt.globalCompositeOperation = 'source-over';
 	
-	if (localStorage.outlineOption === 'fillOnly' && !localStorage.antiAlias) {
+	if (settings.get('outlineOption') === 'fillOnly' && !settings.get('antiAlias')) {
 		this._deAntiAlias();
 	}
 };

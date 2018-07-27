@@ -31,10 +31,10 @@ SettingsDialog.prototype.open = function () {
  * Update the setting options to show the current saved settings.
  */
 SettingsDialog.prototype._showCurrentSettings = function () {
-	this._element.ghostDraw.checked = localStorage.ghostDraw;
-	this._element.antiAlias.checked = localStorage.antiAlias;
-	this._element.maxUndoStackDepth.value = localStorage.maxUndoStackDepth;
-	this._element.theme.value = localStorage.theme;
+	this._element.ghostDraw.checked = settings.get('ghostDraw');
+	this._element.antiAlias.checked = settings.get('antiAlias');
+	this._element.maxUndoStackDepth.value = settings.get('maxUndoStackDepth');
+	this._element.theme.value = settings.get('theme');
 };
 
 /**
@@ -43,19 +43,19 @@ SettingsDialog.prototype._showCurrentSettings = function () {
  */
 SettingsDialog.prototype._saveNewSettings = function () {
 	if (this._element.ghostDraw.checked) {
-		localStorage.ghostDraw = 'true';
+		settings.set('ghostDraw', true);
 		preCanvas.classList.add('ghost');
 	} else {
-		localStorage.ghostDraw = '';
+		settings.set('ghostDraw', false);
 		preCanvas.classList.remove('ghost');
 	}
 	
-	localStorage.antiAlias = this._element.antiAlias.checked ? 'true' : '';
+	settings.set('antiAlias', this._element.antiAlias.checked);
 	
 	if (!isNaN(parseInt(this._element.maxUndoStackDepth.value))) {
-		localStorage.maxUndoStackDepth = parseInt(this._element.maxUndoStackDepth.value);
+		settings.set('maxUndoStackDepth', this._element.maxUndoStackDepth.value);
 	}
 	
-	localStorage.theme = this._element.theme.value;
+	settings.set('theme', this._element.theme.value);
 	document.getElementById('themeStyleLink').href = 'styles/themes/' + this._element.theme.value + '.css';
 };

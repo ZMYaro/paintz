@@ -37,14 +37,14 @@ DrawingTool.prototype.activate = function () {
  */
 DrawingTool.prototype.start = function (pointerState) {
 	if (pointerState.button !== 2) {
-		this._lineColor = localStorage.lineColor;
-		this._fillColor = localStorage.fillColor;
+		this._lineColor = settings.get('lineColor');
+		this._fillColor = settings.get('fillColor');
 	} else {
-		this._lineColor = localStorage.fillColor;
-		this._fillColor = localStorage.lineColor;
+		this._lineColor = settings.get('fillColor');
+		this._fillColor = settings.get('lineColor');
 	}
 	
-	this._lineWidth = localStorage.lineWidth;
+	this._lineWidth = settings.get('lineWidth');
 };
 
 /**

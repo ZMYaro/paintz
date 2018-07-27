@@ -174,7 +174,7 @@ SelectionTool.prototype.clear = function () {
 		return;
 	}
 	
-	this._cxt.fillStyle = localStorage.fillColor;
+	this._cxt.fillStyle = settings.get('fillColor');
 	this._cxt.fillRect(this._selection.startX, this._selection.startY,
 		this._selection.width, this._selection.height);
 	Utils.clearCanvas(this._preCxt);
@@ -260,7 +260,7 @@ SelectionTool.prototype._drawSelectionContent = function () {
  * Draw the background color over the selection's starting location.
  */
 SelectionTool.prototype._drawSelectionStartCover = function () {
-	this._preCxt.fillStyle = localStorage.fillColor;
+	this._preCxt.fillStyle = settings.get('fillColor');
 	this._preCxt.fillRect(this._selection.startX, this._selection.startY,
 		this._selection.width, this._selection.height);
 };

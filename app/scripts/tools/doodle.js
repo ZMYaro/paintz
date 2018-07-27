@@ -44,7 +44,7 @@ DoodleTool.prototype.activate = function () {
 DoodleTool.prototype.start = function (pointerState) {
 	DrawingTool.prototype.start.apply(this, arguments);
 	
-	if (!localStorage.antiAlias) {
+	if (!settings.get('antiAlias')) {
 		this._roundPointerState(pointerState);
 	}
 	
@@ -55,7 +55,7 @@ DoodleTool.prototype.start = function (pointerState) {
 	this._drawCap(this._preCxt, pointerState.x, pointerState.y);
 	
 	// De-anti-alias.
-	if (!localStorage.antiAlias) {
+	if (!settings.get('antiAlias')) {
 		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
 	}
 };
@@ -68,7 +68,7 @@ DoodleTool.prototype.start = function (pointerState) {
 DoodleTool.prototype.move = function (pointerState) {
 	DrawingTool.prototype.move.apply(this, arguments);
 	
-	if (!localStorage.antiAlias) {
+	if (!settings.get('antiAlias')) {
 		this._roundPointerState(pointerState);
 	}
 	
@@ -85,7 +85,7 @@ DoodleTool.prototype.move = function (pointerState) {
 	this._drawCap(this._preCxt, pointerState.x, pointerState.y);
 	
 	// De-anti-alias.
-	if (!localStorage.antiAlias) {
+	if (!settings.get('antiAlias')) {
 		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
 	}
 	
@@ -99,7 +99,7 @@ DoodleTool.prototype.move = function (pointerState) {
  * @returns {String}
  */
 DoodleTool.getCursorCSS = function () {
-	var size = parseInt(localStorage.lineWidth) * zoomManager.level + 2;
+	var size = parseInt(settings.get('lineWidth')) * zoomManager.level + 2;
 	
 	// Set the cursor size, capped at 128px.
 	cursorCanvas.width = cursorCanvas.height = Math.min(128, size);
@@ -114,7 +114,7 @@ DoodleTool.getCursorCSS = function () {
 	cursorCxt.beginPath();
 	cursorCxt.arc(
 		cursorCanvas.width / 2, cursorCanvas.height / 2,
-		localStorage.lineWidth * zoomManager.level / 2,
+		settings.get('lineWidth') * zoomManager.level / 2,
 		0, Math.PI * 2, false
 	);
 	cursorCxt.closePath();
@@ -125,7 +125,7 @@ DoodleTool.getCursorCSS = function () {
 	cursorCxt.beginPath();
 	cursorCxt.arc(
 		cursorCanvas.width / 2, cursorCanvas.height / 2,
-		localStorage.lineWidth * zoomManager.level / 2,
+		settings.get('lineWidth') * zoomManager.level / 2,
 		0, Math.PI * 2, false
 	);
 	cursorCxt.closePath();

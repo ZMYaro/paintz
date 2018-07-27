@@ -20,7 +20,7 @@ OvalTool.prototype = Object.create(ShapeTool.prototype);
 OvalTool.prototype.move = function (pointerState) {
 	ShapeTool.prototype.move.apply(this, arguments);
 	
-	if (!localStorage.antiAlias) {
+	if (!settings.get('antiAlias')) {
 		this._roundPointerState(pointerState);
 	}
 	
@@ -43,7 +43,7 @@ OvalTool.prototype.move = function (pointerState) {
 	// Draw the stroke first.
 	this._preCxt.stroke();
 	
-	if (!localStorage.antiAlias) {
+	if (!settings.get('antiAlias')) {
 		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
 	}
 	
@@ -52,7 +52,7 @@ OvalTool.prototype.move = function (pointerState) {
 	this._preCxt.fill();
 	this._preCxt.globalCompositeOperation = 'source-over';
 	
-	if (localStorage.outlineOption === 'fillOnly' && !localStorage.antiAlias) {
+	if (settings.get('outlineOption') === 'fillOnly' && !settings.get('antiAlias')) {
 		this._deAntiAlias();
 	}
 };

@@ -20,10 +20,10 @@ ShapeTool.prototype = Object.create(DrawingTool.prototype);
 ShapeTool.prototype.start = function (pointerState) {
 	DrawingTool.prototype.start.apply(this, arguments);
 	
-	if (localStorage.outlineOption === 'fillOnly') {
+	if (settings.get('outlineOption') === 'fillOnly') {
 		this._lineColor = 'transparent';
 	}
-	if (localStorage.outlineOption === 'outlineOnly') {
+	if (settings.get('outlineOption') === 'outlineOnly') {
 		this._fillColor = 'transparent';
 	}
 	

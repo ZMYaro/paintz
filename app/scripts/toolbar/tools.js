@@ -20,7 +20,7 @@ ToolsToolbox.prototype._setUp = function (contents) {
 	Toolbox.prototype._setUp.call(this, contents);
 	
 	var tools = this._element.querySelector('#tools');
-	tools.tool.value = localStorage.tool;
+	tools.tool.value = settings.get('tool');
 	tools.addEventListener('change', function (e) {
 		// Switch to the newly-selected tool.
 		switchTool(e.target.value);

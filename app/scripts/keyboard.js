@@ -8,7 +8,7 @@ var keyManager = {
 		
 		switch (e.keyCode) {
 			case 8: // Backspace
-				if (localStorage.tool === 'selection') {
+				if (settings.get('tool') === 'selection') {
 					e.preventDefault();
 					// Backspace => Delete selection
 					tools.selection.clear();
@@ -16,7 +16,7 @@ var keyManager = {
 				break;
 			
 			case 46: // Delete
-				if (localStorage.tool === 'selection') {
+				if (settings.get('tool') === 'selection') {
 					e.preventDefault();
 					// Delete => Delete selection
 					tools.selection.clear();
@@ -55,7 +55,7 @@ var keyManager = {
 				if (ctrlOrCmd) {
 					e.preventDefault();
 					
-					if (localStorage.tool === 'selection') {
+					if (settings.get('tool') === 'selection') {
 						// Ctrl+D => Duplicate selection
 						tools.selection.duplicate();
 					}
@@ -156,13 +156,14 @@ var keyManager = {
 					// X => Switch fill and line colors
 					
 					// Swap the stored colors.
-					var oldLine = localStorage.lineColor;
-					localStorage.lineColor = localStorage.fillColor;
-					localStorage.fillColor = oldLine;
+					var oldLine = settings.get('lineColor');
+						oldFill = settings.get('fillColor');
+					settings.set('lineColor', oldFill);
+					settings.set('fillColor', oldLine);
 					
 					// Update the toolbar.
-					toolbar.toolboxes.colorPicker.colorIndicator.style.borderColor = localStorage.lineColor;
-					toolbar.toolboxes.colorPicker.colorIndicator.style.backgroundColor = localStorage.fillColor;
+					toolbar.toolboxes.colorPicker.colorIndicator.style.borderColor = oldFill;
+					toolbar.toolboxes.colorPicker.colorIndicator.style.backgroundColor = oldLine;
 				}
 				break;
 			
@@ -225,8 +226,8 @@ var keyManager = {
 					// [ => Decrease line width
 					var lineWidthSelect = document.getElementById('lineWidth');
 					if (lineWidthSelect.selectedIndex > 0) {
-						localStorage.lineWidth = 
-							lineWidthSelect.value = lineWidthSelect.options[lineWidthSelect.selectedIndex - 1].value;
+						settings.set('lineWidth',
+							lineWidthSelect.value = lineWidthSelect.options[lineWidthSelect.selectedIndex - 1].value);
 					}
 				}
 				break;
@@ -238,8 +239,8 @@ var keyManager = {
 					// ] => Increase line width
 					var lineWidthSelect = document.getElementById('lineWidth');
 					if (lineWidthSelect.selectedIndex < lineWidthSelect.options.length - 1) {
-						localStorage.lineWidth = 
-							lineWidthSelect.value = lineWidthSelect.options[lineWidthSelect.selectedIndex + 1].value;
+						settings.set('lineWidth',
+							lineWidthSelect.value = lineWidthSelect.options[lineWidthSelect.selectedIndex + 1].value);
 					}
 				}
 				break;

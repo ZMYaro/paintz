@@ -49,10 +49,10 @@ EyedropperTool.prototype.move = function (pointerState) {
 	
 	// Update the line or fill color with the user's selection.
 	if (this._button === 0) {
-		localStorage.lineColor = color;
+		settings.set('lineColor', color);
 		document.getElementById('colors').style.borderColor = color;
 	} else if (this._button === 2) {
-		localStorage.fillColor = color;
+		settings.set('fillColor', color);
 		document.getElementById('colors').style.backgroundColor = color;
 	}
 };

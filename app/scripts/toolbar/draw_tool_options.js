@@ -20,16 +20,16 @@ DrawToolOptionsToolbox.prototype._setUp = function (contents) {
 	Toolbox.prototype._setUp.call(this, contents);
 	
 	var lineWidthSelect = this._element.querySelector('#lineWidth');
-	lineWidthSelect.value = localStorage.lineWidth;
+	lineWidthSelect.value = settings.get('lineWidth');
 	lineWidthSelect.addEventListener('change', function (e) {
-		localStorage.lineWidth = e.target.value;
+		settings.set('lineWidth', e.target.value);
 		// Some tools' cursors change with the line width, so reactivate the tool.
-		tools[localStorage.tool].activate();
+		tools[settings.get('tool')].activate();
 	}, false);
 	
 	var outlineOptions = this._element.querySelector('#outlineOptions');
-	outlineOptions.outlineOption.value = localStorage.outlineOption;
+	outlineOptions.outlineOption.value = settings.get('outlineOption');
 	outlineOptions.addEventListener('change', function (e) {
-		localStorage.outlineOption = e.target.value;
+		settings.set('outlineOption', e.target.value);
 	}, false);
 };

@@ -31,7 +31,7 @@ ClearDialog.prototype._clear = function () {
 	function expandClearCircle() {
 		radius += STEP;
 		
-		cxt.fillStyle = localStorage.fillColor;
+		cxt.fillStyle = settings.get('fillColor');
 		cxt.beginPath();
 		cxt.arc(CENTER_X, CENTER_Y, radius, 0, 2 * Math.PI);
 		cxt.closePath();

@@ -38,7 +38,7 @@ LineTool.drawLine = function (x1, y1, x2, y2, cxt) {
 LineTool.prototype.start = function (pointerState) {
 	DrawingTool.prototype.start.apply(this, arguments);
 	
-	if (!localStorage.antiAlias) {
+	if (!settings.get('antiAlias')) {
 		this._roundPointerState(pointerState);
 	}
 	
@@ -54,7 +54,7 @@ LineTool.prototype.start = function (pointerState) {
 LineTool.prototype.move = function (pointerState) {
 	DrawingTool.prototype.move.apply(this, arguments);
 	
-	if (!localStorage.antiAlias) {
+	if (!settings.get('antiAlias')) {
 		this._roundPointerState(pointerState);
 	}
 	
@@ -64,7 +64,7 @@ LineTool.prototype.move = function (pointerState) {
 	// Draw the new preview.
 	LineTool.drawLine(this.startX, this.startY, pointerState.x, pointerState.y, this._preCxt);
 	
-	if (!localStorage.antiAlias) {
+	if (!settings.get('antiAlias')) {
 		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
 	}
 };

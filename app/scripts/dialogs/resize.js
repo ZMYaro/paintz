@@ -34,8 +34,8 @@ ResizeDialog.prototype.open = function () {
  * Update the setting options to show the current saved size.
  */
 ResizeDialog.prototype._showCurrentSize = function () {
-	this._element.width.value = localStorage.width;
-	this._element.height.value = localStorage.height;
+	this._element.width.value = settings.get('width');
+	this._element.height.value = settings.get('height');
 };
 
 /**
@@ -72,8 +72,8 @@ ResizeDialog.prototype._saveNewSize = function () {
 	preCanvas.height = newHeight;
 	
 	// Save the new dimensions.
-	localStorage.width = newWidth;
-	localStorage.height = newHeight;
+	settings.set('width', newWidth);
+	settings.set('height', newHeight);
 	
 	// Update the resolution display.
 	document.getElementById('resolution').innerHTML = newWidth + ' &times; ' + newHeight + 'px';

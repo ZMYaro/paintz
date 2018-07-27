@@ -43,8 +43,8 @@ TextTool.prototype = Object.create(Tool.prototype);
 TextTool.prototype.activate = function () {
 	this._preCxt.canvas.style.cursor = 'crosshair';
 	toolbar.switchToolOptionsToolbox(toolbar.toolboxes.noToolOptions);
-	this._textElem.style.color = localStorage.lineColor;
-	this._textElem.style.font = localStorage.fontSize + 'px sans-serif';
+	this._textElem.style.color = settings.get('lineColor');
+	this._textElem.style.font = settings.get('fontSize') + 'px sans-serif';
 	this._textElem.style.WebkitTransform =
 		this._textElem.style.MozTransform =
 		this._textElem.style.MsTransform =
@@ -273,11 +273,11 @@ TextTool.prototype._saveText = function () {
 	
 	// Draw the text.
 	this._cxt.textBaseline = 'top';
-	this._cxt.fillStyle = localStorage.lineColor;
-	this._cxt.font = localStorage.fontSize + 'px sans-serif';
+	this._cxt.fillStyle = settings.get('lineColor');
+	this._cxt.font = settings.get('fontSize') + 'px sans-serif';
 	for (var i = 0; i < lines.length; i++) {
 		var x = this._textRegion.x + TextTool.PADDING + TextTool.BORDER_WIDTH,
-			y = this._textRegion.y + TextTool.PADDING + TextTool.BORDER_WIDTH + ((parseInt(localStorage.fontSize) + 2) * i);
+			y = this._textRegion.y + TextTool.PADDING + TextTool.BORDER_WIDTH + ((settings.get('fontSize') + 2) * i);
 		this._cxt.fillText(lines[i], x, y);
 	}
 	Utils.clearCanvas(this._preCxt);

@@ -200,7 +200,7 @@ CurveTool.prototype.activate = function () {
 CurveTool.prototype.start = function (pointerState) {
 	DrawingTool.prototype.start.apply(this, arguments);
 	
-	if (!localStorage.antiAlias) {
+	if (!settings.get('antiAlias')) {
 		this._roundPointerState(pointerState);
 	}
 	
@@ -218,7 +218,7 @@ CurveTool.prototype.start = function (pointerState) {
 CurveTool.prototype.move = function (pointerState) {
 	DrawingTool.prototype.move.apply(this, arguments);
 	
-	if (!localStorage.antiAlias) {
+	if (!settings.get('antiAlias')) {
 		this._roundPointerState(pointerState);
 	}
 	
@@ -232,7 +232,7 @@ CurveTool.prototype.move = function (pointerState) {
 		this._plotQuadBezier(this.startX, this.startY, this.endX, this.endY, pointerState.x, pointerState.y, this._preCxt);
 	}
 	
-	if (!localStorage.antiAlias) {
+	if (!settings.get('antiAlias')) {
 		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
 	}
 };
@@ -244,7 +244,7 @@ CurveTool.prototype.move = function (pointerState) {
  */
 CurveTool.prototype.end = function (pointerState) {
 	if (this._state === CurveTool.STATE_NOT_STARTED) {
-		if (!localStorage.antiAlias) {
+		if (!settings.get('antiAlias')) {
 			this._roundPointerState(pointerState);
 		}
 		this.endX = pointerState.x;

@@ -22,10 +22,10 @@ var undoStack = {
 
 		canvas.width = state.width;
 		preCanvas.width = state.width;
-		localStorage.width = state.width;
+		settings.set('width', state.width);
 		canvas.height = state.height;
 		preCanvas.height = state.height;
-		localStorage.height = state.height;
+		settings.set('height', state.height);
 		cxt.drawImage(state.image, 0, 0);
 	},
 
@@ -46,7 +46,7 @@ var undoStack = {
 	addState: function () {
 		// Add the last state to the undo stack.
 		if (this._currentState) {
-			if (this._undoStack.push(this._currentState) > localStorage.maxUndoStackDepth) {
+			if (this._undoStack.push(this._currentState) > settings.get('maxUndoStackDepth')) {
 				// If the maximum stack depth has been exceeded, start removing the bottom
 				// of the stack.
 				this._undoStack.splice(0, 1);
@@ -88,7 +88,7 @@ var undoStack = {
 		}
 		
 		// Warn the current tool of impending changes.
-		tools[localStorage.tool].deactivate();
+		tools[settings.get('tool')].deactivate();
 		
 		// Add the current state to the undo stack and restore the last state from
 		// the redo stack.
@@ -99,7 +99,7 @@ var undoStack = {
 		this._updateUI();
 		
 		// Reactivate the current tool.
-		tools[localStorage.tool].activate();
+		tools[settings.get('tool')].activate();
 	},
 
 	/**
@@ -113,7 +113,7 @@ var undoStack = {
 		}
 		
 		// Warn the current tool of impending changes.
-		tools[localStorage.tool].deactivate();
+		tools[settings.get('tool')].deactivate();
 		
 		// Add the current state to the redo stack and restore the last state from
 		// the undo stack.
@@ -124,6 +124,6 @@ var undoStack = {
 		this._updateUI();
 		
 		// Reactivate the current tool.
-		tools[localStorage.tool].activate();
+		tools[settings.get('tool')].activate();
 	}
 };

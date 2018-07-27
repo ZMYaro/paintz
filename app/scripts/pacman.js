@@ -80,7 +80,7 @@ PacMan.prototype.stop = function () {
  * @returns {Boolean}
  */
 PacMan.prototype._isBlocked = function () {
-	this._cxt.fillStyle = localStorage.lineColor;
+	this._cxt.fillStyle = settings.get('lineColor');
 	this._cxt.fillRect(this.x - 1, this.y - 1, 3, 3);
 
 	var imageData = this._cxt.getImageData(
@@ -96,7 +96,7 @@ PacMan.prototype._isBlocked = function () {
 		b: imageData.data[(((imageData.height / 2) * imageData.width * 4) + ((imageData.width / 2) * 4)) + 2]
 	};
 
-	this._cxt.fillStyle = localStorage.fillColor;
+	this._cxt.fillStyle = settings.get('fillColor');
 	this._cxt.fillRect(this.x - 1, this.y - 1, 3, 3);
 
 	// Loop over the arc in front of Pac-Man checking for the wall color.
@@ -155,7 +155,7 @@ PacMan.prototype._draw = function () {
  * and �eating� everything under him.
  */
 PacMan.prototype._erase = function () {
-	this._cxt.fillStyle = localStorage.fillColor;
+	this._cxt.fillStyle = settings.get('fillColor');
 	this._cxt.beginPath();
 	this._cxt.arc(this.x, this.y, PacMan.RADIUS, 0.5 * Math.PI + this.heading, 1.5 * Math.PI + this.heading, false);
 	this._cxt.closePath();

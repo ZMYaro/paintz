@@ -78,10 +78,10 @@ ColorPickerDialog.prototype.open = function () {
  * Update the setting options to show the current saved settings.
  */
 ColorPickerDialog.prototype._showCurrentColors = function () {
-	this.colorPickers.line.setHex(localStorage.lineColor);
-	this._element.lineColorHex.value = localStorage.lineColor;
-	this.colorPickers.fill.setHex(localStorage.fillColor);
-	this._element.fillColorHex.value = localStorage.fillColor;
+	this.colorPickers.line.setHex(settings.get('lineColor'));
+	this._element.lineColorHex.value = settings.get('lineColor');
+	this.colorPickers.fill.setHex(settings.get('fillColor'));
+	this._element.fillColorHex.value = settings.get('fillColor');
 };
 
 ColorPickerDialog.prototype._updateHex = function (e) {
@@ -142,11 +142,11 @@ ColorPickerDialog.prototype._updateColorFields = function (type, hex, hsv, rgb, 
 ColorPickerDialog.prototype._saveNewColors = function () {
 	var colorIndicator = document.getElementById('colors');
 	if (this._element.lineColorHex.value !== '') {
-		localStorage.lineColor = this._element.lineColorHex.value;
+		settings.set('lineColor', this._element.lineColorHex.value);
 		colorIndicator.style.borderColor = this._element.lineColorHex.value;
 	}
 	if (this._element.fillColorHex.value !== '') {
-		localStorage.fillColor = this._element.fillColorHex.value;
+		settings.set('fillColor', this._element.fillColorHex.value);
 		colorIndicator.style.backgroundColor = this._element.fillColorHex.value;
 	}
 };
