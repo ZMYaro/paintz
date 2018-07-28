@@ -27,6 +27,16 @@ SelectionToolOptionsToolbox.prototype._setUp = function (contents) {
 		tools.selection.selectAll(canvas.width, canvas.height);
 	}, false);
 	
+	var rotCCWBtn = this._element.querySelector('#rotCCWBtn');
+	rotCCWBtn.addEventListener('click', function () {
+		tools.selection.rotate(false);
+	}, false);
+	
+	var rotCWBtn = this._element.querySelector('#rotCWBtn');
+	rotCWBtn.addEventListener('click', function () {
+		tools.selection.rotate(true);
+	}, false);
+	
 	var flipHorizBtn = this._element.querySelector('#flipHorizBtn');
 	flipHorizBtn.addEventListener('click', function () {
 		tools.selection.flip(false);
