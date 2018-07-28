@@ -46,5 +46,5 @@ ClearDialog.prototype._clear = function () {
 		}
 	}
 	Utils.raf(expandClearCircle);
-	document.title = DEFAULTS.title + ' - PaintZ';
+	document.title = DEFAULT_TITLE + ' - PaintZ';
 };
