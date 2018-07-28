@@ -75,6 +75,9 @@ select[size="1"] {
 		.floatingToolbar button:not(:disabled).active {
 			background-color: rgba(255,255,255,0.13);
 		}
+#colorPicker button[data-value="#FFEB3B"].pacman::after {
+	border-right-color: #212121;
+}
 
 #resolution {
 	color: rgba(255, 255, 255, 0.9)

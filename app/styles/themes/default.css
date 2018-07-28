@@ -53,6 +53,9 @@ input[type="radio"]:checked {
 		.appBar[role="toolbar"] select:not(:disabled).active {
 			background-color: rgba(255, 255, 255, 0.13);
 		}
+#colorPicker button[data-value="#FFEB3B"].pacman::after {
+	border-right-color: #3f51b5;
+}
 .floatingToolbar svg {
 	fill: #000000;
 }
