@@ -26,4 +26,14 @@ SelectionToolOptionsToolbox.prototype._setUp = function (contents) {
 		// Select the entire canvas.
 		tools.selection.selectAll(canvas.width, canvas.height);
 	}, false);
+	
+	var flipHorizBtn = this._element.querySelector('#flipHorizBtn');
+	flipHorizBtn.addEventListener('click', function () {
+		tools.selection.flip(false);
+	}, false);
+	
+	var flipVertBtn = this._element.querySelector('#flipVertBtn');
+	flipVertBtn.addEventListener('click', function () {
+		tools.selection.flip(true);
+	}, false);
 };

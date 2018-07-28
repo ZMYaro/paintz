@@ -64,7 +64,8 @@ SelectionTool.prototype.start = function (pointerState) {
 			y: pointerState.y,
 			width: 0,
 			height: 0,
-			firstMove: true
+			firstMove: true,
+			transformed: false
 		};
 		this._updateSelectionOutline();
 		document.body.appendChild(this._outline);
@@ -141,7 +142,8 @@ SelectionTool.prototype.end = function (pointerState) {
 		this._selection.startY = this._selection.y;
 		
 		// Save the selected content in case the user moves it.
-		this._selection.content = this._cxt.getImageData(this._selection.startX, this._selection.startY,
+		this._selection.content = this._cxt.getImageData(
+			this._selection.startX, this._selection.startY,
 			this._selection.width, this._selection.height);
 	}
 	
@@ -218,6 +220,58 @@ SelectionTool.prototype.selectAll = function (width, height) {
 };
 
 /**
+ * Flip the selection over its center.  If there is no selection, flip the entire canvas.
+ * @param {Boolean} vertical - True if vertical, false if horizontal
+ */
+SelectionTool.prototype.flip = function (vertical) {
+	if (this._selection) {
+		// Copy the selection to the cursor canvas.
+		// The data needs to be put in a canvas because putImageData ignores transformations.
+		Utils.clearCanvas(cursorCxt);
+		cursorCanvas.width = this._selection.width;
+		cursorCanvas.height = this._selection.height;
+		cursorCxt.putImageData(this._selection.content, 0, 0);
+		
+		// Flip the precanvas and draw the selection to it.
+		Utils.clearCanvas(this._preCxt);
+		this._preCxt.save();
+		this._preCxt.translate(
+			vertical ? 0 : this._selection.width,
+			vertical ? this._selection.height : 0);
+		this._preCxt.scale(
+			vertical ? 1 : -1,
+			vertical ? -1 : 1);
+		this._preCxt.drawImage(cursorCanvas, 0, 0);
+		this._preCxt.restore();
+		
+		// Save that as the new selection.
+		this._selection.content = this._preCxt.getImageData(0, 0, this._selection.width, this._selection.height);
+		
+		// Put the updated selection back in place.
+		Utils.clearCanvas(this._preCxt);
+		this._drawSelectionContent();
+		this._updateSelectionOutline();
+		
+		// Note that the selection was flipped.
+		this._selection.transformed = true;
+		
+	} else {
+		// If there is no selection, flip the main canvas and draw it to itself.
+		this._cxt.save();
+		this._cxt.translate(
+			vertical ? 0 : this._cxt.canvas.width,
+			vertical ? this._cxt.canvas.height : 0);
+		this._cxt.scale(
+			vertical ? 1 : -1,
+			vertical ? -1 : 1);
+		this._cxt.drawImage(this._cxt.canvas, 0, 0);
+		this._cxt.restore();
+		// Save the flipped image as a new undo state.
+		undoStack.addState();
+	}
+};
+
+/**
  * Update the outline element.
  */
 SelectionTool.prototype._updateSelectionOutline = function () {
@@ -272,8 +326,10 @@ SelectionTool.prototype._drawSelectionStartCover = function () {
 SelectionTool.prototype._saveSelection = function () {
 	Utils.clearCanvas(this._preCxt);
 	
+	// If there is no selection or the selection was never transformed, then there is no need to save.
 	if (!this._selection ||
-			(this._selection.x === this._selection.startX && this._selection.y === this._selection.startY)) {
+			(!this._selection.transformed &&
+				(this._selection.x === this._selection.startX && this._selection.y === this._selection.startY))) {
 		return;
 	}
 	
