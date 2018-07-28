@@ -37,7 +37,7 @@ OvalTool.prototype.move = function (pointerState) {
 	this._preCxt.beginPath();
 	this._preCxt.translate(centerX - radX, centerY - radY);
 	this._preCxt.scale(radX, radY);
-	this._preCxt.arc(1, 1, 1, 0, 2 * Math.PI, false);
+	this._preCxt.arc(1, 1, 1, 0, Math.TAU, false);
 	this._preCxt.restore(); // Restore the context to its original state.
 	
 	// Draw the stroke first.

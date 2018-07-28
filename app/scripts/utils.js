@@ -1,6 +1,7 @@
 'use strict';
 
 // Polyfills.
+Math.TAU = Math.TAU || (2 * Math.PI);
 Object.values = Object.values || function (obj) {
 	var vals = [];
 	for (var key in obj) {

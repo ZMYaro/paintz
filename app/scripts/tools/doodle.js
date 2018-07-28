@@ -21,7 +21,7 @@ DoodleTool.prototype = Object.create(DrawingTool.prototype);
 DoodleTool.prototype._drawCap = function (cxt, x, y) {
 	cxt.fillStyle = this._lineColor;
 	cxt.beginPath();
-	cxt.arc(x, y, this._lineWidth / 2, 0, 2 * Math.PI, false);
+	cxt.arc(x, y, this._lineWidth / 2, 0, Math.TAU, false);
 	cxt.closePath();
 	cxt.fill();
 };
@@ -115,7 +115,7 @@ DoodleTool.getCursorCSS = function () {
 	cursorCxt.arc(
 		cursorCanvas.width / 2, cursorCanvas.height / 2,
 		settings.get('lineWidth') * zoomManager.level / 2,
-		0, Math.PI * 2, false
+		0, Math.TAU, false
 	);
 	cursorCxt.closePath();
 	cursorCxt.stroke();
@@ -126,7 +126,7 @@ DoodleTool.getCursorCSS = function () {
 	cursorCxt.arc(
 		cursorCanvas.width / 2, cursorCanvas.height / 2,
 		settings.get('lineWidth') * zoomManager.level / 2,
-		0, Math.PI * 2, false
+		0, Math.TAU, false
 	);
 	cursorCxt.closePath();
 	cursorCxt.stroke();
