@@ -31,6 +31,7 @@ SettingsDialog.prototype.open = function () {
  * Update the setting options to show the current saved settings.
  */
 SettingsDialog.prototype._showCurrentSettings = function () {
+	this._element.colorPalette.value = settings.get('colorPalette');
 	this._element.ghostDraw.checked = settings.get('ghostDraw');
 	this._element.antiAlias.checked = settings.get('antiAlias');
 	this._element.maxUndoStackDepth.value = settings.get('maxUndoStackDepth');
