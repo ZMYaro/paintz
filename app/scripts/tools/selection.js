@@ -336,9 +336,12 @@ SelectionTool.prototype.rotate = function (clockwise) {
 		this._preCxt.restore();
 		
 		// Update the canvas's width and height.
-		var oldCanvasWidth = this._cxt.canvas.width;
-		this._cxt.canvas.width = this._cxt.canvas.height;
+		var oldCanvasWidth = this._cxt.canvas.width,
+			oldCanvasHeight = this._cxt.canvas.height;
+		this._cxt.canvas.width = oldCanvasHeight;
 		this._cxt.canvas.height = oldCanvasWidth;
+		settings.set('width', oldCanvasHeight);
+		settings.set('height', oldCanvasWidth);
 		
 		// Draw the rotated image and save it as a new undo state.
 		this._cxt.drawImage(this._preCxt.canvas, 0, 0);
