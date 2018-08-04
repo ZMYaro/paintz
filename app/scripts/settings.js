@@ -17,6 +17,8 @@ function SettingsManager() {
 	}
 	
 	document.getElementById('themeStyleLink').href = 'styles/themes/' + this.get('theme') + '.css';
+	document.querySelector('meta[name="msapplication-navbutton-color"]').content =
+		document.querySelector('meta[name="theme-color"]').content = this.THEME_COLORS[this.get('theme')];
 }
 
 // Define constants.
@@ -42,7 +44,12 @@ SettingsManager.prototype.DEFAULTS = {
 };
 /** @constant {String} The prefix to add to stored setting keys in local storage */
 SettingsManager.prototype.LOCAL_STORAGE_PREFIX = 'paintz_';
-
+/** @constant {Object<String,String>} The primary color associated with each interface theme */
+SettingsManager.prototype.THEME_COLORS = {
+	default: '#3f51b5',
+	dark: '#212121',
+	light: '#f5f5f5'
+};
 /**
  * Set settings based on local storage, falling back to defaults where necessary.
  */

@@ -58,4 +58,6 @@ SettingsDialog.prototype._saveNewSettings = function () {
 	
 	settings.set('theme', this._element.theme.value);
 	document.getElementById('themeStyleLink').href = 'styles/themes/' + this._element.theme.value + '.css';
+	document.querySelector('meta[name="msapplication-navbutton-color"]').content =
+		document.querySelector('meta[name="theme-color"]').content = SettingsManager.prototype.THEME_COLORS[this._element.theme.value];
 };
