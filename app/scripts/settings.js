@@ -36,6 +36,7 @@ SettingsManager.prototype.DEFAULTS = {
 	fontSize: 16,
 	// Settings:
 	theme: 'default',
+	colorPalette: 'material',
 	ghostDraw: false,
 	antiAlias: true,
 	maxUndoStackDepth: 50,
@@ -50,6 +51,7 @@ SettingsManager.prototype.THEME_COLORS = {
 	dark: '#212121',
 	light: '#f5f5f5'
 };
+
 /**
  * Set settings based on local storage, falling back to defaults where necessary.
  */

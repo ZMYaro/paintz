@@ -61,7 +61,7 @@ input[type="radio"]:checked {
 	        box-shadow: 0 0 0   1px white;
 	        box-shadow: 0 0 0 0.5px white;
 }
-#colorPicker button[data-value="#FFEB3B"].pacman::after {
+#colorPicker button.pacman::after {
 	border-right-color: #3f51b5;
 }
 .floatingToolbar svg {

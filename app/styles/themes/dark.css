@@ -83,7 +83,7 @@ select[size="1"] {
 	        box-shadow: 0 0 0   1px rgba(255, 255, 255, 0.9);
 	        box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 0.9);
 }
-#colorPicker button[data-value="#FFEB3B"].pacman::after {
+#colorPicker button.pacman::after {
 	border-right-color: #212121;
 }
 

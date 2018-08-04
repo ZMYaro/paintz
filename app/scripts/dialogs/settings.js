@@ -42,6 +42,9 @@ SettingsDialog.prototype._showCurrentSettings = function () {
  * Save the selected settings.
  */
 SettingsDialog.prototype._saveNewSettings = function () {
+	settings.set('colorPalette', this._element.colorPalette.value);
+	toolbar.toolboxes.colorPicker.setColorPalette(this._element.colorPalette.value);
+	
 	if (this._element.ghostDraw.checked) {
 		settings.set('ghostDraw', true);
 		preCanvas.classList.add('ghost');

@@ -21,6 +21,50 @@ function ColorPickerToolbox() {
 // Extend Toolbox.
 ColorPickerToolbox.prototype = Object.create(Toolbox.prototype);
 
+// Define constants.
+/** @constant {Object<String,Array<String>>} The colors for each palette */
+ColorPickerToolbox.prototype.COLOR_PALETTES = {
+	material: [
+		'#000000', // Black
+		'#f44336', // Red
+		'#ff9800', // Orange
+		'#ffeb3b', // Yellow
+		'#76ff03', // Light green
+		
+		'#ffffff', // White
+		'#4caf50', // Dark green
+		'#80d8ff', // Light blue
+		'#2962ff', // Dark blue
+		'#9c27b0'  // Purple
+	],
+	classic: [
+		'#000000', // Black
+		'#ff0000', // Red
+		'#ff00ff', // Pink
+		'#ffff00', // Yellow
+		'#00ff00', // Light green
+		
+		'#ffffff', // White
+		'#008100', // Dark green
+		'#00ffff', // Light blue
+		'#0000ff', // Dark blue
+		'#810081'  // Purple
+	],
+	win7: [
+		'#000000', // Black
+		'#ed1c24', // Red
+		'#ff7f27', // Orange
+		'#fff200', // Yellow
+		'#b5e61d', // Light green
+		
+		'#ffffff', // White
+		'#21b14c', // Dark green
+		'#00a1e8', // Light blue
+		'#3f48cc', // Dark blue
+		'#a349a4'  // Purple
+	]
+};
+
 /**
  * @override
  * @private
@@ -41,9 +85,10 @@ ColorPickerToolbox.prototype._setUp = function (contents) {
 		colorButton.addEventListener('click', boundColorButtonClickHandler, false);
 		colorButton.addEventListener('contextmenu', boundColorButtonClickHandler, false);
 	});
+	this.setColorPalette(settings.get('colorPalette'));
 	
 	// Set up the event listener for the Pac-Man easter egg.
-	this._element.querySelector('#colorPicker button[data-value=\"#FFEB3B\"]')
+	this._element.querySelector('#colorPicker button[data-value=\"#ffeb3b\"]')
 		.addEventListener('click', this._handlePacManButtonClick.bind(this), false);
 };
 
@@ -58,6 +103,18 @@ ColorPickerToolbox.prototype._createColorIndicator = function () {
 	this.colorIndicator.className = 'z1';
 	this.colorIndicator.style.borderColor = settings.get('lineColor');
 	this.colorIndicator.style.backgroundColor = settings.get('fillColor');
+};
+
+/**
+ * @private
+ * Change the displayed colors to a different set.
+ * @param {String} paletteName - The identifier for the color set
+ */
+ColorPickerToolbox.prototype.setColorPalette = function (paletteName) {
+	var colorButtons = this._element.getElementsByTagName('button');
+	this.COLOR_PALETTES[paletteName].forEach(function (color, i) {
+		colorButtons[i].dataset.value = color;
+	}, this);
 };
 
 /**
