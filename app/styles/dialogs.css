@@ -120,6 +120,8 @@
 			   -moz-border-radius-topright:  2px;
 			        border-top-left-radius:  2px;
 			        border-top-right-radius: 2px;
+			
+			font-weight: 500;
 		}
 			.dialog .dialog-header .closeButton {
 				float: right;
