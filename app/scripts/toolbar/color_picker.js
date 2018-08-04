@@ -78,6 +78,10 @@ ColorPickerToolbox.prototype._setUp = function (contents) {
 	dialogs.colorPicker.trigger = this.colorIndicator;
 	this.colorIndicator.addEventListener('click', dialogs.colorPicker.open.bind(dialogs.colorPicker), false);
 	
+	// Set up the event listener for the Pac-Man easter egg.
+	this._element.querySelector('#colorPicker button[data-value=\"#ffeb3b\"]')
+		.addEventListener('click', this._handlePacManButtonClick.bind(this), false);
+	
 	// Set up the toolbar color picker.
 	var colorButtons = Array.prototype.slice.call(this._element.getElementsByTagName('button')),
 		boundColorButtonClickHandler = this._handleColorButtonClick.bind(this);
@@ -86,10 +90,6 @@ ColorPickerToolbox.prototype._setUp = function (contents) {
 		colorButton.addEventListener('contextmenu', boundColorButtonClickHandler, false);
 	});
 	this.setColorPalette(settings.get('colorPalette'));
-	
-	// Set up the event listener for the Pac-Man easter egg.
-	this._element.querySelector('#colorPicker button[data-value=\"#ffeb3b\"]')
-		.addEventListener('click', this._handlePacManButtonClick.bind(this), false);
 };
 
 /**
@@ -167,7 +167,7 @@ ColorPickerToolbox.prototype._handlePacManButtonClick = function (e) {
 	
 	if (!window.pacMan) {
 		// If Pac-Man has not been started, create and start a new Pac-Man.
-		window.pacMan = new PacMan(canvas);
+		window.pacMan = new PacMan(canvas, e.target.dataset.value);
 		window.pacMan.start();
 		// Update the button to show the easter egg has been activated.
 		e.target.className = 'pacman';

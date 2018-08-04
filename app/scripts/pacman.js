@@ -2,15 +2,17 @@
 
 /**
  * Create a new PacMan instance.
- * @param {HTMLCanvasElement} canvas - The canvas on which Pac-Man is to be drawn.
- * @param {Number} x - The x-coordinate at which Pac-Man should start.
- * @param {Number} y - The y-coordinate at which Pac-Man should start.
+ * @param {HTMLCanvasElement} canvas - The canvas on which Pac-Man is to be drawn
+ * @param {String} color - The CSS color Pac-Man should be
+ * @param {Number} x - The x-coordinate at which Pac-Man should start
+ * @param {Number} y - The y-coordinate at which Pac-Man should start
  */
-function PacMan(canvas, x, y) {
+function PacMan(canvas, color, x, y) {
 	this._started = false;
 
 	this._canvas = canvas;
 	this._cxt = canvas.getContext('2d');
+	this._color = color;
 	this.x = x || Math.floor(canvas.width * 0.2);
 	this.y = y || Math.floor(canvas.height * 0.2);
 	this.heading = PacMan.HEADINGS.RIGHT;
@@ -133,7 +135,7 @@ PacMan.prototype._isBlocked = function () {
  * Draw Pac-Man to the canvas.
  */
 PacMan.prototype._draw = function () {
-	this._cxt.fillStyle = 'yellow';
+	this._cxt.fillStyle = this._color;
 	this._cxt.beginPath();
 	this._cxt.arc(this.x, this.y, PacMan.RADIUS - 1, 0.25 * Math.TAU + this.heading, 0.75 * Math.TAU + this.heading, false);
 	this._cxt.closePath();
