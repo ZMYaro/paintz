@@ -81,11 +81,11 @@ input[type="radio"]:checked {
 
 #dialogs {
 	background-color: transparent;
-	background-color: rgba(128,128,128,0);
+	background-color: rgba(192,192,192,0);
 }
 	#dialogs.visible {
 		background-color: gray;
-		background-color: rgba(128,128,128,0.5);
+		background-color: rgba(192,192,192,0.65);
 	}
 .dialog .dialog-header,
 .dialog .dialog-footer {
