@@ -8,17 +8,18 @@ function SettingsManager() {
 	this._loadStoredSettings();
 	
 	// Reflect the settings in the UI.
+	document.getElementById('themeStyleLink').href = 'styles/themes/' + this.get('theme') + '.css';
+	document.querySelector('meta[name="msapplication-navbutton-color"]').content =
+		document.querySelector('meta[name="theme-color"]').content = this.THEME_COLORS[this.get('theme')];
+	
 	canvas.width =
 		preCanvas.width = this.get('width');
 	canvas.height =
 		preCanvas.height = this.get('height');
+	
 	if (this.get('ghostDraw')) {
 		preCanvas.classList.add('ghost');
 	}
-	
-	document.getElementById('themeStyleLink').href = 'styles/themes/' + this.get('theme') + '.css';
-	document.querySelector('meta[name="msapplication-navbutton-color"]').content =
-		document.querySelector('meta[name="theme-color"]').content = this.THEME_COLORS[this.get('theme')];
 }
 
 // Define constants.
