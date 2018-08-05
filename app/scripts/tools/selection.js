@@ -135,9 +135,7 @@ SelectionTool.prototype.end = function (pointerState) {
 	if (!this._selection.pointerOffset) {
 		// If either dimension is zero, the selection is invalid.
 		if (this._selection.width === 0 || this._selection.height === 0) {
-			delete this._selection;
-			Utils.clearCanvas(this._preCxt);
-			document.body.removeChild(this._outline);
+			this.deselectAll();
 			return;
 		}
 		
@@ -163,11 +161,7 @@ SelectionTool.prototype.end = function (pointerState) {
  */
 SelectionTool.prototype.deactivate = function () {
 	this._saveSelection();
-	this._toolbar.hide();
-	if (document.body.contains(this._outline)) {
-		document.body.removeChild(this._outline);
-	}
-	delete this._selection;
+	this.deselectAll();
 };
 
 
@@ -214,13 +208,52 @@ SelectionTool.prototype.duplicate = function () {
 
 /**
  * Select the entire canvas.
- * {Number} width - The width of the canvas
- * {Number} height - The height of the canvas
+ * @param {Number} width - The width of the canvas
+ * @param {Number} height - The height of the canvas
  */
 SelectionTool.prototype.selectAll = function (width, height) {
 	this.start({x: 0, y: 0});
 	this.move({x: width, y: height});
 	this.end({x: width, y: height});
+};
+
+/**
+ * Deselect whatever is currently selected.
+ */
+SelectionTool.prototype.deselectAll = function () {
+	if (this._selection) {
+		delete this._selection;
+	}
+	Utils.clearCanvas(this._preCxt);
+	this._toolbar.hide();
+	if (document.body.contains(this._outline)) {
+		document.body.removeChild(this._outline);
+	}
+};
+
+/**
+ * Crop the image to only contain the current selection.
+ */
+SelectionTool.prototype.cropToSelection = function () {
+	if (!this._selection) {
+		// If there is no selection to crop to, then just quit.
+		return;
+	}
+	
+	// Resize the main canvas to the selection size and draw the selection to it.
+	this._cxt.canvas.width =
+		this._preCxt.canvas.width = this._selection.width;
+	this._cxt.canvas.height =
+		this._preCxt.canvas.height = this._selection.height;
+	this._cxt.putImageData(this._selection.content, 0, 0);
+	
+	// Save the new width and height and the new undo state.
+	settings.set('width', this._selection.width);
+	settings.set('height', this._selection.height);
+	undoStack.addState();
+	
+	// Clear the selection.
+	this.deselectAll();
 };
 
 /**

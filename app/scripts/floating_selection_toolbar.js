@@ -66,6 +66,9 @@ FloatingSelectionToolbar.prototype._setUp = function (contents) {
 	
 	var duplicateBtn = this._element.querySelector('#duplicateBtn');
 	duplicateBtn.addEventListener('click', tools.selection.duplicate.bind(tools.selection), false);
+	
+	var cropBtn = this._element.querySelector('#cropBtn');
+	cropBtn.addEventListener('click', tools.selection.cropToSelection.bind(tools.selection), false);
 };
 
 /**

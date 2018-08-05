@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2018-07-28, v1
+# 2018-08-05, v1
 index.html
 404.html
 manifest.webapp
@@ -11,6 +11,7 @@ images/cursors/pencil.cur
 images/icons/back.svg
 images/icons/brush.svg
 images/icons/clear.svg
+images/icons/crop.svg
 images/icons/curve.svg
 images/icons/cws.svg
 images/icons/delete.svg
