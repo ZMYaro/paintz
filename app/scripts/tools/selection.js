@@ -89,6 +89,7 @@ SelectionTool.prototype.move = function (pointerState) {
 	
 	Utils.clearCanvas(this._preCxt);
 	
+	// If there is a pointer offset, move the selection.
 	// If there is no pointer offset, then this must be a new selection.
 	if (this._selection.pointerOffset) {
 		this._selection.x = pointerState.x - this._selection.pointerOffset.x;
@@ -97,20 +98,20 @@ SelectionTool.prototype.move = function (pointerState) {
 		this._updateSelectionOutline();
 	} else {
 		// Limit the region to the canvas.
-		pointerState.x = Math.max(0, Math.min(this._cxt.canvas.width, pointerState.x));
-		pointerState.y = Math.max(0, Math.min(this._cxt.canvas.height, pointerState.y));
+		pointerState.x = Utils.constrainValue(pointerState.x, 0, this._cxt.canvas.width);
+		pointerState.y = Utils.constrainValue(pointerState.y, 0, this._cxt.canvas.height);
 		
 		this._selection.startWidth = pointerState.x - this._selection.startX;
 		this._selection.startHeight = pointerState.y - this._selection.startY;
 		
-		// Keep x and y at the top-left corner.
-		if (this._selection.width < 0) {
-			this._selection.x = this._selection.startX + this._selection.width;
-			this._selection.startWidth = Math.abs(this._selection.width);
+		// Keep x and y at the top-left corner of the selection.
+		if (this._selection.startWidth < 0) {
+			this._selection.x = this._selection.startX + this._selection.startWidth;
+			this._selection.startWidth = Math.abs(this._selection.startWidth);
 		}
-		if (this._selection.height < 0) {
-			this._selection.y = this._selection.startY + this._selection.height;
-			this._selection.startHeight = Math.abs(this._selection.height);
+		if (this._selection.startHeight < 0) {
+			this._selection.y = this._selection.startY + this._selection.startHeight;
+			this._selection.startHeight = Math.abs(this._selection.startHeight);
 		}
 		this._selection.width = this._selection.startWidth;
 		this._selection.height = this._selection.startHeight;
