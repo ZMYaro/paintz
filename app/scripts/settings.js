@@ -8,9 +8,6 @@ function SettingsManager() {
 	this._loadStoredSettings();
 	
 	// Reflect the settings in the UI.
-	document.getElementById('themeStyleLink').href = 'styles/themes/' + this.get('theme') + '.css';
-	document.querySelector('meta[name="msapplication-navbutton-color"]').content =
-		document.querySelector('meta[name="theme-color"]').content = this.THEME_COLORS[this.get('theme')];
 	
 	if (this.get('ghostDraw')) {
 		preCanvas.classList.add('ghost');
@@ -112,6 +109,11 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			}
 			document.getElementById('resolution').innerHTML =
 				this.get('width') + ' &times; ' + value + 'px';
+			break;
+		case 'theme':
+			document.getElementById('themeStyleLink').href = 'styles/themes/' + value + '.css';
+			document.querySelector('meta[name="msapplication-navbutton-color"]').content =
+				document.querySelector('meta[name="theme-color"]').content = this.THEME_COLORS[value];
 			break;
 	}
 };
