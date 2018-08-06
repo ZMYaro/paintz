@@ -151,6 +151,40 @@ var Utils = {
 	},
 	
 	/**
+	 * Read a file to an image.
+	 * @param {File} file - The file to read
+	 * @returns {Promise} Resolves with an Image when the image has been loaded and read
+	 */
+	readImage: function (file) {
+		return new Promise(function (resolve, reject) {
+			if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+				alert('Please switch to a browser that supports the file APIs, such as Google Chrome.');
+				reject();
+				return;
+			}
+			if (!file) {
+				reject();
+				return;
+			}
+			if (!file.type.match('image.*')) {
+				alert('PaintZ can only open valid image files.');
+				reject();
+				return;
+			}
+			
+			var reader = new FileReader();
+			reader.onload = function () {
+				var image = new Image();
+				image.onload = function () {
+					resolve(image);
+				};
+				image.src = reader.result;
+			};
+			reader.readAsDataURL(file);
+		});
+	},
+	
+	/**
 	 * A shim for supporting requestAnimationFrame in older browsers.
 	 * Based on the one by Paul Irish.
 	 */

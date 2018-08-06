@@ -67,58 +67,42 @@ ImageToolbox.prototype._setUp = function (contents) {
  * @param {Event} e
  */
 ImageToolbox.prototype._handleFileUpload = function (e) {
-	if (window.File && window.FileReader && window.FileList && window.Blob) {
-		progressSpinner.show();
+	// Show the progress spinner until the image loads.
+	progressSpinner.show();
+	
+	var file = e.target.files[0];
+	Utils.readImage(file).then(function (image) {
+		// There is no need to clear the canvas.  Resizing the canvas will do that.
+		canvas.width =
+			preCanvas.width = image.width;
+		canvas.height =
+			preCanvas.height = image.height;
+		settings.set('width', image.width);
+		settings.set('height', image.height);
+		document.getElementById('resolution').innerHTML = image.width + ' &times; ' + image.height + 'px';
+		cxt.fillStyle = 'white';
+		cxt.fillRect(0, 0, canvas.width, canvas.height);
+		cxt.drawImage(image, 0, 0);
 		
-		var file = e.target.files[0];
-		if (!file) {
-			return;
+		// Set the file type and name.
+		// TODO: Make this not access SaveDialog private properties.
+		var fileName = file.name;
+		if (JPEG_REGEX.test(fileName)) {
+			dialogs.save._element.fileType.value =
+				dialogs.save._downloadLink.type = 'image/jpeg';
+		} else {
+			dialogs.save._element.fileType.value =
+				dialogs.save._downloadLink.type = 'image/png';
+			fileName = fileName.replace(FILE_EXT_REGEX, '.png');
 		}
-		if (!file.type.match('image.*')) {
-			alert('PaintZ can only open valid image files.');
-			return;
-		}
-		var reader = new FileReader();
-		reader.onload = function () {
-			var image = new Image();
-			
-			image.onload = function () {
-				// There is no need to clear the canvas.  Resizing the canvas will do that.
-				canvas.width = this.width;
-				canvas.height = this.height;
-				preCanvas.width = this.width;
-				preCanvas.height = this.height;
-				settings.set('width', this.width);
-				settings.set('height', this.height);
-				document.getElementById('resolution').innerHTML = this.width + ' &times; ' + this.height + 'px';
-				cxt.fillStyle = 'white';
-				cxt.fillRect(0, 0, canvas.width, canvas.height);
-				cxt.drawImage(this, 0, 0);
-				
-				// Clear the undo and redo stacks.
-				undoStack.clear();
-				
-				// Set the file type and name.
-				// TODO: Make this not access SaveDialog private properties.
-				var fileName = file.name;
-				if (JPEG_REGEX.test(fileName)) {
-					dialogs.save._element.fileType.value =
-						dialogs.save._downloadLink.type = 'image/jpeg';
-				} else {
-					dialogs.save._element.fileType.value =
-						dialogs.save._downloadLink.type = 'image/png';
-					fileName = fileName.replace(FILE_EXT_REGEX, '.png');
-				}
-				dialogs.save._element.fileName.value =
-					dialogs.save._downloadLink.download = fileName;
-				document.title = fileName + ' - PaintZ';
-				progressSpinner.hide();
-			};
-			
-			image.src = this.result;
-		};
-		reader.readAsDataURL(file);
-	} else {
-		alert('Please switch to a browser that supports the file APIs such as Google Chrome or Internet Explorer 11.');
-	}
+		dialogs.save._element.fileName.value =
+			dialogs.save._downloadLink.download = fileName;
+		document.title = fileName + ' - PaintZ';
+		
+		// Clear the undo and redo stacks.
+		undoStack.clear();
+		
+		// Hide the progress spinner.
+		progressSpinner.hide();
+	});
 };
