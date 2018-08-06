@@ -6,12 +6,6 @@ function SettingsManager() {
 	
 	// Load settings from local storage where possible.
 	this._loadStoredSettings();
-	
-	// Reflect the settings in the UI.
-	
-	if (this.get('ghostDraw')) {
-		preCanvas.classList.add('ghost');
-	}
 }
 
 // Define constants.
@@ -114,6 +108,9 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			document.getElementById('themeStyleLink').href = 'styles/themes/' + value + '.css';
 			document.querySelector('meta[name="msapplication-navbutton-color"]').content =
 				document.querySelector('meta[name="theme-color"]').content = this.THEME_COLORS[value];
+			break;
+		case 'ghostDraw':
+			preCanvas.classList[value ? 'add' : 'remove']('ghost');
 			break;
 	}
 };

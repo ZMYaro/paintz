@@ -48,13 +48,7 @@ SettingsDialog.prototype._saveNewSettings = function () {
 	
 	settings.set('theme', this._element.theme.value);
 	
-	if (this._element.ghostDraw.checked) {
-		settings.set('ghostDraw', true);
-		preCanvas.classList.add('ghost');
-	} else {
-		settings.set('ghostDraw', false);
-		preCanvas.classList.remove('ghost');
-	}
+	settings.set('ghostDraw', this._element.ghostDraw.checked);
 	
 	settings.set('antiAlias', this._element.antiAlias.checked);
 	
