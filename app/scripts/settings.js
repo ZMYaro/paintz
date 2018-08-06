@@ -12,11 +12,6 @@ function SettingsManager() {
 	document.querySelector('meta[name="msapplication-navbutton-color"]').content =
 		document.querySelector('meta[name="theme-color"]').content = this.THEME_COLORS[this.get('theme')];
 	
-	canvas.width =
-		preCanvas.width = this.get('width');
-	canvas.height =
-		preCanvas.height = this.get('height');
-	
 	if (this.get('ghostDraw')) {
 		preCanvas.classList.add('ghost');
 	}
@@ -89,7 +84,37 @@ SettingsManager.prototype._toExpectedType = function (setting, value) {
 		default:
 			return value;
 	}
-}
+};
+
+/**
+ * Update the UI to reflect a setting change.
+ * @param {String} setting - The name of the setting
+ * @param {Object} value - The new value to save for the setting
+ */
+SettingsManager.prototype._implementSettingChange = function (setting, value) {
+	switch (setting) {
+		case 'width':
+			if (canvas.width !== value) {
+				canvas.width = value;
+			}
+			if (preCanvas.width !== value) {
+				preCanvas.width = value;
+			}
+			document.getElementById('resolution').innerHTML =
+				value + ' &times; ' + this.get('height') + 'px';
+			break;
+		case 'height':
+			if (canvas.height !== value) {
+				canvas.height = value;
+			}
+			if (preCanvas.height !== value) {
+				preCanvas.height = value;
+			}
+			document.getElementById('resolution').innerHTML =
+				this.get('width') + ' &times; ' + value + 'px';
+			break;
+	}
+};
 
 /**
  * Get a setting.
@@ -111,6 +136,7 @@ SettingsManager.prototype.get = function (setting) {
 SettingsManager.prototype.set = function (setting, value) {
 	var correctedValue = this._toExpectedType(setting, value);
 	this._settings[setting] = correctedValue;
+	this._implementSettingChange(setting, correctedValue);
 	
 	// Attempt to save the setting to local storage.
 	// Some browsers will throw an error if this is attempted in a private browsing session.

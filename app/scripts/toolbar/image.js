@@ -79,7 +79,6 @@ ImageToolbox.prototype._handleFileUpload = function (e) {
 			preCanvas.height = image.height;
 		settings.set('width', image.width);
 		settings.set('height', image.height);
-		document.getElementById('resolution').innerHTML = image.width + ' &times; ' + image.height + 'px';
 		cxt.fillStyle = 'white';
 		cxt.fillRect(0, 0, canvas.width, canvas.height);
 		cxt.drawImage(image, 0, 0);

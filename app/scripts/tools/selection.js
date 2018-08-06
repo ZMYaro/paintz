@@ -242,15 +242,11 @@ SelectionTool.prototype.cropToSelection = function () {
 	}
 	
 	// Resize the main canvas to the selection size and draw the selection to it.
-	this._cxt.canvas.width =
-		this._preCxt.canvas.width = this._selection.width;
-	this._cxt.canvas.height =
-		this._preCxt.canvas.height = this._selection.height;
-	this._cxt.putImageData(this._selection.content, 0, 0);
-	
-	// Save the new width and height and the new undo state.
 	settings.set('width', this._selection.width);
 	settings.set('height', this._selection.height);
+	this._cxt.putImageData(this._selection.content, 0, 0);
+	
+	// Save the new state.
 	undoStack.addState();
 	
 	// Clear the selection.
@@ -349,7 +345,6 @@ SelectionTool.prototype.rotate = function (clockwise) {
 		// Put the updated selection back in place.
 		this._preCxt.canvas.width = this._cxt.canvas.width;
 		this._preCxt.canvas.height = this._cxt.canvas.height;
-		Utils.clearCanvas(this._preCxt);
 		this._drawSelectionContent();
 		this._updateSelectionOutline();
 		
@@ -374,12 +369,14 @@ SelectionTool.prototype.rotate = function (clockwise) {
 			oldCanvasHeight = this._cxt.canvas.height;
 		this._cxt.canvas.width = oldCanvasHeight;
 		this._cxt.canvas.height = oldCanvasWidth;
-		settings.set('width', oldCanvasHeight);
-		settings.set('height', oldCanvasWidth);
 		
 		// Draw the rotated image and save it as a new undo state.
 		this._cxt.drawImage(this._preCxt.canvas, 0, 0);
 		undoStack.addState();
+		
+		// Save the new width and height.
+		settings.set('width', oldCanvasHeight);
+		settings.set('height', oldCanvasWidth);
 	}
 };
 

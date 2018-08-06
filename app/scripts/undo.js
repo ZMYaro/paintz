@@ -19,16 +19,12 @@ var undoStack = {
 	 */
 	_applyState: function (state) {
 		this._currentState = state;
-
-		canvas.width = state.width;
-		preCanvas.width = state.width;
+		
 		settings.set('width', state.width);
-		canvas.height = state.height;
-		preCanvas.height = state.height;
 		settings.set('height', state.height);
 		cxt.drawImage(state.image, 0, 0);
 	},
-
+	
 	/**
 	 * Disable buttons for empty stacks.
 	 */
@@ -39,7 +35,7 @@ var undoStack = {
 		// Update the undo button.
 		toolbar.toolboxes.image.undoBtn.disabled = !this.canUndo;
 	},
-
+	
 	/**
 	 * Add the current state to the undo stack.
 	 */
@@ -65,7 +61,7 @@ var undoStack = {
 
 		this._updateUI();
 	},
-
+	
 	/**
 	 * Clear the undo and redo stacks.
 	 */
@@ -76,7 +72,7 @@ var undoStack = {
 		this.addState();
 		this._updateUI();
 	},
-
+	
 	/**
 	 * Return to the last state in the redo stack.
 	 */
@@ -95,13 +91,13 @@ var undoStack = {
 		var restoreState = this._redoStack.pop();
 		this._undoStack.push(this._currentState);
 		this._applyState(restoreState);
-
+		
 		this._updateUI();
 		
 		// Reactivate the current tool.
 		tools[settings.get('tool')].activate();
 	},
-
+	
 	/**
 	 * Revert to the last state in the undo stack.
 	 */
