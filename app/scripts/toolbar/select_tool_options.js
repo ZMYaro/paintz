@@ -37,6 +37,13 @@ SelectionToolOptionsToolbox.prototype._setUp = function (contents) {
 		tools.selection.rotate(true);
 	}, false);
 	
+	var pasteBtn = this._element.querySelector('#pasteBtn');
+	pasteBtn.addEventListener('click', function () {
+		if (!document.execCommand('paste')) {
+			alert('For now, you need to use ' + (Utils.isApple ? '\u2318' : 'Ctrl+') + 'V to paste an image into PaintZ.');
+		}
+	}, false);
+	
 	var flipHorizBtn = this._element.querySelector('#flipHorizBtn');
 	flipHorizBtn.addEventListener('click', function () {
 		tools.selection.flip(false);

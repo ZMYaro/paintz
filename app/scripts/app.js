@@ -16,6 +16,7 @@ var canvas,
 	zoomManager,
 	dialogsContainer,
 	settings,
+	clipboard,
 	dialogs = {},
 	toolbar = {},
 	keyboardDialog,
@@ -60,6 +61,41 @@ function initCanvas() {
 	preCanvas.oncontextmenu = function (e) {
 		e.preventDefault();
 	};
+}
+
+/**
+ * Resize the canvas to new dimensions while preserving the contents.
+ * @param {Number} newWidth - The new canvas width
+ * @param {Number} newHeight - The new canvas height
+ * @param {String} mode - Either 'scale' to stretch the canvas to the new dimensions or 'crop' to leave the existing content as is
+ */
+function resizeCanvas(newWidth, newHeight, mode) {
+	// Tell the current tool to finish.
+	tools[settings.get('tool')].deactivate();
+	
+	// Back up the canvas contents to the pre-canvas since resizing clears the canvas.
+	preCxt.drawImage(canvas, 0, 0);
+	// Resize the canvas.
+	canvas.width = newWidth;
+	canvas.height = newHeight;
+	// Fill any blank space with the fill color.
+	resetCanvas();
+	// Stretch or place the old canvas contents to the resized canvas.
+	if (mode === 'scale') {
+		cxt.drawImage(preCanvas, 0, 0, newWidth, newHeight);
+	} else {
+		cxt.drawImage(preCanvas, 0, 0);
+	}
+	// Update the pre-canvas's size.
+	preCanvas.width = newWidth;
+	preCanvas.height = newHeight;
+	
+	// Save the new dimensions.
+	settings.set('width', newWidth);
+	settings.set('height', newHeight);
+	
+	// Reactivate the current tool.
+	tools[settings.get('tool')].activate();
 }
 
 /**
@@ -193,6 +229,7 @@ window.addEventListener('load', function () {
 	// Initialize everything.
 	initCanvas();
 	settings = new SettingsManager();
+	clipboard = new ClipboardManager();
 	zoomManager = new ZoomManager();
 	toolbar = new ToolbarManager();
 	initTools();

@@ -54,29 +54,8 @@ ResizeDialog.prototype._saveNewSize = function () {
 		return;
 	}
 	
-	// Back up the canvas contents to the pre-canvas since resizing clears the canvas.
-	preCxt.drawImage(canvas, 0, 0);
 	// Resize the canvas.
-	canvas.width = newWidth;
-	canvas.height = newHeight;
-	// Fill any blank space with the fill color.
-	resetCanvas();
-	// Stretch or place the old canvas contents to the resized canvas.
-	if (mode === 'scale') {
-		cxt.drawImage(preCanvas, 0, 0, newWidth, newHeight);
-	} else {
-		cxt.drawImage(preCanvas, 0, 0);
-	}
-	// Update the pre-canvas's size.
-	preCanvas.width = newWidth;
-	preCanvas.height = newHeight;
-	
-	// Save the new dimensions.
-	settings.set('width', newWidth);
-	settings.set('height', newHeight);
-	
-	// Update the resolution display.
-	document.getElementById('resolution').innerHTML = newWidth + ' &times; ' + newHeight + 'px';
+	resizeCanvas(newWidth, newHeight, mode);
 
 	// Add the change to the undo stack.
 	undoStack.addState();

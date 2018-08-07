@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2018-08-05, v1
+# 2018-08-06, v1
 index.html
 404.html
 manifest.webapp
@@ -36,6 +36,7 @@ images/icons/outline_only.svg
 images/icons/oval.svg
 images/icons/paint_bucket.svg
 images/icons/pan.svg
+images/icons/paste.svg
 images/icons/pencil.svg
 images/icons/rect.svg
 images/icons/redo.svg
@@ -73,6 +74,7 @@ partials/toolbar/select_tool_options.html
 partials/toolbar/text_tool_options.html
 partials/toolbar/tools.html
 scripts/app.js
+scripts/clipboard.js
 scripts/floating_selection_toolbar.js
 scripts/keyboard.js
 scripts/pacman.js
