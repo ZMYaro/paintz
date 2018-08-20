@@ -14,6 +14,7 @@ function AppToolbox() {
 }
 // Extend Toolbox.
 AppToolbox.prototype = Object.create(Toolbox.prototype);
+AppToolbox.prototype.constructor = AppToolbox;
 
 /**
  * @override

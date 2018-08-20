@@ -9,3 +9,4 @@ function NoToolOptionsToolbox() {
 }
 // Extend Toolbox.
 NoToolOptionsToolbox.prototype = Object.create(Toolbox.prototype);
+NoToolOptionsToolbox.prototype.constructor = NoToolOptionsToolbox;

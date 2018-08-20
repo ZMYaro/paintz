@@ -20,6 +20,7 @@ function ColorPickerToolbox() {
 }
 // Extend Toolbox.
 ColorPickerToolbox.prototype = Object.create(Toolbox.prototype);
+ColorPickerToolbox.prototype.constructor = ColorPickerToolbox;
 
 // Define constants.
 /** @constant {Object<String,Array<String>>} The colors for each palette */

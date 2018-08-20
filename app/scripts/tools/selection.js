@@ -13,12 +13,13 @@ function SelectionTool(cxt, preCxt) {
 	
 	this._toolbar = new FloatingSelectionToolbar();
 }
-
+// Extend Tool.
 SelectionTool.prototype = Object.create(Tool.prototype);
+SelectionTool.prototype.constructor = SelectionTool;
 
 /**
- * Handle the selection tool becoming the active tool.
  * @override
+ * Handle the selection tool becoming the active tool.
  */
 SelectionTool.prototype.activate = function () {
 	this._preCxt.canvas.style.cursor = 'crosshair';
@@ -26,8 +27,8 @@ SelectionTool.prototype.activate = function () {
 };
 
 /**
- * Handle the tool being activated by a pointer.
  * @override
+ * Handle the tool being activated by a pointer.
  * @param {Object} pointerState - The pointer coordinates and button
  */
 SelectionTool.prototype.start = function (pointerState) {
@@ -75,8 +76,8 @@ SelectionTool.prototype.start = function (pointerState) {
 };
 
 /**
- * Update the tool as the cursor moves.
  * @override
+ * Update the tool as the cursor moves.
  * @param {Object} pointerState - The pointer coordinates
  */
 SelectionTool.prototype.move = function (pointerState) {
@@ -120,8 +121,8 @@ SelectionTool.prototype.move = function (pointerState) {
 };
 
 /**
- * Handle the pointer being released.
  * @override
+ * Handle the pointer being released.
  * @param {Object} pointerState - The pointer coordinates
  */
 SelectionTool.prototype.end = function (pointerState) {
@@ -157,8 +158,8 @@ SelectionTool.prototype.end = function (pointerState) {
 };
 
 /**
- * Clean up when the selection tool is no longer the active tool.
  * @override
+ * Clean up when the selection tool is no longer the active tool.
  */
 SelectionTool.prototype.deactivate = function () {
 	this._saveSelection();
@@ -381,6 +382,7 @@ SelectionTool.prototype.rotate = function (clockwise) {
 };
 
 /**
+ * @private
  * Update the outline element.
  */
 SelectionTool.prototype._updateSelectionOutline = function () {
@@ -406,6 +408,7 @@ SelectionTool.prototype._updateSelectionOutline = function () {
 };
 
 /**
+ * @private
  * Draw the selected content in its new location and the background color over its former location.
  */
 SelectionTool.prototype._drawSelectionContent = function () {
@@ -430,8 +433,8 @@ SelectionTool.prototype._drawSelectionStartCover = function () {
 };
 
 /**
+ * @private
  * Save the selection to the canvas if it was moved.
- * @returns {Boolean} Whether the selection was saved.
  */
 SelectionTool.prototype._saveSelection = function () {
 	Utils.clearCanvas(this._preCxt);

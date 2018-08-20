@@ -11,6 +11,7 @@ function ClearDialog(trigger) {
 }
 // Extend Dialog.
 ClearDialog.prototype = Object.create(Dialog.prototype);
+ClearDialog.prototype.constructor = ClearDialog;
 
 // Define constants.
 /** @override @constant {String} The width of the dialog, as a CSS value */

@@ -9,6 +9,7 @@ function ToolsToolbox() {
 }
 // Extend Toolbox.
 ToolsToolbox.prototype = Object.create(Toolbox.prototype);
+ToolsToolbox.prototype.constructor = ToolsToolbox;
 
 /**
  * @override

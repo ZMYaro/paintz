@@ -10,18 +10,17 @@ function CurveTool(cxt, preCxt) {
 	
 	this._state = CurveTool.STATE_NOT_STARTED;
 }
+// Extend CurveTool.
+CurveTool.prototype = Object.create(DrawingTool.prototype);
+CurveTool.prototype.constructor = CurveTool;
 
 // Constants
 CurveTool.STATE_NOT_STARTED = 0;
 CurveTool.STATE_LINE_DRAWN = 1;
 
-
-CurveTool.prototype = Object.create(DrawingTool.prototype);
-
-
 /**
- * Plot a limited quadratic Bezier segment
  * @private
+ * Plot a limited quadratic Bezier segment
  * @param {Number} x1 - The x-coordinate of the curve segment's start point
  * @param {Number} y1 - The y-coordinate of the curve segment's start point
  * @param {Number} x2 - The x-coordinate of the curve segment's end point
@@ -109,8 +108,8 @@ CurveTool.prototype._plotQuadBezierSeg = function (x1, y1, x2, y2, x3, y3, cxt) 
 }
 
 /**
- * Plot a quadratic Bezier curve
  * @private
+ * Plot a quadratic Bezier curve
  * @param {Number} x1 - The x-coordinate of the curve's start point
  * @param {Number} y1 - The y-coordinate of the curve's start point
  * @param {Number} x2 - The x-coordinate of the curve's end point
@@ -183,8 +182,8 @@ CurveTool.prototype._plotQuadBezier = function (x1, y1, x2, y2, x3, y3, cxt) {
 }
 
 /**
- * Handle the curve tool becoming the active tool.
  * @override
+ * Handle the curve tool becoming the active tool.
  */
 CurveTool.prototype.activate = function () {
 	DrawingTool.prototype.activate.apply(this, arguments);
@@ -193,8 +192,8 @@ CurveTool.prototype.activate = function () {
 };
 
 /**
- * Handle a curve being started by a pointer.
  * @override
+ * Handle a curve being started by a pointer.
  * @param {Object} pointerState - The pointer coordinates and button
  */
 CurveTool.prototype.start = function (pointerState) {
@@ -211,8 +210,8 @@ CurveTool.prototype.start = function (pointerState) {
 };
 
 /**
- * Update the curve when the pointer is moved.
  * @override
+ * Update the curve when the pointer is moved.
  * @param {Object} pointerState - The pointer coordinates
  */
 CurveTool.prototype.move = function (pointerState) {
@@ -238,8 +237,8 @@ CurveTool.prototype.move = function (pointerState) {
 };
 
 /**
- * Process when the pointer is released.
  * @override
+ * Process when the pointer is released.
  * @param {Object} pointerState - The pointer coordinates
  */
 CurveTool.prototype.end = function (pointerState) {

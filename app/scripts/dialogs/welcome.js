@@ -10,6 +10,7 @@ function WelcomeDialog(trigger) {
 }
 // Extend Dialog.
 WelcomeDialog.prototype = Object.create(Dialog.prototype);
+WelcomeDialog.prototype.constructor = WelcomeDialog;
 
 // Define constants.
 /** @override @constant {String} The width of the dialog, as a CSS value */

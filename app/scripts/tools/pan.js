@@ -8,12 +8,13 @@
 function PanTool(cxt, preCxt) {
 	Tool.apply(this, arguments);
 }
-
+// Extend Tool.
 PanTool.prototype = Object.create(Tool.prototype);
+PanTool.prototype.constructor = PanTool;
 
 /**
- * Handle the pan tool becoming the active tool.
  * @override
+ * Handle the pan tool becoming the active tool.
  */
 PanTool.prototype.activate = function () {
 	this._preCxt.canvas.style.cursor = 'move';
@@ -24,8 +25,8 @@ PanTool.prototype.activate = function () {
 };
 
 /**
- * Handle the tool being activated by a pointer.
  * @override
+ * Handle the tool being activated by a pointer.
  * @param {Object} pointerState - The pointer coordinates and button
  */
 PanTool.prototype.start = function (pointerState) {
@@ -43,8 +44,8 @@ PanTool.prototype.start = function (pointerState) {
 };
 
 /**
- * Update the tool as the cursor moves.
  * @override
+ * Update the tool as the cursor moves.
  * @param {Object} pointerState - The pointer coordinates
  */
 PanTool.prototype.move = function (pointerState) {
@@ -54,8 +55,8 @@ PanTool.prototype.move = function (pointerState) {
 };
 
 /**
- * Handle the pointer being released.
  * @override
+ * Handle the pointer being released.
  * @param {Object} pointerState - The pointer coordinates
  */
 PanTool.prototype.end = function (pointerState) {
@@ -67,4 +68,3 @@ PanTool.prototype.end = function (pointerState) {
 	this._preCxt.canvas.style.cursor = '-moz-grab';
 	this._preCxt.canvas.style.cursor = 'grab';
 };
-

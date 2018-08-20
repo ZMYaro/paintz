@@ -8,13 +8,13 @@
 function ShapeTool(cxt, preCxt) {
 	DrawingTool.apply(this, arguments);
 }
-
+// Extend DrawingTool.
 ShapeTool.prototype = Object.create(DrawingTool.prototype);
-
+ShapeTool.prototype.constructor = ShapeTool;
 
 /**
- * Handle the shape being started by a pointer.
  * @override
+ * Handle the shape being started by a pointer.
  * @param {Object} pointerState - The pointer coordinates and button
  */
 ShapeTool.prototype.start = function (pointerState) {
@@ -32,8 +32,8 @@ ShapeTool.prototype.start = function (pointerState) {
 };
 
 /**
- * Update the shape when the pointer is moved.
  * @override
+ * Update the shape when the pointer is moved.
  * @param {Object} pointerState - The pointer coordinates
  */
 ShapeTool.prototype.move = function (pointerState) {

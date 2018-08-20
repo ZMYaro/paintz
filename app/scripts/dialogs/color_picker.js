@@ -15,6 +15,7 @@ function ColorPickerDialog(trigger) {
 }
 // Extend Dialog.
 ColorPickerDialog.prototype = Object.create(Dialog.prototype);
+ColorPickerDialog.prototype.constructor = ColorPickerDialog;
 
 // Define constants.
 /** @override @constant {String} The width of the dialog, as a CSS value */

@@ -9,6 +9,7 @@ function SelectionToolOptionsToolbox() {
 }
 // Extend Toolbox.
 SelectionToolOptionsToolbox.prototype = Object.create(Toolbox.prototype);
+SelectionToolOptionsToolbox.prototype.constructor = SelectionToolOptionsToolbox;
 
 /**
  * @override

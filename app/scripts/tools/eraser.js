@@ -8,13 +8,13 @@
 function EraserTool(cxt, preCxt) {
 	DrawingTool.apply(this, arguments);
 }
-
+// Extend DrawingTool.
 EraserTool.prototype = Object.create(DrawingTool.prototype);
-
+EraserTool.prototype.constructor = EraserTool;
 
 /**
- * Handle the doodle tool becoming the active tool.
  * @override
+ * Handle the doodle tool becoming the active tool.
  */
 EraserTool.prototype.activate = function () {
 	DrawingTool.prototype.activate.apply(this);
@@ -23,8 +23,8 @@ EraserTool.prototype.activate = function () {
 };
 
 /**
- * Handle a doodle being started by a pointer.
  * @override
+ * Handle a doodle being started by a pointer.
  * @param {Object} pointerState - The pointer coordinates and button
  */
 EraserTool.prototype.start = function (pointerState) {
@@ -43,8 +43,8 @@ EraserTool.prototype.start = function (pointerState) {
 };
 
 /**
- * Update the erased area as it is being drawn.
  * @override
+ * Update the erased area as it is being drawn.
  * @param {Object} pointerState - The pointer coordinates
  */
 EraserTool.prototype.move = function (pointerState) {

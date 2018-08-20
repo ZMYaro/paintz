@@ -11,6 +11,7 @@ function ResizeDialog(trigger) {
 }
 // Extend Dialog.
 ResizeDialog.prototype = Object.create(Dialog.prototype);
+ResizeDialog.prototype.constructor = ResizeDialog;
 
 // Define constants.
 /** @override @constant {String} The width of the dialog, as a CSS value */

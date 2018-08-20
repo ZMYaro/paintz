@@ -11,6 +11,7 @@ function SaveDialog(trigger) {
 }
 // Extend Dialog.
 SaveDialog.prototype = Object.create(Dialog.prototype);
+SaveDialog.prototype.constructor = SaveDialog;
 
 // Define constants.
 /** @override @constant {String} The width of the dialog, as a CSS value */

@@ -8,12 +8,13 @@
 function EyedropperTool(cxt, preCxt) {
 	Tool.apply(this, arguments);
 }
-
+// Extend Tool.
 EyedropperTool.prototype = Object.create(Tool.prototype);
+EyedropperTool.prototype.constructor = EyedropperTool;
 
 /**
- * Handle the eyedropper tool becoming the active tool.
  * @override
+ * Handle the eyedropper tool becoming the active tool.
  */
 EyedropperTool.prototype.activate = function () {
 	this._preCxt.canvas.style.cursor = 'url(images/cursors/eyedropper.cur), default';
@@ -21,8 +22,8 @@ EyedropperTool.prototype.activate = function () {
 };
 
 /**
- * Handle the tool being activated by a pointer.
  * @override
+ * Handle the tool being activated by a pointer.
  * @param {Object} pointerState - The pointer coordinates and button
  */
 EyedropperTool.prototype.start = function (pointerState) {
@@ -31,8 +32,8 @@ EyedropperTool.prototype.start = function (pointerState) {
 };
 
 /**
- * Collect the color under the cursor as the cursor moves.
  * @override
+ * Collect the color under the cursor as the cursor moves.
  * @param {Object} pointerState - The pointer coordinates
  */
 EyedropperTool.prototype.move = function (pointerState) {

@@ -11,6 +11,7 @@ function HelpDialog(trigger) {
 }
 // Extend Dialog.
 HelpDialog.prototype = Object.create(Dialog.prototype);
+HelpDialog.prototype.constructor = HelpDialog;
 
 // Define constants.
 /** @override @constant {String} The width of the dialog, as a CSS value */

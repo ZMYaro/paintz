@@ -9,6 +9,7 @@ function DrawToolOptionsToolbox() {
 }
 // Extend Toolbox.
 DrawToolOptionsToolbox.prototype = Object.create(Toolbox.prototype);
+DrawToolOptionsToolbox.prototype.constructor = DrawToolOptionsToolbox;
 
 /**
  * @override

@@ -22,6 +22,9 @@ function TextTool(cxt, preCxt) {
 	
 	this._textElem.onblur = this._removeTextElem.bind(this);
 }
+// Extend Tool.
+TextTool.prototype = Object.create(Tool.prototype);
+TextTool.prototype.constructor = TextTool;
 
 /** {Number} How close one has to click to grab the text box */
 TextTool.GRABBABLE_MARGIN = 4;
@@ -34,11 +37,9 @@ TextTool.BORDER_WIDTH = 1;
 /** {Number} The line height of the text box */
 TextTool.LINE_HEIGHT = 1;
 
-TextTool.prototype = Object.create(Tool.prototype);
-
 /**
- * Handle the selection tool becoming the active tool.
  * @override
+ * Handle the selection tool becoming the active tool.
  */
 TextTool.prototype.activate = function () {
 	this._preCxt.canvas.style.cursor = 'crosshair';
@@ -53,8 +54,8 @@ TextTool.prototype.activate = function () {
 };
 
 /**
- * Handle the tool being activated by a pointer.
  * @override
+ * Handle the tool being activated by a pointer.
  * @param {Object} pointerState - The pointer coordinates and button
  */
 TextTool.prototype.start = function (pointerState) {
@@ -125,8 +126,8 @@ TextTool.prototype.start = function (pointerState) {
 };
 
 /**
- * Update the tool as the cursor moves.
  * @override
+ * Update the tool as the cursor moves.
  * @param {Object} pointerState - The pointer coordinates
  */
 TextTool.prototype.move = function (pointerState) {
@@ -166,8 +167,8 @@ TextTool.prototype.move = function (pointerState) {
 };
 
 /**
- * Handle the pointer being released.
  * @override
+ * Handle the pointer being released.
  * @param {Object} pointerState - The pointer coordinates
  */
 TextTool.prototype.end = function (pointerState) {
@@ -197,14 +198,15 @@ TextTool.prototype.end = function (pointerState) {
 };
 
 /**
- * Clean up when the text tool is no longer the active tool.
  * @override
+ * Clean up when the text tool is no longer the active tool.
  */
 TextTool.prototype.deactivate = function () {
 	this._removeTextElem();
 };
 
 /**
+ * @private
  * Update the text box element.
  */
 TextTool.prototype._updateTextElem = function () {
@@ -228,6 +230,7 @@ TextTool.prototype._updateTextElem = function () {
 };
 
 /**
+ * @private
  * Remove the text box element.
  */
 TextTool.prototype._removeTextElem = function () {
@@ -245,6 +248,7 @@ TextTool.prototype._removeTextElem = function () {
 };
 
 /**
+ * @private
  * Save the selection to the canvas if it was moved.
  * @returns {Boolean} Whether the selection was saved.
  */

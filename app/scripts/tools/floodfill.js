@@ -8,11 +8,12 @@
 function FloodFillTool(cxt, preCxt) {
 	Tool.apply(this, arguments);
 }
-
+// Extend FloodFillTool.
 FloodFillTool.prototype = Object.create(Tool.prototype);
-
+FloodFillTool.prototype.constructor = FloodFillTool;
 
 /**
+ * @private
  * Fill the canvas, starting at (startX,startY).
  * @param {Number} startX - The x-coordinate of the fill's starting point
  * @param {Number} startY - The y-coordinate of the fill's starting point
@@ -93,6 +94,7 @@ FloodFillTool.prototype._fill = function (startX, startY) {
 };
 
 /**
+ * @private
  * Check whether the pixel at a given position as the same color as the first pixel clicked.
  * @param {Number} pixelPos - The index of the pixel to be checked in the image data array
  * @returns {Boolean}
@@ -111,6 +113,7 @@ FloodFillTool.prototype._checkColorMatch = function (pixelPos) {
 };
 
 /**
+ * @private
  * Change the color of a given pixel to the filling color.
  * @param {Number} pixelPos - The index of the pixel to be colored in the image data array
  */
@@ -121,8 +124,8 @@ FloodFillTool.prototype._colorPixel = function (pixelPos) {
 };
 
 /**
- * Handle the flood fill tool becoming the active tool.
  * @override
+ * Handle the flood fill tool becoming the active tool.
  */
 FloodFillTool.prototype.activate = function () {
 	this._filling = false;
@@ -134,8 +137,8 @@ FloodFillTool.prototype.activate = function () {
 };
 
 /**
- * Handle the flood fill being activated by a pointer.
  * @override
+ * Handle the flood fill being activated by a pointer.
  * @param {Object} pointerState - The pointer coordinates and button
  */
 FloodFillTool.prototype.start = function (pointerState) {

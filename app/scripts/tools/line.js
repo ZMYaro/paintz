@@ -8,9 +8,9 @@
 function LineTool(cxt, preCxt) {
 	DrawingTool.apply(this, arguments);
 }
-
+// Extends DrawingTool.
 LineTool.prototype = Object.create(DrawingTool.prototype);
-
+LineTool.prototype.constructor = LineTool;
 
 /**
  * Draw a line
@@ -31,8 +31,8 @@ LineTool.drawLine = function (x1, y1, x2, y2, cxt) {
 }
 
 /**
- * Handle a line being started by a pointer.
  * @override
+ * Handle a line being started by a pointer.
  * @param {Object} pointerState - The pointer coordinates and button
  */
 LineTool.prototype.start = function (pointerState) {
@@ -47,8 +47,8 @@ LineTool.prototype.start = function (pointerState) {
 };
 
 /**
- * Update the line when the pointer is moved.
  * @override
+ * Update the line when the pointer is moved.
  * @param {Object} pointerState - The pointer coordinates
  */
 LineTool.prototype.move = function (pointerState) {

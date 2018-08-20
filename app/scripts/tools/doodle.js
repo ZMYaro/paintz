@@ -8,11 +8,12 @@
 function DoodleTool(cxt, preCxt) {
 	DrawingTool.apply(this, arguments);
 }
-
+// Extend DrawingTool.
 DoodleTool.prototype = Object.create(DrawingTool.prototype);
-
+DoodleTool.prototype.constructor = DoodleTool;
 
 /**
+ * @private
  * Draw a round end cap for the doodle.
  * @param {CanvasRenderingContext2D} cxt - The canvas context in which the doodle is being drawn
  * @param {Number} x - The x-coordinate of the cap
@@ -27,8 +28,8 @@ DoodleTool.prototype._drawCap = function (cxt, x, y) {
 };
 
 /**
- * Handle the doodle tool becoming the active tool.
  * @override
+ * Handle the doodle tool becoming the active tool.
  */
 DoodleTool.prototype.activate = function () {
 	DrawingTool.prototype.activate.apply(this);
@@ -37,8 +38,8 @@ DoodleTool.prototype.activate = function () {
 };
 
 /**
- * Handle a doodle being started by a pointer.
  * @override
+ * Handle a doodle being started by a pointer.
  * @param {Object} pointerState - The pointer coordinates and button
  */
 DoodleTool.prototype.start = function (pointerState) {
@@ -61,8 +62,8 @@ DoodleTool.prototype.start = function (pointerState) {
 };
 
 /**
- * Update the doodle when the pointer is moved.
  * @override
+ * Update the doodle when the pointer is moved.
  * @param {Object} pointerState - The pointer coordinates
  */
 DoodleTool.prototype.move = function (pointerState) {

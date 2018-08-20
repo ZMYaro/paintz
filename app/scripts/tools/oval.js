@@ -8,13 +8,13 @@
 function OvalTool(cxt, preCxt) {
 	ShapeTool.apply(this, arguments);
 }
-
+// Extend ShapeTool.
 OvalTool.prototype = Object.create(ShapeTool.prototype);
-
+OvalTool.prototype.constructor = OvalTool;
 
 /**
- * Update the oval's preview as it is being drawn.
  * @override
+ * Update the oval's preview as it is being drawn.
  * @param {Object} pointerState - The pointer coordinates
  */
 OvalTool.prototype.move = function (pointerState) {

@@ -10,6 +10,7 @@ function AboutDialog(trigger) {
 }
 // Extend Dialog.
 AboutDialog.prototype = Object.create(Dialog.prototype);
+AboutDialog.prototype.constructor = AboutDialog;
 
 // Define constants.
 /** @override @constant {String} The width of the dialog, as a CSS value */

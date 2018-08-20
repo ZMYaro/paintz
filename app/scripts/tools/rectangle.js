@@ -8,13 +8,13 @@
 function RectangleTool(cxt, preCxt) {
 	ShapeTool.apply(this, arguments);
 }
-
+// Extend ShapeTool;
 RectangleTool.prototype = Object.create(ShapeTool.prototype);
-
+RectangleTool.prototype.constructor = RectangleTool;
 
 /**
- * Update the rectangle's preview when the pointer is moved.
  * @override
+ * Update the rectangle's preview when the pointer is moved.
  * @param {Object} pointerState - The pointer coordinates
  */
 RectangleTool.prototype.move = function (pointerState) {
