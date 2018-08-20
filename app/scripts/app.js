@@ -277,12 +277,14 @@ function postLoadInit() {
 	// Hide the splash screen.
 	document.body.removeChild(document.getElementById('splashScreen'));
 	
-	if (!settings.get('firstRunDone')) {
-		// Show the welcome dialog if this is the user's first time using PaintZ (in this browser).
-		var welcomeDialog = new WelcomeDialog(document.getElementById('helpBtn'));
-		welcomeDialog.loadPromise.then(function () {
-			welcomeDialog.open();
-			settings.set('firstRunDone', true);
-		});
+	if (settings.get('firstRunDone')) {
+		// Only show the welcome dialog if this is the user's first time using PaintZ (in this browser).
+		return;
 	}
+	
+	var welcomeDialog = new WelcomeDialog(document.getElementById('helpBtn'));
+	welcomeDialog.loadPromise.then(function () {
+		welcomeDialog.open();
+		settings.set('firstRunDone', true);
+	});
 }
