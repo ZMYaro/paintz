@@ -272,7 +272,7 @@ function postLoadInit() {
 	keyManager.enableAppShortcuts();
 	
 	// Set the title once everything else is ready.
-	document.title = DEFAULT_TITLE + ' - PaintZ'
+	document.title = DEFAULT_TITLE + ' - PaintZ';
 	
 	// Hide the splash screen.
 	document.body.removeChild(document.getElementById('splashScreen'));

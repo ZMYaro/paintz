@@ -58,7 +58,7 @@ var undoStack = {
 		};
 		// Clear the redo stack.
 		this._redoStack = [];
-
+		
 		this._updateUI();
 	},
 	
