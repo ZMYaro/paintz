@@ -20,6 +20,7 @@ function ImageToolbox() {
 }
 // Extend Toolbox.
 ImageToolbox.prototype = Object.create(Toolbox.prototype);
+ImageToolbox.prototype.constructor = ImageToolbox;
 
 /**
  * @override
