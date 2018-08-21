@@ -13,8 +13,9 @@ function FloatingSelectionToolbar() {
 	this._y = 0;
 	
 	// Fetch the toolbox content, then set up the toolbox.
-	this.loadPromise = Utils.fetch(this.PARTIALS_DIR + 'floating_selection_toolbar.html');
-	this.loadPromise.then(this._setUp.bind(this));
+	this.loadPromise =
+		Utils.fetch(this.PARTIALS_DIR + 'floating_selection_toolbar.html')
+			.then(this._setUp.bind(this));
 	
 	// Hide by default.
 	this.hide();

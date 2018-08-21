@@ -16,8 +16,9 @@ function Toolbox(contentFileName) {
 	toolbarElement.appendChild(this._element);
 	
 	// Fetch the toolbox content, then set up the toolbox.
-	this.loadPromise = Utils.fetch(this.PARTIALS_DIR + contentFileName + '.html');
-	this.loadPromise.then(this._setUp.bind(this));
+	this.loadPromise =
+		Utils.fetch(this.PARTIALS_DIR + contentFileName + '.html')
+			.then(this._setUp.bind(this));
 }
 
 // Define constants.
