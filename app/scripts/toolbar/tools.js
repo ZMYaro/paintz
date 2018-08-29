@@ -20,10 +20,10 @@ ToolsToolbox.prototype.constructor = ToolsToolbox;
 ToolsToolbox.prototype._setUp = function (contents) {
 	Toolbox.prototype._setUp.call(this, contents);
 	
-	var tools = this._element.querySelector('#tools');
-	tools.tool.value = settings.get('tool');
-	tools.addEventListener('change', function (e) {
+	var toolsForm = this._element.querySelector('#tools');
+	toolsForm.tool.value = settings.get('tool');
+	toolsForm.addEventListener('change', function (e) {
 		// Switch to the newly-selected tool.
-		switchTool(e.target.value);
+		tools.switchTool(e.target.value);
 	}, false);
 };

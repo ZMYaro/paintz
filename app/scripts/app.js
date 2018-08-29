@@ -24,22 +24,6 @@ var canvas,
 	progressSpinner;
 
 /**
- * Switch to the specified tool.
- * @param {String} tool - The name of the tool to switch to
- */
-function switchTool(tool) {
-	// Deactivate the current tool.
-	tools[settings.get('tool')].deactivate();
-	// Clear the preview canvas.
-	Utils.clearCanvas(preCxt);
-	// Set and activate the newly-selected tool.
-	settings.set('tool', tool);
-	tools[tool].activate();
-	// Update the toolbar.
-	document.getElementById('tools').tool.value = tool;
-}
-
-/**
  * Get the canvases and their drawing contexts, and set up event listeners.
  */
 function initCanvas() {
@@ -55,12 +39,6 @@ function initCanvas() {
 	
 	cxt.lineCap = 'round';
 	preCxt.lineCap = 'round';
-	
-	// Set up event listeners for drawing.
-	preCanvas.addEventListener('pointerdown', startTool, false);
-	preCanvas.oncontextmenu = function (e) {
-		e.preventDefault();
-	};
 }
 
 /**
@@ -71,7 +49,7 @@ function initCanvas() {
  */
 function resizeCanvas(newWidth, newHeight, mode) {
 	// Tell the current tool to finish.
-	tools[settings.get('tool')].deactivate();
+	tools.currentTool.deactivate();
 	
 	// Back up the canvas contents to the pre-canvas since resizing clears the canvas.
 	preCxt.drawImage(canvas, 0, 0);
@@ -95,100 +73,9 @@ function resizeCanvas(newWidth, newHeight, mode) {
 	settings.set('height', newHeight);
 	
 	// Reactivate the current tool.
-	tools[settings.get('tool')].activate();
+	tools.currentTool.activate();
 }
 
-/**
- * Initialize the tools.
- */
-function initTools() {
-	tools = {
-		pencil: new PencilTool(cxt, preCxt),
-		doodle: new DoodleTool(cxt, preCxt),
-		line: new LineTool(cxt, preCxt),
-		curve: new CurveTool(cxt, preCxt),
-		rect: new RectangleTool(cxt, preCxt),
-		oval: new OvalTool(cxt, preCxt),
-		eraser: new EraserTool(cxt, preCxt),
-		floodFill: new FloodFillTool(cxt, preCxt),
-		eyedropper: new EyedropperTool(cxt, preCxt),
-		selection: new SelectionTool(cxt, preCxt),
-		text: new TextTool(cxt,preCxt),
-		pan: new PanTool(cxt, preCxt)
-	};
-	tools[settings.get('tool')].activate();
-}
-
-/**
- * Start drawing with the current tool.
- * @param {MouseEvent|TouchEvent} e
- */
-function startTool(e) {
-	// Quit if the left or right mouse button was not the button used.
-	// (A touch is treated as a left mouse button.)
-	if (e.button !== 0 && e.button !== 2) {
-		return;
-	}
-	
-	e.preventDefault();
-	e.stopPropagation();
-	
-	// Remove the event listener for starting drawing.
-	preCanvas.removeEventListener('pointerdown', startTool, false);
-	
-	canvas.focus();
-	
-	// Initialize the new shape.
-	tools[settings.get('tool')].start({
-		button: e.button,
-		ctrlKey: Utils.checkPlatformCtrlKey(e),
-		shiftKey: e.shiftKey,
-		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
-		y: Utils.getCanvasY(e.pageY) / zoomManager.level
-	});
-	
-	// Set the event listeners to continue and end drawing.
-	document.addEventListener('pointermove', moveTool, false);
-	document.addEventListener('pointerup', endTool, false);
-	document.addEventListener('pointerleave', endTool, false);
-}
-
-/**
- * Complete the canvas or preview canvas with the shape currently being drawn.
- * @param {MouseEvent|TouchEvent} e
- */
-function moveTool(e) {
-	e.preventDefault();
-	e.stopPropagation();
-	
-	// Update the shape.
-	tools[settings.get('tool')].move({
-		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
-		y: Utils.getCanvasY(e.pageY) / zoomManager.level
-	});
-}
-/**
- * Complete the current shape and stop drawing.
- * @param {MouseEvent|TouchEvent} e
- */
-function endTool(e) {
-	e.preventDefault();
-	e.stopPropagation();
-	
-	// Remove the event listeners for ending drawing.
-	document.removeEventListener('pointermove', moveTool, false);
-	document.removeEventListener('pointerup', endTool, false);
-	document.removeEventListener('pointerleave', endTool, false);
-	
-	// Complete the task.
-	tools[settings.get('tool')].end({
-		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
-		y: Utils.getCanvasY(e.pageY) / zoomManager.level
-	});
-	
-	// Set the event listeners to start the next drawing.
-	preCanvas.addEventListener('pointerdown', startTool, false);
-}
 /**
  * Overwrite the canvas with the current fill color.
  */
@@ -232,7 +119,7 @@ window.addEventListener('load', function () {
 	clipboard = new ClipboardManager();
 	zoomManager = new ZoomManager();
 	toolbar = new ToolbarManager();
-	initTools();
+	tools = new ToolManager();
 	progressSpinner = new ProgressSpinner();
 	
 	// Get saved reference to the dialogs container.

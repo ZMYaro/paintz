@@ -78,7 +78,7 @@ Object.defineProperties(ZoomManager.prototype, {
 				preCanvas.style.transform = 'scale(' + percent / 100 + ')';
 			
 			// Allow the tool to update its cursor.
-			tools[settings.get('tool')].activate();
+			tools.currentTool.activate();
 		}
 	}
 });

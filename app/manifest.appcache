@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2018-08-06, v1
+# 2018-08-28, v1
 index.html
 404.html
 manifest.webapp
@@ -121,6 +121,7 @@ scripts/tools/selection.js
 scripts/tools/shape.js
 scripts/tools/text.js
 scripts/tools/tool.js
+scripts/tools/tools.js
 styles/color_picker.css
 styles/dialogs.css
 styles/layout.css

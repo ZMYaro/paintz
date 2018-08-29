@@ -138,7 +138,7 @@ ColorPickerToolbox.prototype._handleColorButtonClick = function (e) {
 		this.colorIndicator.style.borderColor = e.target.dataset.value;
 		
 		// Some tools' cursors change with the line color, so reactivate the cursor.
-		tools[settings.get('tool')].activate();
+		tools.currentTool.activate();
 	} else if (e.button === 2) {
 		e.preventDefault();
 		e.stopPropagation();
@@ -148,7 +148,7 @@ ColorPickerToolbox.prototype._handleColorButtonClick = function (e) {
 		this.colorIndicator.style.backgroundColor = e.target.dataset.value;
 		
 		// Some tools' cursors change with the fill color, so reactivate the cursor.
-		tools[settings.get('tool')].activate();
+		tools.currentTool.activate();
 	}
 };
 

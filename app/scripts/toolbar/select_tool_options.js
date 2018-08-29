@@ -23,7 +23,7 @@ SelectionToolOptionsToolbox.prototype._setUp = function (contents) {
 	var selectAllBtn = this._element.querySelector('#selectAllBtn');
 	selectAllBtn.addEventListener('click', function () {
 		// Switch to the selection tool if it is not already active.
-		switchTool('selection');
+		tools.switchTool('selection');
 		// Select the entire canvas.
 		tools.selection.selectAll(canvas.width, canvas.height);
 	}, false);

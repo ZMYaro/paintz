@@ -29,7 +29,7 @@ var keyManager = {
 					// Ctrl+A => Select all
 					
 					// Switch to the selection tool.
-					switchTool('selection');
+					tools.switchTool('selection');
 					// Select the entire canvas.
 					tools.selection.selectAll(canvas.width, canvas.height);
 				}
@@ -39,7 +39,7 @@ var keyManager = {
 				e.preventDefault();
 				if (!ctrlOrCmd) {
 					// B => Doodle (brush) tool
-					switchTool('doodle');
+					tools.switchTool('doodle');
 					break;
 				}
 			
@@ -47,7 +47,7 @@ var keyManager = {
 				e.preventDefault();
 				if (!ctrlOrCmd) {
 					// C => Curve tool
-					switchTool('curve');
+					tools.switchTool('curve');
 					break;
 				}
 			
@@ -66,7 +66,7 @@ var keyManager = {
 				if (noModifiers) {
 					e.preventDefault();
 					// E => Eraser tool
-					switchTool('eraser');
+					tools.switchTool('eraser');
 				}
 				break;
 			
@@ -74,7 +74,7 @@ var keyManager = {
 				if (noModifiers) {
 					e.preventDefault();
 					// F => Fill tool
-					switchTool('floodFill');
+					tools.switchTool('floodFill');
 				}
 				break;
 			
@@ -82,7 +82,7 @@ var keyManager = {
 				if (noModifiers) {
 					e.preventDefault();
 					// H => Pan (hand) tool
-					switchTool('pan');
+					tools.switchTool('pan');
 				}
 				break;
 			
@@ -90,7 +90,7 @@ var keyManager = {
 				if (noModifiers) {
 					e.preventDefault();
 					// I => Eyedropper (“I-dropper”) tool
-					switchTool('eyedropper');
+					tools.switchTool('eyedropper');
 				}
 				break;
 			
@@ -98,7 +98,7 @@ var keyManager = {
 				if (noModifiers) {
 					e.preventDefault();
 					// L => Line tool
-					switchTool('line');
+					tools.switchTool('line');
 				}
 				break;
 			
@@ -110,7 +110,7 @@ var keyManager = {
 				} else if (noModifiers) {
 					e.preventDefault();
 					// O => Oval tool
-					switchTool('oval');
+					tools.switchTool('oval');
 				}
 				break;
 			
@@ -118,7 +118,7 @@ var keyManager = {
 				if (noModifiers) {
 					e.preventDefault();
 					// P => Pencil tool
-					switchTool('pencil');
+					tools.switchTool('pencil');
 				}
 				break;
 			
@@ -126,7 +126,7 @@ var keyManager = {
 				if (noModifiers) {
 					e.preventDefault();
 					// R => Rectangle tool
-					switchTool('rect');
+					tools.switchTool('rect');
 				}
 				break;
 			
@@ -138,7 +138,7 @@ var keyManager = {
 				} else if (noModifiers) {
 					e.preventDefault();
 					// S => Selection tool
-					switchTool('selection');
+					tools.switchTool('selection');
 				}
 				break;
 			
@@ -146,7 +146,7 @@ var keyManager = {
 				if (noModifiers) {
 					e.preventDefault();
 					// T => Text tool
-					switchTool('text');
+					tools.switchTool('text');
 				}
 				break;
 			

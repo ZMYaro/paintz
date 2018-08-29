@@ -22,7 +22,7 @@ ClipboardManager.prototype._handlePaste = function (e) {
 			'crop');
 		
 		// Tell the selection tool it just moved to create a selection of the proper size.
-		switchTool('selection');
+		tools.switchTool('selection');
 		tools.selection.start({ x: 0, y: 0 });
 		tools.selection.end({ x: image.width, y: image.height });
 		

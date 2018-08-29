@@ -84,7 +84,7 @@ var undoStack = {
 		}
 		
 		// Warn the current tool of impending changes.
-		tools[settings.get('tool')].deactivate();
+		tools.currentTool.deactivate();
 		
 		// Add the current state to the undo stack and restore the last state from
 		// the redo stack.
@@ -95,7 +95,7 @@ var undoStack = {
 		this._updateUI();
 		
 		// Reactivate the current tool.
-		tools[settings.get('tool')].activate();
+		tools.currentTool.activate();
 	},
 	
 	/**
@@ -109,7 +109,7 @@ var undoStack = {
 		}
 		
 		// Warn the current tool of impending changes.
-		tools[settings.get('tool')].deactivate();
+		tools.currentTool.deactivate();
 		
 		// Add the current state to the redo stack and restore the last state from
 		// the undo stack.
@@ -120,6 +120,6 @@ var undoStack = {
 		this._updateUI();
 		
 		// Reactivate the current tool.
-		tools[settings.get('tool')].activate();
+		tools.currentTool.activate();
 	}
 };
