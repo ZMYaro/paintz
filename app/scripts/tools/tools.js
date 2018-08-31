@@ -18,7 +18,7 @@ function ToolManager() {
 	this.pan = new PanTool(cxt, preCxt);
 	
 	// Prevent normal mouse click behaviors on the canvas.
-	preCanvas.addEventListener('click', function (e) { e.preventDefault(); }, false);
+	preCanvas.addEventListener('click',       function (e) { e.preventDefault(); }, false);
 	preCanvas.addEventListener('contextmenu', function (e) { e.preventDefault(); }, false);
 	
 	// Set up the event listeners.
@@ -82,7 +82,7 @@ ToolManager.prototype._handlePointerDown = function (e) {
 	e.preventDefault();
 	e.stopPropagation();
 	
-	canvas.focus();
+	preCanvas.focus();
 	
 	// Initialize the new shape.
 	this.currentTool.start({

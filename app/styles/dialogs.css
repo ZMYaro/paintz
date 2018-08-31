@@ -1,4 +1,5 @@
-#dialogs {
+#progressContainer,
+#dialogsContainer {
 	display: none;
 
 	z-index: 4;
@@ -11,8 +12,6 @@
 	
 	overflow: auto;
 
-	padding-top: 64px;
-
 	-webkit-transition-duration: 0.2s;
 	   -moz-transition-duration: 0.2s;
 	    -ms-transition-duration: 0.2s;
@@ -24,6 +23,12 @@
 	     -o-transition-property: background-color;
 	        transition-property: background-color;
 }
+	#dialogsContainer {
+		padding-top: 64px;
+	}
+	#progressContainer {
+		cursor: wait;
+	}
 .dialog {
 	margin: 0 auto 16px;
 	max-width: 96%;
@@ -221,6 +226,8 @@ hr {
 	margin: -8px 2px;
 }
 
-progress.circular {
-	border-top-color: #3f51b5;/*5767bd;*/
+#progressContainer progress.circular {
+	display: block;
+	margin: auto;
+	top: 40%;
 }

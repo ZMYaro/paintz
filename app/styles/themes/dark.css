@@ -109,11 +109,13 @@ select[size="1"] {
 		background-color: white;
 	}
 
-#dialogs {
+#progressContainer,
+#dialogsContainer {
 	background-color: transparent;
 	background-color: rgba(0, 0, 0, 0);
 }
-	#dialogs.visible {
+	#progressContainer.visible,
+	#dialogsContainer.visible {
 		background-color: #333333;
 		background-color: rgba(0, 0, 0, 0.75);
 	}
@@ -129,4 +131,8 @@ select[size="1"] {
 .dialog .helpIcon {
 	background-color: #7986cb;
 	fill: #424242;
+}
+
+progress.circular {
+	border-top-color: #7986cb;
 }

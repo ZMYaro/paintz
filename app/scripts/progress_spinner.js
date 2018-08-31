@@ -7,27 +7,28 @@
 function ProgressSpinner() {
 	this._element = document.createElement('progress');
 	this._element.className = 'circular';
-	this._element.style.display = 'block';
-	this._element.style.margin = 'auto';
-	this._element.style.top = '40%';
+	
+	this._container = document.createElement('div');
+	this._container.id = 'progressContainer';
+	
+	this._container.appendChild(this._element);
+	document.body.appendChild(this._container);
 }
 
 /**
  * Show the progress spinner.
  */
 ProgressSpinner.prototype.show = function () {
-	dialogsContainer.style.display = 'block';
-	dialogsContainer.appendChild(this._element);
-	dialogsContainer.classList.add('visible');
+	this._container.style.display = 'block';
+	this._container.classList.add('visible');
 };
 
 /**
  * Hide the progress spinner.
  */
 ProgressSpinner.prototype.hide = function () {
-	dialogsContainer.removeChild(this._element);
-	dialogsContainer.classList.remove('visible');
-	setTimeout(function () {
-		dialogsContainer.style.display = 'none';
-	}, Dialog.prototype.TRANSITION_DURATION);
+	this._container.classList.remove('visible');
+	setTimeout((function () {
+		this._container.style.display = 'none';
+	}).bind(this), Dialog.prototype.TRANSITION_DURATION);
 };

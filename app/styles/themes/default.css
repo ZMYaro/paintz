@@ -87,11 +87,13 @@ input[type="radio"]:checked {
 		background-color: white;
 	}
 
-#dialogs {
+#progressContainer,
+#dialogsContainer {
 	background-color: transparent;
 	background-color: rgba(128,128,128,0);
 }
-	#dialogs.visible {
+	#progressContainer.visible,
+	#dialogsContainer.visible {
 		background-color: gray;
 		background-color: rgba(128,128,128,0.5);
 	}
@@ -105,4 +107,8 @@ input[type="radio"]:checked {
 .dialog .helpIcon {
 	background-color: #3f51b5;
 	fill: #ffffff;
+}
+
+progress.circular {
+	border-top-color: #5767bd;
 }

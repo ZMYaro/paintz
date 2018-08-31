@@ -123,7 +123,7 @@ window.addEventListener('load', function () {
 	progressSpinner = new ProgressSpinner();
 	
 	// Get saved reference to the dialogs container.
-	dialogsContainer = document.getElementById('dialogs');
+	dialogsContainer = document.getElementById('dialogsContainer');
 	
 	// Update the resolution in the bottom bar.
 	document.getElementById('resolution').innerHTML = settings.get('width') + ' &times; ' + settings.get('height') + 'px';
