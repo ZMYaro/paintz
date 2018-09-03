@@ -39,5 +39,8 @@ ClipboardManager.prototype._handlePaste = function (e) {
 		
 		// Hide the progress spinner.
 		progressSpinner.hide();
+	}).catch(function () {
+		// Hide the progress spinner.
+		progressSpinner.hide();
 	});
 };

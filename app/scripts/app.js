@@ -124,6 +124,12 @@ function openImage(file) {
 		
 		// Hide the progress spinner.
 		progressSpinner.hide();
+	}).catch(function (errorMessage) {
+		if (!!errorMessage) {
+			alert(errorMessage);
+		}
+		// Hide the progress spinner.
+		progressSpinner.hide();
 	});
 }
 

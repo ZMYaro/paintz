@@ -158,8 +158,7 @@ var Utils = {
 	readImage: function (file) {
 		return new Promise(function (resolve, reject) {
 			if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
-				alert('Please switch to a browser that supports the file APIs, such as Google Chrome.');
-				reject();
+				reject('Please switch to a browser that supports the file APIs, such as Google Chrome.');
 				return;
 			}
 			if (!file) {
@@ -167,8 +166,7 @@ var Utils = {
 				return;
 			}
 			if (!file.type.match('image.*')) {
-				alert('PaintZ can only open valid image files.');
-				reject();
+				reject('PaintZ can only open valid image files.');
 				return;
 			}
 			
