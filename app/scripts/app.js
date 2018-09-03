@@ -84,7 +84,50 @@ function resetCanvas() {
 	cxt.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-/*
+/**
+ * Open an image to replace the current one.
+ * @param {File} file - The file containing the new image
+ */
+function openImage(file) {
+	// Show the progress spinner until the image loads.
+	progressSpinner.show();
+	
+	Utils.readImage(file).then(function (image) {
+		// There is no need to clear the canvas.  Resizing the canvas will do that.
+		canvas.width =
+			preCanvas.width = image.width;
+		canvas.height =
+			preCanvas.height = image.height;
+		settings.set('width', image.width);
+		settings.set('height', image.height);
+		cxt.fillStyle = 'white';
+		cxt.fillRect(0, 0, canvas.width, canvas.height);
+		cxt.drawImage(image, 0, 0);
+		
+		// Set the file type and name.
+		// TODO: Make this not access SaveDialog private properties.
+		var fileName = file.name;
+		if (JPEG_REGEX.test(fileName)) {
+			dialogs.save._element.fileType.value =
+				dialogs.save._downloadLink.type = 'image/jpeg';
+		} else {
+			dialogs.save._element.fileType.value =
+				dialogs.save._downloadLink.type = 'image/png';
+			fileName = fileName.replace(FILE_EXT_REGEX, '.png');
+		}
+		dialogs.save._element.fileName.value =
+			dialogs.save._downloadLink.download = fileName;
+		document.title = fileName + ' - PaintZ';
+		
+		// Clear the undo and redo stacks.
+		undoStack.clear();
+		
+		// Hide the progress spinner.
+		progressSpinner.hide();
+	});
+}
+
+/**
  * Fix the extension on a file name to match a MIME type.
  * @param {String} name - The file name to fix
  * @param {String} type - The MIME type to match (JPEG or PNG)
@@ -109,6 +152,20 @@ function fixExtension(name, type) {
 	return name;
 }
 
+/**
+ * Set up events for opening images via drag-and-drop.
+ */
+function initDragDrop() {
+	window.addEventListener('dragenter', function (e) { e.preventDefault(); }, false);
+	window.addEventListener('dragleave', function (e) { e.preventDefault(); }, false);
+	window.addEventListener('dragover', function (e) { e.preventDefault(); }, false);
+	window.addEventListener('drop', function (e) {
+		e.preventDefault();
+		var file = e.dataTransfer.files[0];
+		openImage(file);
+	}, false);
+}
+
 window.addEventListener('load', function () {
 	// Initialize keyboard shortcut dialog.
 	dialogs.keyboard = new KeyboardDialog();
@@ -121,6 +178,8 @@ window.addEventListener('load', function () {
 	toolbar = new ToolbarManager();
 	tools = new ToolManager();
 	progressSpinner = new ProgressSpinner();
+	
+	initDragDrop();
 	
 	// Get saved reference to the dialogs container.
 	dialogsContainer = document.getElementById('dialogsContainer');

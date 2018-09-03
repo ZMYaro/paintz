@@ -68,41 +68,6 @@ ImageToolbox.prototype._setUp = function (contents) {
  * @param {Event} e
  */
 ImageToolbox.prototype._handleFileUpload = function (e) {
-	// Show the progress spinner until the image loads.
-	progressSpinner.show();
-	
 	var file = e.target.files[0];
-	Utils.readImage(file).then(function (image) {
-		// There is no need to clear the canvas.  Resizing the canvas will do that.
-		canvas.width =
-			preCanvas.width = image.width;
-		canvas.height =
-			preCanvas.height = image.height;
-		settings.set('width', image.width);
-		settings.set('height', image.height);
-		cxt.fillStyle = 'white';
-		cxt.fillRect(0, 0, canvas.width, canvas.height);
-		cxt.drawImage(image, 0, 0);
-		
-		// Set the file type and name.
-		// TODO: Make this not access SaveDialog private properties.
-		var fileName = file.name;
-		if (JPEG_REGEX.test(fileName)) {
-			dialogs.save._element.fileType.value =
-				dialogs.save._downloadLink.type = 'image/jpeg';
-		} else {
-			dialogs.save._element.fileType.value =
-				dialogs.save._downloadLink.type = 'image/png';
-			fileName = fileName.replace(FILE_EXT_REGEX, '.png');
-		}
-		dialogs.save._element.fileName.value =
-			dialogs.save._downloadLink.download = fileName;
-		document.title = fileName + ' - PaintZ';
-		
-		// Clear the undo and redo stacks.
-		undoStack.clear();
-		
-		// Hide the progress spinner.
-		progressSpinner.hide();
-	});
+	openImage(file);
 };
