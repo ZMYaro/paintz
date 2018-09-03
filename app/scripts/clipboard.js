@@ -14,6 +14,9 @@ ClipboardManager.prototype._handlePaste = function (e) {
 		return;
 	}
 	
+	// Show the progress spinner until the image loads.
+	progressSpinner.show();
+	
 	Utils.readImage(e.clipboardData.files[0]).then(function (image) {
 		// If the canvas is not big enough to fit the pasted image, resize it.
 		resizeCanvas(
@@ -33,5 +36,8 @@ ClipboardManager.prototype._handlePaste = function (e) {
 		
 		// Set this to false so there is no selection start cover.
 		tools.selection._selection.firstMove = false;
+		
+		// Hide the progress spinner.
+		progressSpinner.hide();
 	});
 };
