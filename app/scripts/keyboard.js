@@ -36,20 +36,20 @@ var keyManager = {
 				break;
 			
 			case 66: // B
-				e.preventDefault();
 				if (!ctrlOrCmd) {
+					e.preventDefault();
 					// B => Doodle (brush) tool
 					tools.switchTool('doodle');
-					break;
 				}
+				break;
 			
 			case 67: // C
-				e.preventDefault();
 				if (!ctrlOrCmd) {
+					e.preventDefault();
 					// C => Curve tool
 					tools.switchTool('curve');
-					break;
 				}
+				break;
 			
 			case 68: // D
 				if (ctrlOrCmd) {
