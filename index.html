@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html manifest="manifest.appcache">
 	<head>
+		<!-- Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-125332101-1"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'UA-125332101-1');
+		</script>
+		
 		<title>PaintZ</title>
 		
 		<!-- Force HTTPS. -->
@@ -750,6 +759,9 @@
 					Click the
 					<img src="images/icons/help.png" alt="help icon" class="helpIcon welcomeIcon" />
 					icon to learn more about different drawing tools.
+				</p>
+				<p style="font-size: 60%;">
+					PaintZ uses Google Analytics to track visits, but it does not store any personal information.
 				</p>
 				<div style="text-align: right; margin: 0 -4px -4px 0;">
 					<button type="submit">Get started</button>
