@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2018-08-28, v1
+# 2018-09-05, v1
 index.html
 404.html
 manifest.webapp
@@ -140,3 +140,6 @@ styles/materialz/material-widgets.css
 styles/themes/dark.css
 styles/themes/default.css
 styles/themes/light.css
+
+NETWORK:
+*
