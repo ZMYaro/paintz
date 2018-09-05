@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2018-06-07, v1
+# 2018-09-05, v1
 index.html
 404.html
 manifest.webapp
@@ -84,5 +84,4 @@ styles/materialz/material-elements.css
 styles/materialz/material-widgets.css
 
 NETWORK:
-https://www.google-analytics.com/analytics.js
-https://www.googletagmanager.com/gtag/js
+*
