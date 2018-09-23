@@ -36,9 +36,11 @@ input[type="radio"]:checked {
 	.appBar[role="toolbar"] [role="button"] {
 		fill: #ffffff;
 	}
+	.appBar[role="toolbar"] input[type="checkbox"] + label[role="button"],
 	.appBar[role="toolbar"] input[type="radio"] + label[role="button"] {
 		color: white;
 	}
+		.appBar[role="toolbar"] input[type="checkbox"]:checked + label[role="button"],
 		.appBar[role="toolbar"] input[type="radio"]:checked + label[role="button"] {
 			fill: #3f51b5;
 		}

@@ -48,9 +48,11 @@ select[size="1"] {
 	.floatingToolbar button {
 		fill: rgba(255, 255, 255, 0.9);
 	}
+	.appBar[role="toolbar"] input[type="checkbox"] + label[role="button"],
 	.appBar[role="toolbar"] input[type="radio"] + label[role="button"] {
 		//color: rgba(255, 255, 255, 0.9);
 	}
+		.appBar[role="toolbar"] input[type="checkbox"]:checked + label[role="button"],
 		.appBar[role="toolbar"] input[type="radio"]:checked + label[role="button"] {
 			color: #7986cb;
 			fill: #212121;
