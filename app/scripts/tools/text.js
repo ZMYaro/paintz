@@ -43,7 +43,7 @@ TextTool.LINE_HEIGHT = 1;
  */
 TextTool.prototype.activate = function () {
 	this._preCxt.canvas.style.cursor = 'crosshair';
-	toolbar.switchToolOptionsToolbox(toolbar.toolboxes.noToolOptions);
+	toolbar.switchToolOptionsToolbox(toolbar.toolboxes.textToolOptions);
 	this._textElem.style.color = settings.get('lineColor');
 	this._textElem.style.font = settings.get('fontSize') + 'px sans-serif';
 	this._textElem.style.WebkitTransform =
@@ -207,7 +207,18 @@ TextTool.prototype.deactivate = function () {
 
 /**
  * @private
- * Update the text box element.
+ * Generate the CSS font value based on the saved options.
+ */
+TextTool.prototype._getFontValue = function () {
+	return (settings.get('italic') ? 'italic ' : '') +
+		(settings.get('bold') ? 'bold ' : '') +
+		settings.get('fontSize') + 'pt ' +
+		settings.get('fontFamily');
+};
+
+/**
+ * @private
+ * Update the text box element with the correct size and other properties.
  */
 TextTool.prototype._updateTextElem = function () {
 	if (!this._textRegion) {
@@ -227,6 +238,8 @@ TextTool.prototype._updateTextElem = function () {
 			'scale(' + zoomManager.level + ')';
 	this._textElem.style.width = this._textRegion.width + 'px';
 	this._textElem.style.height = this._textRegion.height + 'px';
+	
+	this._textElem.style.font = this._getFontValue();
 };
 
 /**
@@ -257,6 +270,11 @@ TextTool.prototype._saveText = function () {
 		return;
 	}
 	
+	// Set text settings.
+	this._cxt.textBaseline = 'top';
+	this._cxt.fillStyle = settings.get('lineColor');
+	this._cxt.font = this._getFontValue();
+	
 	// Locate line breaks.
 	var words = (this._textElem.innerText || this.textElem.textContent).replace(/\n/g, ' \n ').split(' '),
 		line = '',
@@ -276,9 +294,6 @@ TextTool.prototype._saveText = function () {
 	lines.push(line); // Include any remaining line.
 	
 	// Draw the text.
-	this._cxt.textBaseline = 'top';
-	this._cxt.fillStyle = settings.get('lineColor');
-	this._cxt.font = settings.get('fontSize') + 'px sans-serif';
 	for (var i = 0; i < lines.length; i++) {
 		var x = this._textRegion.x + TextTool.PADDING + TextTool.BORDER_WIDTH,
 			y = this._textRegion.y + TextTool.PADDING + TextTool.BORDER_WIDTH + ((settings.get('fontSize') + 2) * i);

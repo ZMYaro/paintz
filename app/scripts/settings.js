@@ -20,7 +20,10 @@ SettingsManager.prototype.DEFAULTS = {
 	outlineOption: 'outlineFill',
 	lineColor: '#000000',
 	fillColor: '#ffffff',
+	fontFamily: 'sans-serif',
 	fontSize: 16,
+	bold: false,
+	italic: false,
 	// Settings:
 	theme: 'default',
 	colorPalette: 'material',

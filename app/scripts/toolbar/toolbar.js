@@ -19,6 +19,7 @@ function ToolbarManager() {
 	this.toolboxes.noToolOptions = new NoToolOptionsToolbox();
 	this.toolboxes.drawToolOptions = new DrawToolOptionsToolbox();
 	this.toolboxes.selectToolOptions = new SelectionToolOptionsToolbox();
+	this.toolboxes.textToolOptions = new TextToolOptionsToolbox();
 	this._addDivider();
 	this.toolboxes.colorPicker = new ColorPickerToolbox();
 	this._addDivider();
@@ -28,6 +29,7 @@ function ToolbarManager() {
 	this.toolboxes.noToolOptions.hide();
 	this.toolboxes.drawToolOptions.hide();
 	this.toolboxes.selectToolOptions.hide();
+	this.toolboxes.textToolOptions.hide();
 	
 	/** @private {Toolbox} The currently shown tool options toolbox */
 	this._currentToolOptionsToolbox = this.toolboxes.drawToolOptions;

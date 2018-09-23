@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2018-09-05, v1
+# 2018-09-19, v1
 index.html
 404.html
 manifest.webapp
@@ -9,6 +9,7 @@ images/cursors/eyedropper.cur
 images/cursors/paint_bucket.cur
 images/cursors/pencil.cur
 images/icons/back.svg
+images/icons/bold.svg
 images/icons/brush.svg
 images/icons/clear.svg
 images/icons/crop.svg
@@ -27,6 +28,7 @@ images/icons/gplus.svg
 images/icons/help.svg
 images/icons/info.svg
 images/icons/instagram.svg
+images/icons/italic.svg
 images/icons/line.svg
 images/icons/line_weight.svg
 images/icons/mug.svg
@@ -103,6 +105,7 @@ scripts/toolbar/draw_tool_options.js
 scripts/toolbar/image.js
 scripts/toolbar/no_tool_options.js
 scripts/toolbar/select_tool_options.js
+scripts/toolbar/text_tool_options.js
 scripts/toolbar/toolbar.js
 scripts/toolbar/toolbox.js
 scripts/toolbar/tools.js
