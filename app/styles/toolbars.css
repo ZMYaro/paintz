@@ -59,17 +59,31 @@
 					   -moz-box-shadow: inset 0 0 0 22px;
 					        box-shadow: inset 0 0 0 22px;
 				}
-	#toolbar select#lineWidth {
-		margin-top: 4px;
-		margin-left: 10px;
-		margin-right: 8px;
-		padding-left: 48px;
+	#toolbar select#lineWidth,
+	#toolbar select#fontFamilySelect,
+	#toolbar select#fontSizeSelect {
+		padding-left: 40px;
 	}
-		#toolbar select#lineWidth + .icon {
+		#toolbar select#lineWidth {
+			margin-left: 16px;
+		}
+		#toolbar select#lineWidth + .icon,
+		#toolbar select#fontFamilySelect + .icon,
+		#toolbar select#fontSizeSelect + .icon {
 			width: 24px;
 			height: 24px;
-			margin-left: -110px;
 			margin-bottom: -5px;
+		}
+		#toolbar select#lineWidth + .icon {
+			margin-left: -100px;
+		}
+		#toolbar select#fontFamilySelect + .icon {
+			margin-left: -182px;
+			margin-right: 158px;
+		}
+		#toolbar select#fontSizeSelect + .icon {
+			margin-left: -96px;
+			margin-right: 66px;
 		}
 
 .toolbox {
