@@ -21,6 +21,7 @@ function TextTool(cxt, preCxt) {
 	this._textElem.style.padding = TextTool.PADDING + 'px';
 	
 	this._textElem.onblur = this._removeTextElem.bind(this);
+	this._textElem.addEventListener('keydown', this._handleKeyDown.bind(this), false);
 }
 // Extend Tool.
 TextTool.prototype = Object.create(Tool.prototype);
@@ -301,4 +302,51 @@ TextTool.prototype._saveText = function () {
 	}
 	Utils.clearCanvas(this._preCxt);
 	undoStack.addState();
+};
+
+/**
+ * @private
+ * Handle keyboard shortcuts within the text box.
+ * @param {KeyboardEvent} e
+ */
+TextTool.prototype._handleKeyDown = function (e) {
+	// Use Command on Mac and iOS devices and Ctrl everywhere else.
+	var ctrlOrCmd = Utils.checkPlatformCtrlKey(e),
+		noModifiers = !Utils.checkModifierKeys(e);
+	
+	switch (e.keyCode) {
+		case 66: // B
+			if (ctrlOrCmd) {
+				e.preventDefault();
+				// Ctrl+B => Bold
+				
+				if (settings.get('tool') === 'text') {
+					// Update the toolbar toggle.
+					toolbar.toolboxes.textToolOptions.boldToggle.checked =
+						!toolbar.toolboxes.textToolOptions.boldToggle.checked;
+					settings.set('bold', toolbar.toolboxes.textToolOptions.boldToggle.checked);
+					
+					// Update the text box's CSS.
+					this._textElem.style.font = this._getFontValue();
+				}
+			}
+			break;
+		
+		case 73: // I
+			if (ctrlOrCmd) {
+				e.preventDefault();
+				// Ctrl+I => Italic
+				
+				if (settings.get('tool') === 'text') {
+					// Update the toolbar toggle.
+					toolbar.toolboxes.textToolOptions.italicToggle.checked =
+						!toolbar.toolboxes.textToolOptions.italicToggle.checked;
+					settings.set('italic', toolbar.toolboxes.textToolOptions.italicToggle.checked);
+					
+					// Update the text box's CSS.
+					this._textElem.style.font = this._getFontValue();
+				}
+			}
+			break;
+	}
 };

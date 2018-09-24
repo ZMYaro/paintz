@@ -36,7 +36,16 @@ var keyManager = {
 				break;
 			
 			case 66: // B
-				if (!ctrlOrCmd) {
+				if (ctrlOrCmd) {
+					e.preventDefault();
+					// Ctrl+B => Bold
+					
+					if (settings.get('tool') === 'text') {
+						toolbar.toolboxes.textToolOptions.boldToggle.checked =
+							!toolbar.toolboxes.textToolOptions.boldToggle.checked;
+						settings.set('bold', toolbar.toolboxes.textToolOptions.boldToggle.checked);
+					}
+				} else if (noModifiers) {
 					e.preventDefault();
 					// B => Doodle (brush) tool
 					tools.switchTool('doodle');
@@ -44,7 +53,7 @@ var keyManager = {
 				break;
 			
 			case 67: // C
-				if (!ctrlOrCmd) {
+				if (noModifiers) {
 					e.preventDefault();
 					// C => Curve tool
 					tools.switchTool('curve');
@@ -87,6 +96,16 @@ var keyManager = {
 				break;
 			
 			case 73: // I
+				if (ctrlOrCmd) {
+					e.preventDefault();
+					// Ctrl+I => Italic
+					
+					if (settings.get('tool') === 'text') {
+						toolbar.toolboxes.textToolOptions.italicToggle.checked =
+							!toolbar.toolboxes.textToolOptions.italicToggle.checked;
+						settings.set('italic', toolbar.toolboxes.textToolOptions.italicToggle.checked);
+					}
+				}
 				if (noModifiers) {
 					e.preventDefault();
 					// I => Eyedropper (“I-dropper”) tool

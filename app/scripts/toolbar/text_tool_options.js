@@ -6,6 +6,9 @@
  */
 function TextToolOptionsToolbox() {
 	Toolbox.call(this, 'text_tool_options');
+	
+	this.boldToggle;
+	this.italicToggle;
 }
 // Extend Toolbox.
 TextToolOptionsToolbox.prototype = Object.create(Toolbox.prototype);
@@ -32,15 +35,15 @@ TextToolOptionsToolbox.prototype._setUp = function (contents) {
 		settings.set('fontSize', e.target.value);
 	}, false);
 	
-	var boldToggle = this._element.querySelector('#boldToggle');
-	boldToggle.checked = settings.get('bold');
-	boldToggle.addEventListener('change', function (e) {
+	this.boldToggle = this._element.querySelector('#boldToggle');
+	this.boldToggle.checked = settings.get('bold');
+	this.boldToggle.addEventListener('change', function (e) {
 		settings.set('bold', e.target.checked);
 	}, false);
 	
-	var italicToggle = this._element.querySelector('#italicToggle');
-	italicToggle.checked = settings.get('italic');
-	italicToggle.addEventListener('change', function (e) {
+	this.italicToggle = this._element.querySelector('#italicToggle');
+	this.italicToggle.checked = settings.get('italic');
+	this.italicToggle.addEventListener('change', function (e) {
 		settings.set('italic', e.target.checked);
 	}, false);
 };
