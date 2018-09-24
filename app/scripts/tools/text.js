@@ -12,7 +12,7 @@ function TextTool(cxt, preCxt) {
 	this._textElem = document.createElement('p');
 	this._textElem.contentEditable = true;
 	this._textElem.className = 'floatingRegion';
-	this._textElem.style.lineHeight = '100%';
+	this._textElem.style.lineHeight = this.LINE_HEIGHT;
 	this._textElem.style.WebkitTransformOrigin =
 		this._textElem.style.MozTransformOrigin =
 		this._textElem.style.MsTransformOrigin =
@@ -297,7 +297,7 @@ TextTool.prototype._saveText = function () {
 	// Draw the text.
 	for (var i = 0; i < lines.length; i++) {
 		var x = this._textRegion.x + TextTool.PADDING + TextTool.BORDER_WIDTH,
-			y = this._textRegion.y + TextTool.PADDING + TextTool.BORDER_WIDTH + ((settings.get('fontSize') + 2) * i);
+			y = this._textRegion.y + TextTool.PADDING + TextTool.BORDER_WIDTH + ((settings.get('fontSize') * 1.525) * i);
 		this._cxt.fillText(lines[i], x, y);
 	}
 	Utils.clearCanvas(this._preCxt);
