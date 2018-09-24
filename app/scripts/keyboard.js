@@ -8,18 +8,32 @@ var keyManager = {
 		
 		switch (e.keyCode) {
 			case 8: // Backspace
-				if (settings.get('tool') === 'selection') {
-					e.preventDefault();
-					// Backspace => Delete selection
-					tools.selection.clear();
+				if (noModifiers) {
+					if (settings.get('tool') === 'selection') {
+						e.preventDefault();
+						// Backspace => Delete selection
+						tools.selection.clear();
+					}
+				}
+				break;
+			
+			case 27: // Esc
+				if (noModifiers) {
+					if (settings.get('tool') === 'selection') {
+						e.preventDefault();
+						// Esc => Drop/cancel selection
+						tools.selection.deactivate();
+					}
 				}
 				break;
 			
 			case 46: // Delete
-				if (settings.get('tool') === 'selection') {
-					e.preventDefault();
-					// Delete => Delete selection
-					tools.selection.clear();
+				if (noModifiers) {
+					if (settings.get('tool') === 'selection') {
+						e.preventDefault();
+						// Delete => Delete selection
+						tools.selection.clear();
+					}
 				}
 				break;
 			

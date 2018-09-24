@@ -315,20 +315,29 @@ TextTool.prototype._handleKeyDown = function (e) {
 		noModifiers = !Utils.checkModifierKeys(e);
 	
 	switch (e.keyCode) {
+		case 27: // Esc
+			if (noModifiers) {
+				e.preventDefault();
+				// Esc => Cancel text box
+				
+				// Clear the text box, then remove it.
+				this._textElem.innerHTML = '';
+				this._removeTextElem();
+			}
+			break;
+		
 		case 66: // B
 			if (ctrlOrCmd) {
 				e.preventDefault();
 				// Ctrl+B => Bold
 				
-				if (settings.get('tool') === 'text') {
-					// Update the toolbar toggle.
-					toolbar.toolboxes.textToolOptions.boldToggle.checked =
-						!toolbar.toolboxes.textToolOptions.boldToggle.checked;
-					settings.set('bold', toolbar.toolboxes.textToolOptions.boldToggle.checked);
-					
-					// Update the text box's CSS.
-					this._textElem.style.font = this._getFontValue();
-				}
+				// Update the toolbar toggle.
+				toolbar.toolboxes.textToolOptions.boldToggle.checked =
+					!toolbar.toolboxes.textToolOptions.boldToggle.checked;
+				settings.set('bold', toolbar.toolboxes.textToolOptions.boldToggle.checked);
+				
+				// Update the text box's CSS.
+				this._textElem.style.font = this._getFontValue();
 			}
 			break;
 		
@@ -337,15 +346,13 @@ TextTool.prototype._handleKeyDown = function (e) {
 				e.preventDefault();
 				// Ctrl+I => Italic
 				
-				if (settings.get('tool') === 'text') {
-					// Update the toolbar toggle.
-					toolbar.toolboxes.textToolOptions.italicToggle.checked =
-						!toolbar.toolboxes.textToolOptions.italicToggle.checked;
-					settings.set('italic', toolbar.toolboxes.textToolOptions.italicToggle.checked);
-					
-					// Update the text box's CSS.
-					this._textElem.style.font = this._getFontValue();
-				}
+				// Update the toolbar toggle.
+				toolbar.toolboxes.textToolOptions.italicToggle.checked =
+					!toolbar.toolboxes.textToolOptions.italicToggle.checked;
+				settings.set('italic', toolbar.toolboxes.textToolOptions.italicToggle.checked);
+				
+				// Update the text box's CSS.
+				this._textElem.style.font = this._getFontValue();
 			}
 			break;
 	}
