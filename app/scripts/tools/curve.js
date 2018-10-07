@@ -16,170 +16,8 @@ CurveTool.prototype.constructor = CurveTool;
 
 // Constants
 CurveTool.STATE_NOT_STARTED = 0;
-CurveTool.STATE_LINE_DRAWN = 1;
-
-/**
- * @private
- * Plot a limited quadratic Bezier segment
- * @param {Number} x1 - The x-coordinate of the curve segment's start point
- * @param {Number} y1 - The y-coordinate of the curve segment's start point
- * @param {Number} x2 - The x-coordinate of the curve segment's end point
- * @param {Number} y2 - The y-coordinate of the curve segment's end point
- * @param {Number} x3 - The x-coordinate of the third point
- * @param {Number} y3 - The y-coordinate of the third point
- * @param {CanvasRenderingContext2D} cxt
- */
-CurveTool.prototype._plotQuadBezierSeg = function (x1, y1, x2, y2, x3, y3, cxt) {
-	var sx = x2 - x3,
-		sy = y2 - y3,
-		xx = x1-x3, /** Relative values for checks */
-		yy = y1-y3,
-		xy,
-		dx,
-		dy,
-		err,
-		cur = xx * sy - yy * sx; /** Curvature */
-	
-	// XBegin with shorter part
-	if (sx * sx + sy * sy > xx * xx + yy * yy) {
-		// Swap P0 P2
-		x2 = x1;
-		x1 = sx + x3;
-		y2 = y1;
-		y1 = sy + y3;
-		cur = -cur;
-	}
-	
-	//  No straight line
-	if (cur != 0) {
-		// x-step direction
-		xx += sx;
-		xx *= sx = x1 < x2 ? 1 : -1;
-		// y-step direction
-		yy += sy;
-		yy *= sy = y1 < y2 ? 1 : -1;
-		// Differences 2nd degree
-		xy = 2 * xx * yy;
-		xx *= xx;
-		yy *= yy;
-		
-		// Negated curvature?
-		if (cur * sx * sy < 0) {
-			xx = -xx;
-			yy = -yy;
-			xy = -xy;
-			cur = -cur;
-		}
-		
-		// Differences 1st degree
-		dx = 4.0 * sy * cur * (x3 - x1) + xx - xy;
-		dy = 4.0 * sx * cur * (y1 - y3) + yy - xy;
-		
-		// Error 1st step
-		xx += xx;
-		yy += yy;
-		err = dx + dy + xy;
-		
-		do {
-			// Plot curve
-			DoodleTool.prototype._drawCap.call(this, cxt, x1, y1); //setPixel(x1,y1);
-			// Last pixel -> curve finished
-			if (x1 == x2 && y1 == y2) {
-				return;
-			}
-			// Save value for test of y-step
-			y3 = 2 * err < dx;
-			// x-step
-			if (2 * err > dy) {
-				x1 += sx;
-				dx -= xy;
-				err += dy += yy;
-			}
-			// y-step
-			if (y3) {
-				y1 += sy;
-				dy -= xy;
-				err += dx += xx;
-			}
-		} while (dy < 0 && dx > 0); // Gradient negates -> algorithm fails
-	}
-	// Plot remaining part to end
-	LineTool.drawLine(x1, y1, x2, y2, cxt);
-}
-
-/**
- * @private
- * Plot a quadratic Bezier curve
- * @param {Number} x1 - The x-coordinate of the curve's start point
- * @param {Number} y1 - The y-coordinate of the curve's start point
- * @param {Number} x2 - The x-coordinate of the curve's end point
- * @param {Number} y2 - The y-coordinate of the curve's end point
- * @param {Number} x3 - The x-coordinate of the third point
- * @param {Number} y3 - The y-coordinate of the third point
- * @param {CanvasRenderingContext2D} cxt
- */
-CurveTool.prototype._plotQuadBezier = function (x1, y1, x2, y2, x3, y3, cxt) {
-	var x = x1 - x3,
-		y = y1 - y3,
-		t = x1 - 2 * x3 + x2,
-		r;
-	
-	// Horizontal cut at P4?
-	if (x * (x2 - x3) > 0) {
-		// Vertical cut at P6 too?
-		if (y*(y2-y3) > 0) {
-			// Which first?
-			if (Math.abs((y1 - 2 * y3 + y2) / t * x) > Math.abs(y)) {
-				// Swap points
-				x1 = x2;
-				x2 = x + x3;
-				y1 = y2;
-				y2 = y + y3;
-			}
-		}
-		// Now horizontal cut at P4 comes first
-		t = (x1-x3)/t;
-		// By(t=P4)
-		r = (1 - t) * ((1 - t) * y1 + 2.0 * t * y3) + t * t * y2;
-		// Gradient dP4 / dx = 0
-		t = (x1 * x2 - x3 * x3) * t / (x1 - x3);
-		x = Math.floor(t + 0.5);
-		y = Math.floor(r + 0.5);
-		// Intersect P3 | P0 P1
-		r = (y3 - y1) * (t - x1) / (x3 - x1) + y1;
-		this._plotQuadBezierSeg(x1, y1, x, y, x, Math.floor(r + 0.5), cxt);
-		// Intersect P4 | P1 P2
-		r = (y3 - y2) * (t - x2) / (x3 - x2) + y2;
-		// P0 = P4, P1 = P8
-		x1 = x3 = x;
-		y1 = y;
-		y3 = Math.floor(r + 0.5);
-	}
-	
-	// Vertical cut at P6?
-	if ((y1 - y3) * (y2 - y3) > 0) {
-		t = y1 - 2 * y3 + y2;
-		t = (y1 - y3) / t;
-		// Bx(t=P6)
-		r = (1 - t) * ((1 - t) * x1 + 2.0 * t * x3) + t * t * x2;
-		// Gradient dP6/dy=0
-		t = (y1 * y2 - y3 * y3) * t / (y1 - y3);
-		x = Math.floor(r + 0.5);
-		y = Math.floor(t + 0.5);
-		// Intersect P6 | P0 P1
-		r = (x3 - x1) * (t - y1) / (y3 - y1) + x1;
-		this._plotQuadBezierSeg(x1, y1, x, y, Math.floor(r + 0.5), y, cxt);
-		// Intersect P7 | P1 P2
-		r = (x3 - x2) * (t - y2) / (y3 - y2) + x2;
-		// P0 = P6, P1 = P7
-		x1 = x;
-		x3 = Math.floor(r + 0.5);
-		y1 = y3 = y;
-	}
-	
-	// Remaining part
-	this._plotQuadBezierSeg(x1, y1, x2, y2, x3, y3, cxt);
-}
+CurveTool.STATE_END_POINT_SET = 1;
+CurveTool.STATE_CONTROL_POINT1_SET = 2;
 
 /**
  * @override
@@ -228,7 +66,15 @@ CurveTool.prototype.move = function (pointerState) {
 	if (this._state === CurveTool.STATE_NOT_STARTED) {
 		LineTool.drawLine(this.startX, this.startY, pointerState.x, pointerState.y, this._preCxt);
 	} else {
-		this._plotQuadBezier(this.startX, this.startY, this.endX, this.endY, pointerState.x, pointerState.y, this._preCxt);
+		this._preCxt.beginPath();
+		this._preCxt.moveTo(this.startX, this.startY);
+		if (this._state === CurveTool.STATE_END_POINT_SET) {
+			this._preCxt.bezierCurveTo(pointerState.x, pointerState.y, pointerState.x, pointerState.y, this.endX, this.endY);
+		} else {
+			this._preCxt.bezierCurveTo(this.point1X, this.point1Y, pointerState.x, pointerState.y, this.endX, this.endY);
+		}
+		this._preCxt.stroke();
+		this._preCxt.closePath();
 	}
 	
 	if (!settings.get('antiAlias')) {
@@ -242,14 +88,20 @@ CurveTool.prototype.move = function (pointerState) {
  * @param {Object} pointerState - The pointer coordinates
  */
 CurveTool.prototype.end = function (pointerState) {
+	if (!settings.get('antiAlias')) {
+		this._roundPointerState(pointerState);
+	}
+	
 	if (this._state === CurveTool.STATE_NOT_STARTED) {
-		if (!settings.get('antiAlias')) {
-			this._roundPointerState(pointerState);
-		}
 		this.endX = pointerState.x;
 		this.endY = pointerState.y;
+		this._state = CurveTool.STATE_END_POINT_SET;
 		
-		this._state = CurveTool.STATE_LINE_DRAWN;
+	} else if (this._state === CurveTool.STATE_END_POINT_SET) {
+		this.point1X = pointerState.x;
+		this.point1Y = pointerState.y;
+		this._state = CurveTool.STATE_CONTROL_POINT1_SET;
+		
 	} else {
 		this._cxt.drawImage(this._preCxt.canvas, 0, 0);
 		Utils.clearCanvas(this._preCxt);

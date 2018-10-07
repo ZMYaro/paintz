@@ -26,8 +26,8 @@ LineTool.drawLine = function (x1, y1, x2, y2, cxt) {
 	cxt.beginPath();
 	cxt.moveTo(x1, y1);
 	cxt.lineTo(x2, y2);
-	cxt.closePath();
 	cxt.stroke();
+	cxt.closePath();
 }
 
 /**
