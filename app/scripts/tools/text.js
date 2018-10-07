@@ -277,20 +277,35 @@ TextTool.prototype._saveText = function () {
 	this._cxt.font = this._getFontValue();
 	
 	// Locate line breaks.
-	var words = (this._textElem.innerText || this.textElem.textContent).replace(/\n/g, ' \n ').split(' '),
+	var chars = (this._textElem.innerText || this._textElem.textContent).split(''),
 		line = '',
 		lines = [],
-		maxWidth = this._textRegion.width - (2 * TextTool.PADDING) - (2 * TextTool.BORDER_WIDTH);
+		maxWidth = this._textRegion.width - (2 * TextTool.PADDING) - TextTool.BORDER_WIDTH;
 	
-	for (var i = 0; i < words.length; i++) {
-		// Check for a line break.
-		if (words[i] === '\n' || Math.ceil(cxt.measureText(line + words[i]).width) > maxWidth) {
+	for (var i = 0; i < chars.length; i++) {
+		// Break on line breaks.
+		if (chars[i] === '\n') {
 			lines.push(line);
 			line = '';
+			continue;
 		}
-		if (words[i] !== '\n') {
-			line += words[i] + ' ';
+		if (Math.ceil(cxt.measureText(line + chars[i]).width) > maxWidth) {
+			// If the line has exceeded the text box width...
+			var lastSpaceIndex = line.lastIndexOf(' ');
+			if (lastSpaceIndex === -1) {
+				// If there are no spaces, break at this character.
+				lines.push(line);
+				line = chars[i];
+				continue;
+			} else {
+				// If there is a space, break at the last space.
+				line += chars[i];
+				lines.push(line.substring(0, lastSpaceIndex));
+				line = line.substring(lastSpaceIndex + 1);
+				continue;
+			}
 		}
+		line += chars[i];
 	}
 	lines.push(line); // Include any remaining line.
 	
