@@ -35,6 +35,9 @@ DoodleTool.prototype.activate = function () {
 	DrawingTool.prototype.activate.apply(this);
 	
 	this._preCxt.canvas.style.cursor = DoodleTool.getCursorCSS();
+	toolbar.toolboxes.drawToolOptions.loadPromise.then(function () {
+		toolbar.toolboxes.drawToolOptions.enableOutlineOnly();
+	});
 };
 
 /**

@@ -27,6 +27,9 @@ CurveTool.prototype.activate = function () {
 	DrawingTool.prototype.activate.apply(this, arguments);
 	
 	this._state = CurveTool.STATE_NOT_STARTED;
+	toolbar.toolboxes.drawToolOptions.loadPromise.then(function () {
+		toolbar.toolboxes.drawToolOptions.enableOutlineOnly();
+	});
 };
 
 /**

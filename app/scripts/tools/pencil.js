@@ -79,6 +79,9 @@ PencilTool.prototype._prepareCanvas = function () {
  */
 PencilTool.prototype.activate = function () {
 	this._preCxt.canvas.style.cursor = 'url(images/cursors/pencil.cur), crosshair';
+	toolbar.toolboxes.drawToolOptions.loadPromise.then(function () {
+		toolbar.toolboxes.drawToolOptions.enableOutlineOnly();
+	});
 };
 
 /**

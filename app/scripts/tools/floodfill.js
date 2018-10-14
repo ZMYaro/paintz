@@ -131,9 +131,11 @@ FloodFillTool.prototype.activate = function () {
 	this._filling = false;
 	this._imageData = [];
 	this._startColor = {};
-
 	
 	this._preCxt.canvas.style.cursor = 'url(images/cursors/paint_bucket.cur), default';
+	toolbar.toolboxes.drawToolOptions.loadPromise.then(function () {
+		toolbar.toolboxes.drawToolOptions.enableFillOnly();
+	});
 };
 
 /**

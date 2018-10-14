@@ -32,6 +32,18 @@ LineTool.drawLine = function (x1, y1, x2, y2, cxt) {
 
 /**
  * @override
+ * Handle the line tool becoming the active tool.
+ */
+LineTool.prototype.activate = function () {
+	DrawingTool.prototype.activate.apply(this);
+	
+	toolbar.toolboxes.drawToolOptions.loadPromise.then(function () {
+		toolbar.toolboxes.drawToolOptions.enableOutlineOnly();
+	});
+};
+
+/**
+ * @override
  * Handle a line being started by a pointer.
  * @param {Object} pointerState - The pointer coordinates and button
  */

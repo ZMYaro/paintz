@@ -20,6 +20,9 @@ EraserTool.prototype.activate = function () {
 	DrawingTool.prototype.activate.apply(this);
 	
 	this._preCxt.canvas.style.cursor = EraserTool.getCursorCSS();
+	toolbar.toolboxes.drawToolOptions.loadPromise.then(function () {
+		toolbar.toolboxes.drawToolOptions.enableOutlineAndFill();
+	});
 };
 
 /**

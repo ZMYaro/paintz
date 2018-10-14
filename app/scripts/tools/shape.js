@@ -12,6 +12,19 @@ function ShapeTool(cxt, preCxt) {
 ShapeTool.prototype = Object.create(DrawingTool.prototype);
 ShapeTool.prototype.constructor = ShapeTool;
 
+
+/**
+ * @override
+ * Handle the tool becoming the active tool.
+ */
+ShapeTool.prototype.activate = function () {
+	DrawingTool.prototype.activate.apply(this);
+	
+	toolbar.toolboxes.drawToolOptions.loadPromise.then(function () {
+		toolbar.toolboxes.drawToolOptions.enableOutlineAndFill();
+	});
+};
+
 /**
  * @override
  * Handle the shape being started by a pointer.
