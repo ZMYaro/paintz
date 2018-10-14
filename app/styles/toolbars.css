@@ -59,6 +59,14 @@
 					   -moz-box-shadow: inset 0 0 0 22px;
 					        box-shadow: inset 0 0 0 22px;
 				}
+				#toolbar input[type="checkbox"]:disabled + label[role="button"],
+				#toolbar input[type="radio"]:disabled + label[role="button"],
+				#toolbar select:disabled + .icon {
+					opacity: 0.3;
+					cursor: default;
+					cursor: not-allowed;
+				}
+				
 	#toolbar select#lineWidth,
 	#toolbar select#fontFamilySelect,
 	#toolbar select#fontSizeSelect {

@@ -20,17 +20,50 @@ DrawToolOptionsToolbox.prototype.constructor = DrawToolOptionsToolbox;
 DrawToolOptionsToolbox.prototype._setUp = function (contents) {
 	Toolbox.prototype._setUp.call(this, contents);
 	
-	var lineWidthSelect = this._element.querySelector('#lineWidth');
-	lineWidthSelect.value = settings.get('lineWidth');
-	lineWidthSelect.addEventListener('change', function (e) {
+	this._lineWidthSelect = this._element.querySelector('#lineWidth');
+	this._lineWidthSelect.value = settings.get('lineWidth');
+	this._lineWidthSelect.addEventListener('change', function (e) {
 		settings.set('lineWidth', e.target.value);
 		// Some tools' cursors change with the line width, so reactivate the tool.
 		tools.currentTool.activate();
 	}, false);
 	
-	var outlineOptions = this._element.querySelector('#outlineOptions');
-	outlineOptions.outlineOption.value = settings.get('outlineOption');
-	outlineOptions.addEventListener('change', function (e) {
+	this._outlineOptions = this._element.querySelector('#outlineOptions');
+	this._outlineOptions.outlineOption.value = settings.get('outlineOption');
+	this._outlineOptions.addEventListener('change', function (e) {
 		settings.set('outlineOption', e.target.value);
 	}, false);
+};
+
+/**
+ * Disable outline options and set to fill only.
+ */
+DrawToolOptionsToolbox.prototype.enableFillOnly = function () {
+	this._lineWidthSelect.disabled = true;
+	this._outlineOptions.outlineOnly.disabled = true;
+	this._outlineOptions.fillOnly.disabled = false;
+	this._outlineOptions.outlineFill.disabled = true;
+	this._outlineOptions.outlineOption.value = 'fillOnly';
+};
+
+/**
+ * Disable fill options and set to outline only.
+ */
+DrawToolOptionsToolbox.prototype.enableOutlineOnly = function () {
+	this._lineWidthSelect.disabled = false;
+	this._outlineOptions.outlineOnly.disabled = false;
+	this._outlineOptions.fillOnly.disabled = true;
+	this._outlineOptions.outlineFill.disabled = true;
+	this._outlineOptions.outlineOption.value = 'outlineOnly';
+};
+
+/**
+ * Enable outline and fill options.
+ */
+DrawToolOptionsToolbox.prototype.enableOutlineAndFill = function () {
+	this._lineWidthSelect.disabled = false;
+	this._outlineOptions.outlineOnly.disabled = false;
+	this._outlineOptions.fillOnly.disabled = false;
+	this._outlineOptions.outlineFill.disabled = false;
+	this._outlineOptions.outlineOption.value = settings.get('outlineOption');
 };
