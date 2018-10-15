@@ -109,7 +109,19 @@ CurveTool.prototype.end = function (pointerState) {
 		this._cxt.drawImage(this._preCxt.canvas, 0, 0);
 		Utils.clearCanvas(this._preCxt);
 		undoStack.addState();
-		
+		this._state = CurveTool.STATE_NOT_STARTED;
+	}
+};
+
+/**
+ * @override
+ * Save the curve if the tool is deactivated before both control points have been set.
+ */
+CurveTool.prototype.deactivate = function () {
+	if (this._state !== CurveTool.STATE_NOT_STARTED) {
+		this._cxt.drawImage(this._preCxt.canvas, 0, 0);
+		Utils.clearCanvas(this._preCxt);
+		undoStack.addState();
 		this._state = CurveTool.STATE_NOT_STARTED;
 	}
 };
