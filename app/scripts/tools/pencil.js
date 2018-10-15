@@ -78,6 +78,8 @@ PencilTool.prototype._prepareCanvas = function () {
  * Handle the pencil tool becoming the active tool.
  */
 PencilTool.prototype.activate = function () {
+	DrawingTool.prototype.activate.apply(this);
+	
 	this._preCxt.canvas.style.cursor = 'url(images/cursors/pencil.cur), crosshair';
 	toolbar.toolboxes.drawToolOptions.loadPromise.then(function () {
 		toolbar.toolboxes.drawToolOptions.enableOutlineOnly();

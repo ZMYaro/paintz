@@ -133,6 +133,8 @@ FloodFillTool.prototype.activate = function () {
 	this._startColor = {};
 	
 	this._preCxt.canvas.style.cursor = 'url(images/cursors/paint_bucket.cur), default';
+	
+	toolbar.switchToolOptionsToolbox(toolbar.toolboxes.drawToolOptions);
 	toolbar.toolboxes.drawToolOptions.loadPromise.then(function () {
 		toolbar.toolboxes.drawToolOptions.enableFillOnly();
 	});
