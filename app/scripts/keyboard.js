@@ -197,6 +197,9 @@ var keyManager = {
 					// Update the toolbar.
 					toolbar.toolboxes.colorPicker.colorIndicator.style.borderColor = oldFill;
 					toolbar.toolboxes.colorPicker.colorIndicator.style.backgroundColor = oldLine;
+					
+					// Some tools' cursors change with colors, so reactivate the cursor.
+					tools.currentTool.activate();
 				}
 				break;
 			
