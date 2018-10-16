@@ -37,9 +37,14 @@ DrawToolOptionsToolbox.prototype._setUp = function (contents) {
 
 /**
  * Disable outline options and set to fill only.
+ * @param {Boolean} [enableLineWidth] - Whether to enable the line width selector; defaults to false
  */
-DrawToolOptionsToolbox.prototype.enableFillOnly = function () {
-	this._lineWidthSelect.disabled = true;
+DrawToolOptionsToolbox.prototype.enableFillOnly = function (enableLineWidth) {
+	if (typeof(enableLineWidth) === 'undefined') {
+		enableLineWidth = false;
+	}
+	this._lineWidthSelect.disabled = !enableLineWidth;
+	
 	this._outlineOptions.outlineOnly.disabled = true;
 	this._outlineOptions.fillOnly.disabled = false;
 	this._outlineOptions.outlineFill.disabled = true;
@@ -48,9 +53,14 @@ DrawToolOptionsToolbox.prototype.enableFillOnly = function () {
 
 /**
  * Disable fill options and set to outline only.
+ * @param {Boolean} [enableLineWidth] - Whether to enable the line width selector; defaults to true
  */
-DrawToolOptionsToolbox.prototype.enableOutlineOnly = function () {
-	this._lineWidthSelect.disabled = false;
+DrawToolOptionsToolbox.prototype.enableOutlineOnly = function (enableLineWidth) {
+	if (typeof(enableLineWidth) === 'undefined') {
+		enableLineWidth = true;
+	}
+	this._lineWidthSelect.disabled = !enableLineWidth;
+	
 	this._outlineOptions.outlineOnly.disabled = false;
 	this._outlineOptions.fillOnly.disabled = true;
 	this._outlineOptions.outlineFill.disabled = true;
@@ -62,6 +72,7 @@ DrawToolOptionsToolbox.prototype.enableOutlineOnly = function () {
  */
 DrawToolOptionsToolbox.prototype.enableOutlineAndFill = function () {
 	this._lineWidthSelect.disabled = false;
+	
 	this._outlineOptions.outlineOnly.disabled = false;
 	this._outlineOptions.fillOnly.disabled = false;
 	this._outlineOptions.outlineFill.disabled = false;
