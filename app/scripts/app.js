@@ -19,8 +19,6 @@ var canvas,
 	clipboard,
 	dialogs = {},
 	toolbar = {},
-	keyboardDialog,
-	saveDialog,
 	progressSpinner;
 
 /**
