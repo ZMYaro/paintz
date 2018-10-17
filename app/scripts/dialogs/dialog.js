@@ -56,6 +56,14 @@ Dialog.prototype._setUp = function (contents) {
 	Array.prototype.slice.call(this._element.querySelectorAll('.closeButton')).forEach(function (closeButton) {
 		closeButton.onclick = this.close.bind(this);
 	}, this);
+	
+	// Make the dialog close when Esc is pressed.
+	this._element.addEventListener('keydown', (function (e) {
+		if (e.keyCode === 27) {
+			e.preventDefault();
+			this.close();
+		}
+	}).bind(this), false);
 };
 
 /**
