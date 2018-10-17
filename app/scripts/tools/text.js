@@ -370,5 +370,12 @@ TextTool.prototype._handleKeyDown = function (e) {
 				this._textElem.style.font = this._getFontValue();
 			}
 			break;
+		
+		case 85: // U
+			if (ctrlOrCmd) {
+				e.preventDefault();
+				// Prevent the browser automatically underlining on Ctrl+U.
+			}
+			break;
 	}
 };
