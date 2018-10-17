@@ -10,7 +10,7 @@ Its goal is to make creating and editing drawings and other images as easy to do
 
 ## Live instance
 
-The official live instance of PaintZ can be found at https://paintz.zmyaro.com.
+The official live instance of PaintZ can be found at https://paintz.app.
 
 
 ## Chrome Web Store
@@ -22,4 +22,4 @@ _That is the **only** legitimate Chrome Web Store listing for PaintZ._
 
 ## Social media
 
-Updates are posted to the PaintZ profiles on [Facebook](https://www.facebook.com/PaintZApp), [Google+](https://plus.google.com/+PaintZApp), [Instagram](https://www.instagram.com/PaintZApp), and [Twitter](https://twitter.com/PaintZApp).
+Updates are posted to the @PaintZApp profiles on [Facebook](https://www.facebook.com/PaintZApp), [Google+](https://plus.google.com/+PaintZApp), [Instagram](https://www.instagram.com/PaintZApp), and [Twitter](https://twitter.com/PaintZApp).
