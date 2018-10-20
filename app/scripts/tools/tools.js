@@ -90,7 +90,9 @@ ToolManager.prototype._handlePointerDown = function (e) {
 		ctrlKey: Utils.checkPlatformCtrlKey(e),
 		shiftKey: e.shiftKey,
 		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
-		y: Utils.getCanvasY(e.pageY) / zoomManager.level
+		y: Utils.getCanvasY(e.pageY) / zoomManager.level,
+		windowX: e.clientX,
+		windowY: e.clientY
 	});
 	
 	// Set the state to continue drawing.
@@ -113,7 +115,9 @@ ToolManager.prototype._handlePointerMove = function (e) {
 	// Update the shape.
 	this.currentTool.move({
 		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
-		y: Utils.getCanvasY(e.pageY) / zoomManager.level
+		y: Utils.getCanvasY(e.pageY) / zoomManager.level,
+		windowX: e.clientX,
+		windowY: e.clientY
 	});
 };
 
@@ -133,7 +137,9 @@ ToolManager.prototype._handlePointerUp = function (e) {
 	// Complete the task.
 	this.currentTool.end({
 		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
-		y: Utils.getCanvasY(e.pageY) / zoomManager.level
+		y: Utils.getCanvasY(e.pageY) / zoomManager.level,
+		windowX: e.clientX,
+		windowY: e.clientY
 	});
 	
 	// Set the state to ready to start the next drawing.

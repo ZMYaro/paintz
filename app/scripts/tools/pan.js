@@ -34,8 +34,10 @@ PanTool.prototype.start = function (pointerState) {
 		return;
 	}
 	
-	this._startX = pointerState.x;
-	this._startY = pointerState.y;
+	this._startX = pointerState.windowX;
+	this._startY = pointerState.windowY;
+	this._startScrollX = window.scrollX;
+	this._startScrollY = window.scrollY;
 	
 	// Switch to the grabbing cursor.
 	this._preCxt.canvas.style.cursor = '-webkit-grabbing';
@@ -49,8 +51,8 @@ PanTool.prototype.start = function (pointerState) {
  * @param {Object} pointerState - The pointer coordinates
  */
 PanTool.prototype.move = function (pointerState) {
-	var scrollX = document.body.scrollLeft + (this._startX - pointerState.x),
-		scrollY = document.body.scrollTop + (this._startY - pointerState.y);
+	var scrollX = this._startScrollX + (this._startX - pointerState.windowX),
+		scrollY = this._startScrollY + (this._startY - pointerState.windowY);
 	window.scrollTo(scrollX, scrollY);
 };
 
