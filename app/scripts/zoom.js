@@ -82,7 +82,7 @@ Object.defineProperties(ZoomManager.prototype, {
 		}
 	}
 });
-	
+
 /**
  * @private
  * Find the nearest zoom level to the given percentage.
