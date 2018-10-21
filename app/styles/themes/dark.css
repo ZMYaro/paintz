@@ -50,11 +50,10 @@ select[size="1"] {
 	}
 	.appBar[role="toolbar"] input[type="checkbox"] + label[role="button"],
 	.appBar[role="toolbar"] input[type="radio"] + label[role="button"] {
-		//color: rgba(255, 255, 255, 0.9);
+		color: #7986cb;
 	}
 		.appBar[role="toolbar"] input[type="checkbox"]:checked + label[role="button"],
 		.appBar[role="toolbar"] input[type="radio"]:checked + label[role="button"] {
-			color: #7986cb;
 			fill: #212121;
 		}
 		.appBar[role="toolbar"] select:not(:disabled):hover,
