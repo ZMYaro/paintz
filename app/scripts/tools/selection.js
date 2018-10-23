@@ -68,6 +68,8 @@ SelectionTool.prototype.start = function (pointerState) {
 			startHeight: 0,
 			width: 0,
 			height: 0,
+			// The fill color should remain the same for this selection even if the PaintZ fill color changes.
+			fillColor: settings.get('fillColor'),
 			firstMove: true,
 			transformed: false
 		};
@@ -177,7 +179,7 @@ SelectionTool.prototype.clear = function () {
 		return;
 	}
 	
-	this._cxt.fillStyle = settings.get('fillColor');
+	this._cxt.fillStyle = this._selection.fillColor;
 	this._cxt.fillRect(this._selection.startX, this._selection.startY,
 		this._selection.width, this._selection.height);
 	Utils.clearCanvas(this._preCxt);
@@ -427,7 +429,7 @@ SelectionTool.prototype._drawSelectionContent = function () {
  * Draw the background color over the selection's starting location.
  */
 SelectionTool.prototype._drawSelectionStartCover = function () {
-	this._preCxt.fillStyle = settings.get('fillColor');
+	this._preCxt.fillStyle = this._selection.fillColor;
 	this._preCxt.fillRect(
 		this._selection.startX, this._selection.startY,
 		this._selection.startWidth, this._selection.startHeight);
