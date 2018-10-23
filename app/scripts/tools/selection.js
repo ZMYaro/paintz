@@ -23,6 +23,7 @@ SelectionTool.prototype.constructor = SelectionTool;
  */
 SelectionTool.prototype.activate = function () {
 	this._preCxt.canvas.style.cursor = 'crosshair';
+	this._updateSelectionOutline(); // Update the outline in case the existing tool is being reactivated.
 	toolbar.switchToolOptionsToolbox(toolbar.toolboxes.selectToolOptions);
 };
 
