@@ -34,6 +34,9 @@ ClipboardManager.prototype._handlePaste = function (e) {
 		preCxt.drawImage(image, 0, 0);
 		tools.selection._selection.content = preCxt.getImageData(0, 0, image.width, image.height);
 		
+		// Mark the selection as transformed so it gets saved no matter what.
+		tools.selection._selection.transformed = true;
+		
 		// Set this to false so there is no selection start cover.
 		tools.selection._selection.firstMove = false;
 		
