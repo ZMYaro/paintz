@@ -60,6 +60,9 @@ ImageToolbox.prototype._setUp = function (contents) {
 	var resizeBtn = this._element.querySelector('#resizeBtn');
 	dialogs.resize.trigger = resizeBtn;
 	resizeBtn.addEventListener('click', dialogs.resize.open.bind(dialogs.resize), false);
+	
+	// Make clicking the resolution also open the resize dialog.
+	document.getElementById('resolution').addEventListener('click', dialogs.resize.open.bind(dialogs.resize), false);
 };
 
 /**
