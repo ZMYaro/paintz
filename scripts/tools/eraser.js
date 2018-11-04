@@ -8,23 +8,26 @@
 function EraserTool(cxt, preCxt) {
 	DrawingTool.apply(this, arguments);
 }
-
+// Extend DrawingTool.
 EraserTool.prototype = Object.create(DrawingTool.prototype);
-
+EraserTool.prototype.constructor = EraserTool;
 
 /**
- * Handle the doodle tool becoming the active tool.
  * @override
+ * Handle the doodle tool becoming the active tool.
  */
 EraserTool.prototype.activate = function () {
 	DrawingTool.prototype.activate.apply(this);
 	
 	this._preCxt.canvas.style.cursor = EraserTool.getCursorCSS();
+	toolbar.toolboxes.drawToolOptions.loadPromise.then(function () {
+		toolbar.toolboxes.drawToolOptions.enableFillOnly(true);
+	});
 };
 
 /**
- * Handle a doodle being started by a pointer.
  * @override
+ * Handle a doodle being started by a pointer.
  * @param {Object} pointerState - The pointer coordinates and button
  */
 EraserTool.prototype.start = function (pointerState) {
@@ -33,7 +36,7 @@ EraserTool.prototype.start = function (pointerState) {
 	this._lastX = pointerState.x;
 	this._lastY = pointerState.y;
 	
-	var cxt = localStorage.ghostDraw ? this._preCxt : this._cxt;
+	var cxt = settings.get('ghostDraw') ? this._preCxt : this._cxt;
 	cxt.fillStyle = this._fillColor;
 	cxt.fillRect(
 		pointerState.x - this._lineWidth / 2,
@@ -43,14 +46,14 @@ EraserTool.prototype.start = function (pointerState) {
 };
 
 /**
- * Update the erased area as it is being drawn.
  * @override
+ * Update the erased area as it is being drawn.
  * @param {Object} pointerState - The pointer coordinates
  */
 EraserTool.prototype.move = function (pointerState) {
 	DrawingTool.prototype.move.apply(this, arguments);
 
-	var cxt = localStorage.ghostDraw ? this._preCxt : this._cxt;
+	var cxt = settings.get('ghostDraw') ? this._preCxt : this._cxt;
 
 	// Connect to the existing preview.
 	cxt.fillStyle = this._fillColor;
@@ -96,7 +99,7 @@ EraserTool.prototype.move = function (pointerState) {
  * @returns {String}
  */
 EraserTool.getCursorCSS = function () {
-	var size = parseInt(localStorage.lineWidth) * zoomManager.level + 2;
+	var size = parseInt(settings.get('lineWidth')) * zoomManager.level + 2;
 	
 	// Set the cursor size, capped at 128px.
 	cursorCanvas.width = cursorCanvas.height = Math.min(128, size);
@@ -108,7 +111,7 @@ EraserTool.getCursorCSS = function () {
 	
 	cursorCxt.lineWidth = 1;
 	cursorCxt.strokeStyle = 'black';
-	cursorCxt.fillStyle = localStorage.fillColor;
+	cursorCxt.fillStyle = settings.get('fillColor');
 	cursorCxt.fillRect(0, 0, cursorCanvas.width, cursorCanvas.height);
 	cursorCxt.strokeRect(0, 0, cursorCanvas.width, cursorCanvas.height);
 	

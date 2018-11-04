@@ -1,7 +1,8 @@
-#dialogs {
+#progressContainer,
+#dialogsContainer {
 	display: none;
 
-	z-index: 5;
+	z-index: 4;
 
 	position: fixed;
 	left: 0;
@@ -10,11 +11,6 @@
 	bottom: 0;
 	
 	overflow: auto;
-
-	padding-top: 64px;
-
-	background-color: transparent;
-	background-color: rgba(128,128,128,0);
 
 	-webkit-transition-duration: 0.2s;
 	   -moz-transition-duration: 0.2s;
@@ -27,14 +23,16 @@
 	     -o-transition-property: background-color;
 	        transition-property: background-color;
 }
-	#dialogs.visible {
-		background-color: gray;
-		background-color: rgba(128,128,128,0.5);
+	#dialogsContainer {
+		padding-top: 64px;
+	}
+	#progressContainer {
+		cursor: wait;
 	}
 .dialog {
 	margin: 0 auto 16px;
 	max-width: 96%;
-	display: none;
+	overflow: visible;
 	
 	opacity: 0;
 	-webkit-transform: scale(0);
@@ -59,9 +57,6 @@
 	     -o-transition-property: opacity, -o-transform, transform;
 	        transition-property: opacity, transform;
 }
-	.dialog.visible {
-		display: block;
-	}
 	.dialog.open {
 		opacity: 1;
 		-webkit-transform: scale(1);
@@ -73,7 +68,6 @@
 	.dialog h1 {
 		margin-top: 0;
 		font-weight: 300;
-		opacity: 0.8;
 	}
 	.dialog button[type="submit"],
 	#downloadLink {
@@ -90,107 +84,150 @@
 		#downloadLink:active {
 			background-color: #5767bd;
 		}
+	.dialog#settingsDialog select:not([size]),
+	.dialog#settingsDialog select[size="1"] {
+		display: block;
+		width: 100%;
+		width: calc(100% + 32px);
+		margin: -16px;
+		padding-top: 16px;
+		padding-bottom: 16px;
+		text-align: right;
+		text-align-last: right;
+		-webkit-border-radius: 0;
+		   -moz-border-radius: 0;
+		        border-radius: 0;
+	}
+		.dialog#settingsDialog select:not([size]) + label,
+		.dialog#settingsDialog select[size="1"] + label {
+			/* Move it up to align with the <select>'s text. */
+			display: block;
+			margin-top: -35px;
+			/* Keep it on top of the <select> so it does not get covered by its background color. */
+			position: relative;
+			pointer-events: none;
+		}
+	
+	.dialog .dialog-header,
+	.dialog .dialog-footer {
+		position: sticky;
+	}
+		.dialog .dialog-header {
+			top: -64px;
+			margin: -16px;
+			padding: 16px;
+			margin-bottom: 4px;
+			padding-bottom: 8px;
+			
+			-webkit-border-top-left-radius:  2px;
+			-webkit-border-top-right-radius: 2px;
+			   -moz-border-radius-topleft:   2px;
+			   -moz-border-radius-topright:  2px;
+			        border-top-left-radius:  2px;
+			        border-top-right-radius: 2px;
+			
+			font-weight: 500;
+		}
+			.dialog .dialog-header .closeButton {
+				float: right;
+				margin-right: -8px;
+			}
+		.dialog .dialog-footer {
+			bottom: 0;
+			text-align: right;
+			margin: -16px;
+			padding: 12px;
+			margin-top: -4px;
+			padding-top: 8px;
+			
+			-webkit-border-bottom-left-radius:  2px;
+			-webkit-border-bottom-right-radius: 2px;
+			   -moz-border-radius-bottomleft:   2px;
+			   -moz-border-radius-bottomright:  2px;
+			        border-bottom-left-radius:  2px;
+			        border-bottom-right-radius: 2px;
+		}
+	
 	.dialog .list {
-		margin: -8px -16px;
+		margin: 0 -16px;
 	}
 		.dialog .list li {
 			border-style: none;
 		}
+			.dialog .list li [role="button"]:not(:first-child) {
+				margin-left: 0;
+			}
+			.dialog .list li [role="button"]:not(:last-child) {
+				margin-right: 0;
+			}
+			.dialog .list li svg {
+				width: 24px;
+				height: 24px;
+			}
+				.dialog .list li svg:first-child {
+					box-sizing: content-box;
+					vertical-align: bottom;
+					margin: -16px 0 -8px;
+					padding: 14px 8px 14px 0;
+					float: left;
+				}
+			
+			.dialog .list li .social-links {
+				display: inline-block;
+			}
+				.dialog .list li .social-links [role="button"] {
+					margin-left: -2px;
+					margin-right: -2px;
+					padding: 8px 6px;
+					-webkit-border-radius: 24px;
+					   -moz-border-radius: 24px;
+					        border-radius: 24px;
+				}
+					.dialog .list li .social-links [role="button"] svg {
+						padding: 0;
+						margin: 2px 4px;
+					}
 
-input[type="text"]:focus,
-input[type="search"]:focus,
-input[type="password"]:focus,
-input[type="email"]:focus,
-input[type="url"]:focus,
-input[type="number"]:focus,
-textarea:focus {
-	border-color: #5767bd;
-}
 input[type="checkbox"] {
 	margin: 0px 2px;
 }
 input[type="radio"] {
 	margin: -4px 4px;
 }
-	input[type="checkbox"]:checked,
-	input[type="radio"]:checked {
-		border-color: #5767bd;
-		color: #5767bd;
-	}
-		input[type="radio"]:checked::after {
-			color: #5767bd;
-		}
-input[type="range"] {
-	background-color: white;
+input[type=range]::-ms-tooltip {
+	display: none;
 }
-	input[type="range"]::-moz-range-track {
-		background-color: white;
-	}
-	input[type="range"]::-ms-track {
-		background-color: white;
-	}
-	input[type="range"]::-webkit-slider-thumb {
-		background-color: white;
-	}
-	input[type="range"]::-moz-range-thumb {
-		background-color: white;
-	}
-	input[type=range]::-ms-tooltip {
-		display: none;
-	}
 
 hr {
 	height: 0;
-	border-width: 1px 0 0;
-	border-color: #dfdfdf;
-	border-color: rgba(0,0,0,0.11);
+	margin: 0;
 }
-
 
 #helpDialog table {
 	text-align: left;
 }
-.helpIcon {
-	width: 48px;
-	height: 48px;
+.dialog .helpIcon {
+	box-sizing: content-box;
+	
+	width: 24px;
+	height: 24px;
 	
 	-webkit-border-radius: 50%;
 	   -moz-border-radius: 50%;
 	        border-radius: 50%;
 	
-	background-color: #3f51b5;
 	padding: 8px;
 	margin-right: 8px;
 	margin-top: 2px;
 }
-
-.welcomeIcon {
+.dialog .welcomeIcon {
 	vertical-align: top;
-	width: 32px;
-	height: 32px;
 	padding: 4px;
 	margin: -8px 2px;
 }
 
-.dialog .list li img {
-	max-width: 24px;
-}
-	.dialog .list li img:first-child {
-		vertical-align: bottom;
-		max-width: 32px;
-		margin: -16px 0;
-		padding: 14px 8px 14px 0;
-		float: left;
-	}
-
-progress.circular {
-	border-top-color: #3f51b5;/*5767bd;*/
-}
-#progressSpinner {
-	display: none;
+#progressContainer progress.circular {
+	display: block;
 	margin: auto;
 	top: 40%;
 }
-	#progressSpinner.visible {
-		display: block;
-	}

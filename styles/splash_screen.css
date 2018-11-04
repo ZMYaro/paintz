@@ -1,0 +1,45 @@
+#splashScreen {
+	background-color: #3f51b5;
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	
+	display: -webkit-box;
+	display:    -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display:         flex;
+	
+	-webkit-flex-direction: column;
+	    -ms-flex-direction: column;
+	        flex-direction: column;
+	
+	-webkit-justify-content: center;
+	        justify-content: center;
+	align-items: center;
+	text-align: center;
+	
+	color: white;
+	
+	z-index: 5;
+}
+	#splashScreen a {
+		color: #97d9f2;
+	}
+	#splashScreen p {
+		max-width: 600px;
+		margin: 0 16px;
+	}
+	#splashScreen img {
+		display: block;
+		margin: 0 auto;
+		width: 70%;
+		max-width: 384px;
+		max-height: 384px;
+	}
+	#splashScreen progress.circular {
+		margin: 0 auto;
+		border-top-color: white;
+	}

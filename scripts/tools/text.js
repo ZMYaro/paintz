@@ -12,7 +12,7 @@ function TextTool(cxt, preCxt) {
 	this._textElem = document.createElement('p');
 	this._textElem.contentEditable = true;
 	this._textElem.className = 'floatingRegion';
-	this._textElem.style.lineHeight = '100%';
+	this._textElem.style.lineHeight = this.LINE_HEIGHT;
 	this._textElem.style.WebkitTransformOrigin =
 		this._textElem.style.MozTransformOrigin =
 		this._textElem.style.MsTransformOrigin =
@@ -21,7 +21,11 @@ function TextTool(cxt, preCxt) {
 	this._textElem.style.padding = TextTool.PADDING + 'px';
 	
 	this._textElem.onblur = this._removeTextElem.bind(this);
+	this._textElem.addEventListener('keydown', this._handleKeyDown.bind(this), false);
 }
+// Extend Tool.
+TextTool.prototype = Object.create(Tool.prototype);
+TextTool.prototype.constructor = TextTool;
 
 /** {Number} How close one has to click to grab the text box */
 TextTool.GRABBABLE_MARGIN = 4;
@@ -34,16 +38,15 @@ TextTool.BORDER_WIDTH = 1;
 /** {Number} The line height of the text box */
 TextTool.LINE_HEIGHT = 1;
 
-TextTool.prototype = Object.create(Tool.prototype);
-
 /**
- * Handle the selection tool becoming the active tool.
  * @override
+ * Handle the selection tool becoming the active tool.
  */
 TextTool.prototype.activate = function () {
 	this._preCxt.canvas.style.cursor = 'crosshair';
-	this._textElem.style.color = localStorage.lineColor;
-	this._textElem.style.font = localStorage.fontSize + 'px sans-serif';
+	toolbar.switchToolOptionsToolbox(toolbar.toolboxes.textToolOptions);
+	this._textElem.style.color = settings.get('lineColor');
+	this._textElem.style.font = settings.get('fontSize') + 'px sans-serif';
 	this._textElem.style.WebkitTransform =
 		this._textElem.style.MozTransform =
 		this._textElem.style.MsTransform =
@@ -52,8 +55,8 @@ TextTool.prototype.activate = function () {
 };
 
 /**
- * Handle the tool being activated by a pointer.
  * @override
+ * Handle the tool being activated by a pointer.
  * @param {Object} pointerState - The pointer coordinates and button
  */
 TextTool.prototype.start = function (pointerState) {
@@ -124,8 +127,8 @@ TextTool.prototype.start = function (pointerState) {
 };
 
 /**
- * Update the tool as the cursor moves.
  * @override
+ * Update the tool as the cursor moves.
  * @param {Object} pointerState - The pointer coordinates
  */
 TextTool.prototype.move = function (pointerState) {
@@ -165,8 +168,8 @@ TextTool.prototype.move = function (pointerState) {
 };
 
 /**
- * Handle the pointer being released.
  * @override
+ * Handle the pointer being released.
  * @param {Object} pointerState - The pointer coordinates
  */
 TextTool.prototype.end = function (pointerState) {
@@ -196,15 +199,27 @@ TextTool.prototype.end = function (pointerState) {
 };
 
 /**
- * Clean up when the text tool is no longer the active tool.
  * @override
+ * Clean up when the text tool is no longer the active tool.
  */
 TextTool.prototype.deactivate = function () {
 	this._removeTextElem();
 };
 
 /**
- * Update the text box element.
+ * @private
+ * Generate the CSS font value based on the saved options.
+ */
+TextTool.prototype._getFontValue = function () {
+	return (settings.get('italic') ? 'italic ' : '') +
+		(settings.get('bold') ? 'bold ' : '') +
+		settings.get('fontSize') + 'pt ' +
+		settings.get('fontFamily');
+};
+
+/**
+ * @private
+ * Update the text box element with the correct size and other properties.
  */
 TextTool.prototype._updateTextElem = function () {
 	if (!this._textRegion) {
@@ -224,9 +239,12 @@ TextTool.prototype._updateTextElem = function () {
 			'scale(' + zoomManager.level + ')';
 	this._textElem.style.width = this._textRegion.width + 'px';
 	this._textElem.style.height = this._textRegion.height + 'px';
+	
+	this._textElem.style.font = this._getFontValue();
 };
 
 /**
+ * @private
  * Remove the text box element.
  */
 TextTool.prototype._removeTextElem = function () {
@@ -244,6 +262,7 @@ TextTool.prototype._removeTextElem = function () {
 };
 
 /**
+ * @private
  * Save the selection to the canvas if it was moved.
  * @returns {Boolean} Whether the selection was saved.
  */
@@ -252,33 +271,111 @@ TextTool.prototype._saveText = function () {
 		return;
 	}
 	
+	// Set text settings.
+	this._cxt.textBaseline = 'top';
+	this._cxt.fillStyle = settings.get('lineColor');
+	this._cxt.font = this._getFontValue();
+	
 	// Locate line breaks.
-	var words = (this._textElem.innerText || this.textElem.textContent).replace(/\n/g, ' \n ').split(' '),
+	var chars = (this._textElem.innerText || this._textElem.textContent).split(''),
 		line = '',
 		lines = [],
-		maxWidth = this._textRegion.width - (2 * TextTool.PADDING) - (2 * TextTool.BORDER_WIDTH);
+		maxWidth = this._textRegion.width - (2 * TextTool.PADDING) - TextTool.BORDER_WIDTH;
 	
-	for (var i = 0; i < words.length; i++) {
-		// Check for a line break.
-		if (words[i] === '\n' || Math.ceil(cxt.measureText(line + words[i]).width) > maxWidth) {
+	for (var i = 0; i < chars.length; i++) {
+		// Break on line breaks.
+		if (chars[i] === '\n') {
 			lines.push(line);
 			line = '';
+			continue;
 		}
-		if (words[i] !== '\n') {
-			line += words[i] + ' ';
+		if (Math.ceil(cxt.measureText(line + chars[i]).width) > maxWidth) {
+			// If the line has exceeded the text box width...
+			var lastSpaceIndex = line.lastIndexOf(' ');
+			if (lastSpaceIndex === -1) {
+				// If there are no spaces, break at this character.
+				lines.push(line);
+				line = chars[i];
+				continue;
+			} else {
+				// If there is a space, break at the last space.
+				line += chars[i];
+				lines.push(line.substring(0, lastSpaceIndex));
+				line = line.substring(lastSpaceIndex + 1);
+				continue;
+			}
 		}
+		line += chars[i];
 	}
 	lines.push(line); // Include any remaining line.
 	
 	// Draw the text.
-	this._cxt.textBaseline = 'top';
-	this._cxt.fillStyle = localStorage.lineColor;
-	this._cxt.font = localStorage.fontSize + 'px sans-serif';
 	for (var i = 0; i < lines.length; i++) {
 		var x = this._textRegion.x + TextTool.PADDING + TextTool.BORDER_WIDTH,
-			y = this._textRegion.y + TextTool.PADDING + TextTool.BORDER_WIDTH + ((parseInt(localStorage.fontSize) + 2) * i);
+			y = this._textRegion.y + TextTool.PADDING + TextTool.BORDER_WIDTH + ((settings.get('fontSize') * 1.525) * i);
 		this._cxt.fillText(lines[i], x, y);
 	}
 	Utils.clearCanvas(this._preCxt);
 	undoStack.addState();
+};
+
+/**
+ * @private
+ * Handle keyboard shortcuts within the text box.
+ * @param {KeyboardEvent} e
+ */
+TextTool.prototype._handleKeyDown = function (e) {
+	// Use Command on Mac and iOS devices and Ctrl everywhere else.
+	var ctrlOrCmd = Utils.checkPlatformCtrlKey(e),
+		noModifiers = !Utils.checkModifierKeys(e);
+	
+	switch (e.keyCode) {
+		case 27: // Esc
+			if (noModifiers) {
+				e.preventDefault();
+				// Esc => Cancel text box
+				
+				// Clear the text box, then remove it.
+				this._textElem.innerHTML = '';
+				this._removeTextElem();
+			}
+			break;
+		
+		case 66: // B
+			if (ctrlOrCmd) {
+				e.preventDefault();
+				// Ctrl+B => Bold
+				
+				// Update the toolbar toggle.
+				toolbar.toolboxes.textToolOptions.boldToggle.checked =
+					!toolbar.toolboxes.textToolOptions.boldToggle.checked;
+				settings.set('bold', toolbar.toolboxes.textToolOptions.boldToggle.checked);
+				
+				// Update the text box's CSS.
+				this._textElem.style.font = this._getFontValue();
+			}
+			break;
+		
+		case 73: // I
+			if (ctrlOrCmd) {
+				e.preventDefault();
+				// Ctrl+I => Italic
+				
+				// Update the toolbar toggle.
+				toolbar.toolboxes.textToolOptions.italicToggle.checked =
+					!toolbar.toolboxes.textToolOptions.italicToggle.checked;
+				settings.set('italic', toolbar.toolboxes.textToolOptions.italicToggle.checked);
+				
+				// Update the text box's CSS.
+				this._textElem.style.font = this._getFontValue();
+			}
+			break;
+		
+		case 85: // U
+			if (ctrlOrCmd) {
+				e.preventDefault();
+				// Prevent the browser automatically underlining on Ctrl+U.
+			}
+			break;
+	}
 };

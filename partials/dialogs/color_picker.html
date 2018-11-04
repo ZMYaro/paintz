@@ -1,0 +1,90 @@
+<h1 role="toolbar" class="dialog-header">
+	<button type="button" class="closeButton">
+		<svg role="img">
+			<title>Close</title>
+			<use xlink:href="images/icons/clear.svg#icon" href="images/icons/clear.svg#icon"></use>
+		</svg>
+	</button>
+	Colors
+</h1>
+<table cellpadding="0" style="margin: 0 auto;">
+	<tr>
+		<th colspan="3">Primary (line)</th>
+		<td style="width: 8px;"></td>
+		<th colspan="3">Secondary (fill)</th>
+	</tr>
+	<tr>
+		<td colspan="3">
+			<div id="lineColorPicker" class="picker">
+				<div class="picker-indicator"></div>
+			</div>
+			<div id="lineColorSlider" class="slide">
+				<div class="slide-indicator"></div>
+			</div>
+		</td>
+		<td></td>
+		<td colspan="3">
+			<div id="fillColorPicker" class="picker">
+				<div class="picker-indicator"></div>
+			</div>
+			<div id="fillColorSlider" class="slide">
+				<div class="slide-indicator"></div>
+			</div>
+		</td>
+	</tr>
+	<tr style="vertical-align: bottom;">
+		<td>
+			<div id="lineColorSample"></div>
+			<input type="text" pattern="#[0-9A-Fa-f]{6}" name="lineColorHex" style="width: 72px;" />
+		</td>
+		<td>
+			H
+			<input type="number" min="0" max="360" step="1" name="lineColorHue" />
+			<br />
+			S
+			<input type="number" min="0" max="100" step="1" name="lineColorSaturation" />
+			<br />
+			L
+			<input type="number" min="0" max="100" step="1" name="lineColorLightness" />
+		</td>
+		<td>
+			R
+			<input type="number" min="0" max="255" step="1" name="lineColorRed" />
+			<br />
+			G
+			<input type="number" min="0" max="255" step="1" name="lineColorGreen" />
+			<br />
+			B
+			<input type="number" min="0" max="255" step="1" name="lineColorBlue" />
+		</td>
+		<td></td>
+		<td>
+			<div id="fillColorSample"></div>
+			<input type="text" pattern="#[0-9A-Fa-f]{6}" name="fillColorHex" style="width: 72px;" />
+		</td>
+		<td>
+			H
+			<input type="number" min="0" max="360" step="1" name="fillColorHue" />
+			<br />
+			S
+			<input type="number" min="0" max="100" step="1" name="fillColorSaturation" />
+			<br />
+			L
+			<input type="number" min="0" max="100" step="1" name="fillColorLightness" />
+		</td>
+		<td>
+			R
+			<input type="number" min="0" max="255" step="1" name="fillColorRed" />
+			<br />
+			G
+			<input type="number" min="0" max="255" step="1" name="fillColorGreen" />
+			<br />
+			B
+			<input type="number" min="0" max="255" step="1" name="fillColorBlue" />
+		</td>
+	</tr>
+</table>
+<div class="dialog-footer" style="margin-top: 2px;">
+	<button type="button" class="closeButton">Cancel</button>
+	<button type="submit">Save</button>
+</div>

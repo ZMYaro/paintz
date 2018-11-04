@@ -1,0 +1,19 @@
+<h1 role="toolbar" class="dialog-header">
+	<button type="button" class="closeButton">
+		<svg role="img">
+			<title>Close</title>
+			<use xlink:href="images/icons/clear.svg#icon" href="images/icons/clear.svg#icon"></use>
+		</svg>
+	</button>
+	Save as
+</h1>
+<input name="fileName" type="text" placeholder="File name" value="untitled.png" style="margin: 0 8px; width: 96%; width: calc(100% - 16px);" />
+<br />
+<select name="fileType">
+	<option value="image/jpeg">JPEG (Joint Photographic Experts Group)</option>
+	<option value="image/png" selected="selected">PNG (Portable Network Graphics)</option>
+</select>
+<div class="dialog-footer">
+	<button type="button" class="closeButton">Cancel</button>
+	<a role="button" id="downloadLink" type="image/png" download="untitled.png" target="_blank">Save</a>
+</div>

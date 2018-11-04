@@ -8,22 +8,35 @@
 function ShapeTool(cxt, preCxt) {
 	DrawingTool.apply(this, arguments);
 }
-
+// Extend DrawingTool.
 ShapeTool.prototype = Object.create(DrawingTool.prototype);
+ShapeTool.prototype.constructor = ShapeTool;
 
 
 /**
- * Handle the shape being started by a pointer.
  * @override
+ * Handle the tool becoming the active tool.
+ */
+ShapeTool.prototype.activate = function () {
+	DrawingTool.prototype.activate.apply(this);
+	
+	toolbar.toolboxes.drawToolOptions.loadPromise.then(function () {
+		toolbar.toolboxes.drawToolOptions.enableOutlineAndFill();
+	});
+};
+
+/**
+ * @override
+ * Handle the shape being started by a pointer.
  * @param {Object} pointerState - The pointer coordinates and button
  */
 ShapeTool.prototype.start = function (pointerState) {
 	DrawingTool.prototype.start.apply(this, arguments);
 	
-	if (localStorage.outlineOption === 'fillOnly') {
+	if (settings.get('outlineOption') === 'fillOnly') {
 		this._lineColor = 'transparent';
 	}
-	if (localStorage.outlineOption === 'outlineOnly') {
+	if (settings.get('outlineOption') === 'outlineOnly') {
 		this._fillColor = 'transparent';
 	}
 	
@@ -32,8 +45,8 @@ ShapeTool.prototype.start = function (pointerState) {
 };
 
 /**
- * Update the shape when the pointer is moved.
  * @override
+ * Update the shape when the pointer is moved.
  * @param {Object} pointerState - The pointer coordinates
  */
 ShapeTool.prototype.move = function (pointerState) {

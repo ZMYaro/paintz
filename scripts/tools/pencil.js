@@ -9,11 +9,12 @@ function PencilTool(cxt, preCxt) {
 	DrawingTool.apply(this, arguments);
 	this._imageData = cxt.createImageData(1, 1);
 }
-
+// Extend DrawingTool.
 PencilTool.prototype = Object.create(DrawingTool.prototype);
-
+PencilTool.prototype.constructor = PencilTool;
 
 /**
+ * @private
  * Draw a point to the canvas.
  * @param {Number} x - The x-coordinate of the point
  * @param {Number} y - The y-coordinate of the point
@@ -26,6 +27,7 @@ PencilTool.prototype._drawPoint = function (x, y, cxt) {
 };
 	
 /**
+ * @private
  * Draw a straight line.
  * @param {Number} x1 - The x-coordinate of the start point
  * @param {Number} y1 - The y-coordinate of the start point
@@ -61,8 +63,9 @@ PencilTool.prototype._drawLine = function (x1, y1, x2, y2, cxt) {
 
 
 /**
- * Update the canvas's drawing context with the shape's properties.
  * @override
+ * @private
+ * Update the canvas's drawing context with the shape's properties.
  */
 PencilTool.prototype._prepareCanvas = function () {
 	this._preCxt.lineWidth = this._lineWidth;
@@ -71,16 +74,21 @@ PencilTool.prototype._prepareCanvas = function () {
 };
 
 /**
- * Handle the pencil tool becoming the active tool.
  * @override
+ * Handle the pencil tool becoming the active tool.
  */
 PencilTool.prototype.activate = function () {
+	DrawingTool.prototype.activate.apply(this);
+	
 	this._preCxt.canvas.style.cursor = 'url(images/cursors/pencil.cur), crosshair';
+	toolbar.toolboxes.drawToolOptions.loadPromise.then(function () {
+		toolbar.toolboxes.drawToolOptions.enableOutlineOnly(false);
+	});
 };
 
 /**
- * Handle a doodle being started by a pointer.
  * @override
+ * Handle a doodle being started by a pointer.
  * @param {Object} pointerState - The pointer coordinates and button
  */
 PencilTool.prototype.start = function (pointerState) {
@@ -97,8 +105,8 @@ PencilTool.prototype.start = function (pointerState) {
 };
 
 /**
- * Update the doodle when the pointer is moved.
  * @override
+ * Update the doodle when the pointer is moved.
  * @param {Object} pointerState - The pointer coordinates
  */
 PencilTool.prototype.move = function (pointerState) {

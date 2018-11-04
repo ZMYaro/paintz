@@ -8,19 +8,19 @@
 function OvalTool(cxt, preCxt) {
 	ShapeTool.apply(this, arguments);
 }
-
+// Extend ShapeTool.
 OvalTool.prototype = Object.create(ShapeTool.prototype);
-
+OvalTool.prototype.constructor = OvalTool;
 
 /**
- * Update the oval's preview as it is being drawn.
  * @override
+ * Update the oval's preview as it is being drawn.
  * @param {Object} pointerState - The pointer coordinates
  */
 OvalTool.prototype.move = function (pointerState) {
 	ShapeTool.prototype.move.apply(this, arguments);
 	
-	if (!localStorage.antiAlias) {
+	if (!settings.get('antiAlias')) {
 		this._roundPointerState(pointerState);
 	}
 	
@@ -37,13 +37,13 @@ OvalTool.prototype.move = function (pointerState) {
 	this._preCxt.beginPath();
 	this._preCxt.translate(centerX - radX, centerY - radY);
 	this._preCxt.scale(radX, radY);
-	this._preCxt.arc(1, 1, 1, 0, 2 * Math.PI, false);
+	this._preCxt.arc(1, 1, 1, 0, Math.TAU, false);
 	this._preCxt.restore(); // Restore the context to its original state.
 	
 	// Draw the stroke first.
 	this._preCxt.stroke();
 	
-	if (!localStorage.antiAlias) {
+	if (!settings.get('antiAlias')) {
 		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
 	}
 	
@@ -52,7 +52,7 @@ OvalTool.prototype.move = function (pointerState) {
 	this._preCxt.fill();
 	this._preCxt.globalCompositeOperation = 'source-over';
 	
-	if (localStorage.outlineOption === 'fillOnly' && !localStorage.antiAlias) {
+	if (settings.get('outlineOption') === 'fillOnly' && !settings.get('antiAlias')) {
 		this._deAntiAlias();
 	}
 };

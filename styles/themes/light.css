@@ -1,0 +1,116 @@
+body {
+	background-color: #fafafa;
+}
+
+hr {
+	border-color: #dfdfdf;
+	border-color: rgba(0, 0, 0, 0.11);
+}
+
+input[type="text"]:focus,
+input[type="search"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+	border-color: #5767bd;
+}
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
+	border-color: #5767bd;
+	color: #5767bd;
+}
+	input[type="radio"]:checked::after {
+		color: #5767bd;
+	}
+
+.appBar[role="toolbar"] {
+	background-color: #f5f5f5;
+	color: rgba(0, 0, 0, 0.87);
+}
+	.appBar[role="toolbar"] .divider {
+		background-color: rgba(0, 0, 0, 0.3);
+	}
+	.icon,
+	.appBar[role="toolbar"] button,
+	.appBar[role="toolbar"] [role="button"],
+	.floatingToolbar button {
+		fill: rgba(0, 0, 0, 0.54);
+	}
+		.appBar[role="toolbar"] button:not(:disabled):hover,
+		.appBar[role="toolbar"] button:not(:disabled):focus,
+		.appBar[role="toolbar"] [role="button"]:hover,
+		.appBar[role="toolbar"] [role="button"]:focus {
+			background-color: rgba(0, 0, 0, 0.07);
+		}
+		.appBar[role="toolbar"] button:not(:disabled):active,
+		.appBar[role="toolbar"] button:not(:disabled).active,
+		.appBar[role="toolbar"] [role="button"]:active,
+		.appBar[role="toolbar"] [role="button"].active {
+			background-color: rgba(0, 0, 0, 0.13);
+		}
+	.appBar[role="toolbar"] input[type="checkbox"] + label[role="button"],
+	.appBar[role="toolbar"] input[type="radio"] + label[role="button"] {
+		color: #3f51b5;
+	}
+		.appBar[role="toolbar"] input[type="checkbox"]:checked + label[role="button"],
+		.appBar[role="toolbar"] input[type="radio"]:checked + label[role="button"] {
+			fill: #f5f5f5;
+		}
+#colorPicker button::before {
+	-webkit-box-shadow: 0 0 0   1px rgba(0, 0, 0, 0.54);
+	-webkit-box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.54);
+	   -moz-box-shadow: 0 0 0   1px rgba(0, 0, 0, 0.54);
+	   -moz-box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.54);
+	        box-shadow: 0 0 0   1px rgba(0, 0, 0, 0.54);
+	        box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.54);
+}
+#colorPicker button.pacman::after {
+	border-right-color: #f5f5f5;
+}
+
+#zoomPercent:not(:disabled):focus {
+	border-bottom-color: #3f51b5;
+}
+#zoomSlider {
+	background-color: #3f51b5;
+}
+	#zoomSlider::-moz-range-track {
+		background-color: #3f51b5;
+	}
+	#zoomSlider::-ms-track {
+		background-color: #3f51b5;
+	}
+	#zoomSlider::-webkit-slider-thumb {
+		background-color: #3f51b5;
+	}
+	#zoomSlider::-moz-range-thumb {
+		background-color: #3f51b5;
+	}
+
+#progressContainer,
+#dialogsContainer {
+	background-color: transparent;
+	background-color: rgba(192,192,192,0);
+}
+	#progressContainer.visible,
+	#dialogsContainer.visible {
+		background-color: gray;
+		background-color: rgba(192,192,192,0.65);
+	}
+.dialog .dialog-header,
+.dialog .dialog-footer {
+	background-color: white;
+}
+.dialog svg {
+	fill: rgba(0, 0, 0, 0.54);
+}
+.dialog .helpIcon {
+	background-color: #3f51b5;
+	fill: #f5f5f5;
+}
+
+progress.circular {
+	border-top-color: #3f51b5;
+}

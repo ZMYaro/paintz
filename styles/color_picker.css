@@ -7,8 +7,8 @@
 	display: inline-block;
 	width: 48px;
 	height: 48px;
-	margin: 32px 0;
-	margin-left: 4px;
+	margin: 24px 4px;
+	margin-left: 8px;
 	border: 8px solid;
 	-webkit-border-radius: 50%;
 	   -moz-border-radius: 50%;
@@ -18,71 +18,56 @@
 #colorPicker button {
 	position: relative;
 	color: transparent;
-	font-size: 1px;
 }
 	#colorPicker button::before {
 		content: '';
-		position: absolute;
-		left: 12px;
-		top: 12px;
-		right: 12px;
-		bottom: 12px;
+		display: block;
+		width: 24px;
+		height: 24px;
+		margin: 0;
 		-webkit-border-radius: 50%;
 		   -moz-border-radius: 50%;
 		        border-radius: 50%;
 	}
-	#colorPicker button[data-value="#000000"]::before {
-		background-color: black;
-	}
-	#colorPicker button[data-value="#FFFFFF"]::before {
-		background-color: white;
-	}
-	#colorPicker button[data-value="#F44336"]::before {
-		/* Red */
-		background-color: #F44336;
-	}
-	#colorPicker button[data-value="#FF9800"]::before {
-		/* Orange */
-		background-color: #FF9800;
-	}
-	#colorPicker button[data-value="#FFEB3B"]::before {
-		/* Yellow */
-		background-color: #FFEB3B;
-	}
-		#colorPicker button[data-value="#FFEB3B"].pacman::after {
-			content: '';
-			position: absolute;
-			left: 11px;
-			top: 11px;
-			right: 11px;
-			bottom: 11px;
-			-webkit-border-radius: 50%;
-			   -moz-border-radius: 50%;
-			        border-radius: 50%;
-			border-style: solid;
-			border-width: 17px;
-			border-color: transparent;
-			border-right-color: #3f51b5;
-		}
-	#colorPicker button[data-value="#76FF03"]::before {
-		/* Lime */
-		background-color: #76FF03;
-	}
-	#colorPicker button[data-value="#4CAF50"]::before {
-		/* Green */
-		background-color: #4CAF50;
-	}
-	#colorPicker button[data-value="#80D8FF"]::before {
-		/* Light blue */
-		background-color: #80D8FF;
-	}
-	#colorPicker button[data-value="#2962FF"]::before {
-		/* Blue */
-		background-color: #2962FF;
-	}
-	#colorPicker button[data-value="#9C27B0"]::before {
-		/* Purple */
-		background-color: #9C27B0;
+	#colorPicker button[data-value="#000000"]::before { background-color: #000000; }
+	#colorPicker button[data-value="#ffffff"]::before { background-color: #ffffff; }
+	#colorPicker button[data-value="#f44336"]::before { background-color: #f44336; } /* Material red */
+	#colorPicker button[data-value="#ff0000"]::before { background-color: #ff0000; } /* Classic red */
+	#colorPicker button[data-value="#ed1c24"]::before { background-color: #ed1c24; } /* Win7 red */
+	#colorPicker button[data-value="#ff9800"]::before { background-color: #ff9800; } /* Material orange */
+	#colorPicker button[data-value="#ff00ff"]::before { background-color: #ff00ff; } /* Classic pink */
+	#colorPicker button[data-value="#ff7f27"]::before { background-color: #ff7f27; } /* Win7 orange */
+	#colorPicker button[data-value="#ffeb3b"]::before { background-color: #ffeb3b; } /* Material yellow */
+	#colorPicker button[data-value="#ffff00"]::before { background-color: #ffff00; } /* Classic yellow */
+	#colorPicker button[data-value="#fff200"]::before { background-color: #fff200; } /* Win7 yellow */
+	#colorPicker button[data-value="#76ff03"]::before { background-color: #76ff03; } /* Material light green */
+	#colorPicker button[data-value="#00ff00"]::before { background-color: #00ff00; } /* Classic lime green */
+	#colorPicker button[data-value="#b5e61d"]::before { background-color: #b5e61d; } /* Win7 light green */
+	#colorPicker button[data-value="#4caf50"]::before { background-color: #4caf50; } /* Material green */
+	#colorPicker button[data-value="#008100"]::before { background-color: #008100; } /* Classic dark green */
+	#colorPicker button[data-value="#21b14c"]::before { background-color: #21b14c; } /* Win7 dark green */
+	#colorPicker button[data-value="#80d8ff"]::before { background-color: #80d8ff; } /* Material light blue */
+	#colorPicker button[data-value="#00ffff"]::before { background-color: #00ffff; } /* Classic cyan */
+	#colorPicker button[data-value="#00a1e8"]::before { background-color: #00a1e8; } /* Win7 light blue */
+	#colorPicker button[data-value="#2962ff"]::before { background-color: #2962ff; } /* Material blue */
+	#colorPicker button[data-value="#0000ff"]::before { background-color: #0000ff; } /* Classic blue */
+	#colorPicker button[data-value="#3f48cc"]::before { background-color: #3f48cc; } /* Win7 dark blue */
+	#colorPicker button[data-value="#9c27b0"]::before { background-color: #9c27b0; } /* Material purple */
+	#colorPicker button[data-value="#810081"]::before { background-color: #810081; } /* Classic purple */
+	#colorPicker button[data-value="#a349a4"]::before { background-color: #a349a4; } /* Win7 purple */
+	#colorPicker button.pacman::after {
+		content: '';
+		position: absolute;
+		left: 7px;
+		top: 7px;
+		right: 7px;
+		bottom: 6px;
+		-webkit-border-radius: 50%;
+		   -moz-border-radius: 50%;
+		        border-radius: 50%;
+		border-style: solid;
+		border-width: 13px;
+		border-color: transparent;
 	}
 
 #colorPickerDialog input {
@@ -165,4 +150,11 @@
 	        user-select: none;
 	
 	pointer-events: none;
+}
+
+@media (max-width: 600px) {
+	#toolbar #colors {
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
 }

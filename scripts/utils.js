@@ -1,10 +1,39 @@
 'use strict';
 
+// Polyfills.
+Math.TAU = Math.TAU || (2 * Math.PI);
+Object.values = Object.values || function (obj) {
+	var vals = [];
+	for (var key in obj) {
+		if (obj.hasOwnProperty(obj[key]) && obj.propertyIsEnumerable(obj[key])) {
+			vals.push(obj[key]);
+		}
+	}
+	return vals;
+};
+
 var Utils = {
-	DIALOG_TRANSITION_DURATION: 200, // In milliseconds.
-	
 	/** Whether the device runs Apple software. */
 	isApple: (navigator.userAgent.indexOf('Mac') !== -1),
+	
+	/**
+	 * Check whether any modifier keys are pressed for the given event.
+	 * @param {MouseEvent} e - The event for which to check the keys
+	 * @returns {Boolean} - Whether any modifier key is pressed
+	 */
+	checkModifierKeys: function (e) {
+		return (e.altKey || e.ctrlKey || e.shiftKey || e.metaKey);
+	},
+	
+	/**
+	 * Check whether the Ctrl key, or the equivalent for this platform, is pressed for the given event.
+	 * @param {MouseEvent} e - The event for which to check the key
+	 * @returns {Boalean} - Whether the appropriate key is pressed
+	 */
+	checkPlatformCtrlKey: function (e) {
+		// On MacOS and iOS, check Cmd; on other platforms (Windows, Linux), check Ctrl.
+		return ((!Utils.isApple && e.ctrlKey) || (Utils.isApple && e.metaKey));
+	},
 	
 	/**
 	 * Clear all graphics in a given canvas.
@@ -15,8 +44,41 @@ var Utils = {
 	},
 	
 	/**
+	 * Constrain a value between a minimum and maximum.
+	 * @param {Number} value - The value to constrain
+	 * @param {Number} min - The minimum value to allow
+	 * @param {Number} max - The maximum value to allow
+	 * @returns {Number} `value` or the closest number between `min` and `max`
+	 */
+	constrainValue: function (value, min, max) {
+		return Math.max(min, Math.min(max, value));
+	},
+	
+	/**
+	 * Load a file.
+	 * @param {String} path - The path to the file
+	 */
+	fetch: function (path) {
+		return new Promise(function (resolve, reject) {
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState === 4) {
+					if (xhr.status === 200) {
+						resolve(xhr.responseText);
+					} else {
+						reject('Error ' + xhr.status + ' while attempting to load ' + path);
+					}
+				}
+			};
+			xhr.open('GET', path, true);
+			xhr.send();
+		});
+	},
+	
+	/**
 	 * Get the x-coordinate of a click within the canvas.
 	 * @param {Number} pageX - The x-coordinate relative to the page
+	 * @returns {Number}
 	 */
 	getCanvasX: function (pageX) {
 		return pageX - preCanvas.offsetLeft;
@@ -25,6 +87,7 @@ var Utils = {
 	/**
 	 * Get the y-coordinate of a click within the canvas.
 	 * @param {Number} pageY - The y-coordinate relative to the page
+	 * @returns {Number}
 	 */
 	getCanvasY: function (pageY) {
 		return pageY - preCanvas.offsetTop;
@@ -88,77 +151,37 @@ var Utils = {
 	},
 	
 	/**
-	 * Add dialog box functions to an element
-	 * @param {HTMLElement} element - The dialog's HTML element
-	 * @param {HTMLElement} [trigger] - The button that opens the dialog
+	 * Read a file to an image.
+	 * @param {File} file - The file to read
+	 * @returns {Promise} Resolves with an Image when the image has been loaded and read
 	 */
-	makeDialog: function (element, trigger) {
-		var toolbar = document.getElementById('toolbar'),
-			dialogsContainer = document.getElementById('dialogs');
-		
-		function setDialogTransformOrigin() {
-			// If there is no trigger element, do nothing.
-			if (typeof trigger === 'undefined') {
+	readImage: function (file) {
+		return new Promise(function (resolve, reject) {
+			if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+				reject('Please switch to a browser that supports the file APIs, such as Google Chrome.');
 				return;
 			}
-			element.style.WebkitTransformOrigin =
-				element.style.MozTransformOrigin =
-				element.style.MsTransformOrigin =
-				element.style.OTransformOrigin =
-				element.style.transformOrigin = (trigger.offsetLeft - toolbar.scrollLeft - element.offsetLeft) + 'px ' + (trigger.offsetTop - element.offsetTop) + 'px';
-			// Force a reflow.
-			element.offsetLeft;
-		}
-		
-		element.open = function () {
-			// Disable app keyboard shortcuts.
-			keyManager.disableAppShortcuts();
-			
-			// Show the dialog and dialog container.
-			dialogsContainer.style.display = 'block';
-			element.classList.add('visible');
-			setDialogTransformOrigin();
-			
-			setTimeout(function () {
-				dialogsContainer.classList.add('visible');
-				element.classList.add('open');
-				// Focus the first form element in the dialog.  If there are no input
-				// elements, focus the submit button.
-				var firstInput = element.querySelector('input, select, textarea');
-				if (firstInput) {
-					firstInput.focus();
-				} else {
-					var submitButton = element.querySelector('button[type=\"submit\"]')
-					if (submitButton) {
-						submitButton.focus();
-					}
-				}
-			}, 1);
-		};
-		element.close = function (e) {
-			if (e && e.preventDefault) {
-				e.preventDefault();
+			if (!file) {
+				reject();
+				return;
+			}
+			if (!file.type.match('image.*')) {
+				reject('PaintZ can only open valid image files.');
+				return;
 			}
 			
-			setDialogTransformOrigin();
-			element.classList.remove('open');
-			dialogsContainer.classList.remove('visible');
-			// After the closing animation has completed, hide the dialog box element completely.
-			setTimeout(function () {
-				// Hide the dialog and dialog container.
-				element.classList.remove('visible');
-				dialogsContainer.style.display = 'none';
-				// Re-enable app keyboard shortcuts.
-				keyManager.enableAppShortcuts();
-			}, Utils.DIALOG_TRANSITION_DURATION);
-		};
-		if (element instanceof HTMLFormElement) {
-			element.onsubmit = function (e) {
-				e.target.close();
+			var reader = new FileReader();
+			reader.onload = function () {
+				var image = new Image();
+				image.onload = function () {
+					resolve(image);
+				};
+				image.src = reader.result;
 			};
-		}
+			reader.readAsDataURL(file);
+		});
 	},
-
+	
 	/**
 	 * A shim for supporting requestAnimationFrame in older browsers.
 	 * Based on the one by Paul Irish.

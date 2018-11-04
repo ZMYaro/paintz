@@ -8,11 +8,12 @@
 function DrawingTool(cxt, preCxt) {
 	Tool.apply(this, arguments);
 }
-
+// Extend Tool.
 DrawingTool.prototype = Object.create(Tool.prototype);
-
+DrawingTool.prototype.constructor = DrawingTool;
 
 /**
+ * @private
  * Update the canvas's drawing context with the shape's properties.
  */
 DrawingTool.prototype._prepareCanvas = function () {
@@ -22,33 +23,34 @@ DrawingTool.prototype._prepareCanvas = function () {
 };
 
 /**
- * Handle the drawing tool becoming the active tool.
  * @override
+ * Handle the drawing tool becoming the active tool.
  */
 DrawingTool.prototype.activate = function () {
 	this._preCxt.canvas.style.cursor = 'crosshair';
+	toolbar.switchToolOptionsToolbox(toolbar.toolboxes.drawToolOptions);
 };
 
 /**
- * Handle the shape being started by a pointer.
  * @override
+ * Handle the shape being started by a pointer.
  * @param {Object} pointerState - The pointer coordinates and button
  */
 DrawingTool.prototype.start = function (pointerState) {
 	if (pointerState.button !== 2) {
-		this._lineColor = localStorage.lineColor;
-		this._fillColor = localStorage.fillColor;
+		this._lineColor = settings.get('lineColor');
+		this._fillColor = settings.get('fillColor');
 	} else {
-		this._lineColor = localStorage.fillColor;
-		this._fillColor = localStorage.lineColor;
+		this._lineColor = settings.get('fillColor');
+		this._fillColor = settings.get('lineColor');
 	}
 	
-	this._lineWidth = localStorage.lineWidth;
+	this._lineWidth = settings.get('lineWidth');
 };
 
 /**
- * Update the shape when the pointer is moved.
  * @override
+ * Update the shape when the pointer is moved.
  * @param {Object} pointerState - The pointer coordinates
  */
 DrawingTool.prototype.move = function (pointerState) {
@@ -56,8 +58,8 @@ DrawingTool.prototype.move = function (pointerState) {
 };
 
 /**
- * Finish the shape when the pointer is released.
  * @override
+ * Finish the shape when the pointer is released.
  * @param {Object} pointerState - The pointer coordinates
  */
 DrawingTool.prototype.end = function (pointerState) {

@@ -8,23 +8,25 @@
 function PanTool(cxt, preCxt) {
 	Tool.apply(this, arguments);
 }
-
+// Extend Tool.
 PanTool.prototype = Object.create(Tool.prototype);
+PanTool.prototype.constructor = PanTool;
 
 /**
- * Handle the pan tool becoming the active tool.
  * @override
+ * Handle the pan tool becoming the active tool.
  */
 PanTool.prototype.activate = function () {
 	this._preCxt.canvas.style.cursor = 'move';
 	this._preCxt.canvas.style.cursor = '-webkit-grab';
-	this._preCxt.canvas.style.cursor = '-moz-grab';
-	this._preCxt.canvas.style.cursor = 'grab';
+	this._preCxt.canvas.style.cursor =    '-moz-grab';
+	this._preCxt.canvas.style.cursor =         'grab';
+	toolbar.switchToolOptionsToolbox(toolbar.toolboxes.noToolOptions);
 };
 
 /**
- * Handle the tool being activated by a pointer.
  * @override
+ * Handle the tool being activated by a pointer.
  * @param {Object} pointerState - The pointer coordinates and button
  */
 PanTool.prototype.start = function (pointerState) {
@@ -32,8 +34,10 @@ PanTool.prototype.start = function (pointerState) {
 		return;
 	}
 	
-	this._startX = pointerState.x;
-	this._startY = pointerState.y;
+	this._startX = pointerState.windowX;
+	this._startY = pointerState.windowY;
+	this._startScrollX = window.scrollX;
+	this._startScrollY = window.scrollY;
 	
 	// Switch to the grabbing cursor.
 	this._preCxt.canvas.style.cursor = '-webkit-grabbing';
@@ -42,19 +46,19 @@ PanTool.prototype.start = function (pointerState) {
 };
 
 /**
- * Update the tool as the cursor moves.
  * @override
+ * Update the tool as the cursor moves.
  * @param {Object} pointerState - The pointer coordinates
  */
 PanTool.prototype.move = function (pointerState) {
-	var scrollX = document.body.scrollLeft + (this._startX - pointerState.x),
-		scrollY = document.body.scrollTop + (this._startY - pointerState.y);
+	var scrollX = this._startScrollX + (this._startX - pointerState.windowX),
+		scrollY = this._startScrollY + (this._startY - pointerState.windowY);
 	window.scrollTo(scrollX, scrollY);
 };
 
 /**
- * Handle the pointer being released.
  * @override
+ * Handle the pointer being released.
  * @param {Object} pointerState - The pointer coordinates
  */
 PanTool.prototype.end = function (pointerState) {
@@ -66,4 +70,3 @@ PanTool.prototype.end = function (pointerState) {
 	this._preCxt.canvas.style.cursor = '-moz-grab';
 	this._preCxt.canvas.style.cursor = 'grab';
 };
-

@@ -52,6 +52,7 @@ Tool.prototype._roundPointerState = function (pointerState) {
  */
 Tool.prototype.activate = function () {
 	this._preCxt.canvas.style.cursor = 'default';
+	toolbar.switchToolOptionsToolbox(toolbar.toolboxes.noToolOptions);
 };
 
 /**

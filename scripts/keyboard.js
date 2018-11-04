@@ -3,23 +3,37 @@ var keyManager = {
 	
 	_handleKeyDown: function (e) {
 		// Use Command on Mac and iOS devices and Ctrl everywhere else.
-		var ctrlOrCmd = ((!Utils.isApple && e.ctrlKey) || (Utils.isApple && e.metaKey)),
-			noModifiers = (!e.shiftKey && !e.ctrlKey && !e.altKey && !e.metaKey);
+		var ctrlOrCmd = Utils.checkPlatformCtrlKey(e),
+			noModifiers = !Utils.checkModifierKeys(e);
 		
 		switch (e.keyCode) {
 			case 8: // Backspace
-				if (localStorage.tool === 'selection') {
-					e.preventDefault();
-					// Backspace => Delete selection
-					tools.selection.clear();
+				if (noModifiers) {
+					if (settings.get('tool') === 'selection') {
+						e.preventDefault();
+						// Backspace => Delete selection
+						tools.selection.clear();
+					}
+				}
+				break;
+			
+			case 27: // Esc
+				if (noModifiers) {
+					if (settings.get('tool') === 'selection') {
+						e.preventDefault();
+						// Esc => Drop/cancel selection
+						tools.selection.deactivate();
+					}
 				}
 				break;
 			
 			case 46: // Delete
-				if (localStorage.tool === 'selection') {
-					e.preventDefault();
-					// Delete => Delete selection
-					tools.selection.clear();
+				if (noModifiers) {
+					if (settings.get('tool') === 'selection') {
+						e.preventDefault();
+						// Delete => Delete selection
+						tools.selection.clear();
+					}
 				}
 				break;
 			
@@ -29,33 +43,42 @@ var keyManager = {
 					// Ctrl+A => Select all
 					
 					// Switch to the selection tool.
-					switchTool('selection');
+					tools.switchTool('selection');
 					// Select the entire canvas.
 					tools.selection.selectAll(canvas.width, canvas.height);
 				}
 				break;
 			
 			case 66: // B
-				e.preventDefault();
-				if (!ctrlOrCmd) {
+				if (ctrlOrCmd) {
+					e.preventDefault();
+					// Ctrl+B => Bold
+					
+					if (settings.get('tool') === 'text') {
+						toolbar.toolboxes.textToolOptions.boldToggle.checked =
+							!toolbar.toolboxes.textToolOptions.boldToggle.checked;
+						settings.set('bold', toolbar.toolboxes.textToolOptions.boldToggle.checked);
+					}
+				} else if (noModifiers) {
+					e.preventDefault();
 					// B => Doodle (brush) tool
-					switchTool('doodle');
-					break;
+					tools.switchTool('doodle');
 				}
+				break;
 			
 			case 67: // C
-				e.preventDefault();
-				if (!ctrlOrCmd) {
+				if (noModifiers) {
+					e.preventDefault();
 					// C => Curve tool
-					switchTool('curve');
-					break;
+					tools.switchTool('curve');
 				}
+				break;
 			
 			case 68: // D
 				if (ctrlOrCmd) {
 					e.preventDefault();
 					
-					if (localStorage.tool === 'selection') {
+					if (settings.get('tool') === 'selection') {
 						// Ctrl+D => Duplicate selection
 						tools.selection.duplicate();
 					}
@@ -66,7 +89,7 @@ var keyManager = {
 				if (noModifiers) {
 					e.preventDefault();
 					// E => Eraser tool
-					switchTool('eraser');
+					tools.switchTool('eraser');
 				}
 				break;
 			
@@ -74,7 +97,7 @@ var keyManager = {
 				if (noModifiers) {
 					e.preventDefault();
 					// F => Fill tool
-					switchTool('floodFill');
+					tools.switchTool('floodFill');
 				}
 				break;
 			
@@ -82,15 +105,25 @@ var keyManager = {
 				if (noModifiers) {
 					e.preventDefault();
 					// H => Pan (hand) tool
-					switchTool('pan');
+					tools.switchTool('pan');
 				}
 				break;
 			
 			case 73: // I
+				if (ctrlOrCmd) {
+					e.preventDefault();
+					// Ctrl+I => Italic
+					
+					if (settings.get('tool') === 'text') {
+						toolbar.toolboxes.textToolOptions.italicToggle.checked =
+							!toolbar.toolboxes.textToolOptions.italicToggle.checked;
+						settings.set('italic', toolbar.toolboxes.textToolOptions.italicToggle.checked);
+					}
+				}
 				if (noModifiers) {
 					e.preventDefault();
 					// I => Eyedropper (“I-dropper”) tool
-					switchTool('eyedropper');
+					tools.switchTool('eyedropper');
 				}
 				break;
 			
@@ -98,7 +131,7 @@ var keyManager = {
 				if (noModifiers) {
 					e.preventDefault();
 					// L => Line tool
-					switchTool('line');
+					tools.switchTool('line');
 				}
 				break;
 			
@@ -110,7 +143,7 @@ var keyManager = {
 				} else if (noModifiers) {
 					e.preventDefault();
 					// O => Oval tool
-					switchTool('oval');
+					tools.switchTool('oval');
 				}
 				break;
 			
@@ -118,7 +151,7 @@ var keyManager = {
 				if (noModifiers) {
 					e.preventDefault();
 					// P => Pencil tool
-					switchTool('pencil');
+					tools.switchTool('pencil');
 				}
 				break;
 			
@@ -126,7 +159,7 @@ var keyManager = {
 				if (noModifiers) {
 					e.preventDefault();
 					// R => Rectangle tool
-					switchTool('rect');
+					tools.switchTool('rect');
 				}
 				break;
 			
@@ -134,11 +167,11 @@ var keyManager = {
 				if (ctrlOrCmd) {
 					e.preventDefault();
 					// Ctrl+S => Save
-					document.getElementById('saveDialog').open();
+					dialogs.save.open();
 				} else if (noModifiers) {
 					e.preventDefault();
 					// S => Selection tool
-					switchTool('selection');
+					tools.switchTool('selection');
 				}
 				break;
 			
@@ -146,7 +179,7 @@ var keyManager = {
 				if (noModifiers) {
 					e.preventDefault();
 					// T => Text tool
-					switchTool('text');
+					tools.switchTool('text');
 				}
 				break;
 			
@@ -156,13 +189,17 @@ var keyManager = {
 					// X => Switch fill and line colors
 					
 					// Swap the stored colors.
-					var oldLine = localStorage.lineColor;
-					localStorage.lineColor = localStorage.fillColor;
-					localStorage.fillColor = oldLine;
+					var oldLine = settings.get('lineColor');
+						oldFill = settings.get('fillColor');
+					settings.set('lineColor', oldFill);
+					settings.set('fillColor', oldLine);
 					
 					// Update the toolbar.
-					document.getElementById('colors').style.borderColor = localStorage.lineColor;
-					document.getElementById('colors').style.backgroundColor = localStorage.fillColor;
+					toolbar.toolboxes.colorPicker.colorIndicator.style.borderColor = oldFill;
+					toolbar.toolboxes.colorPicker.colorIndicator.style.backgroundColor = oldLine;
+					
+					// Some tools' cursors change with colors, so reactivate the cursor.
+					tools.currentTool.activate();
 				}
 				break;
 			
@@ -186,6 +223,14 @@ var keyManager = {
 				}
 				break;
 			
+			case 112: // F1
+				if (noModifiers) {
+					e.preventDefault();
+					// F1 => Open help dialog
+					dialogs.help.open();
+				}
+				break;
+			
 			case 187: // =/+
 				if (ctrlOrCmd && e.altKey) {
 					e.preventDefault();
@@ -206,7 +251,7 @@ var keyManager = {
 				if (e.shiftKey) {
 					e.preventDefault();
 					// ? => Keyboard shortcuts dialog
-					document.getElementById('keyboardDialog').open();
+					dialogs.keyboard.open();
 				}
 				break;
 			
@@ -217,8 +262,8 @@ var keyManager = {
 					// [ => Decrease line width
 					var lineWidthSelect = document.getElementById('lineWidth');
 					if (lineWidthSelect.selectedIndex > 0) {
-						localStorage.lineWidth = 
-							lineWidthSelect.value = lineWidthSelect.options[lineWidthSelect.selectedIndex - 1].value;
+						settings.set('lineWidth',
+							lineWidthSelect.value = lineWidthSelect.options[lineWidthSelect.selectedIndex - 1].value);
 					}
 				}
 				break;
@@ -230,8 +275,8 @@ var keyManager = {
 					// ] => Increase line width
 					var lineWidthSelect = document.getElementById('lineWidth');
 					if (lineWidthSelect.selectedIndex < lineWidthSelect.options.length - 1) {
-						localStorage.lineWidth = 
-							lineWidthSelect.value = lineWidthSelect.options[lineWidthSelect.selectedIndex + 1].value;
+						settings.set('lineWidth',
+							lineWidthSelect.value = lineWidthSelect.options[lineWidthSelect.selectedIndex + 1].value);
 					}
 				}
 				break;

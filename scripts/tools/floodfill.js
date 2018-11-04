@@ -8,11 +8,12 @@
 function FloodFillTool(cxt, preCxt) {
 	Tool.apply(this, arguments);
 }
-
+// Extend FloodFillTool.
 FloodFillTool.prototype = Object.create(Tool.prototype);
-
+FloodFillTool.prototype.constructor = FloodFillTool;
 
 /**
+ * @private
  * Fill the canvas, starting at (startX,startY).
  * @param {Number} startX - The x-coordinate of the fill's starting point
  * @param {Number} startY - The y-coordinate of the fill's starting point
@@ -23,7 +24,7 @@ FloodFillTool.prototype._fill = function (startX, startY) {
 	}
 	
 	this._filling = true;
-	progressSpinner.open();
+	progressSpinner.show();
 	
 	// Get the pixel data.
 	this._imageData = this._cxt.getImageData(0, 0, this._cxt.canvas.width, this._cxt.canvas.height);
@@ -42,7 +43,7 @@ FloodFillTool.prototype._fill = function (startX, startY) {
 			this._fillColor.g === this._startColor.g &&
 			this._fillColor.b === this._startColor.b) {
 		this._filling = false;
-		progressSpinner.close();
+		progressSpinner.hide();
 		return;
 	}
 	
@@ -89,10 +90,11 @@ FloodFillTool.prototype._fill = function (startX, startY) {
 	this._cxt.putImageData(this._imageData, 0, 0);
 	
 	this._filling = false;
-	progressSpinner.close();
+	progressSpinner.hide();
 };
 
 /**
+ * @private
  * Check whether the pixel at a given position as the same color as the first pixel clicked.
  * @param {Number} pixelPos - The index of the pixel to be checked in the image data array
  * @returns {Boolean}
@@ -111,6 +113,7 @@ FloodFillTool.prototype._checkColorMatch = function (pixelPos) {
 };
 
 /**
+ * @private
  * Change the color of a given pixel to the filling color.
  * @param {Number} pixelPos - The index of the pixel to be colored in the image data array
  */
@@ -121,28 +124,32 @@ FloodFillTool.prototype._colorPixel = function (pixelPos) {
 };
 
 /**
- * Handle the flood fill tool becoming the active tool.
  * @override
+ * Handle the flood fill tool becoming the active tool.
  */
 FloodFillTool.prototype.activate = function () {
 	this._filling = false;
 	this._imageData = [];
 	this._startColor = {};
-
 	
 	this._preCxt.canvas.style.cursor = 'url(images/cursors/paint_bucket.cur), default';
+	
+	toolbar.switchToolOptionsToolbox(toolbar.toolboxes.drawToolOptions);
+	toolbar.toolboxes.drawToolOptions.loadPromise.then(function () {
+		toolbar.toolboxes.drawToolOptions.enableFillOnly();
+	});
 };
 
 /**
- * Handle the flood fill being activated by a pointer.
  * @override
+ * Handle the flood fill being activated by a pointer.
  * @param {Object} pointerState - The pointer coordinates and button
  */
 FloodFillTool.prototype.start = function (pointerState) {
 	if (pointerState.button !== 2) {
-		this._fillColor = Utils.colorToRGB(localStorage.lineColor);
+		this._fillColor = Utils.colorToRGB(settings.get('lineColor'));
 	} else {
-		this._fillColor = Utils.colorToRGB(localStorage.fillColor);
+		this._fillColor = Utils.colorToRGB(settings.get('fillColor'));
 	}
 	
 	this._fill(Math.floor(pointerState.x), Math.floor(pointerState.y));
