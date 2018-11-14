@@ -2,12 +2,15 @@
 
 /**
  * Create a new FloatingSelectionToolbar instance.
+ * @param {SelectionTool} selectionTool - The selection tool this toolbar is connected to
  */
-function FloatingSelectionToolbar() {
+function FloatingSelectionToolbar(selectionTool) {
 	/** @private {HTMLDivElement} The container for toolbox's content */
 	this._element = document.createElement('div');
 	this._element.className = this.CSS_CLASSES;
 	this._element.setAttribute('role', 'toolbar');
+	
+	this._selectionTool = selectionTool;
 	
 	this._x = 0;
 	this._y = 0;
@@ -63,13 +66,13 @@ FloatingSelectionToolbar.prototype._setUp = function (contents) {
 	
 	// Set up buttons.
 	var deleteBtn = this._element.querySelector('#deleteBtn');
-	deleteBtn.addEventListener('click', tools.selection.clear.bind(tools.selection), false);
+	deleteBtn.addEventListener('click', this._selectionTool.clear.bind(this._selectionTool), false);
 	
 	var duplicateBtn = this._element.querySelector('#duplicateBtn');
-	duplicateBtn.addEventListener('click', tools.selection.duplicate.bind(tools.selection), false);
+	duplicateBtn.addEventListener('click', this._selectionTool.duplicate.bind(this._selectionTool), false);
 	
 	var cropBtn = this._element.querySelector('#cropBtn');
-	cropBtn.addEventListener('click', tools.selection.cropToSelection.bind(tools.selection), false);
+	cropBtn.addEventListener('click', this._selectionTool.cropToSelection.bind(this._selectionTool), false);
 };
 
 /**
