@@ -40,7 +40,7 @@ PacMan.HEADINGS = {
 };
 PacMan.KEYS = {
 	LEFT: [37, 65], // Left, A
-	UP: [38, 44, 87], // Up, comma, W
+	UP: [38, 87, 188], // Up, W, comma
 	RIGHT: [39, 68, 69], // Right, D, E
 	DOWN: [40, 79, 83] // Down, O, S
 };
