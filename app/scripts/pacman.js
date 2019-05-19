@@ -160,7 +160,7 @@ PacMan.prototype._draw = function () {
 
 /**
  * Cover Pac-Man with the current fill color, effectively erasing him
- * and �eating� everything under him.
+ * and “eating” everything under him.
  */
 PacMan.prototype._erase = function () {
 	this._cxt.fillStyle = settings.get('fillColor');
@@ -208,7 +208,7 @@ PacMan.prototype._update = function () {
 		return;
 	}
 
-	// �Eat� everything under Pac-Man.
+	// “Eat” everything under Pac-Man.
 	this._erase();
 
 	// Move Pac-Man.
