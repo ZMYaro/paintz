@@ -50,10 +50,6 @@ LineTool.prototype.activate = function () {
 LineTool.prototype.start = function (pointerState) {
 	DrawingTool.prototype.start.apply(this, arguments);
 	
-	if (!settings.get('antiAlias')) {
-		this._roundPointerState(pointerState);
-	}
-	
 	this.startX = pointerState.x;
 	this.startY = pointerState.y;
 	this.endX =
@@ -67,10 +63,6 @@ LineTool.prototype.start = function (pointerState) {
  */
 LineTool.prototype.move = function (pointerState) {
 	DrawingTool.prototype.move.apply(this, arguments);
-	
-	if (!settings.get('antiAlias')) {
-		this._roundPointerState(pointerState);
-	}
 	
 	this.endX = pointerState.x;
 	this.endY = pointerState.y;

@@ -46,6 +46,21 @@ DrawingTool.prototype.start = function (pointerState) {
 	}
 	
 	this._lineWidth = settings.get('lineWidth');
+	
+	if (!settings.get('antiAlias')) {
+		this._roundPointerState(pointerState);
+	}
+};
+
+/**
+ * @override
+ * Handle movement of the pointer that activated the tool.
+ * @param {Object} pointerState - The pointer coordinates and button
+ */
+DrawingTool.prototype.move = function (pointerState) {
+	if (!settings.get('antiAlias')) {
+		this._roundPointerState(pointerState);
+	}
 };
 
 /**
