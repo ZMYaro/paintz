@@ -60,8 +60,7 @@ TextTool.prototype.activate = function () {
  * @param {Object} pointerState - The pointer coordinates and button
  */
 TextTool.prototype.start = function (pointerState) {
-	pointerState.x = Math.round(pointerState.x);
-	pointerState.y = Math.round(pointerState.y);
+	this._roundPointerState(pointerState);
 	
 	// If a text box exists and the pointer is near it, drag the text box.
 	// Otherwise, start a new text box.
@@ -136,8 +135,7 @@ TextTool.prototype.move = function (pointerState) {
 		return;
 	}
 	
-	pointerState.x = Math.round(pointerState.x);
-	pointerState.y = Math.round(pointerState.y);
+	this._roundPointerState(pointerState);
 	
 	Utils.clearCanvas(this._preCxt);
 	
@@ -145,7 +143,6 @@ TextTool.prototype.move = function (pointerState) {
 	if (this._textRegion.pointerOffset) {
 		this._textRegion.x = pointerState.x - this._textRegion.pointerOffset.x;
 		this._textRegion.y = pointerState.y - this._textRegion.pointerOffset.y;
-		this._updateTextElem();
 	} else {
 		// Limit the region to the canvas.
 		pointerState.x = Math.max(0, Math.min(this._cxt.canvas.width, pointerState.x));
@@ -163,8 +160,23 @@ TextTool.prototype.move = function (pointerState) {
 			this._textRegion.y = this._textRegion.startY + this._textRegion.height;
 			this._textRegion.height = Math.abs(this._textRegion.height);
 		}
-		this._updateTextElem();
 	}
+	
+	this._canvasDirty = true;
+};
+
+/**
+ * @override
+ * Update the canvas if necessary.
+ */
+TextTool.prototype.update = function () {
+	if (!this._canvasDirty) {
+		return;
+	}
+	
+	this._updateTextElem();
+	
+	this._canvasDirty = false;
 };
 
 /**
