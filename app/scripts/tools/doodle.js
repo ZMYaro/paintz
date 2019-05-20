@@ -35,6 +35,7 @@ DoodleTool.prototype.activate = function () {
 	DrawingTool.prototype.activate.apply(this);
 	
 	this._preCxt.canvas.style.cursor = DoodleTool.getCursorCSS();
+	
 	toolbar.toolboxes.drawToolOptions.loadPromise.then(function () {
 		toolbar.toolboxes.drawToolOptions.enableOutlineOnly();
 	});
@@ -52,16 +53,14 @@ DoodleTool.prototype.start = function (pointerState) {
 		this._roundPointerState(pointerState);
 	}
 	
-	this._lastX = pointerState.x;
-	this._lastY = pointerState.y;
+	this._points = [
+		{
+			x: pointerState.x,
+			y: pointerState.y
+		}
+	];
 	
-	// Draw a round end cap at the start of the doodle.
-	this._drawCap(this._preCxt, pointerState.x, pointerState.y);
-	
-	// De-anti-alias.
-	if (!settings.get('antiAlias')) {
-		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
-	}
+	this._canvasDirty = true;
 };
 
 /**
@@ -76,26 +75,45 @@ DoodleTool.prototype.move = function (pointerState) {
 		this._roundPointerState(pointerState);
 	}
 	
-	// Connect to the existing preview.
-	this._preCxt.lineWidth = this._lineWidth;
-	this._preCxt.strokeStyle = this._lineColor;
-	this._preCxt.beginPath();
-	this._preCxt.moveTo(this._lastX, this._lastY);
-	this._preCxt.lineTo(pointerState.x, pointerState.y);
-	this._preCxt.closePath();
-	this._preCxt.stroke();
+	this._points.push({
+		x: pointerState.x,
+		y: pointerState.y
+	});
+	
+	this._canvasDirty = true;
+};
+
+/**
+ * @override
+ * Update the canvas if necessary.
+ */
+DoodleTool.prototype.update = function () {
+	if (!this._canvasDirty) {
+		return;
+	}
+	DrawingTool.prototype.update.apply(this, arguments);
 	
 	// Force round end caps on the path.
-	this._drawCap(this._preCxt, pointerState.x, pointerState.y);
+	this._drawCap(this._preCxt, this._points[0].x, this._points[0].y);
+	this._drawCap(this._preCxt, this._points[this._points.length - 1].x, this._points[this._points.length - 1].y);
 	
-	// De-anti-alias.
+	// Draw the shape.
+	this._preCxt.lineWidth = this._lineWidth;
+	this._preCxt.lineJoin = 'round';
+	this._preCxt.strokeStyle = this._lineColor;
+	this._preCxt.beginPath();
+	this._preCxt.moveTo(this._points[0].x, this._points[0].y);
+	this._points.forEach(function (point) {
+		this._preCxt.lineTo(point.x, point.y);
+	}, this);
+	this._preCxt.stroke();
+	this._preCxt.closePath();
+	
 	if (!settings.get('antiAlias')) {
 		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
 	}
 	
-	// Store the last x and y.
-	this._lastX = pointerState.x;
-	this._lastY = pointerState.y;
+	this._canvasDirty = false;
 };
 
 /**
