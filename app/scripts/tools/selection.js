@@ -33,8 +33,7 @@ SelectionTool.prototype.activate = function () {
  * @param {Object} pointerState - The pointer coordinates and button
  */
 SelectionTool.prototype.start = function (pointerState) {
-	pointerState.x = Math.round(pointerState.x);
-	pointerState.y = Math.round(pointerState.y);
+	this._roundPointerState(pointerState);
 	
 	// Hide the selection toolbar.
 	this._toolbar.hide();
@@ -88,18 +87,13 @@ SelectionTool.prototype.move = function (pointerState) {
 		return;
 	}
 	
-	pointerState.x = Math.round(pointerState.x);
-	pointerState.y = Math.round(pointerState.y);
-	
-	Utils.clearCanvas(this._preCxt);
+	this._roundPointerState(pointerState);
 	
 	// If there is a pointer offset, move the selection.
 	// If there is no pointer offset, then this must be a new selection.
 	if (this._selection.pointerOffset) {
 		this._selection.x = pointerState.x - this._selection.pointerOffset.x;
 		this._selection.y = pointerState.y - this._selection.pointerOffset.y;
-		this._drawSelectionContent();
-		this._updateSelectionOutline();
 	} else {
 		// Limit the region to the canvas.
 		pointerState.x = Utils.constrainValue(pointerState.x, 0, this._cxt.canvas.width);
@@ -119,8 +113,26 @@ SelectionTool.prototype.move = function (pointerState) {
 		}
 		this._selection.width = this._selection.startWidth;
 		this._selection.height = this._selection.startHeight;
-		this._updateSelectionOutline();
 	}
+	
+	this._canvasDirty = true;
+};
+
+/**
+ * @override
+ * Update the canvas if necessary.
+ */
+SelectionTool.prototype.update = function () {
+	if (!this._canvasDirty) {
+		return;
+	}
+	
+	Utils.clearCanvas(this._preCxt);
+	
+	this._drawSelectionContent();
+	this._updateSelectionOutline();
+	
+	this._canvasDirty = false;
 };
 
 /**
