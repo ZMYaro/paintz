@@ -46,11 +46,13 @@ ShapeTool.prototype.start = function (pointerState) {
 
 /**
  * @override
- * Update the shape when the pointer is moved.
- * @param {Object} pointerState - The pointer coordinates
+ * Update the canvas if necessary.
  */
-ShapeTool.prototype.move = function (pointerState) {
-	DrawingTool.prototype.move.apply(this, arguments);
+ShapeTool.prototype.update = function () {
+	if (!this._canvasDirty) {
+		return;
+	}
+	DrawingTool.prototype.update.apply(this, arguments);
 	
 	// Erase the previous preview.
 	Utils.clearCanvas(this._preCxt);
