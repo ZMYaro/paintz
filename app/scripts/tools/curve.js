@@ -47,6 +47,12 @@ CurveTool.prototype.start = function (pointerState) {
 	if (this._state === CurveTool.STATE_NOT_STARTED) {
 		this.startX = pointerState.x;
 		this.startY = pointerState.y;
+		this.endX =
+			this.endY =
+			this.point1X =
+			this.point1Y =
+			this.point2X =
+			this.point2Y = undefined;
 	}
 };
 
@@ -62,20 +68,52 @@ CurveTool.prototype.move = function (pointerState) {
 		this._roundPointerState(pointerState);
 	}
 	
+	switch (this._state) {
+		case CurveTool.STATE_NOT_STARTED:
+			this.endX = pointerState.x;
+			this.endY = pointerState.y;
+			break;
+		case CurveTool.STATE_END_POINT_SET:
+			this.point1X = pointerState.x;
+			this.point1Y = pointerState.y;
+			break;
+		case CurveTool.STATE_CONTROL_POINT1_SET:
+			this.point2X = pointerState.x;
+			this.point2Y = pointerState.y;
+			break;
+	}
+	
+	this._canvasDirty = true;
+};
+
+/**
+ * @override
+ * Update the canvas if necessary.
+ */
+CurveTool.prototype.update = function () {
+	if (!this._canvasDirty) {
+		return;
+	}
+	DrawingTool.prototype.update.apply(this, arguments);
+	
 	// Erase the previous preview.
 	Utils.clearCanvas(this._preCxt);
 	
 	// Draw the new preview.
 	if (this._state === CurveTool.STATE_NOT_STARTED) {
-		LineTool.drawLine(this.startX, this.startY, pointerState.x, pointerState.y, this._preCxt);
+		LineTool.drawLine(this.startX, this.startY, this.endX, this.endY, this._preCxt);
+		
 	} else {
 		this._preCxt.beginPath();
 		this._preCxt.moveTo(this.startX, this.startY);
+		
 		if (this._state === CurveTool.STATE_END_POINT_SET) {
-			this._preCxt.bezierCurveTo(pointerState.x, pointerState.y, pointerState.x, pointerState.y, this.endX, this.endY);
-		} else {
-			this._preCxt.bezierCurveTo(this.point1X, this.point1Y, pointerState.x, pointerState.y, this.endX, this.endY);
+			this._preCxt.bezierCurveTo(this.point1X, this.point1Y, this.point1X, this.point1Y, this.endX, this.endY);
+			
+		} else if (this._state === CurveTool.STATE_CONTROL_POINT1_SET) {
+			this._preCxt.bezierCurveTo(this.point1X, this.point1Y, this.point2X, this.point2Y, this.endX, this.endY);
 		}
+		
 		this._preCxt.stroke();
 		this._preCxt.closePath();
 	}
@@ -83,6 +121,8 @@ CurveTool.prototype.move = function (pointerState) {
 	if (!settings.get('antiAlias')) {
 		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
 	}
+	
+	this._canvasDirty = false;
 };
 
 /**
