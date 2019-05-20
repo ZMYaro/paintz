@@ -107,6 +107,12 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			document.getElementById('resolution').innerHTML =
 				this.get('width') + ' &times; ' + value + 'px';
 			break;
+		case 'lineWidth':
+			// Some tools' cursors change with the line width, so reactivate the tool.
+			if (tools && tools.currentTool) {
+				tools.currentTool.activate();
+			}
+			break;
 		case 'theme':
 			document.getElementById('themeStyleLink').href = 'styles/themes/' + value + '.css';
 			document.querySelector('meta[name="msapplication-navbutton-color"]').content =
