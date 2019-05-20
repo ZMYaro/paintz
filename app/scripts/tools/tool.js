@@ -46,8 +46,8 @@ Tool.prototype._deAntiAlias = function (color) {
  * @param {Object} pointerState - The pointer coordinates and button
  */
 Tool.prototype._roundPointerState = function (pointerState) {
-	pointerState.x = Math.floor(pointerState.x);
-	pointerState.y = Math.floor(pointerState.y);
+	pointerState.x = Math.round(pointerState.x);
+	pointerState.y = Math.round(pointerState.y);
 };
 
 /**
