@@ -114,6 +114,8 @@ EraserTool.prototype.update = function () {
 		cxt.fill();
 	}
 	
+	this._deAntiAlias(Utils.colorToRGB(this._fillColor));
+	
 	this._canvasDirty = false;
 };
 
