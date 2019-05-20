@@ -88,9 +88,6 @@ LineTool.prototype.update = function () {
 	}
 	DrawingTool.prototype.update.apply(this, arguments);
 	
-	// Erase the previous preview.
-	Utils.clearCanvas(this._preCxt);
-	
 	// Draw the new preview.
 	LineTool.drawLine(this.startX, this.startY, this.endX, this.endY, this._preCxt);
 	
