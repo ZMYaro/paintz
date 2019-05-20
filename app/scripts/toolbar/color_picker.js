@@ -88,7 +88,10 @@ ColorPickerToolbox.prototype._setUp = function (contents) {
 		boundColorButtonClickHandler = this._handleColorButtonClick.bind(this);
 	colorButtons.forEach(function (colorButton) {
 		colorButton.addEventListener('click', boundColorButtonClickHandler, false);
-		colorButton.addEventListener('contextmenu', boundColorButtonClickHandler, false);
+		colorButton.addEventListener('contextmenu', function (e) {
+			e.isContextMenuEvent = true;
+			boundColorButtonClickHandler(e);
+		}, false);
 	});
 	this.setColorPalette(settings.get('colorPalette'));
 };
@@ -129,7 +132,7 @@ ColorPickerToolbox.prototype._handleColorButtonClick = function (e) {
 		return;
 	}
 	
-	if (e.button === 0) {
+	if (e.button === 0 && !e.isContextMenuEvent) {
 		e.preventDefault();
 		e.stopPropagation();
 		
@@ -139,7 +142,7 @@ ColorPickerToolbox.prototype._handleColorButtonClick = function (e) {
 		
 		// Some tools' cursors change with the line color, so reactivate the cursor.
 		tools.currentTool.activate();
-	} else if (e.button === 2) {
+	} else if (e.button === 2 || e.isContextMenuEvent) {
 		e.preventDefault();
 		e.stopPropagation();
 		
