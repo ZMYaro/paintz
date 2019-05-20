@@ -69,16 +69,14 @@ EraserTool.prototype.update = function () {
 		return;
 	}
 	DrawingTool.prototype.update.apply(this, arguments);
-	
-	var cxt = settings.get('ghostDraw') ? this._preCxt : this._cxt;
 
 	// Connect to the existing preview.
-	cxt.fillStyle = this._fillColor;
+	this._preCxt.fillStyle = this._fillColor;
 	
 	for (var i = 0; i < this._points.length; i++) {
 		// Draw the current position.
-		cxt.fillStyle = this._fillColor;
-		cxt.fillRect(
+		this._preCxt.fillStyle = this._fillColor;
+		this._preCxt.fillRect(
 			this._points[i].x - this._lineWidth / 2,
 			this._points[i].y - this._lineWidth / 2,
 			this._lineWidth,
@@ -89,29 +87,29 @@ EraserTool.prototype.update = function () {
 		}
 		
 		// Connect to previous position.
-		cxt.beginPath();
+		this._preCxt.beginPath();
 		// Connect top-left corners.
-		cxt.moveTo(this._points[i].x - this._lineWidth / 2, this._points[i].y - this._lineWidth / 2);
-		cxt.lineTo(this._points[i - 1].x - this._lineWidth / 2, this._points[i - 1].y - this._lineWidth / 2);
-		cxt.lineTo(this._points[i - 1].x, this._points[i - 1].y);
-		cxt.lineTo(this._points[i].x, this._points[i].y);
+		this._preCxt.moveTo(this._points[i].x - this._lineWidth / 2, this._points[i].y - this._lineWidth / 2);
+		this._preCxt.lineTo(this._points[i - 1].x - this._lineWidth / 2, this._points[i - 1].y - this._lineWidth / 2);
+		this._preCxt.lineTo(this._points[i - 1].x, this._points[i - 1].y);
+		this._preCxt.lineTo(this._points[i].x, this._points[i].y);
 		// Connect top-right corners.
-		cxt.moveTo(this._points[i].x + this._lineWidth / 2, this._points[i].y - this._lineWidth / 2);
-		cxt.lineTo(this._points[i - 1].x + this._lineWidth / 2, this._points[i - 1].y - this._lineWidth / 2);
-		cxt.lineTo(this._points[i - 1].x, this._points[i - 1].y);
-		cxt.lineTo(this._points[i].x, this._points[i].y);
+		this._preCxt.moveTo(this._points[i].x + this._lineWidth / 2, this._points[i].y - this._lineWidth / 2);
+		this._preCxt.lineTo(this._points[i - 1].x + this._lineWidth / 2, this._points[i - 1].y - this._lineWidth / 2);
+		this._preCxt.lineTo(this._points[i - 1].x, this._points[i - 1].y);
+		this._preCxt.lineTo(this._points[i].x, this._points[i].y);
 		// Connect bottom-right corners.
-		cxt.moveTo(this._points[i].x + this._lineWidth / 2, this._points[i].y + this._lineWidth / 2);
-		cxt.lineTo(this._points[i - 1].x + this._lineWidth / 2, this._points[i - 1].y + this._lineWidth / 2);
-		cxt.lineTo(this._points[i - 1].x, this._points[i - 1].y);
-		cxt.lineTo(this._points[i].x, this._points[i].y);
+		this._preCxt.moveTo(this._points[i].x + this._lineWidth / 2, this._points[i].y + this._lineWidth / 2);
+		this._preCxt.lineTo(this._points[i - 1].x + this._lineWidth / 2, this._points[i - 1].y + this._lineWidth / 2);
+		this._preCxt.lineTo(this._points[i - 1].x, this._points[i - 1].y);
+		this._preCxt.lineTo(this._points[i].x, this._points[i].y);
 		// Connect bottom-left corners.
-		cxt.moveTo(this._points[i].x - this._lineWidth / 2, this._points[i].y + this._lineWidth / 2);
-		cxt.lineTo(this._points[i - 1].x - this._lineWidth / 2, this._points[i - 1].y + this._lineWidth / 2);
-		cxt.lineTo(this._points[i - 1].x, this._points[i - 1].y);
-		cxt.lineTo(this._points[i].x, this._points[i].y);
-		cxt.closePath();
-		cxt.fill();
+		this._preCxt.moveTo(this._points[i].x - this._lineWidth / 2, this._points[i].y + this._lineWidth / 2);
+		this._preCxt.lineTo(this._points[i - 1].x - this._lineWidth / 2, this._points[i - 1].y + this._lineWidth / 2);
+		this._preCxt.lineTo(this._points[i - 1].x, this._points[i - 1].y);
+		this._preCxt.lineTo(this._points[i].x, this._points[i].y);
+		this._preCxt.closePath();
+		this._preCxt.fill();
 	}
 	
 	this._deAntiAlias(Utils.colorToRGB(this._fillColor));
