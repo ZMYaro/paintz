@@ -8,6 +8,9 @@
 function Tool(cxt, preCxt) {
 	this._cxt = cxt;
 	this._preCxt = preCxt;
+	
+	/** {Boolean} Whether the canvas needs to be redrawn. */
+	this._canvasDirty = false;
 }
 
 /**
@@ -70,6 +73,12 @@ Tool.prototype.move = function (pointerState) {
 };
 
 /**
+ * Update the canvas if necessary.
+ */
+Tool.prototype.update = function () {
+};
+
+/**
  * Handle the pointer being released.
  * @param {Object} pointerState - The pointer coordinates
  */
@@ -80,4 +89,5 @@ Tool.prototype.end = function (pointerState) {
  * Handle the tool no longer being the active tool.
  */
 Tool.prototype.deactivate = function () {
+	this._canvasDirty = false;
 };

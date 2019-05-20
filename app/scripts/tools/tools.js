@@ -25,10 +25,12 @@ function ToolManager() {
 	this._boundPointerDownHandler = this._handlePointerDown.bind(this);
 	this._boundPointerMoveHandler = this._handlePointerMove.bind(this);
 	this._boundPointerUpHandler = this._handlePointerUp.bind(this);
+	this._boundUpdate = this._update.bind(this);
 	preCanvas.addEventListener('pointerdown', this._boundPointerDownHandler, false);
 	document.addEventListener('pointermove', this._boundPointerMoveHandler, false);
 	document.addEventListener('pointerup', this._boundPointerUpHandler, false);
 	document.addEventListener('pointerleave', this._boundPointerUpHandler, false);
+	Utils.raf(this._boundUpdate);
 	
 	this._state = this.STATE_INACTIVE;
 	
@@ -101,7 +103,7 @@ ToolManager.prototype._handlePointerDown = function (e) {
 
 /**
  * @private
- * Complete the canvas or preview canvas with the shape currently being drawn.
+ * Have the tool update in response to the pointer moving.
  * @param {PointerEvent} e
  */
 ToolManager.prototype._handlePointerMove = function (e) {
@@ -112,7 +114,7 @@ ToolManager.prototype._handlePointerMove = function (e) {
 	e.preventDefault();
 	e.stopPropagation();
 	
-	// Update the shape.
+	// Update the tool.
 	this.currentTool.move({
 		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
 		y: Utils.getCanvasY(e.pageY) / zoomManager.level,
@@ -123,7 +125,7 @@ ToolManager.prototype._handlePointerMove = function (e) {
 
 /**
  * @private
- * Complete the current shape and stop drawing.
+ * Complete the current task and stop drawing.
  * @param {MouseEvent|TouchEvent} e
  */
 ToolManager.prototype._handlePointerUp = function (e) {
@@ -144,4 +146,16 @@ ToolManager.prototype._handlePointerUp = function (e) {
 	
 	// Set the state to ready to start the next drawing.
 	this._state = this.STATE_INACTIVE;
+};
+
+/**
+ * @private
+ * Have the current tool update the canvas if necessary.
+ */
+ToolManager.prototype._update = function () {
+	if (this._state === this.STATE_ACTIVE) {
+		this.currentTool.update();
+	}
+	
+	Utils.raf(this._boundUpdate);
 };
