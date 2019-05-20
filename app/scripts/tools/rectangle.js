@@ -34,10 +34,6 @@ RectangleTool.prototype.start = function (pointerState) {
 RectangleTool.prototype.move = function (pointerState) {
 	ShapeTool.prototype.move.apply(this, arguments);
 	
-	if (!settings.get('antiAlias')) {
-		this._roundPointerState(pointerState);
-	}
-	
 	this.x = Math.min(pointerState.x, this.startX),
 	this.y = Math.min(pointerState.y, this.startY),
 	this.width = Math.abs(pointerState.x - this.startX),

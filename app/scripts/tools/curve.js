@@ -40,10 +40,6 @@ CurveTool.prototype.activate = function () {
 CurveTool.prototype.start = function (pointerState) {
 	DrawingTool.prototype.start.apply(this, arguments);
 	
-	if (!settings.get('antiAlias')) {
-		this._roundPointerState(pointerState);
-	}
-	
 	if (this._state === CurveTool.STATE_NOT_STARTED) {
 		this.startX = pointerState.x;
 		this.startY = pointerState.y;
@@ -63,10 +59,6 @@ CurveTool.prototype.start = function (pointerState) {
  */
 CurveTool.prototype.move = function (pointerState) {
 	DrawingTool.prototype.move.apply(this, arguments);
-	
-	if (!settings.get('antiAlias')) {
-		this._roundPointerState(pointerState);
-	}
 	
 	switch (this._state) {
 		case CurveTool.STATE_NOT_STARTED:
@@ -128,10 +120,6 @@ CurveTool.prototype.update = function () {
  * @param {Object} pointerState - The pointer coordinates
  */
 CurveTool.prototype.end = function (pointerState) {
-	if (!settings.get('antiAlias')) {
-		this._roundPointerState(pointerState);
-	}
-	
 	if (this._state === CurveTool.STATE_NOT_STARTED) {
 		this.endX = pointerState.x;
 		this.endY = pointerState.y;

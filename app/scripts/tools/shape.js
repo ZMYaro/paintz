@@ -40,10 +40,6 @@ ShapeTool.prototype.start = function (pointerState) {
 		this._fillColor = 'transparent';
 	}
 	
-	if (!settings.get('antiAlias')) {
-		this._roundPointerState(pointerState);
-	}
-	
 	this.startX = pointerState.x;
 	this.startY = pointerState.y;
 };

@@ -49,10 +49,6 @@ DoodleTool.prototype.activate = function () {
 DoodleTool.prototype.start = function (pointerState) {
 	DrawingTool.prototype.start.apply(this, arguments);
 	
-	if (!settings.get('antiAlias')) {
-		this._roundPointerState(pointerState);
-	}
-	
 	this._points = [
 		{
 			x: pointerState.x,
@@ -70,10 +66,6 @@ DoodleTool.prototype.start = function (pointerState) {
  */
 DoodleTool.prototype.move = function (pointerState) {
 	DrawingTool.prototype.move.apply(this, arguments);
-	
-	if (!settings.get('antiAlias')) {
-		this._roundPointerState(pointerState);
-	}
 	
 	this._points.push({
 		x: pointerState.x,
