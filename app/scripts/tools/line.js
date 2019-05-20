@@ -56,6 +56,8 @@ LineTool.prototype.start = function (pointerState) {
 	
 	this.startX = pointerState.x;
 	this.startY = pointerState.y;
+	this.endX =
+		this.endY = undefined;
 };
 
 /**
@@ -70,13 +72,31 @@ LineTool.prototype.move = function (pointerState) {
 		this._roundPointerState(pointerState);
 	}
 	
+	this.endX = pointerState.x;
+	this.endY = pointerState.y;
+	
+	this._canvasDirty = true;
+};
+
+/**
+ * @override
+ * Update the canvas if necessary.
+ */
+LineTool.prototype.update = function () {
+	if (!this._canvasDirty) {
+		return;
+	}
+	DrawingTool.prototype.update.apply(this, arguments);
+	
 	// Erase the previous preview.
 	Utils.clearCanvas(this._preCxt);
 	
 	// Draw the new preview.
-	LineTool.drawLine(this.startX, this.startY, pointerState.x, pointerState.y, this._preCxt);
+	LineTool.drawLine(this.startX, this.startY, this.endX, this.endY, this._preCxt);
 	
 	if (!settings.get('antiAlias')) {
 		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
 	}
-};
+	
+	this._canvasDirty = false;
+}
