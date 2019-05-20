@@ -50,10 +50,13 @@ DrawingTool.prototype.start = function (pointerState) {
 
 /**
  * @override
- * Update the shape when the pointer is moved.
- * @param {Object} pointerState - The pointer coordinates
+ * Update the canvas if necessary.
  */
-DrawingTool.prototype.move = function (pointerState) {
+DrawingTool.prototype.update = function () {
+	if (!this._canvasDirty) {
+		return;
+	}
+	
 	this._prepareCanvas();
 };
 
@@ -63,7 +66,9 @@ DrawingTool.prototype.move = function (pointerState) {
  * @param {Object} pointerState - The pointer coordinates
  */
 DrawingTool.prototype.end = function (pointerState) {
+	// Draw the drawing to the main canvas.
 	this._cxt.drawImage(this._preCxt.canvas, 0, 0);
+	// Erase the preview.
 	Utils.clearCanvas(this._preCxt);
 	undoStack.addState();
 };
