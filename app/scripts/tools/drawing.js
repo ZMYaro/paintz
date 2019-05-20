@@ -57,6 +57,9 @@ DrawingTool.prototype.update = function () {
 		return;
 	}
 	
+	// Erase the previous preview.
+	Utils.clearCanvas(this._preCxt);
+	
 	this._prepareCanvas();
 };
 

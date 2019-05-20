@@ -96,9 +96,6 @@ CurveTool.prototype.update = function () {
 	}
 	DrawingTool.prototype.update.apply(this, arguments);
 	
-	// Erase the previous preview.
-	Utils.clearCanvas(this._preCxt);
-	
 	// Draw the new preview.
 	if (this._state === CurveTool.STATE_NOT_STARTED) {
 		LineTool.drawLine(this.startX, this.startY, this.endX, this.endY, this._preCxt);

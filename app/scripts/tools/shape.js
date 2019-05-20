@@ -47,17 +47,3 @@ ShapeTool.prototype.start = function (pointerState) {
 	this.startX = pointerState.x;
 	this.startY = pointerState.y;
 };
-
-/**
- * @override
- * Update the canvas if necessary.
- */
-ShapeTool.prototype.update = function () {
-	if (!this._canvasDirty) {
-		return;
-	}
-	DrawingTool.prototype.update.apply(this, arguments);
-	
-	// Erase the previous preview.
-	Utils.clearCanvas(this._preCxt);
-};
