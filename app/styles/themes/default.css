@@ -56,12 +56,8 @@ input[type="radio"]:checked {
 			background-color: rgba(255, 255, 255, 0.13);
 		}
 #colorPicker button::before {
-	-webkit-box-shadow: 0 0 0   1px white;
-	-webkit-box-shadow: 0 0 0 0.5px white;
-	   -moz-box-shadow: 0 0 0   1px white;
-	   -moz-box-shadow: 0 0 0 0.5px white;
-	        box-shadow: 0 0 0   1px white;
-	        box-shadow: 0 0 0 0.5px white;
+	/* box-shadow color */
+	color: white;
 }
 #colorPicker button.pacman::after {
 	border-right-color: #3f51b5;

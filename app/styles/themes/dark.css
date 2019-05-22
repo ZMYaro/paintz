@@ -77,12 +77,8 @@ select[size="1"] {
 			background-color: rgba(255,255,255,0.13);
 		}
 #colorPicker button::before {
-	-webkit-box-shadow: 0 0 0   1px rgba(255, 255, 255, 0.9);
-	-webkit-box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 0.9);
-	   -moz-box-shadow: 0 0 0   1px rgba(255, 255, 255, 0.9);
-	   -moz-box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 0.9);
-	        box-shadow: 0 0 0   1px rgba(255, 255, 255, 0.9);
-	        box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 0.9);
+	/* box-shadow color */
+	color: rgba(255, 255, 255, 0.9);
 }
 #colorPicker button.pacman::after {
 	border-right-color: #212121;
