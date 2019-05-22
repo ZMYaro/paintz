@@ -34,6 +34,7 @@ function ToolManager() {
 	
 	this._state = this.STATE_INACTIVE;
 	
+	this.currentTool = this[settings.get('tool')];
 	this.currentTool.activate();
 }
 
@@ -41,13 +42,6 @@ function ToolManager() {
 ToolManager.prototype.STATE_INACTIVE = 0;
 ToolManager.prototype.STATE_ACTIVE = 1;
 
-Object.defineProperties(ToolManager.prototype, {
-	currentTool: {
-		get: function () {
-			return this[settings.get('tool')];
-		}
-	}
-});
 
 /**
  * Switch to the specified tool.
@@ -60,6 +54,7 @@ ToolManager.prototype.switchTool = function (toolName) {
 	Utils.clearCanvas(preCxt);
 	// Set and activate the newly-selected tool.
 	settings.set('tool', toolName);
+	this.currentTool = this[toolName];
 	this.currentTool.activate();
 	// Update the toolbar.
 	document.getElementById('tools').tool.value = toolName;
