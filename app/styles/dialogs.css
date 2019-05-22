@@ -203,6 +203,11 @@ hr {
 	margin: 0;
 }
 
+small {
+	font-size: 87.5%;
+	opacity: 0.6;
+}
+
 #helpDialog table {
 	text-align: left;
 }
