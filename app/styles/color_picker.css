@@ -28,9 +28,20 @@
 		-webkit-border-radius: 50%;
 		   -moz-border-radius: 50%;
 		        border-radius: 50%;
-		-webkit-box-shadow: 0 0 0 0.5px;
-		   -moz-box-shadow: 0 0 0 0.5px;
-		        box-shadow: 0 0 0 0.5px;
+		-webkit-box-shadow: 0 0 0 1px;
+		   -moz-box-shadow: 0 0 0 1px;
+		        box-shadow: 0 0 0 1px;
+	}
+	/* Use 0.5px outlines on high-density displays. */
+	@media (-webkit-min-device-pixel-ratio: 2),
+			(min--moz-device-pixel-ratio: 2),
+			(min-resolution: 192dpi),
+			(min-resolution: 2dppx) {
+		#colorPicker button::before {
+			-webkit-box-shadow: 0 0 0 0.5px;
+			   -moz-box-shadow: 0 0 0 0.5px;
+			        box-shadow: 0 0 0 0.5px;
+		}
 	}
 	#colorPicker button[data-value="#000000"]::before { background-color: #000000; }
 	#colorPicker button[data-value="#ffffff"]::before { background-color: #ffffff; }
