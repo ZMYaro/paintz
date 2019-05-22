@@ -104,6 +104,8 @@ PencilTool.prototype.start = function (pointerState) {
 		}
 	];
 	
+	this._lastPointIndex = 0;
+	
 	this._canvasDirty = true;
 };
 
@@ -133,13 +135,17 @@ PencilTool.prototype.update = function () {
 	if (!this._canvasDirty) {
 		return;
 	}
-	DrawingTool.prototype.update.apply(this, arguments);
+	// For performance, the pencil tool does not clear the canvas every frame;
+	// it just adds on the new segments in the current operation.  This may
+	// need to be changed if a future version of PaintZ has something other
+	// than the current tool drawing to the pre-canvas every frame.
+	this._prepareCanvas();
 	
 	// Draw a dot at the start of the doodle.
 	this._drawPoint(this._points[0].x, this._points[0].y, this._preCxt);
 	
 	// Draw the whole shape.
-	for (var i = 1; i < this._points.length; i++) {
+	for (var i = this._lastPointIndex || 1; i < this._points.length; i++) {
 		this._drawLine(
 			this._points[i - 1].x,
 			this._points[i - 1].y,
@@ -147,6 +153,8 @@ PencilTool.prototype.update = function () {
 			this._points[i].y,
 			this._preCxt);
 	}
+	
+	this._lastPointIndex = this._points.length - 1;
 	
 	this._canvasDirty = false;
 };
