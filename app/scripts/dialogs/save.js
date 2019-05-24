@@ -59,16 +59,6 @@ SaveDialog.prototype.open = function () {
 };
 
 /**
- * Close the dialog and revoke the canvas blob URL.
- * @param {Event} [e] - The event that triggered the close, if any.
- */
-SaveDialog.prototype.close = function (e) {
-	Dialog.prototype.close.call(this, e);
-	
-	URL.revokeObjectURL(this._downloadLink.href);
-};
-
-/**
  * @private
  * Create a new blob URL, and set it as the download URL when done.
  */
