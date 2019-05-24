@@ -92,6 +92,8 @@ SaveDialog.prototype._updateFileExtension = function () {
 	var newName = fixExtension(this._element.fileName.value, this._element.fileType.value);
 	this._element.fileName.value = newName;
 	this._downloadLink.download = newName;
-	this._downloadLink.type = this._element.fileType.value;
-	this._createDownloadURL();
+	if (this._element.fileType.value !== this._downloadLink.type) {
+		this._downloadLink.type = this._element.fileType.value;
+		this._createDownloadURL();
+	}
 };
