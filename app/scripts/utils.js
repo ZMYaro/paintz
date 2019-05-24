@@ -2,6 +2,7 @@
 
 // Polyfills.
 Math.TAU = Math.TAU || (2 * Math.PI);
+window.URL = window.webkitURL || window.URL;
 Object.values = Object.values || function (obj) {
 	var vals = [];
 	for (var key in obj) {
