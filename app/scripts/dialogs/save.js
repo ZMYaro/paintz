@@ -66,7 +66,11 @@ SaveDialog.prototype._createDownloadURL = function () {
 	this._downloadLink.style.display = 'none';
 	this._progressSpinner.style.removeProperty('display');
 	
-	canvas.toBlob(this._boundSetDownloadURL, this._downloadLink.type || 'image/png');
+	var blob = canvas.toBlob(this._boundSetDownloadURL, this._downloadLink.type || 'image/png');
+	if (blob instanceof Blob) {
+		// Fallback for browsers in which toBlob is synchronous and returns a Blob.
+		this._setDownloadURL(blob);
+	}
 };
 
 /**
