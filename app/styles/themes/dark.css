@@ -131,5 +131,5 @@ select[size="1"] {
 }
 
 progress.circular {
-	border-top-color: #7986cb;
+	color: #7986cb;
 }

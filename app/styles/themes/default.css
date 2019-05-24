@@ -108,5 +108,5 @@ input[type="radio"]:checked {
 }
 
 progress.circular {
-	border-top-color: #5767bd;
+	color: #5767bd;
 }
