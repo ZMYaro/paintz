@@ -100,6 +100,7 @@ scripts/dialogs/resize.js
 scripts/dialogs/save.js
 scripts/dialogs/settings.js
 scripts/dialogs/welcome.js
+scripts/lib/canvas-to-blob.min.js
 scripts/lib/colorpicker.min.js
 scripts/lib/material-touch.js
 scripts/lib/pep.min.js
