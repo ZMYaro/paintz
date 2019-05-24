@@ -274,6 +274,7 @@ progress.circular::after,
 		right: 0;
 		bottom: 0;
 		margin: -6px; /* Counter the parent element's border width */
+		border-width: inherit;
 		border-top-color: inherit;
 	}
 	progress.circular::before,
