@@ -41,5 +41,5 @@
 	}
 	#splashScreen progress.circular {
 		margin: 0 auto;
-		border-top-color: white;
+		color: white;
 	}
