@@ -8,6 +8,7 @@
 function SaveDialog(trigger) {
 	Dialog.call(this, 'save', trigger);
 	this._downloadLink;
+	this._boundSetDownloadURL = this._setDownloadURL.bind(this);
 }
 // Extend Dialog.
 SaveDialog.prototype = Object.create(Dialog.prototype);
@@ -49,8 +50,28 @@ SaveDialog.prototype._setUp = function (contents) {
 SaveDialog.prototype.open = function () {
 	Dialog.prototype.open.call(this);
 	
-	// Export the canvas content to a PNG to be saved.
-	this._downloadLink.href = canvas.toDataURL(this._downloadLink.type || 'image/png');
+	// Export the canvas content to an image to be saved.
+	canvas.toBlob(this._boundSetDownloadURL, this._downloadLink.type || 'image/png');
+};
+
+/**
+ * Close the dialog and revoke the canvas blob URL.
+ * @param {Event} [e] - The event that triggered the close, if any.
+ */
+SaveDialog.prototype.close = function (e) {
+	Dialog.prototype.close.call(this, e);
+	
+	URL.revokeObjectURL(this._downloadLink.href);
+};
+
+/**
+ * @private
+ * Set the download URL using the blob from the canvas.
+ * @param {Blob} blob - The image blob from the canvas
+ */
+SaveDialog.prototype._setDownloadURL = function (blob) {
+	var url = URL.createObjectURL(blob);
+	this._downloadLink.href = url;
 };
 
 /**
