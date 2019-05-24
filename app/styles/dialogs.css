@@ -232,6 +232,17 @@ small,
 	margin: -8px 2px;
 }
 
+progress.circular.small {
+	width: 24px;
+	height: 24px;
+	margin: -4px 0;
+	border-width: 3px;
+}
+	progress.circular.small::before,
+	progress.circular.small::after {
+		margin: -3px; /* Counter the parent element's border width */
+	}
+
 #progressContainer progress.circular {
 	display: block;
 	margin: auto;
