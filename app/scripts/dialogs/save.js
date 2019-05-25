@@ -9,6 +9,7 @@ function SaveDialog(trigger) {
 	Dialog.call(this, 'save', trigger);
 	this._progressSpinner;
 	this._downloadLink;
+	this._blob;
 	this._boundSetDownloadURL = this._setDownloadURL.bind(this);
 }
 // Extend Dialog.
@@ -36,9 +37,14 @@ SaveDialog.prototype._setUp = function (contents) {
 	
 	this._downloadLink = this._element.querySelector('#downloadLink');
 	this._downloadLink.style.display = 'none';
-	this._downloadLink.onclick = (function () {
-		// Web app cannot confirm the user went through with the download, but assume xe did.
+	this._downloadLink.onclick = (function (e) {
+		if (navigator.msSaveBlob) {
+			e.preventDefault();
+			navigator.msSaveBlob(this._blob,
+				this._downloadLink.download || this._downloadLink.getAttribute('download'));
+		}
 		document.title = this._downloadLink.download + ' - PaintZ';
+		// Web app cannot confirm the user went through with the download, but assume xe did.
 		undoStack.changedSinceSave = false;
 		this.close();
 	}).bind(this);
@@ -80,6 +86,9 @@ SaveDialog.prototype._createDownloadURL = function () {
  */
 SaveDialog.prototype._setDownloadURL = function (blob) {
 	URL.revokeObjectURL(this._downloadLink.href);
+	if (navigator.msSaveBlob) {
+		this._blob = blob;
+	}
 	var url = URL.createObjectURL(blob);
 	this._downloadLink.href = url;
 	
