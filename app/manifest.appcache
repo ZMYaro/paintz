@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2018-11-04, v1
+# 2019-05-26, v1
 index.html
 404.html
 manifest.webapp
@@ -26,7 +26,6 @@ images/icons/font_family.svg
 images/icons/font_size.svg
 images/icons/full_screen.svg
 images/icons/github.svg
-images/icons/gplus.svg
 images/icons/help.svg
 images/icons/info.svg
 images/icons/instagram.svg
