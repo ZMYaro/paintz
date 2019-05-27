@@ -227,6 +227,14 @@ function postLoadInit() {
 	// Hide the splash screen.
 	document.body.removeChild(document.getElementById('splashScreen'));
 	
+	// Prevent closing with unsaved changes.
+	undoStack.changedSinceSave = false;
+	window.onbeforeunload = function () {
+		if (undoStack.changedSinceSave) {
+			return 'It looks like you have unsaved changes.';
+		}
+	};
+	
 	if (settings.get('firstRunDone')) {
 		// Only show the welcome dialog if this is the user's first time using PaintZ (in this browser).
 		return;

@@ -32,7 +32,9 @@ SaveDialog.prototype._setUp = function (contents) {
 	
 	this._downloadLink = this._element.querySelector('#downloadLink');
 	this._downloadLink.onclick = (function () {
+		// Web app cannot confirm the user went through with the download, but assume xe did.
 		document.title = this._downloadLink.download + ' - PaintZ';
+		undoStack.changedSinceSave = false;
 		this.close();
 	}).bind(this);
 	this._element.onsubmit = (function () {

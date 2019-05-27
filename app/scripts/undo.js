@@ -2,6 +2,7 @@ var undoStack = {
 	_undoStack: [],
 	_redoStack: [],
 	_currentState: undefined,
+	changedSinceSave: false,
 	
 	/** @returns {Boolean} Whether there is an available redo state */
 	get canRedo() {
@@ -59,6 +60,7 @@ var undoStack = {
 		// Clear the redo stack.
 		this._redoStack = [];
 		
+		this.changedSinceSave = true;
 		this._updateUI();
 	},
 	
@@ -92,6 +94,7 @@ var undoStack = {
 		this._undoStack.push(this._currentState);
 		this._applyState(restoreState);
 		
+		this.changedSinceSave = true;
 		this._updateUI();
 		
 		// Reactivate the current tool.
@@ -116,7 +119,8 @@ var undoStack = {
 		var restoreState = this._undoStack.pop();
 		this._redoStack.push(this._currentState);
 		this._applyState(restoreState);
-
+		
+		this.changedSinceSave = true;
 		this._updateUI();
 		
 		// Reactivate the current tool.
