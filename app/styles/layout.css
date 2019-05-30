@@ -46,7 +46,7 @@
 		border: 1px solid white;
 		outline: 1px dashed black;
 		outline-offset: -1px;
-		overflow: visible;
+		overflow: hidden;
 		resize: none;
 		pointer-events: none;
 		z-index: 2;

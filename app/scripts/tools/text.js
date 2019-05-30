@@ -20,6 +20,9 @@ function TextTool(cxt, preCxt) {
 		this._textElem.style.transformOrigin = '0 0';
 	this._textElem.style.padding = TextTool.PADDING + 'px';
 	
+	// Prevent the element scrolling if it overflows.
+	this._textElem.onscroll = function () { this.scrollTop = 0; };
+	
 	this._textElem.onblur = this._removeTextElem.bind(this);
 	this._textElem.addEventListener('keydown', this._handleKeyDown.bind(this), false);
 }
@@ -268,67 +271,63 @@ TextTool.prototype._removeTextElem = function () {
 		try {
 			// Wrapping in a try block because sometimes contains incorrectly returns true.
 			document.body.removeChild(this._textElem);
-		} catch (ex) {}
+		} catch (err) {}
 	}
 	keyManager.enableAppShortcuts();
 };
 
 /**
  * @private
- * Save the selection to the canvas if it was moved.
- * @returns {Boolean} Whether the selection was saved.
+ * Save the text to the canvas.
+ * @returns {Promise<Boolean>} Resolves with whether the text was saved.
  */
 TextTool.prototype._saveText = function () {
 	if (!this._textRegion || this._textElem.innerHTML === '') {
 		return;
 	}
 	
-	// Set text settings.
-	this._cxt.textBaseline = 'top';
-	this._cxt.fillStyle = settings.get('lineColor');
-	this._cxt.font = this._getFontValue();
+	var svgData = '<svg xmlns="http://www.w3.org/2000/svg" '+
+		'width="' + this._textRegion.width + 'px" height="' + this._textRegion.height + 'px">' +
+			'<foreignObject width="100%" height="100%">' +
+				'<p xmlns="http://www.w3.org/1999/xhtml" style="' +
+						'margin: 0; ' +
+						'overflow: visible; ' +
+						'word-break: break-all; ' +
+						'padding: ' + TextTool.PADDING + 'px; ' +
+						'border: ' + TextTool.BORDER_WIDTH + 'px solid transparent; ' +
+						'font: ' + this._getFontValue() + '; ' +
+						'color: ' + settings.get('lineColor') + ';">' +
+					this._textElem.innerHTML +
+				'</p>' +
+			'</foreignObject>' +
+		'</svg>';
+	svgData = svgData.replace(/<br>/g, '<br />'); // XML requires self-closing tags be closed, but HTML5 does not.
+	svgData = svgData.replace(/#/g, '%23'); // Escape hash for data URL.
 	
-	// Locate line breaks.
-	var chars = (this._textElem.innerText || this._textElem.textContent).split(''),
-		line = '',
-		lines = [],
-		maxWidth = this._textRegion.width - (2 * TextTool.PADDING) - TextTool.BORDER_WIDTH;
+	var svgImage = new Image(),
+		svgURL = 'data:image/svg+xml,' + svgData;
+		//svgBlob = new Blob([svgData], {type: 'image/svg+xml'}),
+		//svgURL = URL.createObjectURL(svgBlob);
 	
-	for (var i = 0; i < chars.length; i++) {
-		// Break on line breaks.
-		if (chars[i] === '\n') {
-			lines.push(line);
-			line = '';
-			continue;
-		}
-		if (Math.ceil(cxt.measureText(line + chars[i]).width) > maxWidth) {
-			// If the line has exceeded the text box width...
-			var lastSpaceIndex = line.lastIndexOf(' ');
-			if (lastSpaceIndex === -1) {
-				// If there are no spaces, break at this character.
-				lines.push(line);
-				line = chars[i];
-				continue;
-			} else {
-				// If there is a space, break at the last space.
-				line += chars[i];
-				lines.push(line.substring(0, lastSpaceIndex));
-				line = line.substring(lastSpaceIndex + 1);
-				continue;
-			}
-		}
-		line += chars[i];
-	}
-	lines.push(line); // Include any remaining line.
+	// Prevent the canvas becoming “tainted”.
+	svgImage.crossOrigin = 'anonymous';
 	
-	// Draw the text.
-	for (var i = 0; i < lines.length; i++) {
-		var x = this._textRegion.x + TextTool.PADDING + TextTool.BORDER_WIDTH,
-			y = this._textRegion.y + TextTool.PADDING + TextTool.BORDER_WIDTH + ((settings.get('fontSize') * 1.525) * i);
-		this._cxt.fillText(lines[i], x, y);
-	}
-	Utils.clearCanvas(this._preCxt);
-	undoStack.addState();
+	// Save coordinates since the text region can be deleted by _removeTextElem before the image loads.
+	var textX = this._textRegion.x,
+		textY = this._textRegion.y;
+	
+	svgImage.onload = (function () {
+		// Draw the text image to the canvas.
+		this._cxt.drawImage(svgImage, textX, textY);
+		// Revoke the temporary blob URL.
+		//URL.revokeObjectURL(svgURL);
+		// Clean up.
+		Utils.clearCanvas(this._preCxt);
+		undoStack.addState();
+		
+	}).bind(this);
+	
+	svgImage.src = svgURL;
 };
 
 /**
