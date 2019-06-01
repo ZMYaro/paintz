@@ -234,6 +234,15 @@ TextTool.prototype._getFontValue = function () {
 
 /**
  * @private
+ * Generate the CSS text-decoration value based on the saved options.
+ */
+TextTool.prototype._getTextDecorationValue = function () {
+	return (settings.get('underline') ? 'underline ' : '') +
+		(settings.get('strike') ? 'line-through ' : '');
+};
+
+/**
+ * @private
  * Update the text box element with the correct size and other properties.
  */
 TextTool.prototype._updateTextElem = function () {
@@ -256,6 +265,7 @@ TextTool.prototype._updateTextElem = function () {
 	this._textElem.style.height = this._textRegion.height + 'px';
 	
 	this._textElem.style.font = this._getFontValue();
+	this._textElem.style.textDecoration = this._getTextDecorationValue();
 };
 
 /**
@@ -299,6 +309,7 @@ TextTool.prototype._saveText = function () {
 							'padding: ' + TextTool.PADDING + 'px; ' +
 							'border: ' + TextTool.BORDER_WIDTH + 'px solid transparent; ' +
 							'font: ' + this._getFontValue() + '; ' +
+							'text-decoration: ' + this._getTextDecorationValue() + '; ' +
 							'color: ' + settings.get('lineColor') + ';">' +
 						this._textElem.innerHTML +
 					'</p>' +
