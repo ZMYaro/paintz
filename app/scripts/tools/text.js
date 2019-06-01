@@ -264,16 +264,17 @@ TextTool.prototype._updateTextElem = function () {
  */
 TextTool.prototype._removeTextElem = function () {
 	// Save any existing text.
-	this._saveText();
-	// Remove the text region and element.
-	delete this._textRegion;
-	if (document.body.contains(this._textElem)) {
-		try {
-			// Wrapping in a try block because sometimes contains incorrectly returns true.
-			document.body.removeChild(this._textElem);
-		} catch (err) {}
-	}
-	keyManager.enableAppShortcuts();
+	this._saveText().then((function () {
+		// Remove the text region and element.
+		delete this._textRegion;
+		if (document.body.contains(this._textElem)) {
+			try {
+				// Wrapping in a try block because sometimes contains incorrectly returns true.
+				document.body.removeChild(this._textElem);
+			} catch (err) {}
+		}
+		keyManager.enableAppShortcuts();
+	}).bind(this));
 };
 
 /**
@@ -282,52 +283,56 @@ TextTool.prototype._removeTextElem = function () {
  * @returns {Promise<Boolean>} Resolves with whether the text was saved.
  */
 TextTool.prototype._saveText = function () {
-	if (!this._textRegion || this._textElem.innerHTML === '') {
-		return;
-	}
-	
-	var svgData = '<svg xmlns="http://www.w3.org/2000/svg" '+
-		'width="' + this._textRegion.width + 'px" height="' + this._textRegion.height + 'px">' +
-			'<foreignObject width="100%" height="100%">' +
-				'<p xmlns="http://www.w3.org/1999/xhtml" style="' +
-						'margin: 0; ' +
-						'overflow: visible; ' +
-						'word-break: break-all; ' +
-						'padding: ' + TextTool.PADDING + 'px; ' +
-						'border: ' + TextTool.BORDER_WIDTH + 'px solid transparent; ' +
-						'font: ' + this._getFontValue() + '; ' +
-						'color: ' + settings.get('lineColor') + ';">' +
-					this._textElem.innerHTML +
-				'</p>' +
-			'</foreignObject>' +
-		'</svg>';
-	svgData = svgData.replace(/<br>/g, '<br />'); // XML requires self-closing tags be closed, but HTML5 does not.
-	svgData = svgData.replace(/#/g, '%23'); // Escape hash for data URL.
-	
-	var svgImage = new Image(),
-		svgURL = 'data:image/svg+xml,' + svgData;
-		//svgBlob = new Blob([svgData], {type: 'image/svg+xml'}),
-		//svgURL = URL.createObjectURL(svgBlob);
-	
-	// Prevent the canvas becoming “tainted”.
-	svgImage.crossOrigin = 'anonymous';
-	
-	// Save coordinates since the text region can be deleted by _removeTextElem before the image loads.
-	var textX = this._textRegion.x,
-		textY = this._textRegion.y;
-	
-	svgImage.onload = (function () {
-		// Draw the text image to the canvas.
-		this._cxt.drawImage(svgImage, textX, textY);
-		// Revoke the temporary blob URL.
-		//URL.revokeObjectURL(svgURL);
-		// Clean up.
-		Utils.clearCanvas(this._preCxt);
-		undoStack.addState();
+	return new Promise((function (resolve, reject) {
+		if (!this._textRegion || this._textElem.innerHTML === '') {
+			resolve(false);
+			return;
+		}
 		
-	}).bind(this);
-	
-	svgImage.src = svgURL;
+		var svgData = '<svg xmlns="http://www.w3.org/2000/svg" '+
+			'width="' + this._textRegion.width + 'px" height="' + this._textRegion.height + 'px">' +
+				'<foreignObject width="100%" height="100%">' +
+					'<p xmlns="http://www.w3.org/1999/xhtml" style="' +
+							'margin: 0; ' +
+							'overflow: visible; ' +
+							'word-break: break-all; ' +
+							'padding: ' + TextTool.PADDING + 'px; ' +
+							'border: ' + TextTool.BORDER_WIDTH + 'px solid transparent; ' +
+							'font: ' + this._getFontValue() + '; ' +
+							'color: ' + settings.get('lineColor') + ';">' +
+						this._textElem.innerHTML +
+					'</p>' +
+				'</foreignObject>' +
+			'</svg>';
+		svgData = svgData.replace(/<br>/g, '<br />'); // XML requires self-closing tags be closed, but HTML5 does not.
+		svgData = svgData.replace(/#/g, '%23'); // Escape hash for data URL.
+		
+		var svgImage = new Image(),
+			svgURL = 'data:image/svg+xml,' + svgData;
+			//svgBlob = new Blob([svgData], {type: 'image/svg+xml'}),
+			//svgURL = URL.createObjectURL(svgBlob);
+		
+		// Prevent the canvas becoming “tainted”.
+		svgImage.crossOrigin = 'anonymous';
+		
+		// Save coordinates since the text region can be deleted by _removeTextElem before the image loads.
+		var textX = this._textRegion.x,
+			textY = this._textRegion.y;
+		
+		svgImage.onload = (function () {
+			// Draw the text image to the canvas.
+			this._cxt.drawImage(svgImage, textX, textY);
+			// Revoke the temporary blob URL.
+			//URL.revokeObjectURL(svgURL);
+			// Clean up.
+			Utils.clearCanvas(this._preCxt);
+			undoStack.addState();
+			
+			resolve(true);
+		}).bind(this);
+		
+		svgImage.src = svgURL;
+	}).bind(this));
 };
 
 /**
