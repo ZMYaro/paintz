@@ -368,6 +368,21 @@ TextTool.prototype._handleKeyDown = function (e) {
 			}
 			break;
 		
+		case 53: // 5
+			if (e.altKey && e.shiftKey) {
+				e.preventDefault();
+				// Alt+Shift+5 => Strikethrough
+				
+				// Update the toolbar toggle.
+				toolbar.toolboxes.textToolOptions.strikeToggle.checked =
+					!toolbar.toolboxes.textToolOptions.strikeToggle.checked;
+				settings.set('strike', toolbar.toolboxes.textToolOptions.strikeToggle.checked);
+				
+				// Update the text box's CSS.
+				this._textElem.style.textDecoration = this._getTextDecorationValue();
+			}
+			break;
+		
 		case 66: // B
 			if (ctrlOrCmd) {
 				e.preventDefault();
@@ -401,7 +416,15 @@ TextTool.prototype._handleKeyDown = function (e) {
 		case 85: // U
 			if (ctrlOrCmd) {
 				e.preventDefault();
-				// Prevent the browser automatically underlining on Ctrl+U.
+				// Ctrl+U => Underline
+				
+				// Update the toolbar toggle.
+				toolbar.toolboxes.textToolOptions.underlineToggle.checked =
+					!toolbar.toolboxes.textToolOptions.underlineToggle.checked;
+				settings.set('underline', toolbar.toolboxes.textToolOptions.underlineToggle.checked);
+				
+				// Update the text box's CSS.
+				this._textElem.style.textDecoration = this._getTextDecorationValue();
 			}
 			break;
 	}

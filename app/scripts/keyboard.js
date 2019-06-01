@@ -37,6 +37,19 @@ var keyManager = {
 				}
 				break;
 			
+			case 53: // 5
+				if (e.altKey && e.shiftKey) {
+					e.preventDefault();
+					// Alt+Shift+5 => Strikethrough
+					
+					if (settings.get('tool') === 'text') {
+						toolbar.toolboxes.textToolOptions.strikeToggle.checked =
+							!toolbar.toolboxes.textToolOptions.strikeToggle.checked;
+						settings.set('strike', toolbar.toolboxes.textToolOptions.strikeToggle.checked);
+					}
+				}
+				break;
+			
 			case 65: // A
 				if (ctrlOrCmd) {
 					e.preventDefault();
@@ -180,6 +193,19 @@ var keyManager = {
 					e.preventDefault();
 					// T => Text tool
 					tools.switchTool('text');
+				}
+				break;
+			
+			case 85: // U
+				if (ctrlOrCmd) {
+					e.preventDefault();
+					// Ctrl+U => Underline
+					
+					if (settings.get('tool') === 'text') {
+						toolbar.toolboxes.textToolOptions.underlineToggle.checked =
+							!toolbar.toolboxes.textToolOptions.underlineToggle.checked;
+						settings.set('underline', toolbar.toolboxes.textToolOptions.underlineToggle.checked);
+					}
 				}
 				break;
 			
