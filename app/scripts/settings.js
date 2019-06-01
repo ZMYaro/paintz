@@ -24,6 +24,8 @@ SettingsManager.prototype.DEFAULTS = {
 	fontSize: 16,
 	bold: false,
 	italic: false,
+	underline: false,
+	strike: false,
 	// Settings:
 	theme: 'default',
 	colorPalette: 'material',

@@ -9,6 +9,8 @@ function TextToolOptionsToolbox() {
 	
 	this.boldToggle;
 	this.italicToggle;
+	this.underlineToggle;
+	this.strikeToggle;
 }
 // Extend Toolbox.
 TextToolOptionsToolbox.prototype = Object.create(Toolbox.prototype);
@@ -45,5 +47,17 @@ TextToolOptionsToolbox.prototype._setUp = function (contents) {
 	this.italicToggle.checked = settings.get('italic');
 	this.italicToggle.addEventListener('change', function (e) {
 		settings.set('italic', e.target.checked);
+	}, false);
+	
+	this.underlineToggle = this._element.querySelector('#underlineToggle');
+	this.underlineToggle.checked = settings.get('underline');
+	this.underlineToggle.addEventListener('change', function (e) {
+		settings.set('underline', e.target.checked);
+	}, false);
+	
+	this.strikeToggle = this._element.querySelector('#strikeToggle');
+	this.strikeToggle.checked = settings.get('strike');
+	this.strikeToggle.addEventListener('change', function (e) {
+		settings.set('strike', e.target.checked);
 	}, false);
 };
