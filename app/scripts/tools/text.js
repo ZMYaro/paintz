@@ -223,6 +223,14 @@ TextTool.prototype.deactivate = function () {
 
 /**
  * @private
+ * Generate the CSS background value based on the saved options.
+ */
+TextTool.prototype._getBackgroundValue = function () {
+	return (settings.get('textFill') ? settings.get('fillColor') : 'transparent');
+};
+
+/**
+ * @private
  * Generate the CSS font value based on the saved options.
  */
 TextTool.prototype._getFontValue = function () {
@@ -264,6 +272,7 @@ TextTool.prototype._updateTextElem = function () {
 	this._textElem.style.width = this._textRegion.width + 'px';
 	this._textElem.style.height = this._textRegion.height + 'px';
 	
+	this._textElem.style.background = this._getBackgroundValue();
 	this._textElem.style.font = this._getFontValue();
 	this._textElem.style.textDecoration = this._getTextDecorationValue();
 };
@@ -311,6 +320,7 @@ TextTool.prototype._saveText = function () {
 							'padding: ' + TextTool.PADDING + 'px; ' +
 							'width: ' + this._textRegion.width + 'px; ' +
 							'height: ' + this._textRegion.height + 'px; ' +
+							'background: ' + this._getBackgroundValue() + '; ' +
 							'border: ' + TextTool.BORDER_WIDTH + 'px solid transparent; ' +
 							'font: ' + this._getFontValue() + '; ' +
 							'text-decoration: ' + this._getTextDecorationValue() + '; ' +

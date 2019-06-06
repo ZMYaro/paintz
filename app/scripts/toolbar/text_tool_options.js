@@ -37,6 +37,12 @@ TextToolOptionsToolbox.prototype._setUp = function (contents) {
 		settings.set('fontSize', e.target.value);
 	}, false);
 	
+	this.textFillToggle = this._element.querySelector('#textFillToggle');
+	this.textFillToggle.checked = settings.get('textFill');
+	this.textFillToggle.addEventListener('change', function (e) {
+		settings.set('textFill', e.target.checked);
+	}, false);
+	
 	this.boldToggle = this._element.querySelector('#boldToggle');
 	this.boldToggle.checked = settings.get('bold');
 	this.boldToggle.addEventListener('change', function (e) {

@@ -26,6 +26,7 @@ SettingsManager.prototype.DEFAULTS = {
 	italic: false,
 	underline: false,
 	strike: false,
+	textFill: false,
 	// Settings:
 	theme: 'default',
 	colorPalette: 'material',
