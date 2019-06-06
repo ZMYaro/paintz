@@ -72,27 +72,6 @@
 	#toolbar select#fontSizeSelect {
 		padding-left: 40px;
 	}
-		#toolbar select#lineWidth {
-			margin-left: 16px;
-		}
-		#toolbar select#lineWidth + .icon,
-		#toolbar select#fontFamilySelect + .icon,
-		#toolbar select#fontSizeSelect + .icon {
-			width: 24px;
-			height: 24px;
-			margin-bottom: -5px;
-		}
-		#toolbar select#lineWidth + .icon {
-			margin-left: -100px;
-		}
-		#toolbar select#fontFamilySelect + .icon {
-			margin-left: -182px;
-			margin-right: 158px;
-		}
-		#toolbar select#fontSizeSelect + .icon {
-			margin-left: -96px;
-			margin-right: 66px;
-		}
 
 .toolbox {
 	display: inline-block;
@@ -103,15 +82,22 @@
 	.toolbox input[type="radio"] {
 		display: none;
 	}
-
-#outlineOptions {
-	margin: 0 2px;
-}
-	#outlineOptions input[type="radio"] + label,
-	#textFormatOptions input[type="checkbox"] + label {
-		margin-left: 1px;
-		margin-right: 1px;
+	.toolbox .icon {
+		vertical-align: top;
+		width: 24px;
+		height: 24px;
+		margin: 12px;
+		margin-right: -36px;
 	}
+
+#outlineOptions input[type="radio"]:not(:first-child) + label,
+#textFormatOptions input[type="checkbox"]:not(:first-child) + label {
+	margin-left: 1px;
+}
+#outlineOptions input[type="radio"] + label:not(:last-child),
+#textFormatOptions input[type="checkbox"] + label:not(:last-child) {
+	margin-right: 1px;
+}
 
 #bottomBar {
 	top: auto;
