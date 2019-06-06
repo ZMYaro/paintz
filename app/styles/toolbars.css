@@ -107,7 +107,8 @@
 #outlineOptions {
 	margin: 0 2px;
 }
-	#outlineOptions input[type="radio"] + label {
+	#outlineOptions input[type="radio"] + label,
+	#textFormatOptions input[type="checkbox"] + label {
 		margin-left: 1px;
 		margin-right: 1px;
 	}
