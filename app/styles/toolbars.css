@@ -66,12 +66,6 @@
 					cursor: default;
 					cursor: not-allowed;
 				}
-				
-	#toolbar select#lineWidth,
-	#toolbar select#fontFamilySelect,
-	#toolbar select#fontSizeSelect {
-		padding-left: 40px;
-	}
 
 .toolbox {
 	display: inline-block;
@@ -89,6 +83,9 @@
 		margin: 12px;
 		margin-right: -36px;
 	}
+		.toolbox .icon + select {
+			padding-left: 40px;
+		}
 
 #outlineOptions input[type="radio"]:not(:first-child) + label,
 #textFormatOptions input[type="checkbox"]:not(:first-child) + label {
