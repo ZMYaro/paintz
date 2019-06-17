@@ -82,6 +82,7 @@ ClipboardManager.prototype.paste = function (image) {
 	tools.switchTool('selection');
 	tools.selection.start({ x: 0, y: 0 });
 	tools.selection.end({ x: image.width, y: image.height });
+	tools.selection.update();
 	
 	// Set the selection content to the pasted image.
 	Utils.clearCanvas(preCxt);
