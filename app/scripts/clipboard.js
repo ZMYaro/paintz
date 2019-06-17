@@ -92,7 +92,7 @@ ClipboardManager.prototype.paste = function (image) {
  */
 ClipboardManager.prototype.copy = function (imageBlob) {
 	if (!navigator.clipboard || !navigator.clipboard.write) {
-		alert('Your browser does not support copying selections from PaintZ.  To use this feature, please switch to a supported browser, such as the latest Google Chrome.');
+		alert('Your browser does not support copying or cutting selections from PaintZ.  To use this feature, please switch to a supported browser, such as the latest Google Chrome.');
 		return false;
 	}
 	
