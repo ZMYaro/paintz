@@ -48,16 +48,18 @@ ClipboardManager.prototype.triggerPaste = function () {
 	var that = this;
 	navigator.clipboard.read()
 		.then(function (clipboardData) {
-			if (!clipboardData.type.match(/image\/.*/)) {
+			if (clipboardData.length === 0 || !clipboardData[0].types.indexOf('image/png') === -1) {
 				return;
 			}
 			
-			var image = new Image();
-			image.onload = function () {
-				that.paste(image);
-				URL.revokeObjectURL(clipboardData);
-			};
-			image.src = URL.createObjectURL(clipboardData);
+			clipboardData[0].getType('image/png').then(function (imageBlob) {
+				var image = new Image();
+				image.onload = function () {
+					that.paste(image);
+					URL.revokeObjectURL(imageBlob);
+				};
+				image.src = URL.createObjectURL(imageBlob);
+			});
 		})
 		.catch(function (err) {
 			if (err.name === 'NotAllowedError') {
