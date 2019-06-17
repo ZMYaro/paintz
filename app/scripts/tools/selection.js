@@ -202,6 +202,37 @@ SelectionTool.prototype.clear = function () {
 };
 
 /**
+ * Copy the current selection to the clipboard.
+ */
+SelectionTool.prototype.copy = function () {
+	return new Promise((function (resolve, reject) {
+		Utils.clearCanvas(cursorCxt);
+		cursorCanvas.width = this._selection.width;
+		cursorCanvas.height = this._selection.height;
+		cursorCxt.putImageData(this._selection.content, 0, 0);
+		
+		cursorCanvas.toBlob(function (blob) {
+			var copySuccess = clipboard.copy(blob);
+			if (copySuccess) {
+				resolve();
+			} else {
+				reject();
+			}
+		}, 'image/png');
+	}).bind(this));
+};
+
+/**
+ * Copy and erase the current selection.
+ */
+SelectionTool.prototype.cut = function () {
+	this.copy()
+		.then((function () {
+			this.clear();
+		}).bind(this));
+};
+
+/**
  * Drop the current selection and create a duplicate at (0,0).
  */
 SelectionTool.prototype.duplicate = function () {
