@@ -47,10 +47,11 @@ ClipboardManager.prototype.triggerPaste = function () {
 			};
 			image.src = URL.createObjectURL(clipboardData);
 		})
-		.catch(function () {
-			alert('PaintZ needs permission to paste from your clipboard.  You may need to go into your browser\'s site settings to grant that permission.');
+		.catch(function (err) {
+			if (err.name === 'NotAllowedError') {
+				alert('PaintZ needs permission to paste from your clipboard.  You may need to go into your browser\'s site settings to grant that permission.');
+			}
 		});
-	
 	return true;
 };
 
