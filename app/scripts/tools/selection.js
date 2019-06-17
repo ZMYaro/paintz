@@ -186,7 +186,7 @@ SelectionTool.prototype.deactivate = function () {
  * Delete the currently selected content.
  */
 SelectionTool.prototype.clear = function () {
-	// Quit if there is no selection to delete.
+	// Quit if there is no selection to erase.
 	if (!this._selection) {
 		return;
 	}
@@ -205,6 +205,11 @@ SelectionTool.prototype.clear = function () {
  * Copy the current selection to the clipboard.
  */
 SelectionTool.prototype.copy = function () {
+	// Quit if there is no selection to copy.
+	if (!this._selection) {
+		return;
+	}
+	
 	return new Promise((function (resolve, reject) {
 		Utils.clearCanvas(cursorCxt);
 		cursorCanvas.width = this._selection.width;
@@ -226,6 +231,11 @@ SelectionTool.prototype.copy = function () {
  * Copy and erase the current selection.
  */
 SelectionTool.prototype.cut = function () {
+	// Quit if there is no selection to cut.
+	if (!this._selection) {
+		return;
+	}
+	
 	this.copy()
 		.then((function () {
 			this.clear();
