@@ -18,7 +18,7 @@ ClipboardManager.prototype._handlePaste = function (e) {
 	progressSpinner.show();
 	
 	Utils.readImage(e.clipboardData.files[0])
-		.then(this.pasteImage)
+		.then(this.paste)
 		.catch(function () {
 			// Hide the progress spinner.
 			progressSpinner.hide();
@@ -42,7 +42,7 @@ ClipboardManager.prototype.triggerPaste = function () {
 			
 			var image = new Image();
 			image.onload = function () {
-				that.pasteImage(image);
+				that.paste(image);
 				URL.revokeObjectURL(clipboardData);
 			};
 			image.src = URL.createObjectURL(clipboardData);
@@ -56,9 +56,10 @@ ClipboardManager.prototype.triggerPaste = function () {
 };
 
 /**
- *
+ * Paste an image to the canvas as a new selection.
+ * @param {Image} image - The image to use as the contents of the new selection
  */
-ClipboardManager.prototype.pasteImage = function (image) {
+ClipboardManager.prototype.paste = function (image) {
 	// If the canvas is not big enough to fit the pasted image, resize it.
 	resizeCanvas(
 		Math.max(image.width, settings.get('width')),
@@ -84,4 +85,22 @@ ClipboardManager.prototype.pasteImage = function (image) {
 	// Hide the progress spinner.
 	progressSpinner.hide();
 };
+
+/**
+ * Copy the image or selection to the clipboard.
+ * @param {Blob} imageBlob - A blob of the image data to copy
+ */
+ClipboardManager.prototype.copy = function (imageBlob) {
+	if (!navigator.clipboard || !navigator.clipboard.write) {
+		alert('Your browser does not support copying selections from PaintZ.  To use this feature, please switch to a supported browser, such as the latest Google Chrome.');
+		return false;
+	}
+	
+	navigator.clipboard.write(imageBlob)
+		.catch(function (err) {
+			if (err.name === 'NotAllowedError') {
+				alert('PaintZ needs permission to copy or cut to your clipboard.  You may need to go into your browser\'s site settings to grant that permission.');
+			}
+		});
+	return true;
 };
