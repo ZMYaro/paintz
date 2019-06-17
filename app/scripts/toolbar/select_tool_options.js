@@ -40,7 +40,7 @@ SelectionToolOptionsToolbox.prototype._setUp = function (contents) {
 	
 	var pasteBtn = this._element.querySelector('#pasteBtn');
 	pasteBtn.addEventListener('click', function () {
-		if (!document.execCommand('paste')) {
+		if (!clipboard.triggerPaste() && !document.execCommand('paste')) {
 			alert('For now, you need to use ' + (Utils.isApple ? '\u2318' : 'Ctrl+') + 'V to paste an image into PaintZ.');
 		}
 	}, false);
