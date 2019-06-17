@@ -79,6 +79,11 @@ FloatingSelectionToolbar.prototype._setUp = function (contents) {
 	
 	var cropBtn = this._element.querySelector('#cropBtn');
 	cropBtn.addEventListener('click', this._selectionTool.cropToSelection.bind(this._selectionTool), false);
+	
+	if (!navigator.clipboard || !navigator.clipboard.write) {
+		cutBtn.disabled = true;
+		copyBtn.disabled = true;
+	}
 };
 
 /**
