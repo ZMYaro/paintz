@@ -111,7 +111,9 @@ ClipboardManager.prototype.copy = function (imageBlob) {
 		return false;
 	}
 	
-	navigator.clipboard.write(imageBlob)
+	var clipboardItem = new ClipboardItem({ 'image/png': imageBlob });
+	
+	navigator.clipboard.write([clipboardItem])
 		.catch(function (err) {
 			if (err.name === 'NotAllowedError') {
 				alert('PaintZ needs permission to copy or cut to your clipboard.  You may need to go into your browser\'s site settings to grant that permission.');
