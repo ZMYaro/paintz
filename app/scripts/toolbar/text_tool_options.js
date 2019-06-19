@@ -17,14 +17,15 @@ TextToolOptionsToolbox.prototype = Object.create(Toolbox.prototype);
 TextToolOptionsToolbox.prototype.constructor = TextToolOptionsToolbox;
 
 TextToolOptionsToolbox.prototype.DESKTOP_FONTS = [
-	{ name: 'Arial',           css: '\'Arial\', sans-serif'                         },
-	{ name: 'Arial Black',     css: '\'Arial Black\', sans-serif'                   },
-	{ name: 'Comic Sans MS',   css: '\'Comic Sans MS\', \'Comic Sans\', sans-serif' },
-	{ name: 'Courier New',     css: '\'Courier New\', \'Courier\', monospace'       },
-	{ name: 'Georgia',         css: '\'Georgia\', serif'                            },
-	{ name: 'Impact',          css: '\'Impact\', \'Charcoal\', sans-serif'          },
-	{ name: 'Times New Roman', css: '\'Times New Roman\', \'Times\', serif'         },
-	{ name: 'Verdana',         css: '\'Verdana\', \'Geneva\', sans-serif'           }
+	{ name: 'Arial',           css: '\'Arial\', sans-serif'                                     },
+	{ name: 'Arial Black',     css: '\'Arial Black\', sans-serif'                               },
+	{ name: 'Comic Sans MS',   css: '\'Comic Sans MS\', \'Comic Sans\', sans-serif'             },
+	{ name: 'Courier New',     css: '\'Courier New\', \'Courier\', monospace'                   },
+	{ name: 'Georgia',         css: '\'Georgia\', serif'                                        },
+	{ name: 'Impact',          css: '\'Impact\', \'Charcoal\', sans-serif'                      },
+	{ name: 'Roboto',          css: '\'Roboto\', \'Helvetica Neue\', \'Helvetica\', sans-serif' },
+	{ name: 'Times New Roman', css: '\'Times New Roman\', \'Times\', serif'                     },
+	{ name: 'Verdana',         css: '\'Verdana\', \'Geneva\', sans-serif'                       }
 ];
 
 /**
