@@ -6,6 +6,12 @@ function SettingsManager() {
 	
 	// Load settings from local storage where possible.
 	this._loadStoredSettings();
+	
+	// Set up listener for system theme change.
+	var boundSetTheme = this._setTheme.bind(this);
+	window.matchMedia('(prefers-color-scheme: dark)').addListener(boundSetTheme);
+	window.matchMedia('(prefers-color-scheme: light)').addListener(boundSetTheme);
+	window.matchMedia('(prefers-color-scheme: no-preference)').addListener(boundSetTheme);
 }
 
 // Define constants.
@@ -29,6 +35,7 @@ SettingsManager.prototype.DEFAULTS = {
 	textFill: false,
 	// Settings:
 	theme: 'default',
+	systemThemeOverride: true,
 	colorPalette: 'material',
 	ghostDraw: false,
 	antiAlias: true,
@@ -117,14 +124,33 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			}
 			break;
 		case 'theme':
-			document.getElementById('themeStyleLink').href = 'styles/themes/' + value + '.css';
-			document.querySelector('meta[name="msapplication-navbutton-color"]').content =
-				document.querySelector('meta[name="theme-color"]').content = this.THEME_COLORS[value];
+		case 'systemThemeOverride':
+			this._setTheme();
 			break;
 		case 'ghostDraw':
 			preCanvas.classList[value ? 'add' : 'remove']('ghost');
 			break;
 	}
+};
+
+/**
+ * Set the interface theme.
+ */
+SettingsManager.prototype._setTheme = function () {
+	var theme = this.get('theme');
+	
+	if (this.get('systemThemeOverride')) {
+		if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+			theme = 'dark';
+		} else if (window.matchMedia('(prefers-color-scheme: light)').matches && theme === 'dark') {
+			// If the theme is 'default' or 'light', leave it as is; only override if it is 'dark'.
+			theme = 'default';
+		}
+	}
+	
+	document.getElementById('themeStyleLink').href = 'styles/themes/' + theme + '.css';
+	document.querySelector('meta[name="msapplication-navbutton-color"]').content =
+		document.querySelector('meta[name="theme-color"]').content = this.THEME_COLORS[theme];
 };
 
 /**
