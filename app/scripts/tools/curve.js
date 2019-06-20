@@ -62,8 +62,7 @@ CurveTool.prototype.move = function (pointerState) {
 	
 	switch (this._state) {
 		case CurveTool.STATE_NOT_STARTED:
-			this.endX = pointerState.x;
-			this.endY = pointerState.y;
+			LineTool.prototype.move.apply(this, arguments);
 			break;
 		case CurveTool.STATE_END_POINT_SET:
 			this.point1X = pointerState.x;

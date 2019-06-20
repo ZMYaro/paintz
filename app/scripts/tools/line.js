@@ -67,6 +67,21 @@ LineTool.prototype.move = function (pointerState) {
 	this.endX = pointerState.x;
 	this.endY = pointerState.y;
 	
+	// Snap to tau/8 angles when shift key held.
+	if (pointerState.shiftKey) {
+		var deltaY = this.endY - this.startY,
+			deltaX = this.endX - this.startX,
+			angle = Math.atan2(deltaY, deltaX),
+			increment = 0.125 * Math.TAU,
+			snappedAngle = Math.round(angle / increment) * increment,
+			length = snappedAngle % (2 * increment) === 0 ?
+				Math.max(Math.abs(deltaY), Math.abs(deltaX)) :
+				Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+		
+		this.endX = this.startX + (length * Math.cos(snappedAngle));
+		this.endY = this.startY + (length * Math.sin(snappedAngle)) ;
+	}
+	
 	this._canvasDirty = true;
 };
 
