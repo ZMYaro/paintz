@@ -38,19 +38,31 @@ OvalTool.prototype.move = function (pointerState) {
 		this._roundPointerState(pointerState);
 	}
 	
-	this.centerX = (this.startX + pointerState.x) / 2,
-	this.centerY = (this.startY + pointerState.y) / 2,
-	this.radX = (pointerState.x - this.startX) / 2,
-	this.radY = (pointerState.y - this.startY) / 2;
+	// Draw from center when ctrl key held.
+	if (pointerState.ctrlKey) {
+		this.centerX = this.startX;
+		this.centerY = this.startY;
+		this.radX = pointerState.x - this.startX;
+		this.radY = pointerState.y - this.startY;
+	} else {
+		this.centerX = (this.startX + pointerState.x) / 2;
+		this.centerY = (this.startY + pointerState.y) / 2;
+		this.radX = (pointerState.x - this.startX) / 2;
+		this.radY = (pointerState.y - this.startY) / 2;
+	}
 	
 	// Perfect circle when shift key held.
 	if (pointerState.shiftKey) {
 		if (Math.abs(this.radX) < Math.abs(this.radY)) {
 			this.radY = Math.sign(this.radY) * -Math.abs(this.radX);
-			this.centerY = this.startY - this.radY;
+			if (!pointerState.ctrlKey) {
+				this.centerY = this.startY - this.radY;
+			}
 		} else {
 			this.radX = Math.sign(this.radX) * Math.abs(this.radY);
-			this.centerX = this.startX + this.radX;
+			if (!pointerState.ctrlKey) {
+				this.centerX = this.startX + this.radX;
+			}
 		}
 	}
 	
