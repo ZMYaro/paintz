@@ -39,6 +39,21 @@ RectangleTool.prototype.move = function (pointerState) {
 	this.width = Math.abs(pointerState.x - this.startX),
 	this.height = Math.abs(pointerState.y - this.startY);
 	
+	// Perfect square when shift key held.
+	if (pointerState.shiftKey) {
+		if (this.width < this.height) {
+			this.height = this.width;
+			if (this.y === pointerState.y) {
+				this.y = this.startY - this.height;
+			}
+		} else {
+			this.width = this.height;
+			if (this.x === pointerState.x) {
+				this.x = this.startX - this.width;
+			}
+		}
+	}
+	
 	this._canvasDirty = true;
 };
 

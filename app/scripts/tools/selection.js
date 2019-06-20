@@ -111,6 +111,21 @@ SelectionTool.prototype.move = function (pointerState) {
 			this._selection.y = this._selection.startY + this._selection.startHeight;
 			this._selection.startHeight = Math.abs(this._selection.startHeight);
 		}
+		
+		// Perfect square when shift key held.
+		if (pointerState.shiftKey) {
+			if (this._selection.startWidth < this._selection.startHeight) {
+				this._selection.startHeight = this._selection.startWidth;
+				if (this._selection.y === pointerState.y) {
+					this._selection.y = this._selection.startY - this._selection.startHeight;
+				}
+			} else {
+				this._selection.startWidth = this._selection.startHeight;
+				if (this._selection.x === pointerState.x) {
+					this._selection.x = this._selection.startX - this._selection.startWidth;
+				}
+			}
+		}
 		this._selection.width = this._selection.startWidth;
 		this._selection.height = this._selection.startHeight;
 	}

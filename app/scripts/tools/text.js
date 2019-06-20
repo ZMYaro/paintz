@@ -163,6 +163,21 @@ TextTool.prototype.move = function (pointerState) {
 			this._textRegion.y = this._textRegion.startY + this._textRegion.height;
 			this._textRegion.height = Math.abs(this._textRegion.height);
 		}
+		
+		// Perfect square when shift key held.
+		if (pointerState.shiftKey) {
+			if (this._textRegion.width < this._textRegion.height) {
+				this._textRegion.height = this._textRegion.width;
+				if (this._textRegion.y === pointerState.y) {
+					this._textRegion.y = this._textRegion.startY - this._textRegion.height;
+				}
+			} else {
+				this._textRegion.width = this._textRegion.height;
+				if (this._textRegion.x === pointerState.x) {
+					this._textRegion.x = this._textRegion.startX - this._textRegion.width;
+				}
+			}
+		}
 	}
 	
 	this._canvasDirty = true;

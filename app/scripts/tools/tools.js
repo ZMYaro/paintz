@@ -111,6 +111,8 @@ ToolManager.prototype._handlePointerMove = function (e) {
 	
 	// Update the tool.
 	this.currentTool.move({
+		ctrlKey: Utils.checkPlatformCtrlKey(e),
+		shiftKey: e.shiftKey,
 		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
 		y: Utils.getCanvasY(e.pageY) / zoomManager.level,
 		windowX: e.clientX,
@@ -133,6 +135,8 @@ ToolManager.prototype._handlePointerUp = function (e) {
 	
 	// Complete the task.
 	this.currentTool.end({
+		ctrlKey: Utils.checkPlatformCtrlKey(e),
+		shiftKey: e.shiftKey,
 		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
 		y: Utils.getCanvasY(e.pageY) / zoomManager.level,
 		windowX: e.clientX,
