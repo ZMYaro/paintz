@@ -37,17 +37,7 @@ SaveDialog.prototype._setUp = function (contents) {
 	
 	this._downloadLink = this._element.querySelector('#downloadLink');
 	this._downloadLink.style.display = 'none';
-	this._downloadLink.onclick = (function (e) {
-		if (navigator.msSaveBlob) {
-			e.preventDefault();
-			navigator.msSaveBlob(this._blob,
-				this._downloadLink.download || this._downloadLink.getAttribute('download'));
-		}
-		document.title = this._downloadLink.download + ' - PaintZ';
-		// Web app cannot confirm the user went through with the download, but assume xe did.
-		undoStack.changedSinceSave = false;
-		this.close();
-	}).bind(this);
+	this._downloadLink.onclick = this._handleSave.bind(this);
 	this._element.onsubmit = (function () {
 		this._downloadLink.click();
 	}).bind(this);
@@ -109,4 +99,21 @@ SaveDialog.prototype._updateFileExtension = function () {
 		this._downloadLink.type = this._element.fileType.value;
 		this._createDownloadURL();
 	}
+};
+
+/**
+ * @private
+ * Handle the save button being clicked.
+ * @param {MouseEvent} e
+ */
+SaveDialog.prototype._handleSave = function (e) {
+	if (navigator.msSaveBlob) {
+		e.preventDefault();
+		navigator.msSaveBlob(this._blob,
+			this._downloadLink.download || this._downloadLink.getAttribute('download'));
+	}
+	document.title = this._downloadLink.download + ' - PaintZ';
+	// Web app cannot confirm the user went through with the download, but assume xe did.
+	undoStack.changedSinceSave = false;
+	this.close();
 };
