@@ -53,7 +53,7 @@ SettingsManager.prototype.THEME_COLORS = {
 	light: '#f5f5f5'
 };
 /** @constant {Number} The maximum number of file saves to count. */
-SettingsManager.prototype.MAX_SAVE_COUNT = 100;
+SettingsManager.prototype.MAX_SAVE_COUNT = 52;
 
 /**
  * Set settings based on local storage, falling back to defaults where necessary.
