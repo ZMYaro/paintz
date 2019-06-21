@@ -170,7 +170,8 @@ function initDragDrop() {
 }
 
 window.addEventListener('load', function () {
-	// Initialize keyboard shortcut dialog.
+	// Initialize dialogs not bound to specific buttons.
+	dialogs.coffee = new CoffeeDialog();
 	dialogs.keyboard = new KeyboardDialog();
 	
 	// Initialize everything.

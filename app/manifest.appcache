@@ -65,6 +65,7 @@ images/logo/favicon.ico
 partials/floating_selection_toolbar.html
 partials/dialogs/about.html
 partials/dialogs/clear.html
+partials/dialogs/coffee.html
 partials/dialogs/color_picker.html
 partials/dialogs/help.html
 partials/dialogs/keyboard.html
@@ -94,6 +95,7 @@ scripts/dialogs/dialog.js
 scripts/dialogs/bottom_sheet.js
 scripts/dialogs/about.js
 scripts/dialogs/clear.js
+scripts/dialogs/coffee.js
 scripts/dialogs/color_picker.js
 scripts/dialogs/help.js
 scripts/dialogs/keyboard.js
