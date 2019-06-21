@@ -1,5 +1,6 @@
 #progressContainer,
-#dialogsContainer {
+#dialogsContainer,
+#bottomSheetsContainer {
 	display: none;
 
 	z-index: 4;
@@ -29,6 +30,12 @@
 	#progressContainer {
 		cursor: wait;
 	}
+	#bottomSheetsContainer {
+		overflow: visible;
+		top: auto;
+		pointer-events: none;
+	}
+
 .dialog {
 	margin: 0 auto 16px;
 	max-width: 96%;
@@ -187,6 +194,27 @@
 						padding: 0;
 						margin: 2px 4px;
 					}
+
+#bottomSheetsContainer .dialog {
+	margin-bottom: -4px;
+	pointer-events: auto;
+	
+	-webkit-transform: translateY(120%);
+	   -moz-transform: translateY(120%);
+	    -ms-transform: translateY(120%);
+	     -o-transform: translateY(120%);
+	        transform: translateY(120%);
+}
+	#bottomSheetsContainer .dialog.open {
+		-webkit-transform: translateY(0%);
+		   -moz-transform: translateY(0%);
+		    -ms-transform: translateY(0%);
+		     -o-transform: translateY(0%);
+		        transform: translateY(0%);
+	}
+	#bottomSheetsContainer .dialog .dialog-footer {
+		bottom: -4px;
+	}
 
 input[type="checkbox"] {
 	margin: 0px 2px;

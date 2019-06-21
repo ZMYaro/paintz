@@ -14,7 +14,6 @@ var canvas,
 	cursorCxt,
 	tools,
 	zoomManager,
-	dialogsContainer,
 	settings,
 	clipboard,
 	dialogs = {},
@@ -184,9 +183,6 @@ window.addEventListener('load', function () {
 	progressSpinner = new ProgressSpinner();
 	
 	initDragDrop();
-	
-	// Get saved reference to the dialogs container.
-	dialogsContainer = document.getElementById('dialogsContainer');
 	
 	// Update the resolution in the bottom bar.
 	document.getElementById('resolution').innerHTML = settings.get('width') + ' &times; ' + settings.get('height') + 'px';

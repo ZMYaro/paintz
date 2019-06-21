@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2019-06-19, v1
+# 2019-06-20, v1
 index.html
 404.html
 manifest.webapp
@@ -91,6 +91,7 @@ scripts/undo.js
 scripts/utils.js
 scripts/zoom.js
 scripts/dialogs/dialog.js
+scripts/dialogs/bottom_sheet.js
 scripts/dialogs/about.js
 scripts/dialogs/clear.js
 scripts/dialogs/color_picker.js
