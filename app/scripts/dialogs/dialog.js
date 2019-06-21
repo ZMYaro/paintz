@@ -123,7 +123,9 @@ Dialog.prototype.open = function () {
 	this._dialogContainer.appendChild(this._element);
 	this._setTransformOrigin();
 	
-	setTimeout(this._finishOpen.bind(this), 1);
+	requestAnimationFrame((function () {
+		requestAnimationFrame(this._finishOpen.bind(this));
+	}).bind(this));
 };
 
 /**
