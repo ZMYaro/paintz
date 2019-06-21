@@ -180,7 +180,12 @@ function checkSaveCountMilestone() {
 	};
 	switch (settings.get('saveCount')) {
 		case MILESTONES.install:
-			// TODO
+			if (window.chrome && chrome.app && chrome.app.isInstalled) {
+				return;
+			}
+			setTimeout(function() {
+				dialogs.install.open();
+			}, DIALOG_OPEN_DELAY);
 		break;
 		case MILESTONES.coffee:
 			setTimeout(function () {
