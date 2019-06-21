@@ -115,5 +115,9 @@ SaveDialog.prototype._handleSave = function (e) {
 	document.title = this._downloadLink.download + ' - PaintZ';
 	// Web app cannot confirm the user went through with the download, but assume xe did.
 	undoStack.changedSinceSave = false;
+	// Increment save count.
+	var saveCount = settings.get('saveCount');
+	settings.set('saveCount', Math.min(saveCount + 1, settings.MAX_SAVE_COUNT));
+	// Close the dialog.
 	this.close();
 };

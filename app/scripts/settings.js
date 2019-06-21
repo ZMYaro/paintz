@@ -41,7 +41,8 @@ SettingsManager.prototype.DEFAULTS = {
 	antiAlias: true,
 	maxUndoStackDepth: 50,
 	// Other:
-	firstRunDone: false
+	firstRunDone: false,
+	saveCount: 0
 };
 /** @constant {String} The prefix to add to stored setting keys in local storage */
 SettingsManager.prototype.LOCAL_STORAGE_PREFIX = 'paintz_';
@@ -51,6 +52,8 @@ SettingsManager.prototype.THEME_COLORS = {
 	dark: '#212121',
 	light: '#f5f5f5'
 };
+/** @constant {Number} The maximum number of file saves to count. */
+SettingsManager.prototype.MAX_SAVE_COUNT = 100;
 
 /**
  * Set settings based on local storage, falling back to defaults where necessary.
