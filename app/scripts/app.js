@@ -169,6 +169,27 @@ function initDragDrop() {
 	}, false);
 }
 
+/**
+ * Check whether it is a milestone for a pop-up suggestion.
+ */
+function checkSaveCountMilestone() {
+	var DIALOG_OPEN_DELAY = 2000; // Milliseconds
+	var MILESTONES = {
+		install: 10,
+		coffee: 50
+	};
+	switch (settings.get('saveCount')) {
+		case MILESTONES.install:
+			// TODO
+		break;
+		case MILESTONES.coffee:
+			setTimeout(function () {
+				dialogs.coffee.open();
+			}, DIALOG_OPEN_DELAY);
+		break;
+	}
+}
+
 window.addEventListener('load', function () {
 	// Initialize dialogs not bound to specific buttons.
 	dialogs.coffee = new CoffeeDialog();

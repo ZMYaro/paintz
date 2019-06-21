@@ -118,6 +118,7 @@ SaveDialog.prototype._handleSave = function (e) {
 	// Increment save count.
 	var saveCount = settings.get('saveCount');
 	settings.set('saveCount', Math.min(saveCount + 1, settings.MAX_SAVE_COUNT));
+	checkSaveCountMilestone();
 	// Close the dialog.
 	this.close();
 };
