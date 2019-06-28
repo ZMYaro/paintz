@@ -111,15 +111,18 @@
 		width: 42px;
 		height: 42px;
 		padding: 8px 8px;
-		margin: -4px 0;
+		margin: -5px 0;
 	}
-	#bottomBar button > img {
-		width: 24px;
-		height: 24px;
-	}
-#resolution {
-	display: inline-block;
-	margin: 6px;
+		#bottomBar button > img,
+		#bottomBar button > [role="img"] {
+			width: 24px;
+			height: 24px;
+			margin: -6px 2px;
+		}
+button#resolution {
+	width: auto;
+	text-transform: none;
+	font-weight: inherit;
 }
 #zoomContainer {
 	float: right;
