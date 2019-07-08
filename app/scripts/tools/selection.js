@@ -156,8 +156,7 @@ SelectionTool.prototype.update = function () {
  * @param {Object} pointerState - The pointer coordinates
  */
 SelectionTool.prototype.end = function (pointerState) {
-	pointerState.x = Math.round(pointerState.x);
-	pointerState.y = Math.round(pointerState.y);
+	this._roundPointerState(pointerState);
 	
 	this.move(pointerState);
 	
@@ -494,6 +493,7 @@ SelectionTool.prototype._drawSelectionContent = function () {
 };
 
 /**
+ * @private
  * Draw the background color over the selection's starting location.
  */
 SelectionTool.prototype._drawSelectionStartCover = function () {
