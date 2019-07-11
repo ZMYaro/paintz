@@ -22,20 +22,18 @@ SelectionToolOptionsToolbox.prototype._setUp = function (contents) {
 	
 	var selectAllBtn = this._element.querySelector('#selectAllBtn');
 	selectAllBtn.addEventListener('click', function () {
-		// Switch to the selection tool if it is not already active.
-		tools.switchTool('selection');
 		// Select the entire canvas.
-		tools.selection.selectAll(canvas.width, canvas.height);
+		tools.currentTool.selectAll(canvas.width, canvas.height);
 	}, false);
 	
 	var rotCCWBtn = this._element.querySelector('#rotCCWBtn');
 	rotCCWBtn.addEventListener('click', function () {
-		tools.selection.rotate(false);
+		tools.currentTool.rotate(false);
 	}, false);
 	
 	var rotCWBtn = this._element.querySelector('#rotCWBtn');
 	rotCWBtn.addEventListener('click', function () {
-		tools.selection.rotate(true);
+		tools.currentTool.rotate(true);
 	}, false);
 	
 	var pasteBtn = this._element.querySelector('#pasteBtn');
@@ -47,11 +45,11 @@ SelectionToolOptionsToolbox.prototype._setUp = function (contents) {
 	
 	var flipHorizBtn = this._element.querySelector('#flipHorizBtn');
 	flipHorizBtn.addEventListener('click', function () {
-		tools.selection.flip(false);
+		tools.currentTool.flip(false);
 	}, false);
 	
 	var flipVertBtn = this._element.querySelector('#flipVertBtn');
 	flipVertBtn.addEventListener('click', function () {
-		tools.selection.flip(true);
+		tools.currentTool.flip(true);
 	}, false);
 };
