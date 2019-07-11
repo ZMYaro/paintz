@@ -6,6 +6,7 @@
 function ToolManager() {
 	this.pencil = new PencilTool(cxt, preCxt);
 	this.doodle = new DoodleTool(cxt, preCxt);
+	this.airbrush = new AirbrushTool(cxt, preCxt);
 	this.line = new LineTool(cxt, preCxt);
 	this.curve = new CurveTool(cxt, preCxt);
 	this.rect = new RectangleTool(cxt, preCxt);
