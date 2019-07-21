@@ -171,6 +171,12 @@ FreeformSelectionTool.prototype.end = function (pointerState) {
 		this._selection.width = this._selection.maxX - this._selection.minX;
 		this._selection.height = this._selection.maxY - this._selection.minY;
 		
+		// If either dimension is zero, the selection is invalid.
+		if (this._selection.width === 0 || this._selection.height === 0) {
+			this.deselectAll();
+			return;
+		}
+		
 		// Save the selected content.
 		var selectedRegionRectContent = this._cxt.getImageData(
 			this._selection.startX, this._selection.startY,
