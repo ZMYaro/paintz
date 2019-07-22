@@ -18,9 +18,7 @@ FreeformSelectionTool.prototype.constructor = FreeformSelectionTool;
  * @param {Object} pointerState - The pointer coordinates and button
  */
 FreeformSelectionTool.prototype.start = function (pointerState) {
-	if (!settings.get('antiAlias')) {
-		this._roundPointerState(pointerState);
-	}
+	this._roundPointerState(pointerState);
 	
 	// Hide the selection toolbar.
 	this._toolbar.hide();
@@ -65,9 +63,7 @@ FreeformSelectionTool.prototype.move = function (pointerState) {
 		return;
 	}
 	
-	if (!settings.get('antiAlias')) {
-		this._roundPointerState(pointerState);
-	}
+	this._roundPointerState(pointerState);
 	
 	// If there is a pointer offset, move the selection.
 	// If there is no pointer offset, then this must be a new selection.
@@ -147,9 +143,7 @@ FreeformSelectionTool.prototype.update = function () {
  * @param {Object} pointerState - The pointer coordinates
  */
 FreeformSelectionTool.prototype.end = function (pointerState) {
-	if (!settings.get('antiAlias')) {
-		this._roundPointerState(pointerState);
-	}
+	this._roundPointerState(pointerState);
 	
 	this.move(pointerState);
 	
