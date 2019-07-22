@@ -318,6 +318,13 @@ SelectionTool.prototype.cropToSelection = function () {
 	settings.set('height', this._selection.height);
 	this._cxt.putImageData(this._selection.content, 0, 0);
 	
+	// Fill in any empty pixels with the background color.
+	this._cxt.save();
+	this._cxt.globalCompositeOperation = 'destination-over';
+	this._cxt.fillStyle = this._selection.fillColor;
+	this._cxt.fillRect(0, 0, this._selection.width, this._selection.height);
+	this._cxt.restore();
+	
 	// Save the new state.
 	undoStack.addState();
 	
