@@ -487,10 +487,14 @@ SelectionTool.prototype._drawSelectionContent = function () {
 		return;
 	}
 	
-	if (this._selection.firstMove) {
-		this._drawSelectionStartCover();
-	}
 	this._preCxt.putImageData(this._selection.content, this._selection.x, this._selection.y);
+	if (this._selection.firstMove) {
+		// If this is not a duplicate, draw the background color over where the selection was taken from.
+		this._preCxt.save();
+		this._preCxt.globalCompositeOperation = 'destination-over';
+		this._drawSelectionStartCover();
+		this._preCxt.restore();
+	}
 };
 
 /**
