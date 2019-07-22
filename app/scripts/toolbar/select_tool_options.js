@@ -22,6 +22,10 @@ SelectionToolOptionsToolbox.prototype._setUp = function (contents) {
 	
 	var selectAllBtn = this._element.querySelector('#selectAllBtn');
 	selectAllBtn.addEventListener('click', function () {
+		// Switch to the rectangular selection tool.
+		if (tools.currentTool !== tools.selection) {
+			tools.switchTool('selection');
+		}
 		// Select the entire canvas.
 		tools.currentTool.selectAll(canvas.width, canvas.height);
 	}, false);

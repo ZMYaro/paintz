@@ -287,6 +287,7 @@ SelectionTool.prototype.selectAll = function (width, height) {
 	this.start({x: 0, y: 0});
 	this.move({x: width, y: height});
 	this.end({x: width, y: height});
+	this._updateSelectionOutline();
 };
 
 /**
@@ -316,6 +317,13 @@ SelectionTool.prototype.cropToSelection = function () {
 	settings.set('width', this._selection.width);
 	settings.set('height', this._selection.height);
 	this._cxt.putImageData(this._selection.content, 0, 0);
+	
+	// Fill in any empty pixels with the background color.
+	this._cxt.save();
+	this._cxt.globalCompositeOperation = 'destination-over';
+	this._cxt.fillStyle = this._selection.fillColor;
+	this._cxt.fillRect(0, 0, this._selection.width, this._selection.height);
+	this._cxt.restore();
 	
 	// Save the new state.
 	undoStack.addState();
@@ -486,10 +494,14 @@ SelectionTool.prototype._drawSelectionContent = function () {
 		return;
 	}
 	
-	if (this._selection.firstMove) {
-		this._drawSelectionStartCover();
-	}
 	this._preCxt.putImageData(this._selection.content, this._selection.x, this._selection.y);
+	if (this._selection.firstMove) {
+		// If this is not a duplicate, draw the background color over where the selection was taken from.
+		this._preCxt.save();
+		this._preCxt.globalCompositeOperation = 'destination-over';
+		this._drawSelectionStartCover();
+		this._preCxt.restore();
+	}
 };
 
 /**

@@ -55,8 +55,8 @@ var keyManager = {
 					e.preventDefault();
 					// Ctrl+A => Select all
 					
-					// Switch to the selection tool.
-					if (!(tools.currentTool instanceof SelectionTool)) {
+					// Switch to the rectangular selection tool.
+					if (tools.currentTool !== tools.selection) {
 						tools.switchTool('selection');
 					}
 					// Select the entire canvas.
