@@ -9,30 +9,30 @@ var keyManager = {
 		switch (e.keyCode) {
 			case 8: // Backspace
 				if (noModifiers) {
-					if (settings.get('tool') === 'selection') {
+					if (tools.currentTool instanceof SelectionTool) {
 						e.preventDefault();
 						// Backspace => Delete selection
-						tools.selection.clear();
+						tools.currentTool.clear();
 					}
 				}
 				break;
 			
 			case 27: // Esc
 				if (noModifiers) {
-					if (settings.get('tool') === 'selection') {
+					if (tools.currentTool instanceof SelectionTool) {
 						e.preventDefault();
 						// Esc => Drop/cancel selection
-						tools.selection.deactivate();
+						tools.currentTool.deactivate();
 					}
 				}
 				break;
 			
 			case 46: // Delete
 				if (noModifiers) {
-					if (settings.get('tool') === 'selection') {
+					if (tools.currentTool instanceof SelectionTool) {
 						e.preventDefault();
 						// Delete => Delete selection
-						tools.selection.clear();
+						tools.currentTool.clear();
 					}
 				}
 				break;
@@ -55,10 +55,12 @@ var keyManager = {
 					e.preventDefault();
 					// Ctrl+A => Select all
 					
-					// Switch to the selection tool.
-					tools.switchTool('selection');
+					// Switch to the rectangular selection tool.
+					if (tools.currentTool !== tools.selection) {
+						tools.switchTool('selection');
+					}
 					// Select the entire canvas.
-					tools.selection.selectAll(canvas.width, canvas.height);
+					tools.currentTool.selectAll(canvas.width, canvas.height);
 				}
 				break;
 			
@@ -91,9 +93,9 @@ var keyManager = {
 				if (ctrlOrCmd) {
 					e.preventDefault();
 					
-					if (settings.get('tool') === 'selection') {
+					if (tools.currentTool instanceof SelectionTool) {
 						// Ctrl+D => Duplicate selection
-						tools.selection.duplicate();
+						tools.currentTool.duplicate();
 					}
 				}
 				break;

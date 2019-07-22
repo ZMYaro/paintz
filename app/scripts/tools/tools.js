@@ -15,6 +15,7 @@ function ToolManager() {
 	this.floodFill = new FloodFillTool(cxt, preCxt);
 	this.eyedropper = new EyedropperTool(cxt, preCxt);
 	this.selection = new SelectionTool(cxt, preCxt);
+	this.freeformSelection = new FreeformSelectionTool(cxt, preCxt);
 	this.text = new TextTool(cxt,preCxt);
 	this.pan = new PanTool(cxt, preCxt);
 	

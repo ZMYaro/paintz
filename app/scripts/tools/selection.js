@@ -156,8 +156,7 @@ SelectionTool.prototype.update = function () {
  * @param {Object} pointerState - The pointer coordinates
  */
 SelectionTool.prototype.end = function (pointerState) {
-	pointerState.x = Math.round(pointerState.x);
-	pointerState.y = Math.round(pointerState.y);
+	this._roundPointerState(pointerState);
 	
 	this.move(pointerState);
 	
@@ -318,6 +317,13 @@ SelectionTool.prototype.cropToSelection = function () {
 	settings.set('width', this._selection.width);
 	settings.set('height', this._selection.height);
 	this._cxt.putImageData(this._selection.content, 0, 0);
+	
+	// Fill in any empty pixels with the background color.
+	this._cxt.save();
+	this._cxt.globalCompositeOperation = 'destination-over';
+	this._cxt.fillStyle = this._selection.fillColor;
+	this._cxt.fillRect(0, 0, this._selection.width, this._selection.height);
+	this._cxt.restore();
 	
 	// Save the new state.
 	undoStack.addState();
@@ -488,13 +494,18 @@ SelectionTool.prototype._drawSelectionContent = function () {
 		return;
 	}
 	
-	if (this._selection.firstMove) {
-		this._drawSelectionStartCover();
-	}
 	this._preCxt.putImageData(this._selection.content, this._selection.x, this._selection.y);
+	if (this._selection.firstMove) {
+		// If this is not a duplicate, draw the background color over where the selection was taken from.
+		this._preCxt.save();
+		this._preCxt.globalCompositeOperation = 'destination-over';
+		this._drawSelectionStartCover();
+		this._preCxt.restore();
+	}
 };
 
 /**
+ * @private
  * Draw the background color over the selection's starting location.
  */
 SelectionTool.prototype._drawSelectionStartCover = function () {
