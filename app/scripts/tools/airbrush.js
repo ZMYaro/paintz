@@ -24,10 +24,10 @@ AirbrushTool.prototype.constructor = AirbrushTool;
 AirbrushTool.prototype._drawPointInRegion = function (centerX, centerY, radius, cxt) {
 	var angle = Math.random() * Math.TAU,
 		pointRad = Math.random() * radius,
-		offsetX = Math.round(pointRad * Math.cos(angle)),
-		offsetY = Math.round(pointRad * Math.sin(angle)),
-		pointX = centerX + offsetX,
-		pointY = centerY + offsetY;
+		offsetX = pointRad * Math.cos(angle),
+		offsetY = pointRad * Math.sin(angle),
+		pointX = Math.round(centerX + offsetX),
+		pointY = Math.round(centerY + offsetY);
 	
 	PencilTool.prototype._drawPoint.call(this, pointX, pointY, cxt);
 };
