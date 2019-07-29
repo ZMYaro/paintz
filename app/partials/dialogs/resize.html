@@ -9,9 +9,13 @@
 </h1>
 <ul class="list">
 	<li>
-		<input name="width" type="number" placeholder="Width" value="640" min="1" max="99999" style="width: 45%;" />
-		&times;
-		<input name="height" type="number" placeholder="Height" value="480" min="1" max="99999" style="width: 45%;" />
+		<input name="width" type="number" placeholder="Width" value="640" min="1" max="99999" style="width: 31%;" /><!--
+		-->&nbsp;&nbsp;&times;&nbsp;&nbsp;<!--
+		--><input name="height" type="number" placeholder="Height" value="480" min="1" max="99999" style="width: 31%;" /><!--
+		--><select name="units">
+			<option value="percentage"><abbr title="percentage">%</abbr></option>
+			<option value="pixels"><abbr title="pixels">px</abbr></option>
+		</select>
 	</li>
 	<li>
 		<label for="resizeCrop">
