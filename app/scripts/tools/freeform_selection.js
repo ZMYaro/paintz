@@ -149,8 +149,11 @@ FreeformSelectionTool.prototype.end = function (pointerState) {
 	
 	this._preCxt.canvas.style.cursor = 'crosshair';
 	
+	// If there is a pointer offset, remove it.
 	// If a new selection was created, ensure it is valid.
-	if (!this._selection.pointerOffset) {
+	if (this._selection.pointerOffset) {
+		delete this._selection.pointerOffset;
+	} else {
 		// If there are < 3 points, the selection is invalid.
 		if (this._selection.points.length < 3) {
 			this.deselectAll();

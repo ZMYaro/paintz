@@ -27,6 +27,62 @@ var keyManager = {
 				}
 				break;
 			
+			case 37: // Left arrow
+				if (tools.currentTool instanceof SelectionTool) {
+					if (noModifiers) {
+						e.preventDefault();
+						// Left arrow => Nudge selection left
+						tools.currentTool.nudge(-1, 0);
+					} else if (e.shiftKey && !e.altKey && !ctrlOrCmd) {
+						e.preventDefault();
+						// Shift + Left arrow => Nudge selection 10 left
+						tools.currentTool.nudge(-10, 0);
+					}
+				}
+				break;
+			
+			case 38: // Up arrow
+				if (tools.currentTool instanceof SelectionTool) {
+					if (noModifiers) {
+						e.preventDefault();
+						// Up arrow => Nudge selection up
+						tools.currentTool.nudge(0, -1);
+					} else if (e.shiftKey && !e.altKey && !ctrlOrCmd) {
+						e.preventDefault();
+						// Shift + Up arrow => Nudge selection 10 up
+						tools.currentTool.nudge(0, -10);
+					}
+				}
+				break;
+			
+			case 39: // Right arrow
+				if (tools.currentTool instanceof SelectionTool) {
+					if (noModifiers) {
+						e.preventDefault();
+						// Right arrow => Nudge selection right
+						tools.currentTool.nudge(1, 0);
+					} else if (e.shiftKey && !e.altKey && !ctrlOrCmd) {
+						e.preventDefault();
+						// Shift + Right arrow => Nudge selection 10 right
+						tools.currentTool.nudge(10, 0);
+					}
+				}
+				break;
+			
+			case 40: // Down arrow
+				if (tools.currentTool instanceof SelectionTool) {
+					if (noModifiers) {
+						e.preventDefault();
+						// Down arrow => Nudge selection down
+						tools.currentTool.nudge(0, 1);
+					} else if (e.shiftKey && !e.altKey && !ctrlOrCmd) {
+						e.preventDefault();
+						// Shift + Down arrow => Nudge selection 10 down
+						tools.currentTool.nudge(0, 10);
+					}
+				}
+				break;
+			
 			case 46: // Delete
 				if (noModifiers) {
 					if (tools.currentTool instanceof SelectionTool) {

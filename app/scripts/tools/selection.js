@@ -162,8 +162,11 @@ SelectionTool.prototype.end = function (pointerState) {
 	
 	this._preCxt.canvas.style.cursor = 'crosshair';
 	
+	// If there is a pointer offset, remove it.
 	// If a new selection was created, ensure the dimensions are valid values.
-	if (!this._selection.pointerOffset) {
+	if (this._selection.pointerOffset) {
+		delete this._selection.pointerOffset;
+	} else {
 		// If either dimension is zero, the selection is invalid.
 		if (this._selection.width === 0 || this._selection.height === 0) {
 			this.deselectAll();
@@ -457,6 +460,32 @@ SelectionTool.prototype.rotate = function (clockwise) {
 		settings.set('width', oldCanvasHeight);
 		settings.set('height', oldCanvasWidth);
 	}
+};
+
+/**
+ * Move the selection by the amount.  Ignore the nudge if the selection is being dragged.
+ * @param {Number} deltaX - The amount to nudge the selection horizontally
+ * @param {Number} deltaY - The amount to nudge the selection vertically
+ */
+SelectionTool.prototype.nudge = function (deltaX, deltaY) {
+	if (!this._selection || this._selection.pointerOffset) {
+		// Quit if there is no selection, or if there is a pointer offset
+		// (indicating the selection is currently being dragged).
+		return;
+	}
+	
+	this._selection.x =
+		Math.min(this._cxt.canvas.width,
+			Math.max(-this._selection.width,
+				Math.round(this._selection.x + deltaX)));
+	this._selection.y = 
+		Math.min(this._cxt.canvas.height,
+			Math.max(-this._selection.height,
+				Math.round(this._selection.y + deltaY)));
+	
+	Utils.clearCanvas(this._preCxt);
+	this._drawSelectionContent();
+	this._updateSelectionOutline();
 };
 
 /**
