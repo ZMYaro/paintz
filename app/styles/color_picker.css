@@ -61,10 +61,10 @@
 	#colorPicker button.pacman::after {
 		content: '';
 		position: absolute;
-		left: 7px;
-		top: 7px;
-		right: 7px;
-		bottom: 6px;
+		left: 8px;
+		top: 8px;
+		right: 8px;
+		bottom: 8px;
 		-webkit-border-radius: 50%;
 		   -moz-border-radius: 50%;
 		        border-radius: 50%;
