@@ -237,14 +237,14 @@ PacMan.prototype._update = function () {
 	}
 
 	// Screen wrap.
-	if (this.x < -(PacMan.RADIUS * 2)) {
-		this.x = canvas.width + (PacMan.RADIUS * 2);
-	} else if (this.x > canvas.width + (PacMan.RADIUS * 2)) {
-		this.x = -(PacMan.RADIUS * 2);
-	} else if (this.y < -(PacMan.RADIUS * 2)) {
-		this.y = canvas.height + (PacMan.RADIUS * 2);
-	} else if (this.y > canvas.height + (PacMan.RADIUS * 2)) {
-		this.y = -(PacMan.RADIUS * 2);
+	if (this.x < -PacMan.RADIUS) {
+		this.x = canvas.width + PacMan.RADIUS;
+	} else if (this.x > canvas.width + PacMan.RADIUS) {
+		this.x = -PacMan.RADIUS;
+	} else if (this.y < -PacMan.RADIUS) {
+		this.y = canvas.height + PacMan.RADIUS;
+	} else if (this.y > canvas.height + PacMan.RADIUS) {
+		this.y = -PacMan.RADIUS;
 	}
 
 	// Draw Pac-Man.
