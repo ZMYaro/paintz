@@ -88,20 +88,18 @@ PacMan.prototype.stop = function () {
  * @returns {Boolean}
  */
 PacMan.prototype._isBlocked = function () {
-	this._cxt.fillStyle = settings.get('lineColor');
-	this._cxt.fillRect(this.x - 1, this.y - 1, 3, 3);
-
 	var imageData = this._cxt.getImageData(
 		this.x - (PacMan.RADIUS + PacMan.HITBOX_PADDING + 1),
 		this.y - (PacMan.RADIUS + PacMan.HITBOX_PADDING + 1),
 		(2 * (PacMan.RADIUS + PacMan.HITBOX_PADDING + 1)),
 		(2 * (PacMan.RADIUS + PacMan.HITBOX_PADDING + 1))
 	);
-
+	
+	var lineColor = settings.get('lineColor');
 	var wallColor = {
-		r: imageData.data[(((imageData.height / 2) * imageData.width * 4) + ((imageData.width / 2) * 4))],
-		g: imageData.data[(((imageData.height / 2) * imageData.width * 4) + ((imageData.width / 2) * 4)) + 1],
-		b: imageData.data[(((imageData.height / 2) * imageData.width * 4) + ((imageData.width / 2) * 4)) + 2]
+		r: parseInt(lineColor.substr(1, 2), 16),
+		g: parseInt(lineColor.substr(3, 2), 16),
+		b: parseInt(lineColor.substr(5, 2), 16)
 	};
 
 	this._cxt.fillStyle = settings.get('fillColor');
