@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2019-06-20, v1
+# 2019-07-31, v1
 index.html
 404.html
 manifest.webapp
@@ -55,6 +55,7 @@ images/icons/select.svg
 images/icons/select_all.svg
 images/icons/settings.svg
 images/icons/strike.svg
+images/icons/swap.svg
 images/icons/text.svg
 images/icons/text_fill.svg
 images/icons/twitter.svg
