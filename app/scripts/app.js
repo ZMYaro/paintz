@@ -39,6 +39,25 @@ function initCanvas() {
 }
 
 /**
+ * Set up the canvases with their initial contents.
+ */
+function initCanvasContents() {
+	resetCanvas();
+	
+	// If there is a saved state in session storage, restore it.
+	if (sessionStorage.lastState) {
+		var image = new Image();
+		image.onload = function () {
+			settings.set('width', image.width);
+			settings.set('height', image.height);
+			cxt.drawImage(image, 0, 0);
+			undoStack.clear();
+		};
+		image.src = sessionStorage.lastState;
+	}
+}
+
+/**
  * Resize the canvas to new dimensions while preserving the contents.
  * @param {Number} newWidth - The new canvas width
  * @param {Number} newHeight - The new canvas height
@@ -209,7 +228,6 @@ window.addEventListener('load', function () {
 	toolbar = new ToolbarManager();
 	tools = new ToolManager();
 	progressSpinner = new ProgressSpinner();
-	
 	initDragDrop();
 	
 	// Update the resolution in the bottom bar.
@@ -236,8 +254,8 @@ window.addEventListener('load', function () {
 }, false);
 
 function postLoadInit() {
-	// Get the canvas ready.
-	resetCanvas();
+	// Put in the initial canvas contents.
+	initCanvasContents();
 	
 	// Save the initial state.
 	undoStack.addState();

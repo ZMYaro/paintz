@@ -24,6 +24,9 @@ var undoStack = {
 		settings.set('width', state.width);
 		settings.set('height', state.height);
 		cxt.drawImage(state.image, 0, 0);
+		
+		// Save the state to session storage in case the page gets reloaded.
+		sessionStorage.lastState = state.image.src;
 	},
 	
 	/**
@@ -57,6 +60,10 @@ var undoStack = {
 			width: canvas.width,
 			height: canvas.height
 		};
+		
+		// Save the state to session storage in case the page gets reloaded.
+		sessionStorage.lastState = image.src;
+		
 		// Clear the redo stack.
 		this._redoStack = [];
 		
