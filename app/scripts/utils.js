@@ -17,6 +17,11 @@ var Utils = {
 	/** Whether the device runs Apple software. */
 	isApple: (navigator.userAgent.indexOf('Mac') !== -1),
 	
+	/** Whether the user prefers reduced motion. */
+	get prefersReducedMotion() {
+		return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	},
+	
 	/**
 	 * Check whether any modifier keys are pressed for the given event.
 	 * @param {MouseEvent} e - The event for which to check the keys

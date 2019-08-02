@@ -182,3 +182,16 @@ button#zoomInBtn {
 		display: none;
 	}
 }
+
+@media (prefers-reduced-motion: reduce) {
+	#toolbar button svg,
+	#toolbar [role="button"] svg,
+	#toolbar input[type="checkbox"] + label[role="button"],
+	#toolbar input[type="radio"] + label[role="button"] {
+		-webkit-transition-duration: 0s;
+		   -moz-transition-duration: 0s;
+		    -ms-transition-duration: 0s;
+		     -o-transition-duration: 0s;
+		        transition-duration: 0s;
+	}
+}

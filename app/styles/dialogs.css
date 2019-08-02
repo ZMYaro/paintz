@@ -2,9 +2,9 @@
 #dialogsContainer,
 #bottomSheetsContainer {
 	display: none;
-
+	
 	z-index: 4;
-
+	
 	position: fixed;
 	left: 0;
 	top: 0;
@@ -12,7 +12,7 @@
 	bottom: 0;
 	
 	overflow: auto;
-
+	
 	-webkit-transition-duration: 0.2s;
 	   -moz-transition-duration: 0.2s;
 	    -ms-transition-duration: 0.2s;
@@ -283,4 +283,17 @@ progress.circular.small {
 	display: block;
 	margin: auto;
 	top: 40%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#progressContainer,
+	#dialogsContainer,
+	#bottomSheetsContainer,
+	.dialog {
+		-webkit-transition-duration: 0s;
+		   -moz-transition-duration: 0s;
+		    -ms-transition-duration: 0s;
+		     -o-transition-duration: 0s;
+		        transition-duration: 0s;
+	}
 }

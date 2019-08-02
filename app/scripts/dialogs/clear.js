@@ -29,6 +29,11 @@ ClearDialog.prototype._clear = function () {
 		STEP = Math.floor(MAX_RADIUS / 16),
 		radius = 224;
 	
+	if (Utils.prefersReducedMotion) {
+		// Skip the animation if the user prefers reduced motion.
+		radius = MAX_RADIUS;
+	}
+	
 	function expandClearCircle() {
 		radius += STEP;
 		

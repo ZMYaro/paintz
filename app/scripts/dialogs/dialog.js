@@ -151,7 +151,7 @@ Dialog.prototype.close = function (e) {
 	this._element.classList.remove('open');
 	this._dialogContainer.classList.remove('visible');
 	// After the closing animation has completed, hide the dialog box element completely.
-	setTimeout(this._finishClose.bind(this), this.TRANSITION_DURATION);
+	setTimeout(this._finishClose.bind(this), (Utils.prefersReducedMotion ? 1 : this.TRANSITION_DURATION));
 };
 
 /**
