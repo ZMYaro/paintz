@@ -12,6 +12,7 @@ function TextTool(cxt, preCxt) {
 	this._textElem = document.createElement('p');
 	this._textElem.contentEditable = true;
 	this._textElem.className = 'floatingRegion';
+	this._textElem.style.wordBreak = 'break-word';
 	this._textElem.style.lineHeight = TextTool.LINE_HEIGHT;
 	this._textElem.style.WebkitTransformOrigin =
 		this._textElem.style.MozTransformOrigin =
@@ -329,7 +330,7 @@ TextTool.prototype._saveText = function () {
 					'<p xmlns="http://www.w3.org/1999/xhtml" style="' +
 							'margin: 0; ' +
 							'overflow: visible; ' +
-							'word-break: break-all; ' +
+							'word-break: break-word; ' +
 							'box-sizing: border-box; ' +
 							'line-height: ' + TextTool.LINE_HEIGHT + '; ' +
 							'padding: ' + TextTool.PADDING + 'px; ' +
