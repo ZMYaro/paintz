@@ -101,8 +101,11 @@ ResizeDialog.prototype._saveNewSize = function () {
 			break;
 	}
 	
+	newWidth = Math.max(1, Math.round(newWidth));
+	newHeight = Math.max(1, Math.round(newHeight));
+	
 	// Validate the user's input.
-	if (!newWidth || !newHeight || isNaN(newWidth) || isNaN(newHeight) || newWidth < 1 || newHeight < 1) {
+	if (!newWidth || !newHeight || isNaN(newWidth) || isNaN(newHeight)) {
 		alert('Please enter valid dimensions.');
 		return;
 	}
