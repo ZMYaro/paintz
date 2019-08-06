@@ -208,10 +208,13 @@ SelectionTool.prototype.clear = function () {
 		return;
 	}
 	
-	this._cxt.fillStyle = this._selection.fillColor;
-	this._cxt.fillRect(this._selection.startX, this._selection.startY,
-		this._selection.width, this._selection.height);
+	// Draw the selection start cover to the main canvas.
 	Utils.clearCanvas(this._preCxt);
+	this._drawSelectionStartCover();
+	this._cxt.drawImage(this._preCxt.canvas, 0, 0);
+	Utils.clearCanvas(this._preCxt);
+	
+	// Delete the selection.
 	this._toolbar.hide();
 	document.body.removeChild(this._outline);
 	undoStack.addState();
