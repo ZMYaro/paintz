@@ -89,6 +89,7 @@ var undoStack = {
 		this._redoStack = [];
 		this._currentState = undefined;
 		this.addState();
+		this.changedSinceSave = false;
 		this._updateUI();
 	},
 	
