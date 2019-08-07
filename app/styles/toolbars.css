@@ -28,14 +28,10 @@
 	}
 	#toolbar button,
 	#toolbar [role="button"] {
-		margin: 4px 2px;
-		padding: 8px;
+		margin: 4px;
 	}
 		#toolbar button svg,
 		#toolbar [role="button"] svg {
-			margin-left: 0;
-			margin-right: 0;
-			
 			-webkit-transition: fill 0.15s linear;
 			   -moz-transition: fill 0.15s linear;
 			    -ms-transition: fill 0.15s linear;
@@ -87,12 +83,9 @@
 			padding-left: 40px;
 		}
 
-#outlineOptions input[type="radio"]:not(:first-child) + label,
-#textFormatOptions input[type="checkbox"]:not(:first-child) + label {
+#outlineOptions input[type="radio"] + label,
+#textFormatOptions input[type="checkbox"] + label {
 	margin-left: 1px;
-}
-#outlineOptions input[type="radio"] + label:not(:last-child),
-#textFormatOptions input[type="checkbox"] + label:not(:last-child) {
 	margin-right: 1px;
 }
 
