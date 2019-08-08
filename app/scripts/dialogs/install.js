@@ -52,13 +52,5 @@ InstallDialog.prototype._setUp = function (contents) {
 		icon.setAttribute('xlink:href', 'images/icons/cws.svg#icon');
 	}
 	
-	this._element.querySelector('.submitLink').addEventListener('click', this._handleLinkClick.bind(this), false);
+	this._element.querySelector('.submitLink').addEventListener('click', this._closeAfterDelay.bind(this), false);
 };	
-
-/**
- * Close the dialog after the link is clicked.
- */
-InstallDialog.prototype._handleLinkClick = function () {
-	var CLOSE_DELAY = 1000; // Milliseconds
-	setTimeout(this.close.bind(this), CLOSE_DELAY);
-};
