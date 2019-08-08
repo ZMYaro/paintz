@@ -7,6 +7,11 @@
  */
 function InstallDialog(trigger) {
 	BottomSheetDialog.call(this, 'install', trigger);
+	
+	window.addEventListener('beforeinstallprompt', (function (e) {
+		e.preventDefault();
+		this.deferredInstall = e;
+	}).bind(this));
 }
 // Extend Dialog.
 InstallDialog.prototype = Object.create(BottomSheetDialog.prototype);
@@ -28,7 +33,14 @@ InstallDialog.prototype._setUp = function (contents) {
 	var cta = this._element.querySelector('.callToAction'),
 		submitLink = this._element.querySelector('.submitLink');
 	
-	if (navigator.userAgent.match(/mobile/i)) {
+	if (this.deferredInstall) {
+		cta.innerHTML = 'install PaintZ as an app';
+		submitLink.href = '#';
+		submitLink.addEventListener('click', (function (e) {
+			e.preventDefault();
+			this.deferredInstall.prompt();
+		}).bind(this));
+	} else if (navigator.userAgent.match(/mobile/i)) {
 		cta.innerHTML = 'add PaintZ to your home screen';
 		submitLink.href = 'https://www.howtogeek.com/196087/how-to-add-websites-to-the-home-screen-on-any-smartphone-or-tablet/';
 	} else if (navigator.userAgent.match(/chrome/i)) {
