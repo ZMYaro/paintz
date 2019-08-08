@@ -28,7 +28,7 @@ var Utils = {
 	 * @returns {Boolean} - Whether any modifier key is pressed
 	 */
 	checkModifierKeys: function (e) {
-		return (e.altKey || e.ctrlKey || e.shiftKey || e.metaKey);
+		return (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey);
 	},
 	
 	/**
