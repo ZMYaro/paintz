@@ -110,7 +110,7 @@
 		width: 42px;
 		height: 42px;
 		padding: 8px 8px;
-		margin: -5px 0;
+		margin: -4px 0;
 	}
 		#bottomBar button > img,
 		#bottomBar button > [role="img"] {
@@ -121,6 +121,7 @@
 button#resolution {
 	width: auto;
 	text-transform: none;
+	margin: -5px 0;
 	font-size: inherit;
 	font-weight: inherit;
 }
