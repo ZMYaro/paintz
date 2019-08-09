@@ -168,8 +168,8 @@ var keyManager = {
 			case 70: // F
 				if (noModifiers) {
 					e.preventDefault();
-					// F => Fill tool
-					tools.switchTool('floodFill');
+					// F => Freeform selection tool
+					tools.switchTool('freeformSelection');
 				}
 				break;
 			
@@ -196,6 +196,14 @@ var keyManager = {
 					e.preventDefault();
 					// I => Eyedropper (“I-dropper”) tool
 					tools.switchTool('eyedropper');
+				}
+				break;
+			
+			case 75: // K
+				if (noModifiers) {
+					e.preventDefault();
+					// K => Flood fill (paint bucket) tool
+					tools.switchTool('floodFill');
 				}
 				break;
 			
