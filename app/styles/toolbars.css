@@ -121,6 +121,7 @@
 button#resolution {
 	width: auto;
 	text-transform: none;
+	font-size: inherit;
 	font-weight: inherit;
 }
 #zoomContainer {
