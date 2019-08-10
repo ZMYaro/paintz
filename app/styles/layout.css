@@ -6,6 +6,10 @@
 	        box-sizing: border-box;
 }
 
+body {
+	overscroll-behavior-y: contain; /* Prevent pull-to-refresh. */
+}
+
 #canvas,
 #preCanvas,
 .floatingRegion,
