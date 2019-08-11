@@ -67,7 +67,6 @@ images/logo/128.png
 images/logo/256.png
 images/logo/512.png
 images/logo/favicon.ico
-partials/floating_selection_toolbar.html
 partials/dialogs/about.html
 partials/dialogs/clear.html
 partials/dialogs/coffee.html
@@ -83,6 +82,7 @@ partials/dialogs/welcome.html
 partials/toolbar/app.html
 partials/toolbar/color_picker.html
 partials/toolbar/draw_tool_options.html
+partials/toolbar/floating_selection_toolbar.html
 partials/toolbar/image.html
 partials/toolbar/no_tool_options.html
 partials/toolbar/select_tool_options.html
@@ -90,7 +90,6 @@ partials/toolbar/text_tool_options.html
 partials/toolbar/tools.html
 scripts/app.js
 scripts/clipboard.js
-scripts/floating_selection_toolbar.js
 scripts/keyboard.js
 scripts/pacman.js
 scripts/progress_spinner.js
@@ -120,6 +119,7 @@ scripts/lib/promise.auto.min.js
 scripts/toolbar/app.js
 scripts/toolbar/color_picker.js
 scripts/toolbar/draw_tool_options.js
+scripts/toolbar/floating_selection_toolbar.js
 scripts/toolbar/image.js
 scripts/toolbar/no_tool_options.js
 scripts/toolbar/select_tool_options.js

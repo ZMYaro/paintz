@@ -11,7 +11,7 @@ function SelectionTool(cxt, preCxt) {
 	this._outline.className = 'floatingRegion';
 	this._outline.style.cursor = 'move';
 	
-	this._toolbar = new FloatingSelectionToolbar(this);
+	this._toolbar = toolbar.toolboxes.floatingSelectionToolbar;
 }
 // Extend Tool.
 SelectionTool.prototype = Object.create(Tool.prototype);

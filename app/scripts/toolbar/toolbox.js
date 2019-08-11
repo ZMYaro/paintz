@@ -10,9 +10,8 @@ function Toolbox(contentFileName) {
 	this._element = document.createElement('div');
 	this._element.className = this.CSS_CLASS;
 	
-	var toolbarElement = document.getElementById('toolbar');
-	
 	// Add the toolbox to the toolbar.
+	var toolbarElement = document.getElementById('toolbar');
 	toolbarElement.appendChild(this._element);
 	
 	// Fetch the toolbox content, then set up the toolbox.
