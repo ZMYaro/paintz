@@ -18,6 +18,9 @@ function Dialog(contentFileName, trigger) {
 	}
 	this._element.addEventListener('submit', this.close.bind(this));
 	
+	/** {HTMLElement} The element that should contain the dialog and handle positioning it on the page */
+	this._dialogContainer = document.getElementById('dialogsContainer');
+	
 	/** {HTMLElement} The button that triggers the dialog, if any */
 	this.trigger = trigger;
 	
@@ -116,11 +119,13 @@ Dialog.prototype.open = function () {
 	keyManager.disableAppShortcuts();
 	
 	// Show the dialog and dialog container.
-	dialogsContainer.style.display = 'block';
-	dialogsContainer.appendChild(this._element);
+	this._dialogContainer.style.display = 'block';
+	this._dialogContainer.appendChild(this._element);
 	this._setTransformOrigin();
 	
-	setTimeout(this._finishOpen.bind(this), 1);
+	requestAnimationFrame((function () {
+		requestAnimationFrame(this._finishOpen.bind(this));
+	}).bind(this));
 };
 
 /**
@@ -128,7 +133,7 @@ Dialog.prototype.open = function () {
  * Finish opening the dialog on the next frame.
  */
 Dialog.prototype._finishOpen = function () {
-	dialogsContainer.classList.add('visible');
+	this._dialogContainer.classList.add('visible');
 	this._element.classList.add('open');
 	this.focus();
 };
@@ -144,9 +149,9 @@ Dialog.prototype.close = function (e) {
 	
 	this._setTransformOrigin();
 	this._element.classList.remove('open');
-	dialogsContainer.classList.remove('visible');
+	this._dialogContainer.classList.remove('visible');
 	// After the closing animation has completed, hide the dialog box element completely.
-	setTimeout(this._finishClose.bind(this), this.TRANSITION_DURATION);
+	setTimeout(this._finishClose.bind(this), (Utils.prefersReducedMotion ? 1 : this.TRANSITION_DURATION));
 };
 
 /**
@@ -155,8 +160,8 @@ Dialog.prototype.close = function (e) {
  */
 Dialog.prototype._finishClose = function () {
 	// Hide the dialog and dialog container.
-	dialogsContainer.removeChild(this._element);
-	dialogsContainer.style.display = 'none';
+	this._dialogContainer.removeChild(this._element);
+	this._dialogContainer.style.display = 'none';
 	// Re-enable app keyboard shortcuts.
 	keyManager.enableAppShortcuts();
 };

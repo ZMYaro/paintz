@@ -2,6 +2,7 @@ var undoStack = {
 	_undoStack: [],
 	_redoStack: [],
 	_currentState: undefined,
+	changedSinceSave: false,
 	
 	/** @returns {Boolean} Whether there is an available redo state */
 	get canRedo() {
@@ -23,6 +24,14 @@ var undoStack = {
 		settings.set('width', state.width);
 		settings.set('height', state.height);
 		cxt.drawImage(state.image, 0, 0);
+		
+		// Save the state to session storage in case the page gets reloaded.
+		try {
+			sessionStorage.lastState = state.image.src;
+		} catch (err) {
+			// If the image is too large to store, there is not much that can be done.
+			console.warn('The latest state was too large to store in session storage.');
+		}
 	},
 	
 	/**
@@ -56,9 +65,19 @@ var undoStack = {
 			width: canvas.width,
 			height: canvas.height
 		};
+		
+		// Save the state to session storage in case the page gets reloaded.
+		try {
+			sessionStorage.lastState = image.src;
+		} catch (err) {
+			// If the image is too large to store, there is not much that can be done.
+			console.warn('The latest state was too large to store in session storage.');
+		}
+		
 		// Clear the redo stack.
 		this._redoStack = [];
 		
+		this.changedSinceSave = true;
 		this._updateUI();
 	},
 	
@@ -70,6 +89,7 @@ var undoStack = {
 		this._redoStack = [];
 		this._currentState = undefined;
 		this.addState();
+		this.changedSinceSave = false;
 		this._updateUI();
 	},
 	
@@ -92,6 +112,7 @@ var undoStack = {
 		this._undoStack.push(this._currentState);
 		this._applyState(restoreState);
 		
+		this.changedSinceSave = true;
 		this._updateUI();
 		
 		// Reactivate the current tool.
@@ -116,7 +137,8 @@ var undoStack = {
 		var restoreState = this._undoStack.pop();
 		this._redoStack.push(this._currentState);
 		this._applyState(restoreState);
-
+		
+		this.changedSinceSave = true;
 		this._updateUI();
 		
 		// Reactivate the current tool.

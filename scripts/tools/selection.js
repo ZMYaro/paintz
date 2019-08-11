@@ -11,7 +11,7 @@ function SelectionTool(cxt, preCxt) {
 	this._outline.className = 'floatingRegion';
 	this._outline.style.cursor = 'move';
 	
-	this._toolbar = new FloatingSelectionToolbar();
+	this._toolbar = toolbar.toolboxes.floatingSelectionToolbar;
 }
 // Extend Tool.
 SelectionTool.prototype = Object.create(Tool.prototype);
@@ -33,8 +33,7 @@ SelectionTool.prototype.activate = function () {
  * @param {Object} pointerState - The pointer coordinates and button
  */
 SelectionTool.prototype.start = function (pointerState) {
-	pointerState.x = Math.round(pointerState.x);
-	pointerState.y = Math.round(pointerState.y);
+	this._roundPointerState(pointerState);
 	
 	// Hide the selection toolbar.
 	this._toolbar.hide();
@@ -88,18 +87,13 @@ SelectionTool.prototype.move = function (pointerState) {
 		return;
 	}
 	
-	pointerState.x = Math.round(pointerState.x);
-	pointerState.y = Math.round(pointerState.y);
-	
-	Utils.clearCanvas(this._preCxt);
+	this._roundPointerState(pointerState);
 	
 	// If there is a pointer offset, move the selection.
 	// If there is no pointer offset, then this must be a new selection.
 	if (this._selection.pointerOffset) {
 		this._selection.x = pointerState.x - this._selection.pointerOffset.x;
 		this._selection.y = pointerState.y - this._selection.pointerOffset.y;
-		this._drawSelectionContent();
-		this._updateSelectionOutline();
 	} else {
 		// Limit the region to the canvas.
 		pointerState.x = Utils.constrainValue(pointerState.x, 0, this._cxt.canvas.width);
@@ -117,10 +111,43 @@ SelectionTool.prototype.move = function (pointerState) {
 			this._selection.y = this._selection.startY + this._selection.startHeight;
 			this._selection.startHeight = Math.abs(this._selection.startHeight);
 		}
+		
+		// Perfect square when shift key held.
+		if (pointerState.shiftKey) {
+			if (this._selection.startWidth < this._selection.startHeight) {
+				this._selection.startHeight = this._selection.startWidth;
+				if (this._selection.y === pointerState.y) {
+					this._selection.y = this._selection.startY - this._selection.startHeight;
+				}
+			} else {
+				this._selection.startWidth = this._selection.startHeight;
+				if (this._selection.x === pointerState.x) {
+					this._selection.x = this._selection.startX - this._selection.startWidth;
+				}
+			}
+		}
 		this._selection.width = this._selection.startWidth;
 		this._selection.height = this._selection.startHeight;
-		this._updateSelectionOutline();
 	}
+	
+	this._canvasDirty = true;
+};
+
+/**
+ * @override
+ * Update the canvas if necessary.
+ */
+SelectionTool.prototype.update = function () {
+	if (!this._canvasDirty) {
+		return;
+	}
+	
+	Utils.clearCanvas(this._preCxt);
+	
+	this._drawSelectionContent();
+	this._updateSelectionOutline();
+	
+	this._canvasDirty = false;
 };
 
 /**
@@ -129,15 +156,17 @@ SelectionTool.prototype.move = function (pointerState) {
  * @param {Object} pointerState - The pointer coordinates
  */
 SelectionTool.prototype.end = function (pointerState) {
-	pointerState.x = Math.round(pointerState.x);
-	pointerState.y = Math.round(pointerState.y);
+	this._roundPointerState(pointerState);
 	
 	this.move(pointerState);
 	
 	this._preCxt.canvas.style.cursor = 'crosshair';
 	
+	// If there is a pointer offset, remove it.
 	// If a new selection was created, ensure the dimensions are valid values.
-	if (!this._selection.pointerOffset) {
+	if (this._selection.pointerOffset) {
+		delete this._selection.pointerOffset;
+	} else {
 		// If either dimension is zero, the selection is invalid.
 		if (this._selection.width === 0 || this._selection.height === 0) {
 			this.deselectAll();
@@ -174,19 +203,65 @@ SelectionTool.prototype.deactivate = function () {
  * Delete the currently selected content.
  */
 SelectionTool.prototype.clear = function () {
-	// Quit if there is no selection to delete.
+	// Quit if there is no selection to erase.
 	if (!this._selection) {
 		return;
 	}
 	
-	this._cxt.fillStyle = this._selection.fillColor;
-	this._cxt.fillRect(this._selection.startX, this._selection.startY,
-		this._selection.width, this._selection.height);
+	// Draw the selection start cover to the main canvas if this is not a duplicate.
+	if (this._selection.firstMove) {
+		Utils.clearCanvas(this._preCxt);
+		this._drawSelectionStartCover();
+		this._cxt.drawImage(this._preCxt.canvas, 0, 0);
+	}
 	Utils.clearCanvas(this._preCxt);
+	
+	// Delete the selection.
 	this._toolbar.hide();
 	document.body.removeChild(this._outline);
 	undoStack.addState();
 	delete this._selection;
+};
+
+/**
+ * Copy the current selection to the clipboard.
+ */
+SelectionTool.prototype.copy = function () {
+	// Quit if there is no selection to copy.
+	if (!this._selection) {
+		return;
+	}
+	
+	return new Promise((function (resolve, reject) {
+		Utils.clearCanvas(cursorCxt);
+		cursorCanvas.width = this._selection.width;
+		cursorCanvas.height = this._selection.height;
+		cursorCxt.putImageData(this._selection.content, 0, 0);
+		
+		cursorCanvas.toBlob(function (blob) {
+			var copySuccess = clipboard.copy(blob);
+			if (copySuccess) {
+				resolve();
+			} else {
+				reject();
+			}
+		}, 'image/png');
+	}).bind(this));
+};
+
+/**
+ * Copy and erase the current selection.
+ */
+SelectionTool.prototype.cut = function () {
+	// Quit if there is no selection to cut.
+	if (!this._selection) {
+		return;
+	}
+	
+	this.copy()
+		.then((function () {
+			this.clear();
+		}).bind(this));
 };
 
 /**
@@ -202,8 +277,8 @@ SelectionTool.prototype.duplicate = function () {
 	this._saveSelection();
 	
 	// There is no starting region to cover.
-	this._selection.startX = this._preCxt.canvas.width + 10;
-	this._selection.startY = this._preCxt.canvas.height + 10;
+	this._selection.firstMove = false;
+	
 	// Move the selection to (0,0).
 	this._selection.x = 0;
 	this._selection.y = 0;
@@ -220,6 +295,7 @@ SelectionTool.prototype.selectAll = function (width, height) {
 	this.start({x: 0, y: 0});
 	this.move({x: width, y: height});
 	this.end({x: width, y: height});
+	this._updateSelectionOutline();
 };
 
 /**
@@ -249,6 +325,13 @@ SelectionTool.prototype.cropToSelection = function () {
 	settings.set('width', this._selection.width);
 	settings.set('height', this._selection.height);
 	this._cxt.putImageData(this._selection.content, 0, 0);
+	
+	// Fill in any empty pixels with the background color.
+	this._cxt.save();
+	this._cxt.globalCompositeOperation = 'destination-over';
+	this._cxt.fillStyle = this._selection.fillColor;
+	this._cxt.fillRect(0, 0, this._selection.width, this._selection.height);
+	this._cxt.restore();
 	
 	// Save the new state.
 	undoStack.addState();
@@ -385,6 +468,32 @@ SelectionTool.prototype.rotate = function (clockwise) {
 };
 
 /**
+ * Move the selection by the amount.  Ignore the nudge if the selection is being dragged.
+ * @param {Number} deltaX - The amount to nudge the selection horizontally
+ * @param {Number} deltaY - The amount to nudge the selection vertically
+ */
+SelectionTool.prototype.nudge = function (deltaX, deltaY) {
+	if (!this._selection || this._selection.pointerOffset) {
+		// Quit if there is no selection, or if there is a pointer offset
+		// (indicating the selection is currently being dragged).
+		return;
+	}
+	
+	this._selection.x =
+		Math.min(this._cxt.canvas.width,
+			Math.max(-this._selection.width,
+				Math.round(this._selection.x + deltaX)));
+	this._selection.y = 
+		Math.min(this._cxt.canvas.height,
+			Math.max(-this._selection.height,
+				Math.round(this._selection.y + deltaY)));
+	
+	Utils.clearCanvas(this._preCxt);
+	this._drawSelectionContent();
+	this._updateSelectionOutline();
+};
+
+/**
  * @private
  * Update the outline element.
  */
@@ -419,13 +528,18 @@ SelectionTool.prototype._drawSelectionContent = function () {
 		return;
 	}
 	
-	if (this._selection.firstMove) {
-		this._drawSelectionStartCover();
-	}
 	this._preCxt.putImageData(this._selection.content, this._selection.x, this._selection.y);
+	if (this._selection.firstMove) {
+		// If this is not a duplicate, draw the background color over where the selection was taken from.
+		this._preCxt.save();
+		this._preCxt.globalCompositeOperation = 'destination-over';
+		this._drawSelectionStartCover();
+		this._preCxt.restore();
+	}
 };
 
 /**
+ * @private
  * Draw the background color over the selection's starting location.
  */
 SelectionTool.prototype._drawSelectionStartCover = function () {

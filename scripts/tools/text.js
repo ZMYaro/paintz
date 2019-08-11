@@ -12,13 +12,17 @@ function TextTool(cxt, preCxt) {
 	this._textElem = document.createElement('p');
 	this._textElem.contentEditable = true;
 	this._textElem.className = 'floatingRegion';
-	this._textElem.style.lineHeight = this.LINE_HEIGHT;
+	this._textElem.style.wordBreak = 'break-word';
+	this._textElem.style.lineHeight = TextTool.LINE_HEIGHT;
 	this._textElem.style.WebkitTransformOrigin =
 		this._textElem.style.MozTransformOrigin =
 		this._textElem.style.MsTransformOrigin =
 		this._textElem.style.OTransformOrigin =
 		this._textElem.style.transformOrigin = '0 0';
 	this._textElem.style.padding = TextTool.PADDING + 'px';
+	
+	// Prevent the element scrolling if it overflows.
+	this._textElem.onscroll = function () { this.scrollTop = 0; };
 	
 	this._textElem.onblur = this._removeTextElem.bind(this);
 	this._textElem.addEventListener('keydown', this._handleKeyDown.bind(this), false);
@@ -60,8 +64,7 @@ TextTool.prototype.activate = function () {
  * @param {Object} pointerState - The pointer coordinates and button
  */
 TextTool.prototype.start = function (pointerState) {
-	pointerState.x = Math.round(pointerState.x);
-	pointerState.y = Math.round(pointerState.y);
+	this._roundPointerState(pointerState);
 	
 	// If a text box exists and the pointer is near it, drag the text box.
 	// Otherwise, start a new text box.
@@ -136,8 +139,7 @@ TextTool.prototype.move = function (pointerState) {
 		return;
 	}
 	
-	pointerState.x = Math.round(pointerState.x);
-	pointerState.y = Math.round(pointerState.y);
+	this._roundPointerState(pointerState);
 	
 	Utils.clearCanvas(this._preCxt);
 	
@@ -145,7 +147,6 @@ TextTool.prototype.move = function (pointerState) {
 	if (this._textRegion.pointerOffset) {
 		this._textRegion.x = pointerState.x - this._textRegion.pointerOffset.x;
 		this._textRegion.y = pointerState.y - this._textRegion.pointerOffset.y;
-		this._updateTextElem();
 	} else {
 		// Limit the region to the canvas.
 		pointerState.x = Math.max(0, Math.min(this._cxt.canvas.width, pointerState.x));
@@ -163,8 +164,38 @@ TextTool.prototype.move = function (pointerState) {
 			this._textRegion.y = this._textRegion.startY + this._textRegion.height;
 			this._textRegion.height = Math.abs(this._textRegion.height);
 		}
-		this._updateTextElem();
+		
+		// Perfect square when shift key held.
+		if (pointerState.shiftKey) {
+			if (this._textRegion.width < this._textRegion.height) {
+				this._textRegion.height = this._textRegion.width;
+				if (this._textRegion.y === pointerState.y) {
+					this._textRegion.y = this._textRegion.startY - this._textRegion.height;
+				}
+			} else {
+				this._textRegion.width = this._textRegion.height;
+				if (this._textRegion.x === pointerState.x) {
+					this._textRegion.x = this._textRegion.startX - this._textRegion.width;
+				}
+			}
+		}
 	}
+	
+	this._canvasDirty = true;
+};
+
+/**
+ * @override
+ * Update the canvas if necessary.
+ */
+TextTool.prototype.update = function () {
+	if (!this._canvasDirty) {
+		return;
+	}
+	
+	this._updateTextElem();
+	
+	this._canvasDirty = false;
 };
 
 /**
@@ -208,6 +239,14 @@ TextTool.prototype.deactivate = function () {
 
 /**
  * @private
+ * Generate the CSS background value based on the saved options.
+ */
+TextTool.prototype._getBackgroundValue = function () {
+	return (settings.get('textFill') ? settings.get('fillColor') : 'transparent');
+};
+
+/**
+ * @private
  * Generate the CSS font value based on the saved options.
  */
 TextTool.prototype._getFontValue = function () {
@@ -215,6 +254,15 @@ TextTool.prototype._getFontValue = function () {
 		(settings.get('bold') ? 'bold ' : '') +
 		settings.get('fontSize') + 'pt ' +
 		settings.get('fontFamily');
+};
+
+/**
+ * @private
+ * Generate the CSS text-decoration value based on the saved options.
+ */
+TextTool.prototype._getTextDecorationValue = function () {
+	return (settings.get('underline') ? 'underline ' : '') +
+		(settings.get('strike') ? 'line-through ' : '');
 };
 
 /**
@@ -240,7 +288,9 @@ TextTool.prototype._updateTextElem = function () {
 	this._textElem.style.width = this._textRegion.width + 'px';
 	this._textElem.style.height = this._textRegion.height + 'px';
 	
+	this._textElem.style.background = this._getBackgroundValue();
 	this._textElem.style.font = this._getFontValue();
+	this._textElem.style.textDecoration = this._getTextDecorationValue();
 };
 
 /**
@@ -249,74 +299,81 @@ TextTool.prototype._updateTextElem = function () {
  */
 TextTool.prototype._removeTextElem = function () {
 	// Save any existing text.
-	this._saveText();
-	// Remove the text region and element.
-	delete this._textRegion;
-	if (document.body.contains(this._textElem)) {
-		try {
-			// Wrapping in a try block because sometimes contains incorrectly returns true.
-			document.body.removeChild(this._textElem);
-		} catch (ex) {}
-	}
-	keyManager.enableAppShortcuts();
+	this._saveText().then((function () {
+		// Remove the text region and element.
+		delete this._textRegion;
+		if (document.body.contains(this._textElem)) {
+			try {
+				// Wrapping in a try block because sometimes contains incorrectly returns true.
+				document.body.removeChild(this._textElem);
+			} catch (err) {}
+		}
+		keyManager.enableAppShortcuts();
+	}).bind(this));
 };
 
 /**
  * @private
- * Save the selection to the canvas if it was moved.
- * @returns {Boolean} Whether the selection was saved.
+ * Save the text to the canvas.
+ * @returns {Promise<Boolean>} Resolves with whether the text was saved.
  */
 TextTool.prototype._saveText = function () {
-	if (!this._textRegion || this._textElem.innerHTML === '') {
-		return;
-	}
-	
-	// Set text settings.
-	this._cxt.textBaseline = 'top';
-	this._cxt.fillStyle = settings.get('lineColor');
-	this._cxt.font = this._getFontValue();
-	
-	// Locate line breaks.
-	var chars = (this._textElem.innerText || this._textElem.textContent).split(''),
-		line = '',
-		lines = [],
-		maxWidth = this._textRegion.width - (2 * TextTool.PADDING) - TextTool.BORDER_WIDTH;
-	
-	for (var i = 0; i < chars.length; i++) {
-		// Break on line breaks.
-		if (chars[i] === '\n') {
-			lines.push(line);
-			line = '';
-			continue;
+	return new Promise((function (resolve, reject) {
+		if (!this._textRegion || this._textElem.innerHTML === '') {
+			resolve(false);
+			return;
 		}
-		if (Math.ceil(cxt.measureText(line + chars[i]).width) > maxWidth) {
-			// If the line has exceeded the text box width...
-			var lastSpaceIndex = line.lastIndexOf(' ');
-			if (lastSpaceIndex === -1) {
-				// If there are no spaces, break at this character.
-				lines.push(line);
-				line = chars[i];
-				continue;
-			} else {
-				// If there is a space, break at the last space.
-				line += chars[i];
-				lines.push(line.substring(0, lastSpaceIndex));
-				line = line.substring(lastSpaceIndex + 1);
-				continue;
-			}
-		}
-		line += chars[i];
-	}
-	lines.push(line); // Include any remaining line.
-	
-	// Draw the text.
-	for (var i = 0; i < lines.length; i++) {
-		var x = this._textRegion.x + TextTool.PADDING + TextTool.BORDER_WIDTH,
-			y = this._textRegion.y + TextTool.PADDING + TextTool.BORDER_WIDTH + ((settings.get('fontSize') * 1.525) * i);
-		this._cxt.fillText(lines[i], x, y);
-	}
-	Utils.clearCanvas(this._preCxt);
-	undoStack.addState();
+		
+		var svgData = '<svg xmlns="http://www.w3.org/2000/svg" '+
+			'width="' + this._textRegion.width + 'px" height="' + this._textRegion.height + 'px">' +
+				'<foreignObject width="100%" height="100%">' +
+					'<p xmlns="http://www.w3.org/1999/xhtml" style="' +
+							'margin: 0; ' +
+							'overflow: visible; ' +
+							'word-break: break-word; ' +
+							'box-sizing: border-box; ' +
+							'line-height: ' + TextTool.LINE_HEIGHT + '; ' +
+							'padding: ' + TextTool.PADDING + 'px; ' +
+							'width: ' + this._textRegion.width + 'px; ' +
+							'height: ' + this._textRegion.height + 'px; ' +
+							'background: ' + this._getBackgroundValue() + '; ' +
+							'border: ' + TextTool.BORDER_WIDTH + 'px solid transparent; ' +
+							'font: ' + this._getFontValue() + '; ' +
+							'text-decoration: ' + this._getTextDecorationValue() + '; ' +
+							'color: ' + settings.get('lineColor') + ';">' +
+						this._textElem.innerHTML +
+					'</p>' +
+				'</foreignObject>' +
+			'</svg>';
+		svgData = svgData.replace(/<br>/g, '<br />'); // XML requires self-closing tags be closed, but HTML5 does not.
+		svgData = svgData.replace(/#/g, '%23'); // Escape hash for data URL.
+		
+		var svgImage = new Image(),
+			svgURL = 'data:image/svg+xml,' + svgData;
+			//svgBlob = new Blob([svgData], {type: 'image/svg+xml'}),
+			//svgURL = URL.createObjectURL(svgBlob);
+		
+		// Prevent the canvas becoming “tainted”.
+		svgImage.crossOrigin = 'anonymous';
+		
+		// Save coordinates since the text region can be deleted by _removeTextElem before the image loads.
+		var textX = this._textRegion.x,
+			textY = this._textRegion.y;
+		
+		svgImage.onload = (function () {
+			// Draw the text image to the canvas.
+			this._cxt.drawImage(svgImage, textX, textY);
+			// Revoke the temporary blob URL.
+			//URL.revokeObjectURL(svgURL);
+			// Clean up.
+			Utils.clearCanvas(this._preCxt);
+			undoStack.addState();
+			
+			resolve(true);
+		}).bind(this);
+		
+		svgImage.src = svgURL;
+	}).bind(this));
 };
 
 /**
@@ -338,6 +395,21 @@ TextTool.prototype._handleKeyDown = function (e) {
 				// Clear the text box, then remove it.
 				this._textElem.innerHTML = '';
 				this._removeTextElem();
+			}
+			break;
+		
+		case 53: // 5
+			if (e.altKey && e.shiftKey) {
+				e.preventDefault();
+				// Alt+Shift+5 => Strikethrough
+				
+				// Update the toolbar toggle.
+				toolbar.toolboxes.textToolOptions.strikeToggle.checked =
+					!toolbar.toolboxes.textToolOptions.strikeToggle.checked;
+				settings.set('strike', toolbar.toolboxes.textToolOptions.strikeToggle.checked);
+				
+				// Update the text box's CSS.
+				this._textElem.style.textDecoration = this._getTextDecorationValue();
 			}
 			break;
 		
@@ -374,7 +446,15 @@ TextTool.prototype._handleKeyDown = function (e) {
 		case 85: // U
 			if (ctrlOrCmd) {
 				e.preventDefault();
-				// Prevent the browser automatically underlining on Ctrl+U.
+				// Ctrl+U => Underline
+				
+				// Update the toolbar toggle.
+				toolbar.toolboxes.textToolOptions.underlineToggle.checked =
+					!toolbar.toolboxes.textToolOptions.underlineToggle.checked;
+				settings.set('underline', toolbar.toolboxes.textToolOptions.underlineToggle.checked);
+				
+				// Update the text box's CSS.
+				this._textElem.style.textDecoration = this._getTextDecorationValue();
 			}
 			break;
 	}

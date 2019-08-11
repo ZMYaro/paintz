@@ -10,8 +10,6 @@
 			gtag('config', 'UA-125332101-1');
 		</script>
 		
-		<title>PaintZ</title>
-		
 		<!-- Force HTTPS. -->
 		<link rel="canonical" href="https://paintz.app" />
 		<script type="text/javascript">
@@ -20,6 +18,9 @@
 				window.location.protocol = 'https';
 			}
 		</script>
+		
+		<title>PaintZ</title>
+		<meta name="description" content="MS Paint for Chromebooks. Create and edit drawings and other images. Simple, fast, works offline, touch- and mouse-friendly, and no plug-ins required!" />
 		
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		
@@ -30,7 +31,6 @@
 		<meta name="mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		
-		<link rel="author" href="https://plus.google.com/+ZacharyYaro" />
 		<link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/gdjcnhanmagpjdpilaehedkchegnkdoj" />
 		
 		<meta name="msapplication-tooltip" content="Create and edit drawings" />
@@ -58,6 +58,7 @@
 		
 		<!-- Libraries, helpers, and polyfills -->
 		<script type="text/javascript" src="scripts/lib/material-touch.js" defer="defer"></script>
+		<script type="text/javascript" src="scripts/lib/canvas-to-blob.min.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/lib/colorpicker.min.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/lib/pep.min.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/lib/promise.auto.min.js" defer="defer"></script>
@@ -73,11 +74,15 @@
 		<!-- Dialogs -->
 		<script type="text/javascript" src="scripts/progress_spinner.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/dialogs/dialog.js" defer="defer"></script>
+		<script type="text/javascript" src="scripts/dialogs/bottom_sheet.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/dialogs/about.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/dialogs/clear.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/dialogs/color_picker.js" defer="defer"></script>
+		<script type="text/javascript" src="scripts/dialogs/coffee.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/dialogs/help.js" defer="defer"></script>
+		<script type="text/javascript" src="scripts/dialogs/install.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/dialogs/keyboard.js" defer="defer"></script>
+		<script type="text/javascript" src="scripts/dialogs/rate.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/dialogs/resize.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/dialogs/save.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/dialogs/settings.js" defer="defer"></script>
@@ -88,13 +93,13 @@
 		<script type="text/javascript" src="scripts/toolbar/app.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/toolbar/color_picker.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/toolbar/draw_tool_options.js" defer="defer"></script>
+		<script type="text/javascript" src="scripts/toolbar/floating_selection_toolbar.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/toolbar/image.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/toolbar/no_tool_options.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/toolbar/select_tool_options.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/toolbar/text_tool_options.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/toolbar/tools.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/toolbar/toolbar.js" defer="defer"></script>
-		<script type="text/javascript" src="scripts/floating_selection_toolbar.js" defer="defer"></script>
 		
 		<!-- Drawing tools -->
 		<script type="text/javascript" src="scripts/tools/tool.js" defer="defer"></script>
@@ -102,6 +107,7 @@
 		<script type="text/javascript" src="scripts/tools/shape.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/tools/pencil.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/tools/doodle.js" defer="defer"></script>
+		<script type="text/javascript" src="scripts/tools/airbrush.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/tools/line.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/tools/curve.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/tools/rectangle.js" defer="defer"></script>
@@ -110,6 +116,7 @@
 		<script type="text/javascript" src="scripts/tools/floodfill.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/tools/eyedropper.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/tools/selection.js" defer="defer"></script>
+		<script type="text/javascript" src="scripts/tools/freeform_selection.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/tools/text.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/tools/pan.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/tools/tools.js" defer="defer"></script>
@@ -131,7 +138,7 @@
 		
 		<!-- Bottom toolbar -->
 		<div class="appBar z2" id="bottomBar" role="toolbar">
-			<span id="resolution"></span>
+			<button id="resolution"></button>
 			<span id="zoomContainer">
 				<input type="number" id="zoomPercent" value="100" maxlength="3" min="1" max="999" />
 				<span class="icon">%</span>
@@ -149,8 +156,9 @@
 			</span>
 		</div>
 		
-		<!-- Dialogs container -->
+		<!-- Dialog containers -->
 		<div id="dialogsContainer"></div>
+		<div id="bottomSheetsContainer"></div>
 		
 		<!-- Splash screen -->
 		<div id="splashScreen">

@@ -4,53 +4,125 @@ var keyManager = {
 	_handleKeyDown: function (e) {
 		// Use Command on Mac and iOS devices and Ctrl everywhere else.
 		var ctrlOrCmd = Utils.checkPlatformCtrlKey(e),
+			ctrlOrCmdOnly = ctrlOrCmd && !e.altKey && !e.metaKey && !e.shiftKey,
 			noModifiers = !Utils.checkModifierKeys(e);
 		
 		switch (e.keyCode) {
 			case 8: // Backspace
 				if (noModifiers) {
-					if (settings.get('tool') === 'selection') {
+					if (tools.currentTool instanceof SelectionTool) {
 						e.preventDefault();
 						// Backspace => Delete selection
-						tools.selection.clear();
+						tools.currentTool.clear();
 					}
 				}
 				break;
 			
 			case 27: // Esc
 				if (noModifiers) {
-					if (settings.get('tool') === 'selection') {
+					if (tools.currentTool instanceof SelectionTool) {
 						e.preventDefault();
 						// Esc => Drop/cancel selection
-						tools.selection.deactivate();
+						tools.currentTool.deactivate();
+					}
+				}
+				break;
+			
+			case 37: // Left arrow
+				if (tools.currentTool instanceof SelectionTool) {
+					if (noModifiers) {
+						e.preventDefault();
+						// Left arrow => Nudge selection left
+						tools.currentTool.nudge(-1, 0);
+					} else if (e.shiftKey && !e.altKey && !ctrlOrCmd && !e.metaKey) {
+						e.preventDefault();
+						// Shift + Left arrow => Nudge selection 10 left
+						tools.currentTool.nudge(-10, 0);
+					}
+				}
+				break;
+			
+			case 38: // Up arrow
+				if (tools.currentTool instanceof SelectionTool) {
+					if (noModifiers) {
+						e.preventDefault();
+						// Up arrow => Nudge selection up
+						tools.currentTool.nudge(0, -1);
+					} else if (e.shiftKey && !e.altKey && !ctrlOrCmd && !e.metaKey) {
+						e.preventDefault();
+						// Shift + Up arrow => Nudge selection 10 up
+						tools.currentTool.nudge(0, -10);
+					}
+				}
+				break;
+			
+			case 39: // Right arrow
+				if (tools.currentTool instanceof SelectionTool) {
+					if (noModifiers) {
+						e.preventDefault();
+						// Right arrow => Nudge selection right
+						tools.currentTool.nudge(1, 0);
+					} else if (e.shiftKey && !e.altKey && !ctrlOrCmd && !e.metaKey) {
+						e.preventDefault();
+						// Shift + Right arrow => Nudge selection 10 right
+						tools.currentTool.nudge(10, 0);
+					}
+				}
+				break;
+			
+			case 40: // Down arrow
+				if (tools.currentTool instanceof SelectionTool) {
+					if (noModifiers) {
+						e.preventDefault();
+						// Down arrow => Nudge selection down
+						tools.currentTool.nudge(0, 1);
+					} else if (e.shiftKey && !e.altKey && !ctrlOrCmd && !e.metaKey) {
+						e.preventDefault();
+						// Shift + Down arrow => Nudge selection 10 down
+						tools.currentTool.nudge(0, 10);
 					}
 				}
 				break;
 			
 			case 46: // Delete
 				if (noModifiers) {
-					if (settings.get('tool') === 'selection') {
+					if (tools.currentTool instanceof SelectionTool) {
 						e.preventDefault();
 						// Delete => Delete selection
-						tools.selection.clear();
+						tools.currentTool.clear();
+					}
+				}
+				break;
+			
+			case 53: // 5
+				if (e.altKey && e.shiftKey && !e.ctrlKey && !e.metaKey) {
+					e.preventDefault();
+					// Alt+Shift+5 => Strikethrough
+					
+					if (settings.get('tool') === 'text') {
+						toolbar.toolboxes.textToolOptions.strikeToggle.checked =
+							!toolbar.toolboxes.textToolOptions.strikeToggle.checked;
+						settings.set('strike', toolbar.toolboxes.textToolOptions.strikeToggle.checked);
 					}
 				}
 				break;
 			
 			case 65: // A
-				if (ctrlOrCmd) {
+				if (ctrlOrCmdOnly) {
 					e.preventDefault();
 					// Ctrl+A => Select all
 					
-					// Switch to the selection tool.
-					tools.switchTool('selection');
+					// Switch to the rectangular selection tool.
+					if (tools.currentTool !== tools.selection) {
+						tools.switchTool('selection');
+					}
 					// Select the entire canvas.
-					tools.selection.selectAll(canvas.width, canvas.height);
+					tools.currentTool.selectAll(canvas.width, canvas.height);
 				}
 				break;
 			
 			case 66: // B
-				if (ctrlOrCmd) {
+				if (ctrlOrCmdOnly) {
 					e.preventDefault();
 					// Ctrl+B => Bold
 					
@@ -75,12 +147,12 @@ var keyManager = {
 				break;
 			
 			case 68: // D
-				if (ctrlOrCmd) {
+				if (ctrlOrCmdOnly) {
 					e.preventDefault();
 					
-					if (settings.get('tool') === 'selection') {
+					if (tools.currentTool instanceof SelectionTool) {
 						// Ctrl+D => Duplicate selection
-						tools.selection.duplicate();
+						tools.currentTool.duplicate();
 					}
 				}
 				break;
@@ -96,8 +168,8 @@ var keyManager = {
 			case 70: // F
 				if (noModifiers) {
 					e.preventDefault();
-					// F => Fill tool
-					tools.switchTool('floodFill');
+					// F => Freeform selection tool
+					tools.switchTool('freeformSelection');
 				}
 				break;
 			
@@ -110,7 +182,7 @@ var keyManager = {
 				break;
 			
 			case 73: // I
-				if (ctrlOrCmd) {
+				if (ctrlOrCmdOnly) {
 					e.preventDefault();
 					// Ctrl+I => Italic
 					
@@ -127,6 +199,14 @@ var keyManager = {
 				}
 				break;
 			
+			case 75: // K
+				if (noModifiers) {
+					e.preventDefault();
+					// K => Flood fill (paint bucket) tool
+					tools.switchTool('floodFill');
+				}
+				break;
+			
 			case 76: // L
 				if (noModifiers) {
 					e.preventDefault();
@@ -136,7 +216,7 @@ var keyManager = {
 				break;
 			
 			case 79: // O
-				if (ctrlOrCmd) {
+				if (ctrlOrCmdOnly) {
 					e.preventDefault();
 					// Ctrl+O => Open
 					document.getElementById('upload').click();
@@ -164,7 +244,7 @@ var keyManager = {
 				break;
 			
 			case 83: // S
-				if (ctrlOrCmd) {
+				if (ctrlOrCmdOnly) {
 					e.preventDefault();
 					// Ctrl+S => Save
 					dialogs.save.open();
@@ -180,6 +260,19 @@ var keyManager = {
 					e.preventDefault();
 					// T => Text tool
 					tools.switchTool('text');
+				}
+				break;
+			
+			case 85: // U
+				if (ctrlOrCmdOnly) {
+					e.preventDefault();
+					// Ctrl+U => Underline
+					
+					if (settings.get('tool') === 'text') {
+						toolbar.toolboxes.textToolOptions.underlineToggle.checked =
+							!toolbar.toolboxes.textToolOptions.underlineToggle.checked;
+						settings.set('underline', toolbar.toolboxes.textToolOptions.underlineToggle.checked);
+					}
 				}
 				break;
 			
@@ -204,7 +297,7 @@ var keyManager = {
 				break;
 			
 			case 89: // Y
-				if (ctrlOrCmd) {
+				if (ctrlOrCmdOnly) {
 					e.preventDefault();
 					// Ctrl+Y => Redo
 					undoStack.redo();
@@ -212,13 +305,13 @@ var keyManager = {
 				break;
 			
 			case 90: // Z
-				if (ctrlOrCmd && e.shiftKey) {
+				if (ctrlOrCmd && e.shiftKey && !e.altKey && !e.metaKey) {
 					e.preventDefault();
 					// Ctrl+Shift+Z => Redo
 					undoStack.redo();
-				} else if (ctrlOrCmd) {
+				} else if (ctrlOrCmdOnly || (ctrlOrCmd && e.altKey)) {
 					e.preventDefault();
-					// Ctrl+Z => Undo
+					// Ctrl+Z OR Ctrl+Alt+Z => Undo
 					undoStack.undo();
 				}
 				break;
@@ -232,7 +325,7 @@ var keyManager = {
 				break;
 			
 			case 187: // =/+
-				if (ctrlOrCmd && e.altKey) {
+				if (ctrlOrCmd && e.altKey && !e.metaKey && !e.shiftKey) {
 					e.preventDefault();
 					// Ctrl+Alt+= => Zoom in
 					zoomManager.zoomIn();
@@ -240,7 +333,7 @@ var keyManager = {
 				break;
 			
 			case 189: // -/_
-				if (ctrlOrCmd && e.altKey) {
+				if (ctrlOrCmd && e.altKey && !e.metaKey && !e.shiftKey) {
 					e.preventDefault();
 					// Ctrl+Alt+- => Zoom out
 					zoomManager.zoomOut();
@@ -248,9 +341,9 @@ var keyManager = {
 				break;
 			
 			case 191: // //?
-				if (e.shiftKey) {
+				if (e.shiftKey && !e.altKey && !e.metaKey) {
 					e.preventDefault();
-					// ? => Keyboard shortcuts dialog
+					// ? OR Ctrl+? => Keyboard shortcuts dialog
 					dialogs.keyboard.open();
 				}
 				break;

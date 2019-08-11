@@ -28,14 +28,10 @@
 	}
 	#toolbar button,
 	#toolbar [role="button"] {
-		margin: 4px 2px;
-		padding: 8px;
+		margin: 4px;
 	}
 		#toolbar button svg,
 		#toolbar [role="button"] svg {
-			margin-left: 0;
-			margin-right: 0;
-			
 			-webkit-transition: fill 0.15s linear;
 			   -moz-transition: fill 0.15s linear;
 			    -ms-transition: fill 0.15s linear;
@@ -66,33 +62,6 @@
 					cursor: default;
 					cursor: not-allowed;
 				}
-				
-	#toolbar select#lineWidth,
-	#toolbar select#fontFamilySelect,
-	#toolbar select#fontSizeSelect {
-		padding-left: 40px;
-	}
-		#toolbar select#lineWidth {
-			margin-left: 16px;
-		}
-		#toolbar select#lineWidth + .icon,
-		#toolbar select#fontFamilySelect + .icon,
-		#toolbar select#fontSizeSelect + .icon {
-			width: 24px;
-			height: 24px;
-			margin-bottom: -5px;
-		}
-		#toolbar select#lineWidth + .icon {
-			margin-left: -100px;
-		}
-		#toolbar select#fontFamilySelect + .icon {
-			margin-left: -182px;
-			margin-right: 158px;
-		}
-		#toolbar select#fontSizeSelect + .icon {
-			margin-left: -96px;
-			margin-right: 66px;
-		}
 
 .toolbox {
 	display: inline-block;
@@ -103,14 +72,28 @@
 	.toolbox input[type="radio"] {
 		display: none;
 	}
-
-#outlineOptions {
-	margin: 0 2px;
-}
-	#outlineOptions input[type="radio"] + label {
-		margin-left: 1px;
-		margin-right: 1px;
+	.toolbox .icon {
+		vertical-align: top;
+		width: 24px;
+		height: 24px;
+		margin: 12px;
+		margin-right: -36px;
 	}
+		.toolbox .icon + select {
+			padding-left: 40px;
+		}
+
+#outlineOptions input[type="radio"] + label,
+#textFormatOptions input[type="checkbox"] + label {
+	margin-left: 1px;
+	margin-right: 1px;
+}
+
+#noToolOptionsMessage {
+	opacity: 0.8;
+	font-size: 80%;
+	margin: 28px 1em;
+}
 
 #bottomBar {
 	top: auto;
@@ -129,13 +112,18 @@
 		padding: 8px 8px;
 		margin: -4px 0;
 	}
-	#bottomBar button > img {
-		width: 24px;
-		height: 24px;
-	}
-#resolution {
-	display: inline-block;
-	margin: 6px;
+		#bottomBar button > img,
+		#bottomBar button > [role="img"] {
+			width: 24px;
+			height: 24px;
+			margin: -6px 2px;
+		}
+button#resolution {
+	width: auto;
+	text-transform: none;
+	margin: -5px 0;
+	font-size: inherit;
+	font-weight: inherit;
 }
 #zoomContainer {
 	float: right;
@@ -182,16 +170,39 @@ button#zoomInBtn {
 		}
 		#toolbar button,
 		#toolbar [role="button"] {
-			margin: 2px 0;
-			margin-right: -1px;
+			margin: 2px;
 		}
-		#toolbar select#lineWidth {
+	
+	.toolbox .icon {
+		margin-top: 10px;
+		margin-bottom: 10px;
+		margin-left: 10px;
+	}
+		.toolbox .icon + select {
 			margin-top: 2px;
 			margin-bottom: 2px;
 		}
+	
+	#noToolOptionsMessage {
+		margin-top: 24px;
+		margin-bottom: 24px;
+	}
 }
 @media (max-width: 480px) {
 	#resolution {
 		display: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#toolbar button svg,
+	#toolbar [role="button"] svg,
+	#toolbar input[type="checkbox"] + label[role="button"],
+	#toolbar input[type="radio"] + label[role="button"] {
+		-webkit-transition-duration: 0s;
+		   -moz-transition-duration: 0s;
+		    -ms-transition-duration: 0s;
+		     -o-transition-duration: 0s;
+		        transition-duration: 0s;
 	}
 }

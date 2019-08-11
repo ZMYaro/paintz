@@ -24,8 +24,6 @@ DrawToolOptionsToolbox.prototype._setUp = function (contents) {
 	this._lineWidthSelect.value = settings.get('lineWidth');
 	this._lineWidthSelect.addEventListener('change', function (e) {
 		settings.set('lineWidth', e.target.value);
-		// Some tools' cursors change with the line width, so reactivate the tool.
-		tools.currentTool.activate();
 	}, false);
 	
 	this._outlineOptions = this._element.querySelector('#outlineOptions');

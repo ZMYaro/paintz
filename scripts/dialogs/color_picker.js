@@ -63,6 +63,8 @@ ColorPickerDialog.prototype._setUp = function (contents) {
 		this._element.fillColorRed.oninput =
 		this._element.fillColorGreen.oninput =
 		this._element.fillColorBlue.oninput = this._updateRGB.bind(this);
+	
+	this._element.querySelector('#colorSwapButton').addEventListener('click', this._swapColors.bind(this), false);
 };
 
 /**
@@ -83,6 +85,17 @@ ColorPickerDialog.prototype._showCurrentColors = function () {
 	this._element.lineColorHex.value = settings.get('lineColor');
 	this.colorPickers.fill.setHex(settings.get('fillColor'));
 	this._element.fillColorHex.value = settings.get('fillColor');
+};
+
+/**
+ * @private
+ * Swap the line and fill colors.
+ */
+ColorPickerDialog.prototype._swapColors = function () {
+	var oldLine = this._element['lineColorHex'].value,
+		oldFill = this._element['fillColorHex'].value;
+	this.colorPickers.line.setHex(oldFill);
+	this.colorPickers.fill.setHex(oldLine);
 };
 
 ColorPickerDialog.prototype._updateHex = function (e) {

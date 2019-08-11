@@ -1,7 +1,7 @@
 /* Base Material styles for widgets
  * Part of the MaterialZ CSS library
  *
- * Copyright 2015 Zachary Yaro
+ * Copyright 2015-2019 Zachary Yaro
  * Released under the MIT license
  * http://materialz.zmyaro.com/LICENSE.txt
  */
@@ -44,7 +44,8 @@ body {
 		vertical-align: top;
 		min-width: 0;
 		margin: -8px 0; /* Counter the toolbar's padding */
-		padding: 8px 6px;
+		padding: 12px 10px 11px;
+		font-size: 14px; /* According to Android, toolbar buttons do not scale with base font like other elements do. */
 		
 		background-color: transparent;
 		background-image: none;
@@ -67,7 +68,7 @@ body {
 		[role="toolbar"] input[type="reset"] [role="img"] {
 			width: 24px;
 			height: 24px;
-			margin: -5px 2px;
+			margin: -4px -2px -7px;
 			pointer-events: none;
 		}
 
@@ -274,6 +275,7 @@ progress.circular::after,
 		right: 0;
 		bottom: 0;
 		margin: -6px; /* Counter the parent element's border width */
+		border-width: inherit;
 		border-top-color: inherit;
 	}
 	progress.circular::before,

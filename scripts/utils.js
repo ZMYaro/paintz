@@ -2,6 +2,7 @@
 
 // Polyfills.
 Math.TAU = Math.TAU || (2 * Math.PI);
+window.URL = window.webkitURL || window.URL;
 Object.values = Object.values || function (obj) {
 	var vals = [];
 	for (var key in obj) {
@@ -16,13 +17,18 @@ var Utils = {
 	/** Whether the device runs Apple software. */
 	isApple: (navigator.userAgent.indexOf('Mac') !== -1),
 	
+	/** Whether the user prefers reduced motion. */
+	get prefersReducedMotion() {
+		return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	},
+	
 	/**
 	 * Check whether any modifier keys are pressed for the given event.
 	 * @param {MouseEvent} e - The event for which to check the keys
 	 * @returns {Boolean} - Whether any modifier key is pressed
 	 */
 	checkModifierKeys: function (e) {
-		return (e.altKey || e.ctrlKey || e.shiftKey || e.metaKey);
+		return (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey);
 	},
 	
 	/**

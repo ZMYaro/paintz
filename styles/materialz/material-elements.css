@@ -1,12 +1,13 @@
 /* Base Material styles for elements
  * Part of the MaterialZ CSS library
  *
- * Copyright 2015 Zachary Yaro
+ * Copyright 2015-2019 Zachary Yaro
  * Released under the MIT license
  * http://materialz.zmyaro.com/LICENSE.txt
  */
 
 @charset "UTF-8";
+@import url(//fonts.googleapis.com/css?family=Roboto+Mono:400italic,400|Roboto:400,400italic,500,500italic,700,700italic);
 
 ::selection {
 	background-color: #40c4ff;
@@ -89,18 +90,17 @@ input[type="reset"],
 input[type="checkbox"],
 input[type="radio"],
 input[type="range"],
-select:not([size]),
-select[size="1"] {
+select {
 	cursor: pointer;
 }
 
 /* --------======== BUTTONS and DROP-DOWNS ========-------- */
-button, [role="button"],
+button,
+[role="button"],
 input[type="button"],
 input[type="submit"],
 input[type="reset"],
-select:not([size]),
-select[size="1"] {
+select {
 	display: inline-block;
 	margin: 4px;
 	padding: 8px 16px;
@@ -119,10 +119,12 @@ select[size="1"] {
 	input[type="submit"],
 	input[type="reset"] {
 		text-transform: uppercase;
+		font-size: 87.5%;
+		font-size: 0.875rem;
 		font-weight: 500; /* Medium */
+		padding: 10px 16px 9px;
 	}
-	select:not([size]),
-	select[size="1"] {
+	select {
 		min-width: 0;
 		position: relative;
 		background-color: transparent;
@@ -146,10 +148,8 @@ select[size="1"] {
 	input[type="submit"]:focus,
 	input[type="reset"]:not(:disabled):hover,
 	input[type="reset"]:focus,
-	select:not([size]):not(:disabled):hover,
-	select:not([size]):focus,
-	select[size="1"]:not(:disabled):hover,
-	select[size="1"]:focus {
+	select:not(:disabled):hover,
+	select:focus {
 		background-color: #e2e3e3;
 		background-color: rgba(128, 128, 128, 0.2);
 	}
@@ -164,10 +164,8 @@ select[size="1"] {
 	input[type="submit"]:not(:disabled).active,
 	input[type="reset"]:not(:disabled):active,
 	input[type="reset"]:not(:disabled).active,
-	select:not([size]):not(:disabled):active,
-	select:not([size]):not(:disabled).active,
-	select[size="1"]:not(:disabled):active,
-	select[size="1"]:not(:disabled).active {
+	select:not(:disabled):active,
+	select:not(:disabled).active {
 		background-color: #c4c5c5;
 		background-color: rgba(128, 128, 128, 0.4);
 	}
@@ -493,7 +491,8 @@ input[type="password"],
 input[type="email"],
 input[type="url"],
 input[type="number"],
-textarea {
+textarea,
+select[size] {
 	-webkit-appearance: none;
 	   -moz-appearance: none;
 	        appearance: none;
@@ -510,10 +509,29 @@ textarea {
 	        border-radius: 0;
 	outline: 0 none transparent;
 }
-textarea {
+textarea,
+select[size] {
 	border-width: 1px;
+	border-style: solid;
+}
+select[size] {
+	padding: 0;
+}
+textarea,
+select[size] > option {
 	padding: 4px;
 }
+	input[type="text"]:focus,
+	input[type="search"]:focus,
+	input[type="password"]:focus,
+	input[type="email"]:focus,
+	input[type="url"]:focus,
+	input[type="number"]:focus,
+	textarea:focus,
+	select[size]:focus {
+		border-color: #40c4ff;
+		outline: 0 none transparent;
+	}
 	input[type="text"]:focus,
 	input[type="search"]:focus,
 	input[type="password"]:focus,
@@ -523,8 +541,6 @@ textarea {
 	textarea:focus {
 		padding-bottom: 3px;
 		border-bottom-width: 2px;
-		border-color: #40c4ff;
-		outline: 0 none transparent;
 	}
 
 *:disabled,

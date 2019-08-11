@@ -9,22 +9,21 @@
  */
 function PacMan(canvas, color, x, y) {
 	this._started = false;
-
+	
 	this._canvas = canvas;
 	this._cxt = canvas.getContext('2d');
 	this._color = color;
 	this.x = x || Math.floor(canvas.width * 0.2);
 	this.y = y || Math.floor(canvas.height * 0.2);
 	this.heading = PacMan.HEADINGS.RIGHT;
-
+	
 	this._startSound = document.getElementById('pacManStartSound');
-
+	
 	this._mouthSize = 0;
 	this._mouthOpening = true;
-
+	
+	this._boundKeyHandler = this._handleKeyDown.bind(this);
 	this._boundUpdate = this._update.bind(this);
-
-	this._initListeners();
 }
 // Constants.
 PacMan.RADIUS = 30;
@@ -41,7 +40,7 @@ PacMan.HEADINGS = {
 };
 PacMan.KEYS = {
 	LEFT: [37, 65], // Left, A
-	UP: [38, 44, 87], // Up, comma, W
+	UP: [38, 87, 188], // Up, W, comma
 	RIGHT: [39, 68, 69], // Right, D, E
 	DOWN: [40, 79, 83] // Down, O, S
 };
@@ -64,6 +63,8 @@ PacMan.prototype.start = function () {
 	}
 	// NOW set Pac-Man to have started.
 	this._started = true;
+	// Enable key inputs.
+	window.addEventListener('keydown', this._boundKeyHandler, false);
 	// Start moving after the sound finishes.
 	setTimeout(this._boundUpdate, PacMan.START_SOUND_LENGTH);
 };
@@ -72,8 +73,13 @@ PacMan.prototype.start = function () {
  * Stop and hide Pac-Man.
  */
 PacMan.prototype.stop = function () {
+	// Disable key inputs.
+	window.removeEventListener('keydown', this._boundKeyHandler, false);
+	// Erase Pac-Man.
 	this._erase();
+	// Stop the start sound if it is playing.
 	this._startSound.pause();
+	// Stop the game.
 	this._started = false;
 }
 
@@ -82,20 +88,18 @@ PacMan.prototype.stop = function () {
  * @returns {Boolean}
  */
 PacMan.prototype._isBlocked = function () {
-	this._cxt.fillStyle = settings.get('lineColor');
-	this._cxt.fillRect(this.x - 1, this.y - 1, 3, 3);
-
 	var imageData = this._cxt.getImageData(
 		this.x - (PacMan.RADIUS + PacMan.HITBOX_PADDING + 1),
 		this.y - (PacMan.RADIUS + PacMan.HITBOX_PADDING + 1),
 		(2 * (PacMan.RADIUS + PacMan.HITBOX_PADDING + 1)),
 		(2 * (PacMan.RADIUS + PacMan.HITBOX_PADDING + 1))
 	);
-
+	
+	var lineColor = settings.get('lineColor');
 	var wallColor = {
-		r: imageData.data[(((imageData.height / 2) * imageData.width * 4) + ((imageData.width / 2) * 4))],
-		g: imageData.data[(((imageData.height / 2) * imageData.width * 4) + ((imageData.width / 2) * 4)) + 1],
-		b: imageData.data[(((imageData.height / 2) * imageData.width * 4) + ((imageData.width / 2) * 4)) + 2]
+		r: parseInt(lineColor.substr(1, 2), 16),
+		g: parseInt(lineColor.substr(3, 2), 16),
+		b: parseInt(lineColor.substr(5, 2), 16)
 	};
 
 	this._cxt.fillStyle = settings.get('fillColor');
@@ -154,7 +158,7 @@ PacMan.prototype._draw = function () {
 
 /**
  * Cover Pac-Man with the current fill color, effectively erasing him
- * and �eating� everything under him.
+ * and “eating” everything under him.
  */
 PacMan.prototype._erase = function () {
 	this._cxt.fillStyle = settings.get('fillColor');
@@ -175,24 +179,23 @@ PacMan.prototype._erase = function () {
 };
 
 /**
- * Initialize key event listeners for Pac-Man.
+ * Handle a key being pressed for Pac-Man.
+ * @param {KeyboardEvent} ev
  */
-PacMan.prototype._initListeners = function () {
-	window.addEventListener('keydown', (function (e) {
-		if (PacMan.KEYS.UP.indexOf(e.keyCode) !== -1) {
-			e.preventDefault();
-			this.heading = PacMan.HEADINGS.UP;
-		} else if (PacMan.KEYS.RIGHT.indexOf(e.keyCode) !== -1) {
-			e.preventDefault();
-			this.heading = PacMan.HEADINGS.RIGHT;
-		} else if (PacMan.KEYS.DOWN.indexOf(e.keyCode) !== -1) {
-			e.preventDefault();
-			this.heading = PacMan.HEADINGS.DOWN;
-		} else if (PacMan.KEYS.LEFT.indexOf(e.keyCode) !== -1) {
-			e.preventDefault();
-			this.heading = PacMan.HEADINGS.LEFT;
-		}
-	}).bind(this), false);
+PacMan.prototype._handleKeyDown = function (ev) {
+	if (PacMan.KEYS.UP.indexOf(ev.keyCode) !== -1) {
+		ev.preventDefault();
+		this.heading = PacMan.HEADINGS.UP;
+	} else if (PacMan.KEYS.RIGHT.indexOf(ev.keyCode) !== -1) {
+		ev.preventDefault();
+		this.heading = PacMan.HEADINGS.RIGHT;
+	} else if (PacMan.KEYS.DOWN.indexOf(ev.keyCode) !== -1) {
+		ev.preventDefault();
+		this.heading = PacMan.HEADINGS.DOWN;
+	} else if (PacMan.KEYS.LEFT.indexOf(ev.keyCode) !== -1) {
+		ev.preventDefault();
+		this.heading = PacMan.HEADINGS.LEFT;
+	}
 };
 
 PacMan.prototype._update = function () {
@@ -203,7 +206,7 @@ PacMan.prototype._update = function () {
 		return;
 	}
 
-	// �Eat� everything under Pac-Man.
+	// “Eat” everything under Pac-Man.
 	this._erase();
 
 	// Move Pac-Man.
@@ -234,14 +237,14 @@ PacMan.prototype._update = function () {
 	}
 
 	// Screen wrap.
-	if (this.x < -(PacMan.RADIUS * 2)) {
-		this.x = canvas.width + (PacMan.RADIUS * 2);
-	} else if (this.x > canvas.width + (PacMan.RADIUS * 2)) {
-		this.x = -(PacMan.RADIUS * 2);
-	} else if (this.y < -(PacMan.RADIUS * 2)) {
-		this.y = canvas.height + (PacMan.RADIUS * 2);
-	} else if (this.y > canvas.height + (PacMan.RADIUS * 2)) {
-		this.y = -(PacMan.RADIUS * 2);
+	if (this.x < -PacMan.RADIUS) {
+		this.x = canvas.width + PacMan.RADIUS;
+	} else if (this.x > canvas.width + PacMan.RADIUS) {
+		this.x = -PacMan.RADIUS;
+	} else if (this.y < -PacMan.RADIUS) {
+		this.y = canvas.height + PacMan.RADIUS;
+	} else if (this.y > canvas.height + PacMan.RADIUS) {
+		this.y = -PacMan.RADIUS;
 	}
 
 	// Draw Pac-Man.

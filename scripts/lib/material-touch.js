@@ -1,7 +1,7 @@
 /* Script for triggering element active states when touched
  * Supplement to the MaterialZ CSS library
  *
- * Copyright 2016 Zachary Yaro
+ * Copyright 2015-2019 Zachary Yaro
  * Released under the MIT license
  * https://materialz.zmyaro.com/LICENSE.txt
  */

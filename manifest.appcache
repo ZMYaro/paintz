@@ -1,21 +1,25 @@
 CACHE MANIFEST
-# 2019-03-07, v1
+# 2019-08-11, v1
 index.html
 404.html
 manifest.webapp
 audio/pacman_start.mp3
 images/toolbar_overview.png
+images/cursors/airbrush.cur
 images/cursors/eyedropper.cur
 images/cursors/paint_bucket.cur
 images/cursors/pencil.cur
+images/icons/add_to_home_screen.svg
+images/icons/airbrush.svg
 images/icons/back.svg
 images/icons/bold.svg
 images/icons/brush.svg
 images/icons/clear.svg
+images/icons/copy.svg
 images/icons/crop.svg
 images/icons/curve.svg
+images/icons/cut.svg
 images/icons/cws.svg
-images/icons/delete.svg
 images/icons/duplicate.svg
 images/icons/eraser.svg
 images/icons/eyedropper.svg
@@ -24,9 +28,9 @@ images/icons/fill_only.svg
 images/icons/flip.svg
 images/icons/font_family.svg
 images/icons/font_size.svg
+images/icons/freeform_select.svg
 images/icons/full_screen.svg
 images/icons/github.svg
-images/icons/gplus.svg
 images/icons/help.svg
 images/icons/info.svg
 images/icons/instagram.svg
@@ -50,8 +54,12 @@ images/icons/save.svg
 images/icons/select.svg
 images/icons/select_all.svg
 images/icons/settings.svg
+images/icons/strike.svg
+images/icons/swap.svg
 images/icons/text.svg
+images/icons/text_fill.svg
 images/icons/twitter.svg
+images/icons/underline.svg
 images/icons/zoom_in.svg
 images/icons/zoom_out.svg
 images/icons/undo.svg
@@ -59,12 +67,14 @@ images/logo/128.png
 images/logo/256.png
 images/logo/512.png
 images/logo/favicon.ico
-partials/floating_selection_toolbar.html
 partials/dialogs/about.html
 partials/dialogs/clear.html
+partials/dialogs/coffee.html
 partials/dialogs/color_picker.html
 partials/dialogs/help.html
+partials/dialogs/install.html
 partials/dialogs/keyboard.html
+partials/dialogs/rate.html
 partials/dialogs/resize.html
 partials/dialogs/save.html
 partials/dialogs/settings.html
@@ -72,6 +82,7 @@ partials/dialogs/welcome.html
 partials/toolbar/app.html
 partials/toolbar/color_picker.html
 partials/toolbar/draw_tool_options.html
+partials/toolbar/floating_selection_toolbar.html
 partials/toolbar/image.html
 partials/toolbar/no_tool_options.html
 partials/toolbar/select_tool_options.html
@@ -79,7 +90,6 @@ partials/toolbar/text_tool_options.html
 partials/toolbar/tools.html
 scripts/app.js
 scripts/clipboard.js
-scripts/floating_selection_toolbar.js
 scripts/keyboard.js
 scripts/pacman.js
 scripts/progress_spinner.js
@@ -88,15 +98,20 @@ scripts/undo.js
 scripts/utils.js
 scripts/zoom.js
 scripts/dialogs/dialog.js
+scripts/dialogs/bottom_sheet.js
 scripts/dialogs/about.js
 scripts/dialogs/clear.js
+scripts/dialogs/coffee.js
 scripts/dialogs/color_picker.js
 scripts/dialogs/help.js
+scripts/dialogs/install.js
 scripts/dialogs/keyboard.js
+scripts/dialogs/rate.js
 scripts/dialogs/resize.js
 scripts/dialogs/save.js
 scripts/dialogs/settings.js
 scripts/dialogs/welcome.js
+scripts/lib/canvas-to-blob.min.js
 scripts/lib/colorpicker.min.js
 scripts/lib/material-touch.js
 scripts/lib/pep.min.js
@@ -104,6 +119,7 @@ scripts/lib/promise.auto.min.js
 scripts/toolbar/app.js
 scripts/toolbar/color_picker.js
 scripts/toolbar/draw_tool_options.js
+scripts/toolbar/floating_selection_toolbar.js
 scripts/toolbar/image.js
 scripts/toolbar/no_tool_options.js
 scripts/toolbar/select_tool_options.js
@@ -111,6 +127,7 @@ scripts/toolbar/text_tool_options.js
 scripts/toolbar/toolbar.js
 scripts/toolbar/toolbox.js
 scripts/toolbar/tools.js
+scripts/tools/airbrush.js
 scripts/tools/curve.js
 scripts/tools/doodle.js
 scripts/tools/drawing.js

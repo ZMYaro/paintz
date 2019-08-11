@@ -14,7 +14,6 @@ var canvas,
 	cursorCxt,
 	tools,
 	zoomManager,
-	dialogsContainer,
 	settings,
 	clipboard,
 	dialogs = {},
@@ -37,6 +36,25 @@ function initCanvas() {
 	
 	cxt.lineCap = 'round';
 	preCxt.lineCap = 'round';
+}
+
+/**
+ * Set up the canvases with their initial contents.
+ */
+function initCanvasContents() {
+	resetCanvas();
+	
+	// If there is a saved state in session storage, restore it.
+	if (sessionStorage.lastState) {
+		var image = new Image();
+		image.onload = function () {
+			settings.set('width', image.width);
+			settings.set('height', image.height);
+			cxt.drawImage(image, 0, 0);
+			undoStack.clear();
+		};
+		image.src = sessionStorage.lastState;
+	}
 }
 
 /**
@@ -170,9 +188,32 @@ function initDragDrop() {
 	}, false);
 }
 
+/**
+ * Check whether it is a milestone for a pop-up suggestion.
+ */
+function checkSaveCountMilestone() {
+	var DIALOG_OPEN_DELAY = 2000; // Milliseconds
+	var MILESTONES = {
+		'10': 'install',
+		'50': 'coffee',
+		'100': 'rate'
+	};
+	
+	var saveCount = settings.get('saveCount');
+	
+	if (saveCount in MILESTONES) {
+		setTimeout(function() {
+			dialogs[MILESTONES[saveCount]].open();
+		}, DIALOG_OPEN_DELAY);
+	}
+}
+
 window.addEventListener('load', function () {
-	// Initialize keyboard shortcut dialog.
+	// Initialize dialogs not bound to specific buttons.
+	dialogs.coffee = new CoffeeDialog();
+	dialogs.install = new InstallDialog();
 	dialogs.keyboard = new KeyboardDialog();
+	dialogs.rate = new RateDialog();
 	
 	// Initialize everything.
 	initCanvas();
@@ -182,11 +223,7 @@ window.addEventListener('load', function () {
 	toolbar = new ToolbarManager();
 	tools = new ToolManager();
 	progressSpinner = new ProgressSpinner();
-	
 	initDragDrop();
-	
-	// Get saved reference to the dialogs container.
-	dialogsContainer = document.getElementById('dialogsContainer');
 	
 	// Update the resolution in the bottom bar.
 	document.getElementById('resolution').innerHTML = settings.get('width') + ' &times; ' + settings.get('height') + 'px';
@@ -212,8 +249,8 @@ window.addEventListener('load', function () {
 }, false);
 
 function postLoadInit() {
-	// Get the canvas ready.
-	resetCanvas();
+	// Put in the initial canvas contents.
+	initCanvasContents();
 	
 	// Save the initial state.
 	undoStack.addState();
@@ -226,6 +263,14 @@ function postLoadInit() {
 	
 	// Hide the splash screen.
 	document.body.removeChild(document.getElementById('splashScreen'));
+	
+	// Prevent closing with unsaved changes.
+	undoStack.changedSinceSave = false;
+	window.onbeforeunload = function () {
+		if (undoStack.changedSinceSave) {
+			return 'It looks like you have unsaved changes.';
+		}
+	};
 	
 	if (settings.get('firstRunDone')) {
 		// Only show the welcome dialog if this is the user's first time using PaintZ (in this browser).

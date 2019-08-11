@@ -25,6 +25,9 @@ function ToolbarManager() {
 	this._addDivider();
 	this.toolboxes.app = new AppToolbox();
 	
+	// Create the floating selection toolbar.
+	this.toolboxes.floatingSelectionToolbar = new FloatingSelectionToolbar();
+	
 	// Hide the extra tool options toolboxes.
 	this.toolboxes.noToolOptions.hide();
 	this.toolboxes.drawToolOptions.hide();

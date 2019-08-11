@@ -1,11 +1,17 @@
-<h1 role="toolbar" class="dialog-header">
-	<button type="button" class="closeButton">
+<h1 role="toolbar" class="dialog-header" style="text-align: center;">
+	<button type="button" class="closeButton" style="margin-left: 26px; /* This ensures the swap button ends up centered. */">
 		<svg role="img">
 			<title>Close</title>
 			<use xlink:href="images/icons/clear.svg#icon" href="images/icons/clear.svg#icon"></use>
 		</svg>
 	</button>
-	Colors
+	<span style="float: left;">Colors</span>
+	<button type="button" id="colorSwapButton" title="Swap line and fill colors">
+		<svg role="img">
+			<title>Swap line and fill colors</title>
+			<use xlink:href="images/icons/swap.svg#icon" href="images/icons/swap.svg#icon"></use>
+		</svg>
+	</button>
 </h1>
 <table cellpadding="0" style="margin: 0 auto;">
 	<tr>
@@ -85,6 +91,6 @@
 	</tr>
 </table>
 <div class="dialog-footer" style="margin-top: 2px;">
-	<button type="button" class="closeButton">Cancel</button>
-	<button type="submit">Save</button>
+	<button type="button" class="closeButton">Cancel</button><!--
+	--><button type="submit">Save</button>
 </div>

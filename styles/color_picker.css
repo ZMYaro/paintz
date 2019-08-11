@@ -7,8 +7,8 @@
 	display: inline-block;
 	width: 48px;
 	height: 48px;
-	margin: 24px 4px;
-	margin-left: 8px;
+	margin: 24px 2px;
+	margin-left: 10px;
 	border: 8px solid;
 	-webkit-border-radius: 50%;
 	   -moz-border-radius: 50%;
@@ -24,10 +24,13 @@
 		display: block;
 		width: 24px;
 		height: 24px;
-		margin: 0;
+		margin: -4px -2px -3px;
 		-webkit-border-radius: 50%;
 		   -moz-border-radius: 50%;
 		        border-radius: 50%;
+		-webkit-box-shadow: 0 0 0 1px;
+		   -moz-box-shadow: 0 0 0 1px;
+		        box-shadow: 0 0 0 1px;
 	}
 	#colorPicker button[data-value="#000000"]::before { background-color: #000000; }
 	#colorPicker button[data-value="#ffffff"]::before { background-color: #ffffff; }
@@ -58,10 +61,10 @@
 	#colorPicker button.pacman::after {
 		content: '';
 		position: absolute;
-		left: 7px;
-		top: 7px;
-		right: 7px;
-		bottom: 6px;
+		left: 8px;
+		top: 8px;
+		right: 8px;
+		bottom: 8px;
 		-webkit-border-radius: 50%;
 		   -moz-border-radius: 50%;
 		        border-radius: 50%;

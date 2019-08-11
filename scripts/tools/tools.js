@@ -6,6 +6,7 @@
 function ToolManager() {
 	this.pencil = new PencilTool(cxt, preCxt);
 	this.doodle = new DoodleTool(cxt, preCxt);
+	this.airbrush = new AirbrushTool(cxt, preCxt);
 	this.line = new LineTool(cxt, preCxt);
 	this.curve = new CurveTool(cxt, preCxt);
 	this.rect = new RectangleTool(cxt, preCxt);
@@ -14,6 +15,7 @@ function ToolManager() {
 	this.floodFill = new FloodFillTool(cxt, preCxt);
 	this.eyedropper = new EyedropperTool(cxt, preCxt);
 	this.selection = new SelectionTool(cxt, preCxt);
+	this.freeformSelection = new FreeformSelectionTool(cxt, preCxt);
 	this.text = new TextTool(cxt,preCxt);
 	this.pan = new PanTool(cxt, preCxt);
 	
@@ -25,13 +27,16 @@ function ToolManager() {
 	this._boundPointerDownHandler = this._handlePointerDown.bind(this);
 	this._boundPointerMoveHandler = this._handlePointerMove.bind(this);
 	this._boundPointerUpHandler = this._handlePointerUp.bind(this);
+	this._boundUpdate = this._update.bind(this);
 	preCanvas.addEventListener('pointerdown', this._boundPointerDownHandler, false);
 	document.addEventListener('pointermove', this._boundPointerMoveHandler, false);
 	document.addEventListener('pointerup', this._boundPointerUpHandler, false);
 	document.addEventListener('pointerleave', this._boundPointerUpHandler, false);
+	Utils.raf(this._boundUpdate);
 	
 	this._state = this.STATE_INACTIVE;
 	
+	this.currentTool = this[settings.get('tool')];
 	this.currentTool.activate();
 }
 
@@ -39,13 +44,6 @@ function ToolManager() {
 ToolManager.prototype.STATE_INACTIVE = 0;
 ToolManager.prototype.STATE_ACTIVE = 1;
 
-Object.defineProperties(ToolManager.prototype, {
-	currentTool: {
-		get: function () {
-			return this[settings.get('tool')];
-		}
-	}
-});
 
 /**
  * Switch to the specified tool.
@@ -58,6 +56,7 @@ ToolManager.prototype.switchTool = function (toolName) {
 	Utils.clearCanvas(preCxt);
 	// Set and activate the newly-selected tool.
 	settings.set('tool', toolName);
+	this.currentTool = this[toolName];
 	this.currentTool.activate();
 	// Update the toolbar.
 	document.getElementById('tools').tool.value = toolName;
@@ -101,7 +100,7 @@ ToolManager.prototype._handlePointerDown = function (e) {
 
 /**
  * @private
- * Complete the canvas or preview canvas with the shape currently being drawn.
+ * Have the tool update in response to the pointer moving.
  * @param {PointerEvent} e
  */
 ToolManager.prototype._handlePointerMove = function (e) {
@@ -112,8 +111,10 @@ ToolManager.prototype._handlePointerMove = function (e) {
 	e.preventDefault();
 	e.stopPropagation();
 	
-	// Update the shape.
+	// Update the tool.
 	this.currentTool.move({
+		ctrlKey: Utils.checkPlatformCtrlKey(e),
+		shiftKey: e.shiftKey,
 		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
 		y: Utils.getCanvasY(e.pageY) / zoomManager.level,
 		windowX: e.clientX,
@@ -123,7 +124,7 @@ ToolManager.prototype._handlePointerMove = function (e) {
 
 /**
  * @private
- * Complete the current shape and stop drawing.
+ * Complete the current task and stop drawing.
  * @param {MouseEvent|TouchEvent} e
  */
 ToolManager.prototype._handlePointerUp = function (e) {
@@ -136,6 +137,8 @@ ToolManager.prototype._handlePointerUp = function (e) {
 	
 	// Complete the task.
 	this.currentTool.end({
+		ctrlKey: Utils.checkPlatformCtrlKey(e),
+		shiftKey: e.shiftKey,
 		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
 		y: Utils.getCanvasY(e.pageY) / zoomManager.level,
 		windowX: e.clientX,
@@ -144,4 +147,16 @@ ToolManager.prototype._handlePointerUp = function (e) {
 	
 	// Set the state to ready to start the next drawing.
 	this._state = this.STATE_INACTIVE;
+};
+
+/**
+ * @private
+ * Have the current tool update the canvas if necessary.
+ */
+ToolManager.prototype._update = function () {
+	if (this._state === this.STATE_ACTIVE) {
+		this.currentTool.update();
+	}
+	
+	Utils.raf(this._boundUpdate);
 };

@@ -1,9 +1,10 @@
 #progressContainer,
-#dialogsContainer {
+#dialogsContainer,
+#bottomSheetsContainer {
 	display: none;
-
+	
 	z-index: 4;
-
+	
 	position: fixed;
 	left: 0;
 	top: 0;
@@ -11,7 +12,7 @@
 	bottom: 0;
 	
 	overflow: auto;
-
+	
 	-webkit-transition-duration: 0.2s;
 	   -moz-transition-duration: 0.2s;
 	    -ms-transition-duration: 0.2s;
@@ -29,6 +30,12 @@
 	#progressContainer {
 		cursor: wait;
 	}
+	#bottomSheetsContainer {
+		overflow: visible;
+		top: auto;
+		pointer-events: none;
+	}
+
 .dialog {
 	margin: 0 auto 16px;
 	max-width: 96%;
@@ -70,18 +77,20 @@
 		font-weight: 300;
 	}
 	.dialog button[type="submit"],
-	#downloadLink {
+	[role="button"].submitLink {
 		background-color: #3f51b5;
 		color: white;
 	}
 		.dialog button[type="submit"]:hover,
 		.dialog button[type="submit"]:focus,
-		#downloadLink:hover,
-		#downloadLink:focus {
+		[role="button"].submitLink:hover,
+		[role="button"].submitLink:focus {
 			background-color: #4b5cb9;
 		}
 		.dialog button[type="submit"]:active,
-		#downloadLink:active {
+		.dialog button[type="submit"].active,
+		[role="button"].submitLink:active,
+		[role="button"].submitLink.active {
 			background-color: #5767bd;
 		}
 	.dialog#settingsDialog select:not([size]),
@@ -128,6 +137,12 @@
 			
 			font-weight: 500;
 		}
+			.dialog .dialog-header .icon {
+				float: left;
+				width: 24px;
+				height: 24px;
+				margin-right: 8px;
+			}
 			.dialog .dialog-header .closeButton {
 				float: right;
 				margin-right: -8px;
@@ -188,6 +203,27 @@
 						margin: 2px 4px;
 					}
 
+#bottomSheetsContainer .dialog {
+	margin-bottom: -4px;
+	pointer-events: auto;
+	
+	-webkit-transform: translateY(120%);
+	   -moz-transform: translateY(120%);
+	    -ms-transform: translateY(120%);
+	     -o-transform: translateY(120%);
+	        transform: translateY(120%);
+}
+	#bottomSheetsContainer .dialog.open {
+		-webkit-transform: translateY(0%);
+		   -moz-transform: translateY(0%);
+		    -ms-transform: translateY(0%);
+		     -o-transform: translateY(0%);
+		        transform: translateY(0%);
+	}
+	#bottomSheetsContainer .dialog .dialog-footer {
+		bottom: -4px;
+	}
+
 input[type="checkbox"] {
 	margin: 0px 2px;
 }
@@ -201,6 +237,12 @@ input[type=range]::-ms-tooltip {
 hr {
 	height: 0;
 	margin: 0;
+}
+
+small,
+.small {
+	font-size: 87.5%;
+	opacity: 0.6;
 }
 
 #helpDialog table {
@@ -226,8 +268,32 @@ hr {
 	margin: -8px 2px;
 }
 
+progress.circular.small {
+	width: 24px;
+	height: 24px;
+	margin: -4px 0;
+	border-width: 3px;
+}
+	progress.circular.small::before,
+	progress.circular.small::after {
+		margin: -3px; /* Counter the parent element's border width */
+	}
+
 #progressContainer progress.circular {
 	display: block;
 	margin: auto;
 	top: 40%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#progressContainer,
+	#dialogsContainer,
+	#bottomSheetsContainer,
+	.dialog {
+		-webkit-transition-duration: 0s;
+		   -moz-transition-duration: 0s;
+		    -ms-transition-duration: 0s;
+		     -o-transition-duration: 0s;
+		        transition-duration: 0s;
+	}
 }

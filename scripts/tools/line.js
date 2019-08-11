@@ -50,12 +50,10 @@ LineTool.prototype.activate = function () {
 LineTool.prototype.start = function (pointerState) {
 	DrawingTool.prototype.start.apply(this, arguments);
 	
-	if (!settings.get('antiAlias')) {
-		this._roundPointerState(pointerState);
-	}
-	
 	this.startX = pointerState.x;
 	this.startY = pointerState.y;
+	this.endX =
+		this.endY = undefined;
 };
 
 /**
@@ -66,17 +64,43 @@ LineTool.prototype.start = function (pointerState) {
 LineTool.prototype.move = function (pointerState) {
 	DrawingTool.prototype.move.apply(this, arguments);
 	
-	if (!settings.get('antiAlias')) {
-		this._roundPointerState(pointerState);
+	this.endX = pointerState.x;
+	this.endY = pointerState.y;
+	
+	// Snap to tau/8 angles when shift key held.
+	if (pointerState.shiftKey) {
+		var deltaY = this.endY - this.startY,
+			deltaX = this.endX - this.startX,
+			angle = Math.atan2(deltaY, deltaX),
+			increment = 0.125 * Math.TAU,
+			snappedAngle = Math.round(angle / increment) * increment,
+			length = snappedAngle % (2 * increment) === 0 ?
+				Math.max(Math.abs(deltaY), Math.abs(deltaX)) :
+				Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+		
+		this.endX = this.startX + (length * Math.cos(snappedAngle));
+		this.endY = this.startY + (length * Math.sin(snappedAngle)) ;
 	}
 	
-	// Erase the previous preview.
-	Utils.clearCanvas(this._preCxt);
+	this._canvasDirty = true;
+};
+
+/**
+ * @override
+ * Update the canvas if necessary.
+ */
+LineTool.prototype.update = function () {
+	if (!this._canvasDirty) {
+		return;
+	}
+	DrawingTool.prototype.update.apply(this, arguments);
 	
 	// Draw the new preview.
-	LineTool.drawLine(this.startX, this.startY, pointerState.x, pointerState.y, this._preCxt);
+	LineTool.drawLine(this.startX, this.startY, this.endX, this.endY, this._preCxt);
 	
 	if (!settings.get('antiAlias')) {
 		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
 	}
-};
+	
+	this._canvasDirty = false;
+}

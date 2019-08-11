@@ -1,12 +1,21 @@
-<select title="Font family" id="fontFamilySelect">
-	<option value="sans-serif" style="font-family: sans-serif;">Sans-serif</option>
-	<option value="serif" style="font-family: serif;">Serif</option>
-	<option value="monospace" style="font-family: monospace;">Monospace</option>
-</select>
 <svg role="img" class="icon">
 	<use xlink:href="images/icons/font_family.svg#icon" href="images/icons/font_family.svg#icon"></use>
 </svg><!--
+--><select title="Font family" id="fontFamilySelect" style="margin-right: -2px; max-width: 224px;">
+	<option value="sans-serif" style="font-family: sans-serif;">Sans-serif</option>
+	<option value="serif" style="font-family: serif;">Serif</option>
+	<option value="monospace" style="font-family: monospace;">Monospace</option>
+</select><!--
+--><input type="checkbox" name="textFillToggle" id="textFillToggle" /><!--
+--><label role="button" for="textFillToggle" title="Fill text box" style="float: right;">
+	<svg role="img">
+		<use xlink:href="images/icons/text_fill.svg#icon" href="images/icons/text_fill.svg#icon"></use>
+	</svg>
+</label><!--
 --><br /><!--
+--><svg role="img" class="icon">
+	<use xlink:href="images/icons/font_size.svg#icon" href="images/icons/font_size.svg#icon"></use>
+</svg><!--
 --><select title="Font size" id="fontSizeSelect" style="margin-right: 0;">
 	<option value="8">8</option>
 	<option value="9">9</option>
@@ -26,19 +35,30 @@
 	<option value="48">48</option>
 	<option value="72">72</option>
 	<option value="96">96</option>
-</select>
-<svg role="img" class="icon">
-	<use xlink:href="images/icons/font_size.svg#icon" href="images/icons/font_size.svg#icon"></use>
-</svg><!--
---><input type="checkbox" name="boldToggle" id="boldToggle" /><!--
---><label role="button" for="boldToggle" title="Bold">
-	<svg role="img">
-		<use xlink:href="images/icons/bold.svg#icon" href="images/icons/bold.svg#icon"></use>
-	</svg>
-</label><!--
---><input type="checkbox" name="italicToggle" id="italicToggle" /><!--
---><label role="button" for="italicToggle" title="Italic">
-	<svg role="img">
-		<use xlink:href="images/icons/italic.svg#icon" href="images/icons/italic.svg#icon"></use>
-	</svg>
-</label>
+</select><!--
+--><span id="textFormatOptions"><!--
+	--><input type="checkbox" name="boldToggle" id="boldToggle" /><!--
+	--><label role="button" for="boldToggle" title="Bold (Ctrl+B)"><!--
+		--><svg role="img">
+			<use xlink:href="images/icons/bold.svg#icon" href="images/icons/bold.svg#icon"></use>
+		</svg><!--
+	--></label><!--
+	--><input type="checkbox" name="italicToggle" id="italicToggle" /><!--
+	--><label role="button" for="italicToggle" title="Italic (Ctrl+I)">
+		<svg role="img">
+			<use xlink:href="images/icons/italic.svg#icon" href="images/icons/italic.svg#icon"></use>
+		</svg>
+	</label><!--
+	--><input type="checkbox" name="underlineToggle" id="underlineToggle" /><!--
+	--><label role="button" for="underlineToggle" title="Underline (Ctrl+U)">
+		<svg role="img">
+			<use xlink:href="images/icons/underline.svg#icon" href="images/icons/underline.svg#icon"></use>
+		</svg>
+	</label><!--
+	--><input type="checkbox" name="strikeToggle" id="strikeToggle" /><!--
+	--><label role="button" for="strikeToggle" title="Strikethrough (Alt+Shift+5)">
+		<svg role="img">
+			<use xlink:href="images/icons/strike.svg#icon" href="images/icons/strike.svg#icon"></use>
+		</svg>
+	</label><!--
+--></span>

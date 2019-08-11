@@ -30,5 +30,5 @@ ProgressSpinner.prototype.hide = function () {
 	this._container.classList.remove('visible');
 	setTimeout((function () {
 		this._container.style.display = 'none';
-	}).bind(this), Dialog.prototype.TRANSITION_DURATION);
+	}).bind(this), (Utils.prefersReducedMotion ? 1 : Dialog.prototype.TRANSITION_DURATION));
 };
