@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2019-07-31, v1
+# 2019-08-11, v1
 index.html
 404.html
 manifest.webapp
@@ -75,6 +75,7 @@ partials/dialogs/color_picker.html
 partials/dialogs/help.html
 partials/dialogs/install.html
 partials/dialogs/keyboard.html
+partials/dialogs/rate.html
 partials/dialogs/resize.html
 partials/dialogs/save.html
 partials/dialogs/settings.html
@@ -106,6 +107,7 @@ scripts/dialogs/color_picker.js
 scripts/dialogs/help.js
 scripts/dialogs/install.js
 scripts/dialogs/keyboard.js
+scripts/dialogs/rate.js
 scripts/dialogs/resize.js
 scripts/dialogs/save.js
 scripts/dialogs/settings.js

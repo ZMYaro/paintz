@@ -195,7 +195,8 @@ function checkSaveCountMilestone() {
 	var DIALOG_OPEN_DELAY = 2000; // Milliseconds
 	var MILESTONES = {
 		'10': 'install',
-		'50': 'coffee'
+		'50': 'coffee',
+		'100': 'rate'
 	};
 	
 	var saveCount = settings.get('saveCount');
@@ -212,6 +213,7 @@ window.addEventListener('load', function () {
 	dialogs.coffee = new CoffeeDialog();
 	dialogs.install = new InstallDialog();
 	dialogs.keyboard = new KeyboardDialog();
+	dialogs.rate = new RateDialog();
 	
 	// Initialize everything.
 	initCanvas();
