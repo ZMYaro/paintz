@@ -25,8 +25,6 @@ FloatingSelectionToolbar.prototype = Object.create(Toolbox.prototype);
 FloatingSelectionToolbar.prototype.constructor = FloatingSelectionToolbar;
 
 // Define constants.
-/** @constant {String} The path and prefix for the partial */
-FloatingSelectionToolbar.prototype.PARTIALS_DIR = 'partials/';
 /** @constant {String} The CSS classes for the container element */
 FloatingSelectionToolbar.prototype.CSS_CLASS = 'floatingToolbar card z1';
 
