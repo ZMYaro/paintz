@@ -12,10 +12,6 @@ function CoffeeDialog(trigger) {
 CoffeeDialog.prototype = Object.create(BottomSheetDialog.prototype);
 CoffeeDialog.prototype.constructor = CoffeeDialog;
 
-// Define constants.
-/** @override @constant {String} The width of the dialog, as a CSS value */
-CoffeeDialog.prototype.WIDTH = '412px';
-
 /**
  * @override
  * @private

@@ -21,7 +21,7 @@ BottomSheetDialog.prototype.CLOSE_DELAY = 1000;
 /** @constant {Number} The amount to rewind the save count if the user decides to delay the prompt */
 BottomSheetDialog.prototype.SAVE_COUNT_REWIND_AMOUNT = 10;
 /** @override @constant {String} The width of the dialog, as a CSS value */
-BottomSheetDialog.prototype.WIDTH = '512px';
+BottomSheetDialog.prototype.WIDTH = '412px';
 
 /**
  * @override

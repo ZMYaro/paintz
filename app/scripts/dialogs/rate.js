@@ -12,10 +12,6 @@ function RateDialog(trigger) {
 RateDialog.prototype = Object.create(BottomSheetDialog.prototype);
 RateDialog.prototype.constructor = RateDialog;
 
-// Define constants.
-/** @override @constant {String} The width of the dialog, as a CSS value */
-RateDialog.prototype.WIDTH = '412px';
-
 /**
  * @override
  * @private

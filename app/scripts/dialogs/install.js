@@ -17,10 +17,6 @@ function InstallDialog(trigger) {
 InstallDialog.prototype = Object.create(BottomSheetDialog.prototype);
 InstallDialog.prototype.constructor = InstallDialog;
 
-// Define constants.
-/** @override @constant {String} The width of the dialog, as a CSS value */
-InstallDialog.prototype.WIDTH = '412px';
-
 /**
  * @override
  * @private
