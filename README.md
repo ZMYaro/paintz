@@ -22,4 +22,4 @@ _That is the **only** legitimate Chrome Web Store listing for PaintZ._
 
 ## Social media
 
-Updates are posted to the @PaintZApp profiles on [Facebook](https://www.facebook.com/PaintZApp), [Google+](https://plus.google.com/+PaintZApp), [Instagram](https://www.instagram.com/PaintZApp), and [Twitter](https://twitter.com/PaintZApp).
+Updates are posted to the @PaintZApp profiles on [Facebook](https://www.facebook.com/PaintZApp), [Instagram](https://www.instagram.com/PaintZApp), and [Twitter](https://twitter.com/PaintZApp).
