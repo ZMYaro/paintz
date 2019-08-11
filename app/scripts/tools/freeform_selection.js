@@ -174,7 +174,7 @@ FreeformSelectionTool.prototype.end = function (pointerState) {
 			return;
 		}
 		
-		// Save the selected content.
+		// Save the selected content using the selection start cover function to cut it to the freeform shape.
 		var selectedRegionRectContent = this._cxt.getImageData(
 			this._selection.startX, this._selection.startY,
 			this._selection.width, this._selection.height);
