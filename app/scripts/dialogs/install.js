@@ -54,3 +54,16 @@ InstallDialog.prototype._setUp = function (contents) {
 	
 	this._element.querySelector('.submitLink').addEventListener('click', this._closeAfterDelay.bind(this), false);
 };	
+
+/**
+ * @override
+ * Open the dialog if the app is not already installed.
+ */
+InstallDialog.prototype.open = function () {
+	// Do not open if already running as an “app”.
+	if (window.matchMedia('(display-mode: standalone)').matches || (window.chrome && chrome.app && chrome.app.isInstalled)) {
+		return;
+	}
+	
+	BottomSheetDialog.prototype.open.call(this);
+};

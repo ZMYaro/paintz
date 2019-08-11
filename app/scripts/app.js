@@ -199,9 +199,6 @@ function checkSaveCountMilestone() {
 	};
 	switch (settings.get('saveCount')) {
 		case MILESTONES.install:
-			if (window.chrome && chrome.app && chrome.app.isInstalled) {
-				return;
-			}
 			setTimeout(function() {
 				dialogs.install.open();
 			}, DIALOG_OPEN_DELAY);
