@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2019-08-11, v1
+# 2019-08-12, v1
 index.html
 404.html
 manifest.webapp
@@ -134,6 +134,7 @@ scripts/tools/drawing.js
 scripts/tools/eraser.js
 scripts/tools/eyedropper.js
 scripts/tools/floodfill.js
+scripts/tools/freeform_selection.js
 scripts/tools/line.js
 scripts/tools/oval.js
 scripts/tools/pan.js
