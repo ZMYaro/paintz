@@ -6,12 +6,6 @@
 function FloatingSelectionToolbar() {
 	Toolbox.call(this, 'floating_selection_toolbar');
 	
-	// Remove the floating toolbar from the top toolbar if attached by the super constructor.
-	var toolbarElement = document.getElementById('toolbar');
-	if (this._element.parentElement === toolbarElement) {
-		toolbarElement.appendChild(this._element);
-	}
-	
 	this._element.setAttribute('role', 'toolbar');
 	
 	this._x = 0;
@@ -115,7 +109,7 @@ FloatingSelectionToolbar.prototype.show = function () {
  * Remove the toolbar from the page.
  */
 FloatingSelectionToolbar.prototype.hide = function () {
-	if (this._element.parentElement === document.body) {
-		document.body.removeChild(this._element);
+	if (this._element.parentElement) {
+		this._element.parentElement.removeChild(this._element);
 	}
 };
