@@ -86,7 +86,7 @@ ToolManager.prototype._handlePointerDown = function (e) {
 	// Initialize the new shape.
 	this.currentTool.start({
 		button: e.button,
-		ctrlKey: Utils.checkPlatformCtrlKey(e),
+		ctrlKey: Utils.checkPlatformCtrlOrCmdKey(e),
 		shiftKey: e.shiftKey,
 		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
 		y: Utils.getCanvasY(e.pageY) / zoomManager.level,
@@ -113,7 +113,7 @@ ToolManager.prototype._handlePointerMove = function (e) {
 	
 	// Update the tool.
 	this.currentTool.move({
-		ctrlKey: Utils.checkPlatformCtrlKey(e),
+		ctrlKey: Utils.checkPlatformCtrlOrCmdKey(e),
 		shiftKey: e.shiftKey,
 		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
 		y: Utils.getCanvasY(e.pageY) / zoomManager.level,
@@ -137,7 +137,7 @@ ToolManager.prototype._handlePointerUp = function (e) {
 	
 	// Complete the task.
 	this.currentTool.end({
-		ctrlKey: Utils.checkPlatformCtrlKey(e),
+		ctrlKey: Utils.checkPlatformCtrlOrCmdKey(e),
 		shiftKey: e.shiftKey,
 		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
 		y: Utils.getCanvasY(e.pageY) / zoomManager.level,

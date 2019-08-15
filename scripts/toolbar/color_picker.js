@@ -161,8 +161,8 @@ ColorPickerToolbox.prototype._handleColorButtonClick = function (e) {
  * @param {MouseEvent} e
  */
 ColorPickerToolbox.prototype._handlePacManButtonClick = function (e) {
-	// Ignore if the button was not Ctrl+Shift+clicked.
-	if (!Utils.checkPlatformCtrlKey(e) || !e.shiftKey) {
+	// Ignore if the button was not Ctrl+Shift+clicked or the meta key was pressed.
+	if (!Utils.checkPlatformCtrlOrCmdKey(e) || !e.shiftKey || Utils.checkPlatformMetaOrControlKey(e)) {
 		return;
 	}
 	
