@@ -383,7 +383,9 @@ TextTool.prototype._saveText = function () {
  */
 TextTool.prototype._handleKeyDown = function (e) {
 	// Use Command on Mac and iOS devices and Ctrl everywhere else.
-	var ctrlOrCmd = Utils.checkPlatformCtrlKey(e),
+	var ctrlOrCmd = Utils.checkPlatformCtrlOrCmdKey(e),
+		metaOrControl = Utils.checkPlatformMetaOrControlKey(e),
+		ctrlOrCmdOnly = ctrlOrCmd && !e.altKey && !e.shiftKey && !metaOrControl,
 		noModifiers = !Utils.checkModifierKeys(e);
 	
 	switch (e.keyCode) {
@@ -399,7 +401,7 @@ TextTool.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 53: // 5
-			if (e.altKey && e.shiftKey) {
+			if (e.altKey && e.shiftKey && !ctrlOrCmd && !metaOrControl) {
 				e.preventDefault();
 				// Alt+Shift+5 => Strikethrough
 				
@@ -414,7 +416,7 @@ TextTool.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 66: // B
-			if (ctrlOrCmd) {
+			if (ctrlOrCmdOnly) {
 				e.preventDefault();
 				// Ctrl+B => Bold
 				
@@ -429,7 +431,7 @@ TextTool.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 73: // I
-			if (ctrlOrCmd) {
+			if (ctrlOrCmdOnly) {
 				e.preventDefault();
 				// Ctrl+I => Italic
 				
@@ -444,7 +446,7 @@ TextTool.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 85: // U
-			if (ctrlOrCmd) {
+			if (ctrlOrCmdOnly) {
 				e.preventDefault();
 				// Ctrl+U => Underline
 				

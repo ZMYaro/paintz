@@ -3,8 +3,9 @@ var keyManager = {
 	
 	_handleKeyDown: function (e) {
 		// Use Command on Mac and iOS devices and Ctrl everywhere else.
-		var ctrlOrCmd = Utils.checkPlatformCtrlKey(e),
-			ctrlOrCmdOnly = ctrlOrCmd && !e.altKey && !e.metaKey && !e.shiftKey,
+		var ctrlOrCmd = Utils.checkPlatformCtrlOrCmdKey(e),
+			metaOrControl = Utils.checkPlatformMetaOrControlKey(e),
+			ctrlOrCmdOnly = ctrlOrCmd && !e.altKey && !e.shiftKey && !metaOrControl,
 			noModifiers = !Utils.checkModifierKeys(e);
 		
 		switch (e.keyCode) {
@@ -34,7 +35,7 @@ var keyManager = {
 						e.preventDefault();
 						// Left arrow => Nudge selection left
 						tools.currentTool.nudge(-1, 0);
-					} else if (e.shiftKey && !e.altKey && !ctrlOrCmd && !e.metaKey) {
+					} else if (e.shiftKey && !e.altKey && !ctrlOrCmd && !metaOrControl) {
 						e.preventDefault();
 						// Shift + Left arrow => Nudge selection 10 left
 						tools.currentTool.nudge(-10, 0);
@@ -48,7 +49,7 @@ var keyManager = {
 						e.preventDefault();
 						// Up arrow => Nudge selection up
 						tools.currentTool.nudge(0, -1);
-					} else if (e.shiftKey && !e.altKey && !ctrlOrCmd && !e.metaKey) {
+					} else if (e.shiftKey && !e.altKey && !ctrlOrCmd && !metaOrControl) {
 						e.preventDefault();
 						// Shift + Up arrow => Nudge selection 10 up
 						tools.currentTool.nudge(0, -10);
@@ -62,7 +63,7 @@ var keyManager = {
 						e.preventDefault();
 						// Right arrow => Nudge selection right
 						tools.currentTool.nudge(1, 0);
-					} else if (e.shiftKey && !e.altKey && !ctrlOrCmd && !e.metaKey) {
+					} else if (e.shiftKey && !e.altKey && !ctrlOrCmd && !metaOrControl) {
 						e.preventDefault();
 						// Shift + Right arrow => Nudge selection 10 right
 						tools.currentTool.nudge(10, 0);
@@ -76,7 +77,7 @@ var keyManager = {
 						e.preventDefault();
 						// Down arrow => Nudge selection down
 						tools.currentTool.nudge(0, 1);
-					} else if (e.shiftKey && !e.altKey && !ctrlOrCmd && !e.metaKey) {
+					} else if (e.shiftKey && !e.altKey && !ctrlOrCmd && !metaOrControl) {
 						e.preventDefault();
 						// Shift + Down arrow => Nudge selection 10 down
 						tools.currentTool.nudge(0, 10);
@@ -95,7 +96,7 @@ var keyManager = {
 				break;
 			
 			case 53: // 5
-				if (e.altKey && e.shiftKey && !e.ctrlKey && !e.metaKey) {
+				if (e.altKey && e.shiftKey && !e.ctrlKey && !metaOrControl) {
 					e.preventDefault();
 					// Alt+Shift+5 => Strikethrough
 					
@@ -305,7 +306,7 @@ var keyManager = {
 				break;
 			
 			case 90: // Z
-				if (ctrlOrCmd && e.shiftKey && !e.altKey && !e.metaKey) {
+				if (ctrlOrCmd && e.shiftKey && !e.altKey && !metaOrControl) {
 					e.preventDefault();
 					// Ctrl+Shift+Z => Redo
 					undoStack.redo();
@@ -325,7 +326,7 @@ var keyManager = {
 				break;
 			
 			case 187: // =/+
-				if (ctrlOrCmd && e.altKey && !e.metaKey && !e.shiftKey) {
+				if (ctrlOrCmd && e.altKey && !metaOrControl && !e.shiftKey) {
 					e.preventDefault();
 					// Ctrl+Alt+= => Zoom in
 					zoomManager.zoomIn();
@@ -333,7 +334,7 @@ var keyManager = {
 				break;
 			
 			case 189: // -/_
-				if (ctrlOrCmd && e.altKey && !e.metaKey && !e.shiftKey) {
+				if (ctrlOrCmd && e.altKey && !metaOrControl && !e.shiftKey) {
 					e.preventDefault();
 					// Ctrl+Alt+- => Zoom out
 					zoomManager.zoomOut();
@@ -341,7 +342,7 @@ var keyManager = {
 				break;
 			
 			case 191: // //?
-				if (e.shiftKey && !e.altKey && !e.metaKey) {
+				if (e.shiftKey && !e.altKey && !metaOrControl) {
 					e.preventDefault();
 					// ? OR Ctrl+? => Keyboard shortcuts dialog
 					dialogs.keyboard.open();

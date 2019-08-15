@@ -32,13 +32,23 @@ var Utils = {
 	},
 	
 	/**
-	 * Check whether the Ctrl key, or the equivalent for this platform, is pressed for the given event.
+	 * Check whether the Ctrl key, or the Command key on MacOS, is pressed for the given event.
 	 * @param {MouseEvent} e - The event for which to check the key
 	 * @returns {Boalean} - Whether the appropriate key is pressed
 	 */
-	checkPlatformCtrlKey: function (e) {
+	checkPlatformCtrlOrCmdKey: function (e) {
 		// On MacOS and iOS, check Cmd; on other platforms (Windows, Linux), check Ctrl.
 		return ((!Utils.isApple && e.ctrlKey) || (Utils.isApple && e.metaKey));
+	},
+	
+	/**
+	 * Check whether the Windows key, or the Control key on MacOS, is pressed for the given event.
+	 * @param {MouseEvent} e - The event for which to check the key
+	 * @returns {Boalean} - Whether the appropriate key is pressed
+	 */
+	checkPlatformMetaOrControlKey: function (e) {
+		// On MacOS and iOS, check Control; on other platforms (Windows, Linux), check the Windows/meta key.
+		return ((!Utils.isApple && e.metaKey) || (Utils.isApple && e.ctrlKey));
 	},
 	
 	/**
