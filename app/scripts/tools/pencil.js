@@ -95,7 +95,7 @@ PencilTool.prototype.activate = function () {
 PencilTool.prototype.start = function (pointerState) {
 	DrawingTool.prototype.start.apply(this, arguments);
 	
-	this._roundPointerState(pointerState);
+	this._floorPointerState(pointerState);
 	
 	this._points = [
 		{
@@ -117,7 +117,7 @@ PencilTool.prototype.start = function (pointerState) {
 PencilTool.prototype.move = function (pointerState) {
 	DrawingTool.prototype.move.apply(this, arguments);
 	
-	this._roundPointerState(pointerState);
+	this._floorPointerState(pointerState);
 	
 	this._points.push({
 		x: pointerState.x,

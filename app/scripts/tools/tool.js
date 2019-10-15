@@ -42,7 +42,16 @@ Tool.prototype._deAntiAlias = function (color) {
 };
 
 /**
- * Round down pointer coordinates.
+ * Round/truncate pointer coordinates down to integers.
+ * @param {Object} pointerState - The pointer coordinates and button
+ */
+Tool.prototype._floorPointerState = function (pointerState) {
+	pointerState.x = Math.floor(pointerState.x);
+	pointerState.y = Math.floor(pointerState.y);
+};
+
+/**
+ * Round pointer coordinates to nearest integers.
  * @param {Object} pointerState - The pointer coordinates and button
  */
 Tool.prototype._roundPointerState = function (pointerState) {
