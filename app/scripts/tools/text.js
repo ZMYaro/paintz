@@ -346,6 +346,7 @@ TextTool.prototype._saveText = function () {
 				'</foreignObject>' +
 			'</svg>';
 		svgData = svgData.replace(/<br>/g, '<br />'); // XML requires self-closing tags be closed, but HTML5 does not.
+		svgData = svgData.replace(/&nbsp;/g, '&#xa0;'); // HTML non-breaking space entity is not defined in XML, so reference the char code directly.
 		svgData = svgData.replace(/#/g, '%23'); // Escape hash for data URL.
 		
 		var svgImage = new Image(),
