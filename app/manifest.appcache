@@ -1,9 +1,10 @@
 CACHE MANIFEST
-# 2019-08-14, v1
+# 2019-10-16, v1
 index.html
 404.html
 manifest.webapp
 audio/pacman_start.mp3
+images/og_image.png
 images/toolbar_overview.png
 images/cursors/airbrush.cur
 images/cursors/eyedropper.cur
