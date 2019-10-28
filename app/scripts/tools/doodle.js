@@ -12,6 +12,9 @@ function DoodleTool(cxt, preCxt) {
 DoodleTool.prototype = Object.create(DrawingTool.prototype);
 DoodleTool.prototype.constructor = DoodleTool;
 
+/** {Number} The maximum allowed width/height for the cursor, in pixels */
+DoodleTool.MAX_CURSOR_SIZE = 128;
+
 /**
  * @private
  * Draw a round end cap for the doodle.
@@ -113,38 +116,35 @@ DoodleTool.prototype.update = function () {
  * @returns {String}
  */
 DoodleTool.getCursorCSS = function () {
-	var size = parseInt(settings.get('lineWidth')) * zoomManager.level + 2;
+	var size = (parseInt(settings.get('lineWidth')) + 1) * zoomManager.level;
 	
 	// Set the cursor size, capped at 128px.
-	cursorCanvas.width = cursorCanvas.height = Math.min(128, size);
+	cursorCanvas.width = cursorCanvas.height = Math.min(DoodleTool.MAX_CURSOR_SIZE, size);
 	
 	// Switch to a crosshair when the cursor gets too big.
-	if (size > 128 * Math.sqrt(2)) {
+	if (size > DoodleTool.MAX_CURSOR_SIZE * Math.sqrt(2)) {
 		return 'crosshair';
 	}
 	
+	cursorCxt.save();
+	
 	cursorCxt.lineWidth = 1;
+	cursorCxt.beginPath();
+	cursorCxt.arc(
+		cursorCanvas.width / 2, cursorCanvas.height / 2,
+		size / 2,
+		0, Math.TAU, false
+	);
+	cursorCxt.closePath();
+	
 	cursorCxt.strokeStyle = 'white';
-	cursorCxt.beginPath();
-	cursorCxt.arc(
-		cursorCanvas.width / 2, cursorCanvas.height / 2,
-		settings.get('lineWidth') * zoomManager.level / 2,
-		0, Math.TAU, false
-	);
-	cursorCxt.closePath();
 	cursorCxt.stroke();
-
-	cursorCxt.lineWidth = 1;
+	cursorCxt.setLineDash([2, 2]);
 	cursorCxt.strokeStyle = 'black';
-	cursorCxt.beginPath();
-	cursorCxt.arc(
-		cursorCanvas.width / 2, cursorCanvas.height / 2,
-		settings.get('lineWidth') * zoomManager.level / 2,
-		0, Math.TAU, false
-	);
-	cursorCxt.closePath();
 	cursorCxt.stroke();
-
+	
+	cursorCxt.restore();
+	
 	var cursorDataURL = cursorCanvas.toDataURL();
 
 	var cursorCSS = 'url(' + cursorDataURL + ')'; // Data URL
