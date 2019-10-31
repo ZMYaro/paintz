@@ -244,6 +244,11 @@ small,
 	font-size: 87.5%;
 	opacity: 0.6;
 }
+	h1 > small,
+	h1 > .small {
+		font-size: 65.625%; /* Counter the <h1>'s 150% font size in addition to shrinking to 87.5%. */
+		font-weight: normal;
+	}
 
 #helpDialog table {
 	text-align: left;
