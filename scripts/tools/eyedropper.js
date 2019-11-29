@@ -40,7 +40,8 @@ EyedropperTool.prototype.move = function (pointerState) {
 	// Get the image's pixel data.
 	this._imageData = this._cxt.getImageData(0, 0, this._cxt.canvas.width, this._cxt.canvas.height);
 	// Get the cursor position and add it to the stack.
-	var pixelPos = (Math.floor(pointerState.y) * this._imageData.width + Math.floor(pointerState.x)) * 4;
+	this._floorPointerState(pointerState);
+	var pixelPos = (pointerState.y * this._imageData.width + pointerState.x) * 4;
 	// Get the color of the clicked pixel.
 	var color = ColorPicker.rgb2hex({
 		r: this._imageData.data[pixelPos],

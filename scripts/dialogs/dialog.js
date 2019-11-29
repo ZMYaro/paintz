@@ -7,6 +7,8 @@
  * @param {HTMLElement} [trigger] - The button that triggers the dialog, if any
  */
 function Dialog(contentFileName, trigger) {
+	this._boundClose = this.close.bind(this);
+	
 	/** @private {HTMLFormElement} The container for dialog's content */
 	this._element = document.createElement('form');
 	this._element.className = this.CSS_CLASSES;
@@ -16,7 +18,8 @@ function Dialog(contentFileName, trigger) {
 	if (this.MAX_WIDTH) {
 		this._element.style.maxWidth = this.MAX_WIDTH;
 	}
-	this._element.addEventListener('submit', this.close.bind(this));
+	this._element.addEventListener('submit', this._boundClose);
+	this._element.addEventListener('pointerdown', function (ev) { ev.stopPropagation(); });
 	
 	/** {HTMLElement} The element that should contain the dialog and handle positioning it on the page */
 	this._dialogContainer = document.getElementById('dialogsContainer');
@@ -123,6 +126,9 @@ Dialog.prototype.open = function () {
 	this._dialogContainer.appendChild(this._element);
 	this._setTransformOrigin();
 	
+	// Make selecting outside the dialog close the dialog.
+	this._dialogContainer.addEventListener('pointerdown', this._boundClose);
+	
 	requestAnimationFrame((function () {
 		requestAnimationFrame(this._finishOpen.bind(this));
 	}).bind(this));
@@ -146,6 +152,9 @@ Dialog.prototype.close = function (e) {
 	if (e && e.preventDefault) {
 		e.preventDefault();
 	}
+	
+	// Remove the listener that makes selecting outside the dialog close the dialog.
+	this._dialogContainer.removeEventListener('pointerdown', this._boundClose);
 	
 	this._setTransformOrigin();
 	this._element.classList.remove('open');
