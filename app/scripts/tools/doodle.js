@@ -144,7 +144,6 @@ DoodleTool.getCursorCSS = function () {
 			cursorCanvas.height = cursorCanvas.width + DoodleTool.CROSSHAIR_OFFSET + DoodleTool.CROSSHAIR_LENGTH;
 		halfCanvasSize = cursorCanvas.width / 2;
 		
-		console.log('drawing crosshair');
 		// Draw the crosshairs.
 		cursorCxt.translate(halfCanvasSize, halfCanvasSize);
 		cursorCxt.beginPath();
