@@ -7,6 +7,7 @@
  */
 function KeyboardDialog(trigger) {
 	Dialog.call(this, 'keyboard', trigger);
+	this._element.id = 'keyboardDialog';
 }
 // Extend Dialog.
 KeyboardDialog.prototype = Object.create(Dialog.prototype);
@@ -14,4 +15,4 @@ KeyboardDialog.prototype.constructor = KeyboardDialog;
 
 // Define constants.
 /** @override @constant {String} The width of the dialog, as a CSS value */
-KeyboardDialog.prototype.WIDTH = '384px';
+KeyboardDialog.prototype.WIDTH = '400px';

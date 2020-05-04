@@ -224,6 +224,10 @@
 		bottom: -4px;
 	}
 
+kbd {
+	margin: 0 4px;
+}
+
 input[type="checkbox"] {
 	margin: 0px 2px;
 }
@@ -250,6 +254,9 @@ small,
 		font-weight: normal;
 	}
 
+#keyboardDialog table td:first-child {
+	white-space: nowrap;
+}
 #helpDialog table {
 	text-align: left;
 }
