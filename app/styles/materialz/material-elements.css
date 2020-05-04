@@ -1,7 +1,7 @@
 /* Base Material styles for elements
  * Part of the MaterialZ CSS library
  *
- * Copyright 2015-2019 Zachary Yaro
+ * Copyright 2015-2020 Zachary Yaro
  * Released under the MIT license
  * http://materialz.zmyaro.com/LICENSE.txt
  */
@@ -39,6 +39,15 @@ pre,
 samp,
 tt {
 	font-family: "Roboto Mono", "Droid Sans Mono", monospace;
+}
+
+kbd {
+	display: inline-block;
+	padding: 2px 8px;
+	margin: -2px 2px;
+	border-radius: 2px;
+	background-color: rgba(128, 128, 128, 0.25);
+	font: inherit; /* Override the default behavior of <kbd> having a monospace font. */
 }
 
 /* --------======== HEADINGS and TYPOGRAPHY ========-------- */
