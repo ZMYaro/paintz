@@ -36,6 +36,11 @@ select[size="1"] {
 	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAAICAYAAACs/DyzAAAAOUlEQVQ4y93PwQ0AMAgDMUZn8/BHqgr5Hd7AISnlyyAwk4ycmWTllklmbphk5z7JG7lH8lauJdG5AlouFwB1jHPVAAAAAElFTkSuQmCC');
 }
 
+button,
+[role="button"] {
+	color: #b4c0e4;
+}
+
 .appBar[role="toolbar"] {
 	background-color: #212121;
 }
@@ -48,6 +53,34 @@ select[size="1"] {
 	.floatingToolbar button {
 		fill: rgba(255, 255, 255, 0.9);
 	}
+		button:not(:disabled):hover,
+		button:not(:disabled):focus,
+		[role="button"]:not(:disabled):hover,
+		[role="button"]:not(:disabled):focus,
+		.appBar[role="toolbar"] button:not(:disabled):hover,
+		.appBar[role="toolbar"] button:not(:disabled):focus,
+		.appBar[role="toolbar"] [role="button"]:hover,
+		.appBar[role="toolbar"] [role="button"]:focus,
+		.floatingToolbar button:not(:disabled):hover,
+		.floatingToolbar button:not(:disabled):focus,
+		select:not([size]):not(:disabled):hover,
+		select:not([size]):not(:disabled):focus {
+			background-color: rgba(121, 134, 203, 0.15);
+		}
+		button:not(:disabled):active,
+		button:not(:disabled).active,
+		[role="button"]:not(:disabled):active,
+		[role="button"]:not(:disabled).active,
+		.appBar[role="toolbar"] button:not(:disabled):active,
+		.appBar[role="toolbar"] button:not(:disabled).active,
+		.appBar[role="toolbar"] [role="button"]:active,
+		.appBar[role="toolbar"] [role="button"].active,
+		.floatingToolbar button:not(:disabled):active,
+		.floatingToolbar button:not(:disabled).active,
+		select:not([size]):not(:disabled):active,
+		select:not([size]):not(:disabled).active {
+			background-color: rgba(121, 134, 203, 0.35);
+		}
 	.appBar[role="toolbar"] input[type="checkbox"] + label[role="button"],
 	.appBar[role="toolbar"] input[type="radio"] + label[role="button"] {
 		color: #7986cb;
@@ -55,26 +88,6 @@ select[size="1"] {
 		.appBar[role="toolbar"] input[type="checkbox"]:checked + label[role="button"],
 		.appBar[role="toolbar"] input[type="radio"]:checked + label[role="button"] {
 			fill: #212121;
-		}
-		.appBar[role="toolbar"] select:not(:disabled):hover,
-		.appBar[role="toolbar"] select:not(:disabled):focus,
-		.dialog [role="toolbar"] button:not(:disabled):hover,
-		.dialog [role="toolbar"] button:not(:disabled):focus,
-		.dialog [role="toolbar"] [role="button"]:hover,
-		.dialog [role="toolbar"] [role="button"]:focus,
-		.floatingToolbar button:not(:disabled):hover,
-		.floatingToolbar button:not(:disabled):focus {
-			background-color: rgba(255,255,255,0.07);
-		}
-		.appBar[role="toolbar"] select:not(:disabled):active,
-		.appBar[role="toolbar"] select:not(:disabled).active,
-		.dialog [role="toolbar"] button:not(:disabled):active,
-		.dialog [role="toolbar"] button:not(:disabled).active,
-		.dialog [role="toolbar"] [role="button"]:active,
-		.dialog [role="toolbar"] [role="button"].active,
-		.floatingToolbar button:not(:disabled):active,
-		.floatingToolbar button:not(:disabled).active {
-			background-color: rgba(255,255,255,0.13);
 		}
 #colorPicker button::before {
 	/* box-shadow color */
@@ -116,6 +129,7 @@ select[size="1"] {
 		background-color: #333333;
 		background-color: rgba(0, 0, 0, 0.75);
 	}
+option,
 .card,
 .dialog .dialog-header,
 .dialog .dialog-footer {

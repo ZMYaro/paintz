@@ -169,6 +169,10 @@
 		.dialog .list li {
 			border-style: none;
 		}
+			.dialog .list button,
+			.dialog .list [role="button"] {
+				color: inherit;
+			}
 			.dialog .list li [role="button"]:not(:first-child) {
 				margin-left: 0;
 			}

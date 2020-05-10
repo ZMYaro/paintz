@@ -25,6 +25,31 @@ input[type="radio"]:checked {
 		color: #5767bd;
 	}
 
+button,
+[role="button"] {
+	color: #3f51b5;
+}
+	button:not(:disabled):hover,
+	button:not(:disabled):focus,
+	[role="button"]:not(:disabled):hover,
+	[role="button"]:not(:disabled):focus,
+	.floatingToolbar button:not(:disabled):hover,
+	.floatingToolbar button:not(:disabled):focus,
+	select:not([size]):not(:disabled):hover,
+	select:not([size]):not(:disabled):focus {
+		background-color: rgba(63, 81, 181, 0.15);
+	}
+	button:not(:disabled):active,
+	button:not(:disabled).active,
+	[role="button"]:not(:disabled):active,
+	[role="button"]:not(:disabled).active,
+	.floatingToolbar button:not(:disabled):active,
+	.floatingToolbar button:not(:disabled).active,
+	select:not([size]):not(:disabled):active,
+	select:not([size]):not(:disabled).active {
+		background-color: rgba(63, 81, 181, 0.35);
+	}
+
 .appBar[role="toolbar"] {
 	background-color: #3f51b5;
 }
@@ -95,9 +120,12 @@ input[type="radio"]:checked {
 		background-color: gray;
 		background-color: rgba(128,128,128,0.5);
 	}
+option,
+.card,
 .dialog .dialog-header,
 .dialog .dialog-footer {
 	background-color: white;
+	color: black;
 }
 .dialog svg {
 	fill: rgba(0, 0, 0, 0.54);
