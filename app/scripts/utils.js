@@ -92,6 +92,22 @@ var Utils = {
 	},
 	
 	/**
+	 * Draw a line on a canvas between two points.
+	 * @param {Number} x1 - The x-coordinate of the start point
+	 * @param {Number} y1 - The y-coordinate of the start point
+	 * @param {Number} x2 - The x-coordinate of the end point
+	 * @param {Number} y2 - The y-coordinate of the end point
+	 * @param {CanvasRenderingContext2D} cxt - The rendering context of the canvas to draw to
+	 */
+	drawLine: function (x1, y1, x2, y2, cxt) {
+		cxt.beginPath();
+		cxt.moveTo(x1, y1);
+		cxt.lineTo(x2, y2);
+		cxt.stroke();
+		cxt.closePath();
+	},
+	
+	/**
 	 * Get the x-coordinate of a click within the canvas.
 	 * @param {Number} pageX - The x-coordinate relative to the page
 	 * @returns {Number}
