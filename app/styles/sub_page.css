@@ -1,5 +1,5 @@
 aside {
-	font-size: 88%;
+	font-size: 87.5%;
 	font-style: italic;
 }
 
@@ -47,6 +47,13 @@ section {
 			height: 24px;
 			margin: -7px;
 		}
+
+footer {
+	margin-top: 4em;
+	font-size: 87.5%;
+	text-align: center;
+	opacity: 0.6;
+}
 
 @media (prefers-color-scheme: dark) {
 	body {
