@@ -13,24 +13,6 @@ LineTool.prototype = Object.create(DrawingTool.prototype);
 LineTool.prototype.constructor = LineTool;
 
 /**
- * Draw a line
- * @param {Number} x1
- * @param {Number} y1
- * @param {Number} x2
- * @param {Number} y2
- * @param {CanvasRenderingContext2D} cxt
- */
-LineTool.drawLine = function (x1, y1, x2, y2, cxt) {
-	cxt.lineWidth = this.lineWidth;
-	cxt.strokeStyle = this.lineColor;
-	cxt.beginPath();
-	cxt.moveTo(x1, y1);
-	cxt.lineTo(x2, y2);
-	cxt.stroke();
-	cxt.closePath();
-}
-
-/**
  * @override
  * Handle the line tool becoming the active tool.
  */
@@ -96,7 +78,7 @@ LineTool.prototype.update = function () {
 	DrawingTool.prototype.update.apply(this, arguments);
 	
 	// Draw the new preview.
-	LineTool.drawLine(this.startX, this.startY, this.endX, this.endY, this._preCxt);
+	Utils.drawLine(this.startX, this.startY, this.endX, this.endY, this._preCxt);
 	
 	if (!settings.get('antiAlias')) {
 		this._deAntiAlias(Utils.colorToRGB(this._lineColor));

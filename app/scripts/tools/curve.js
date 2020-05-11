@@ -89,7 +89,7 @@ CurveTool.prototype.update = function () {
 	
 	// Draw the new preview.
 	if (this._state === CurveTool.STATE_NOT_STARTED) {
-		LineTool.drawLine(this.startX, this.startY, this.endX, this.endY, this._preCxt);
+		Utils.drawLine(this.startX, this.startY, this.endX, this.endY, this._preCxt);
 		
 	} else {
 		this._preCxt.beginPath();
