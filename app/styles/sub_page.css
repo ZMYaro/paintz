@@ -38,13 +38,14 @@ section {
 		section [role="button"]:not(:disabled).active {
 			background-color: rgba(63, 81, 181, 0.35);
 		}
-	
+		
 		section button img,
 		section button [role="img"],
 		section [role="button"] img,
 		section [role="button"] [role="img"] {
 			width: 24px;
 			height: 24px;
+			margin: -7px;
 		}
 
 @media (prefers-color-scheme: dark) {
