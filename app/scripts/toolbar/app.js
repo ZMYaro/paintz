@@ -3,9 +3,10 @@
 /**
  * @class
  * Create a new AppToolbox instance.
+ * @param {HTMLElement} [parentToolbar] - The toolbar the toolbox is to be added to
  */
-function AppToolbox() {
-	Toolbox.call(this, 'app');
+function AppToolbox(parentToolbar) {
+	Toolbox.call(this, 'app', parentToolbar);
 	
 	// Create relevant dialogs.
 	dialogs.settings = new SettingsDialog();

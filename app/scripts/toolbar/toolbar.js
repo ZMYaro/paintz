@@ -11,19 +11,19 @@ function ToolbarManager() {
 	/** {Object<String,Toolbox>} All the toolboxes on the toolbar */
 	this.toolboxes = {};
 	
-	// Create and add the toolboxes and dividers.
-	this.toolboxes.image = new ImageToolbox();
-	this._addDivider();
-	this.toolboxes.tools = new ToolsToolbox();
-	this._addDivider();
-	this.toolboxes.noToolOptions = new NoToolOptionsToolbox();
-	this.toolboxes.drawToolOptions = new DrawToolOptionsToolbox();
-	this.toolboxes.selectToolOptions = new SelectionToolOptionsToolbox();
-	this.toolboxes.textToolOptions = new TextToolOptionsToolbox();
-	this._addDivider();
-	this.toolboxes.colorPicker = new ColorPickerToolbox();
-	this._addDivider();
-	this.toolboxes.app = new AppToolbox();
+	// Create and add the main toolbar toolboxes and dividers.
+	this.toolboxes.image = new ImageToolbox(this._element);
+	this._addDivider(this._element);
+	this.toolboxes.tools = new ToolsToolbox(this._element);
+	this._addDivider(this._element);
+	this.toolboxes.noToolOptions = new NoToolOptionsToolbox(this._element);
+	this.toolboxes.drawToolOptions = new DrawToolOptionsToolbox(this._element);
+	this.toolboxes.selectToolOptions = new SelectionToolOptionsToolbox(this._element);
+	this.toolboxes.textToolOptions = new TextToolOptionsToolbox(this._element);
+	this._addDivider(this._element);
+	this.toolboxes.colorPicker = new ColorPickerToolbox(this._element);
+	this._addDivider(this._element);
+	this.toolboxes.app = new AppToolbox(this._element);
 	
 	// Create the floating selection toolbar.
 	this.toolboxes.floatingSelectionToolbar = new FloatingSelectionToolbar();
