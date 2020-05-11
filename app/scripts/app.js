@@ -8,9 +8,11 @@ var PNG_REGEX = (/.+\.png$/i),
 
 var canvas,
 	preCanvas,
+	gridCanvas,
 	cursorCanvas,
 	cxt,
 	preCxt,
+	gridCxt,
 	cursorCxt,
 	tools,
 	zoomManager,
@@ -30,6 +32,9 @@ function initCanvas() {
 	// Get the preview canvas.
 	preCanvas = document.getElementById('preCanvas');
 	preCxt = preCanvas.getContext('2d');
+	// Get the grid canvas.
+	gridCanvas = document.getElementById('gridCanvas');
+	gridCxt = gridCanvas.getContext('2d');
 	// Get the cursor canvas.
 	cursorCanvas = document.getElementById('cursorCanvas');
 	cursorCxt = cursorCanvas.getContext('2d');

@@ -12,6 +12,7 @@ body {
 
 #canvas,
 #preCanvas,
+#gridCanvas,
 .floatingRegion,
 .floatingToolbar {
 	position: absolute;
@@ -21,7 +22,8 @@ body {
 }
 
 	#canvas,
-	#preCanvas {
+	#preCanvas,
+	#gridCanvas {
 		-ms-interpolation-mode: nearest-neighbor;
 		image-rendering: -webkit-optimize-contrast;
 		image-rendering: pixelated;
@@ -38,13 +40,17 @@ body {
 	#canvas {
 		z-index: 1;
 	}
-	#preCanvas {
+	#preCanvas,
+	#gridCanvas {
 		z-index: 2;
 		touch-action: none;
 	}
 		#preCanvas.ghost {
 			opacity: 0.6;
 		}
+	#gridCanvas {
+		pointer-events: none;
+	}
 	.floatingRegion,
 	.floatingRegion:focus {
 		border: 1px solid white;
