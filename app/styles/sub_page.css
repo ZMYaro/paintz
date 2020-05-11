@@ -1,0 +1,30 @@
+aside {
+	font-size: 88%;
+	font-style: italic;
+}
+
+.appBar {
+	background-color: #3f51b5;
+}
+	.appBar button:first-child,
+	.appBar [role="button"]:first-child {
+		margin-left: -12px;
+		fill: #ffffff;
+	}
+
+section {
+	max-width: 600px;
+	margin: auto;
+}
+	section button,
+	section [role="button"] {
+		color: #3f51b5;
+		fill: #3f51b5;
+	}
+		section button img,
+		section button [role="img"],
+		section [role="button"] img,
+		section [role="button"] [role="img"] {
+			width: 24px;
+			height: 24px;
+		}
