@@ -1,9 +1,11 @@
 CACHE MANIFEST
-# 2019-11-29, v1
+# 2020-05-11, v1
 index.html
 404.html
 manifest.webapp
+about/index.html
 audio/pacman_start.mp3
+images/full_scrnsht.png
 images/og_image.png
 images/toolbar_overview.png
 images/cursors/airbrush.cur
@@ -89,6 +91,7 @@ partials/toolbar/no_tool_options.html
 partials/toolbar/select_tool_options.html
 partials/toolbar/text_tool_options.html
 partials/toolbar/tools.html
+privacy/index.html
 scripts/app.js
 scripts/clipboard.js
 scripts/keyboard.js
@@ -151,6 +154,7 @@ styles/dialogs.css
 styles/layout.css
 styles/toolbars.css
 styles/splash_screen.css
+styles/sub_page.css
 styles/fonts/Roboto-Bold.ttf
 styles/fonts/Roboto-BoldItalic.ttf
 styles/fonts/Roboto-Italic.ttf
