@@ -3,9 +3,10 @@
 /**
  * @class
  * Create a new ImageToolbox instance.
+ * @param {HTMLElement} [parentToolbar] - The toolbar the toolbox is to be added to
  */
-function ImageToolbox() {
-	Toolbox.call(this, 'image');
+function ImageToolbox(parentToolbar) {
+	Toolbox.call(this, 'image', parentToolbar);
 	
 	// Expose the undo and redo buttons so the history manager can enable/disable them.
 	/** {HTMLButtonElement} The redo button */
