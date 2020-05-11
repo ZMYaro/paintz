@@ -105,22 +105,24 @@ var Utils = {
 		cxt.setLineDash([1, 1]);
 		
 		// Canvas centers the line on the coordinate, so 0.5px centers a 1px line on the pixel.
-		for (var x = 0.5; x < cxt.canvas.width; x += size) {
+		for (var x = 0; x < cxt.canvas.width; x += size) {
+			var currentX = Math.floor(x) + 0.5;
 			cxt.lineDashOffset = 0;
 			cxt.strokeStyle = COLOR_DARK;
-			Utils.drawLine(x, 0, x, cxt.canvas.height, cxt);
+			Utils.drawLine(currentX, 0, currentX, cxt.canvas.height, cxt);
 			cxt.lineDashOffset = 1;
 			cxt.strokeStyle = COLOR_LIGHT;
-			Utils.drawLine(x, 0, x, cxt.canvas.height, cxt);
+			Utils.drawLine(currentX, 0, currentX, cxt.canvas.height, cxt);
 		}
 		
 		for (var y = 0.5; y < cxt.canvas.height; y += size) {
+			var currentY = Math.floor(y) + 0.5;
 			cxt.lineDashOffset = 0;
 			cxt.strokeStyle = COLOR_DARK;
-			Utils.drawLine(0, y, cxt.canvas.width, y, cxt);
+			Utils.drawLine(0, currentY, cxt.canvas.width, currentY, cxt);
 			cxt.lineDashOffset = 1;
 			cxt.strokeStyle = COLOR_LIGHT;
-			Utils.drawLine(0, y, cxt.canvas.width, y, cxt);
+			Utils.drawLine(0, currentY, cxt.canvas.width, currentY, cxt);
 		}
 		
 		cxt.restore();
