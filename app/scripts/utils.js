@@ -92,6 +92,41 @@ var Utils = {
 	},
 	
 	/**
+	 * Draw a grid on a canvas with the specified spacing.
+	 * @param {Number} size - The size of each grid square, in pixels
+	 * @param {CanvasRenderingContext2D} cxt - The rendering context of the canvas to draw to
+	 */
+	drawGrid: function (size, cxt) {
+		var COLOR_DARK = 'rgba(0, 0, 0, 0.5)',
+			COLOR_LIGHT = 'rgba(255, 255, 255, 0.2275)';
+		
+		cxt.save();
+		
+		cxt.setLineDash([1, 1]);
+		
+		// Canvas centers the line on the coordinate, so 0.5px centers a 1px line on the pixel.
+		for (var x = 0.5; x < cxt.canvas.width; x += size) {
+			cxt.lineDashOffset = 0;
+			cxt.strokeStyle = COLOR_DARK;
+			Utils.drawLine(x, 0, x, cxt.canvas.height, cxt);
+			cxt.lineDashOffset = 1;
+			cxt.strokeStyle = COLOR_LIGHT;
+			Utils.drawLine(x, 0, x, cxt.canvas.height, cxt);
+		}
+		
+		for (var y = 0.5; y < cxt.canvas.height; y += size) {
+			cxt.lineDashOffset = 0;
+			cxt.strokeStyle = COLOR_DARK;
+			Utils.drawLine(0, y, cxt.canvas.width, y, cxt);
+			cxt.lineDashOffset = 1;
+			cxt.strokeStyle = COLOR_LIGHT;
+			Utils.drawLine(0, y, cxt.canvas.width, y, cxt);
+		}
+		
+		cxt.restore();
+	},
+	
+	/**
 	 * Draw a line on a canvas between two points.
 	 * @param {Number} x1 - The x-coordinate of the start point
 	 * @param {Number} y1 - The y-coordinate of the start point
