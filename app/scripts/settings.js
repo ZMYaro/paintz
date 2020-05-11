@@ -37,6 +37,7 @@ SettingsManager.prototype.DEFAULTS = {
 	theme: 'default',
 	systemThemeOverride: true,
 	colorPalette: 'material',
+	grid: false,
 	ghostDraw: false,
 	antiAlias: true,
 	maxUndoStackDepth: 50,
@@ -107,6 +108,10 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			if (preCanvas.width !== value) {
 				preCanvas.width = value;
 			}
+			gridCanvas.width = value;
+			if (this.get('grid')) {
+				zoomManager.drawGrid();
+			}
 			document.getElementById('resolution').innerHTML =
 				value + ' &times; ' + this.get('height') + 'px';
 			break;
@@ -116,6 +121,10 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			}
 			if (preCanvas.height !== value) {
 				preCanvas.height = value;
+			}
+			gridCanvas.height = value;
+			if (this.get('grid')) {
+				zoomManager.drawGrid();
 			}
 			document.getElementById('resolution').innerHTML =
 				this.get('width') + ' &times; ' + value + 'px';
@@ -129,6 +138,13 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 		case 'theme':
 		case 'systemThemeOverride':
 			this._setTheme();
+			break;
+		case 'grid':
+			if (value) {
+				zoomManager.drawGrid();
+			} else {
+				Utils.clearCanvas(gridCxt);
+			}
 			break;
 		case 'ghostDraw':
 			preCanvas.classList[value ? 'add' : 'remove']('ghost');

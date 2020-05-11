@@ -53,6 +53,7 @@ SettingsDialog.prototype._showCurrentSettings = function () {
 	this._element.theme.value = settings.get('theme');
 	this._element.systemThemeOverride.checked = settings.get('systemThemeOverride');
 	this._element.colorPalette.value = settings.get('colorPalette');
+	this._element.grid.checked = settings.get('grid');
 	this._element.ghostDraw.checked = settings.get('ghostDraw');
 	this._element.antiAlias.checked = settings.get('antiAlias');
 	this._element.maxUndoStackDepth.value = settings.get('maxUndoStackDepth');
@@ -68,6 +69,8 @@ SettingsDialog.prototype._saveNewSettings = function () {
 	
 	settings.set('colorPalette', this._element.colorPalette.value);
 	toolbar.toolboxes.colorPicker.setColorPalette(this._element.colorPalette.value);
+	
+	settings.set('grid', this._element.grid.checked);
 	
 	settings.set('ghostDraw', this._element.ghostDraw.checked);
 	
@@ -89,6 +92,7 @@ SettingsDialog.prototype._resetSettings = function () {
 	this._element.theme.value = settings.DEFAULTS.theme;
 	this._element.systemThemeOverride.checked = settings.DEFAULTS.theme;
 	this._element.colorPalette.value = settings.DEFAULTS.colorPalette;
+	this._element.grid.checked = settings.DEFAULTS.grid;
 	this._element.ghostDraw.checked = settings.DEFAULTS.ghostDraw;
 	this._element.antiAlias.checked = settings.DEFAULTS.antiAlias;
 	this._element.maxUndoStackDepth.value = settings.DEFAULTS.maxUndoStackDepth;

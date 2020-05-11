@@ -49,6 +49,16 @@ ZoomManager.prototype.ZOOM_LEVELS = [
 	800
 ];
 
+/** @constant {Object<Number, Number>} The grid sizes for zoom levels */
+ZoomManager.prototype.GRID_SIZES = {
+//	zoom level : grid size
+	25:  50,
+	50:  20,
+	100: 10,
+	200: 5,
+	400: 1
+};
+
 Object.defineProperties(ZoomManager.prototype, {
 	level: {
 		get: function () {
@@ -75,10 +85,17 @@ Object.defineProperties(ZoomManager.prototype, {
 				preCanvas.style.MozTransform =
 				preCanvas.style.MsTransform =
 				preCanvas.style.OTransform =
-				preCanvas.style.transform = 'scale(' + percent / 100 + ')';
+				preCanvas.style.transform = 'scale(' + this._zoomLevel + ')';
+			gridCanvas.width = settings.get('width') * this._zoomLevel;
+			gridCanvas.height = settings.get('height') * this._zoomLevel;
 			
 			// Allow the tool to update its cursor.
 			tools.currentTool.activate();
+			
+			// Update the gridlines if enabled.
+			if (settings.get('grid')) {
+				this.drawGrid();
+			}
 		}
 	}
 });
@@ -113,4 +130,25 @@ ZoomManager.prototype.zoomIn = function () {
 ZoomManager.prototype.zoomOut = function () {
 	this._zoomSlider.stepDown();
 	this._zoomSlider.oninput();
+};
+
+/**
+ * Draw gridlines for the current zoom level, if enabled.
+ */
+ZoomManager.prototype.drawGrid = function () {
+	// Get the grid size for the current zoom level.
+	var baseGridSize = 0;
+	for (var level in this.GRID_SIZES) {
+		if (baseGridSize && this.level * 100 < level) {
+			// Stop one level down.
+			break;
+		}
+		baseGridSize = this.GRID_SIZES[level];
+	}
+	
+	// Adjust the spacing to match the actual canvas.
+	var gridSize = baseGridSize * this._zoomLevel;
+	
+	Utils.clearCanvas(gridCxt);
+	Utils.drawGrid(gridSize, gridCxt);
 };
