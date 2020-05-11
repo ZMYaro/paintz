@@ -21,6 +21,19 @@ section {
 		color: #3f51b5;
 		fill: #3f51b5;
 	}
+		section button:not(:disabled):hover,
+		section button:not(:disabled):focus,
+		section [role="button"]:not(:disabled):hover,
+		section [role="button"]:not(:disabled):focus {
+			background-color: rgba(63, 81, 181, 0.15);
+		}
+		section button:not(:disabled):active,
+		section button:not(:disabled).active,
+		section [role="button"]:not(:disabled):active,
+		section [role="button"]:not(:disabled).active {
+			background-color: rgba(63, 81, 181, 0.35);
+		}
+	
 		section button img,
 		section button [role="img"],
 		section [role="button"] img,
