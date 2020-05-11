@@ -222,9 +222,9 @@ window.addEventListener('load', function () {
 	
 	// Initialize everything.
 	initCanvas();
+	zoomManager = new ZoomManager();
 	settings = new SettingsManager();
 	clipboard = new ClipboardManager();
-	zoomManager = new ZoomManager();
 	toolbar = new ToolbarManager();
 	tools = new ToolManager();
 	progressSpinner = new ProgressSpinner();
