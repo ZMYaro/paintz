@@ -4,16 +4,16 @@
  * @class
  * Create a new Toolbox instance.  A toolbox is a section on the toolbar with buttons or other controls.
  * @param {String} contentFileName - The name of the HTML partial file with the toolbox's contents
- * @param {HTMLElement} [parentToolbar] - The toolbar the toolbox is to be added to
+ * @param {HTMLElement} [toolbar] - The toolbar the toolbox is to be added to
  */
-function Toolbox(contentFileName, parentToolbar) {
+function Toolbox(contentFileName, toolbar) {
 	/** @private {HTMLDivElement} The container for toolbox's content */
 	this._element = document.createElement('div');
 	this._element.className = this.CSS_CLASS;
 	
 	// Add the toolbox to the toolbar.
-	if (parentToolbar) {
-		parentToolbar.appendChild(this._element);
+	if (toolbar) {
+		toolbar.appendChild(this._element);
 	}
 	
 	// Fetch the toolbox content, then set up the toolbox.

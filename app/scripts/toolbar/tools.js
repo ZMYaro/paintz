@@ -3,10 +3,10 @@
 /**
  * @class
  * Create a new ToolsToolbox instance.
- * @param {HTMLElement} [parentToolbar] - The toolbar the toolbox is to be added to
+ * @param {HTMLElement} [toolbar] - The toolbar the toolbox is to be added to
  */
-function ToolsToolbox(parentToolbar) {
-	Toolbox.call(this, 'tools', parentToolbar);
+function ToolsToolbox(toolbar) {
+	Toolbox.call(this, 'tools', toolbar);
 }
 // Extend Toolbox.
 ToolsToolbox.prototype = Object.create(Toolbox.prototype);

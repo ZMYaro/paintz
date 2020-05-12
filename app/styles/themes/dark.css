@@ -97,7 +97,7 @@ button,
 	border-right-color: #212121;
 }
 
-#resolution {
+#dimensionsToolbox {
 	color: rgba(255, 255, 255, 0.9)
 }
 #zoomPercent:not(:disabled):focus {

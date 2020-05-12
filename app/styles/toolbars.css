@@ -118,14 +118,15 @@
 			height: 24px;
 			margin: -6px 2px;
 		}
-button#resolution {
+button#resolutionBtn {
 	width: auto;
 	text-transform: none;
 	margin: -5px 0;
+	color: inherit;
 	font-size: inherit;
 	font-weight: inherit;
 }
-#zoomContainer {
+#zoomToolbox {
 	float: right;
 }
 button#zoomOutBtn {
@@ -150,8 +151,11 @@ button#zoomInBtn {
 				appearance: none;
 	}
 	#zoomPercent + .icon {
+		vertical-align: baseline;
+		width: auto;
+		height: auto;
+		margin: 0;
 		margin-left: -18px;
-		margin-top: 1px;
 	}
 #zoomSlider {
 	width: 128px;
@@ -189,7 +193,7 @@ button#zoomInBtn {
 	}
 }
 @media (max-width: 480px) {
-	#resolution {
+	#dimensionsToolbox {
 		display: none;
 	}
 }

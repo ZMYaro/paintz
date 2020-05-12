@@ -112,8 +112,9 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			if (this.get('grid')) {
 				zoomManager.drawGrid();
 			}
-			document.getElementById('resolution').innerHTML =
-				value + ' &times; ' + this.get('height') + 'px';
+			if (toolbar.toolboxes) {
+				toolbar.toolboxes.dimensions.updateResolution();
+			}
 			break;
 		case 'height':
 			if (canvas.height !== value) {
@@ -126,8 +127,9 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			if (this.get('grid')) {
 				zoomManager.drawGrid();
 			}
-			document.getElementById('resolution').innerHTML =
-				this.get('width') + ' &times; ' + value + 'px';
+			if (toolbar.toolboxes) {
+				toolbar.toolboxes.dimensions.updateResolution();
+			}
 			break;
 		case 'lineWidth':
 			// Some tools' cursors change with the line width, so reactivate the tool.
