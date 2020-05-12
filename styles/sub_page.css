@@ -1,0 +1,80 @@
+aside {
+	font-size: 87.5%;
+	font-style: italic;
+}
+
+.appBar {
+	background-color: #3f51b5;
+}
+	.appBar button:first-child,
+	.appBar [role="button"]:first-child {
+		margin-left: -12px;
+		fill: #ffffff;
+	}
+	.appBar h1 {
+		display: inline-block;
+		margin: 0;
+		font-size: inherit;
+	}
+
+section {
+	max-width: 600px;
+	margin: auto;
+}
+	section button,
+	section [role="button"] {
+		color: #3f51b5;
+		fill: #3f51b5;
+	}
+		section button:not(:disabled):hover,
+		section button:not(:disabled):focus,
+		section [role="button"]:not(:disabled):hover,
+		section [role="button"]:not(:disabled):focus {
+			background-color: rgba(63, 81, 181, 0.15);
+		}
+		section button:not(:disabled):active,
+		section button:not(:disabled).active,
+		section [role="button"]:not(:disabled):active,
+		section [role="button"]:not(:disabled).active {
+			background-color: rgba(63, 81, 181, 0.35);
+		}
+		
+		section button img,
+		section button [role="img"],
+		section [role="button"] img,
+		section [role="button"] [role="img"] {
+			width: 24px;
+			height: 24px;
+			margin: -7px;
+		}
+
+footer {
+	margin-top: 4em;
+	font-size: 87.5%;
+	text-align: center;
+	opacity: 0.6;
+}
+
+@media (prefers-color-scheme: dark) {
+	body {
+		background-color: #303030;
+		color: white;
+	}
+	section button,
+	section [role="button"] {
+		color: #b4c0e4;
+		fill: #b4c0e4;
+	}
+		section button:not(:disabled):hover,
+		section button:not(:disabled):focus,
+		section [role="button"]:not(:disabled):hover,
+		section [role="button"]:not(:disabled):focus {
+			background-color: rgba(121, 134, 203, 0.15);
+		}
+		section button:not(:disabled):active,
+		section button:not(:disabled).active,
+		section [role="button"]:not(:disabled):active,
+		section [role="button"]:not(:disabled).active {
+			background-color: rgba(121, 134, 203, 0.35);
+		}
+}
