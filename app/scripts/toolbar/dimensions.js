@@ -10,6 +10,8 @@ function DimensionsToolbox(toolbar) {
 	
 	/** @private {HTMLSpanElement} The resolution display */
 	this._resolution;
+	/** @private {HTMLSpanElement} The pointer coordinates display */
+	this._pointerCoords;
 	
 	this._element.id = 'dimensionsToolbox';
 }
@@ -32,6 +34,8 @@ DimensionsToolbox.prototype._setUp = function (contents) {
 	
 	this._resolution = resolutionBtn.querySelector('span');
 	this.updateResolution();
+	
+	this._pointerCoords = this._element.querySelector('#pointerCoords');
 };
 
 /**
@@ -39,4 +43,23 @@ DimensionsToolbox.prototype._setUp = function (contents) {
  */
 DimensionsToolbox.prototype.updateResolution = function () {
 	this._resolution.innerHTML = settings.get('width') + ' &times; ' + settings.get('height') + 'px';
+};
+
+/**
+ * Update the displayed pointer coordinates, or hide them if the pointer is outside the canvas.
+ * @param {Number} pointerX - The pointer's current x-coordinate
+ * @param {Number} pointerY - The pointer's current y-coordinate
+ */
+DimensionsToolbox.prototype.updatePointerCoords = function (pointerX, pointerY) {
+	// Confirm the pointer coordinates are in the canvas.
+	var xInCanvas = (pointerX === Utils.constrainValue(pointerX, 0, canvas.width - 1)),
+		yInCanvas = (pointerY === Utils.constrainValue(pointerY, 0, canvas.height - 1));
+	
+	if (!xInCanvas || !yInCanvas) {
+		// If the cursor is outside the canvas, clear the coordinates display.
+		this._pointerCoords.innerHTML = '';
+		return;
+	}
+	
+	this._pointerCoords.innerHTML = pointerX + ', ' + pointerY + 'px';
 };

@@ -68,6 +68,7 @@ ToolManager.prototype.switchTool = function (toolName) {
  * @param {PointerEvent} e
  */
 ToolManager.prototype._handlePointerDown = function (e) {
+	// Do not start if already drawing.
 	if (this._state !== this.STATE_INACTIVE) {
 		return;
 	}
@@ -83,13 +84,16 @@ ToolManager.prototype._handlePointerDown = function (e) {
 	
 	preCanvas.focus();
 	
+	var adjustedX = Utils.getCanvasX(e.pageX) / zoomManager.level,
+		adjustedY = Utils.getCanvasY(e.pageY) / zoomManager.level;
+	
 	// Initialize the new shape.
 	this.currentTool.start({
 		button: e.button,
 		ctrlKey: Utils.checkPlatformCtrlOrCmdKey(e),
 		shiftKey: e.shiftKey,
-		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
-		y: Utils.getCanvasY(e.pageY) / zoomManager.level,
+		x: adjustedX,
+		y: adjustedY,
 		windowX: e.clientX,
 		windowY: e.clientY
 	});
@@ -104,6 +108,15 @@ ToolManager.prototype._handlePointerDown = function (e) {
  * @param {PointerEvent} e
  */
 ToolManager.prototype._handlePointerMove = function (e) {
+	// Update the pointer coordinates in the bottom bar.
+	var adjustedX = Utils.getCanvasX(e.pageX) / zoomManager.level,
+		adjustedY = Utils.getCanvasY(e.pageY) / zoomManager.level,
+		intX = Math.floor(adjustedX),
+		intY = Math.floor(adjustedY);
+	
+	toolbar.toolboxes.dimensions.updatePointerCoords(intX, intY);
+	
+	// Do not continue drawing if not started.
 	if (this._state !== this.STATE_ACTIVE) {
 		return;
 	}
@@ -115,8 +128,8 @@ ToolManager.prototype._handlePointerMove = function (e) {
 	this.currentTool.move({
 		ctrlKey: Utils.checkPlatformCtrlOrCmdKey(e),
 		shiftKey: e.shiftKey,
-		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
-		y: Utils.getCanvasY(e.pageY) / zoomManager.level,
+		x: adjustedX,
+		y: adjustedY,
 		windowX: e.clientX,
 		windowY: e.clientY
 	});
@@ -128,6 +141,7 @@ ToolManager.prototype._handlePointerMove = function (e) {
  * @param {MouseEvent|TouchEvent} e
  */
 ToolManager.prototype._handlePointerUp = function (e) {
+	// Do not end if not started.
 	if (this._state !== this.STATE_ACTIVE) {
 		return;
 	}
@@ -135,12 +149,15 @@ ToolManager.prototype._handlePointerUp = function (e) {
 	e.preventDefault();
 	e.stopPropagation();
 	
+	var adjustedX = Utils.getCanvasX(e.pageX) / zoomManager.level,
+		adjustedY = Utils.getCanvasY(e.pageY) / zoomManager.level;
+	
 	// Complete the task.
 	this.currentTool.end({
 		ctrlKey: Utils.checkPlatformCtrlOrCmdKey(e),
 		shiftKey: e.shiftKey,
-		x: Utils.getCanvasX(e.pageX) / zoomManager.level,
-		y: Utils.getCanvasY(e.pageY) / zoomManager.level,
+		x: adjustedX,
+		y: adjustedY,
 		windowX: e.clientX,
 		windowY: e.clientY
 	});
