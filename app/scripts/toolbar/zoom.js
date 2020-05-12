@@ -41,7 +41,7 @@ ZoomToolbox.prototype._setUp = function (contents) {
 	this.slider.min = 0;
 	this.slider.max = zoomManager.ZOOM_LEVELS.length - 1;
 	this.slider.oninput = function () {
-		zoomManager.level = zoomManager.ZOOM_LEVELS[this.value];
+		zoomManager.levelPercent = zoomManager.ZOOM_LEVELS[this.value];
 	};
 	
 	// Set up buttons.
