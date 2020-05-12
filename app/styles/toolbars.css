@@ -4,6 +4,13 @@
 	z-index: -1;
 }
 
+.divider {
+	display: inline-block;
+	vertical-align: top;
+	padding: 0;
+	width: 1px;
+}
+
 #toolbar,
 #bottomBar {
 	overflow: hidden;
@@ -19,12 +26,8 @@
 	        user-select: none;
 }
 	#toolbar .divider {
-		display: inline-block;
-		vertical-align: top;
 		height: 76px;
 		margin: 10px 4px;
-		padding: 0;
-		width: 1px;
 	}
 	#toolbar button,
 	#toolbar [role="button"] {
@@ -106,6 +109,10 @@
 	   -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 4px 17px 0, rgba(0, 0, 0, 0.19) 0 2px 20px 0;
 	        box-shadow: rgba(0, 0, 0, 0.2) 0 4px 17px 0, rgba(0, 0, 0, 0.19) 0 2px 20px 0;
 }
+	#bottomBar .divider {
+		height: 16px;
+		margin: 8px 4px;
+	}
 	#bottomBar button {
 		padding: 11px 8px 10px;
 		margin: -4px 0;
@@ -114,22 +121,28 @@
 	#bottomBar [role="img"] {
 		width: 24px;
 		height: 24px;
-		margin: -6px 6px;
+		margin: 4px;
 		-webkit-transform: scale(0.875);
 		   -moz-transform: scale(0.875);
 		    -ms-transform: scale(0.875);
 		     -o-transform: scale(0.875);
 		        transform: scale(0.875);
 	}
+		#bottomBar button img,
+		#bottomBar button [role="img"] {
+			margin: -6px 6px -6px 0;
+		}
+
 button#resolutionBtn {
 	color: inherit;
 	font-size: inherit;
 	font-weight: inherit;
 	text-transform: inherit;
 }
-	button#resolutionBtn [role="img"] {
-		margin-left: 0;
-	}
+#pointerCoords {
+	display: inline-block;
+	margin: 7px 0;
+}
 
 #zoomToolbox {
 	float: right;
