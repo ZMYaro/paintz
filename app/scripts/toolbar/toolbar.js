@@ -5,25 +5,31 @@
  * Create a new ToolbarManager instance.
  */
 function ToolbarManager() {
-	/** @private {HTMLDivElement} The element for the toolbar itself */
-	this._element = document.getElementById('toolbar');
+	/** @private {HTMLDivElement} The element for the main toolbar */
+	this._mainToolbar = document.getElementById('toolbar');
+	/** @private {HTMLDivElement} The element for the bottom bar */
+	this._bottomBar = document.getElementById('bottomBar');
 	
 	/** {Object<String,Toolbox>} All the toolboxes on the toolbar */
 	this.toolboxes = {};
 	
 	// Create and add the main toolbar toolboxes and dividers.
-	this.toolboxes.image = new ImageToolbox(this._element);
-	this._addDivider(this._element);
-	this.toolboxes.tools = new ToolsToolbox(this._element);
-	this._addDivider(this._element);
-	this.toolboxes.noToolOptions = new NoToolOptionsToolbox(this._element);
-	this.toolboxes.drawToolOptions = new DrawToolOptionsToolbox(this._element);
-	this.toolboxes.selectToolOptions = new SelectionToolOptionsToolbox(this._element);
-	this.toolboxes.textToolOptions = new TextToolOptionsToolbox(this._element);
-	this._addDivider(this._element);
-	this.toolboxes.colorPicker = new ColorPickerToolbox(this._element);
-	this._addDivider(this._element);
-	this.toolboxes.app = new AppToolbox(this._element);
+	this.toolboxes.image = new ImageToolbox(this._mainToolbar);
+	this._addDivider(this._mainToolbar);
+	this.toolboxes.tools = new ToolsToolbox(this._mainToolbar);
+	this._addDivider(this._mainToolbar);
+	this.toolboxes.noToolOptions = new NoToolOptionsToolbox(this._mainToolbar);
+	this.toolboxes.drawToolOptions = new DrawToolOptionsToolbox(this._mainToolbar);
+	this.toolboxes.selectToolOptions = new SelectionToolOptionsToolbox(this._mainToolbar);
+	this.toolboxes.textToolOptions = new TextToolOptionsToolbox(this._mainToolbar);
+	this._addDivider(this._mainToolbar);
+	this.toolboxes.colorPicker = new ColorPickerToolbox(this._mainToolbar);
+	this._addDivider(this._mainToolbar);
+	this.toolboxes.app = new AppToolbox(this._mainToolbar);
+	
+	// Create and add the bottom bar toolboxes and dividers.
+	this.toolboxes.dimensions = new DimensionsToolbox(this._bottomBar);
+	this.toolboxes.zoom = new ZoomToolbox(this._bottomBar);
 	
 	// Create the floating selection toolbar.
 	this.toolboxes.floatingSelectionToolbar = new FloatingSelectionToolbar();
@@ -47,7 +53,7 @@ function ToolbarManager() {
 Object.defineProperties(ToolbarManager.prototype, {
 	scrollLeft: {
 		get: function () {
-			return this._element.scrollLeft;
+			return this._mainToolbar.scrollLeft;
 		}
 	}
 });
@@ -55,11 +61,12 @@ Object.defineProperties(ToolbarManager.prototype, {
 /**
  * @private
  * Add a divider to the toolbar.
+ * @param {HTMLElement} toolbar - The toolbar element to ad the divider to
  */
-ToolbarManager.prototype._addDivider = function () {
+ToolbarManager.prototype._addDivider = function (toolbar) {
 	var divider = document.createElement('span');
 	divider.className = 'divider';
-	this._element.appendChild(divider);
+	toolbar.appendChild(divider);
 };
 
 /**

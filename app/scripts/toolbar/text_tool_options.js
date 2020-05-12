@@ -3,10 +3,10 @@
 /**
  * @class
  * Create a new TextToolOptionsToolbox instance.
- * @param {HTMLElement} [parentToolbar] - The toolbar the toolbox is to be added to
+ * @param {HTMLElement} [toolbar] - The toolbar the toolbox is to be added to
  */
-function TextToolOptionsToolbox(parentToolbar) {
-	Toolbox.call(this, 'text_tool_options', parentToolbar);
+function TextToolOptionsToolbox(toolbar) {
+	Toolbox.call(this, 'text_tool_options', toolbar);
 	
 	this.boldToggle;
 	this.italicToggle;

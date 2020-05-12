@@ -3,10 +3,10 @@
 /**
  * @class
  * Create a new ColorPickerToolbox instance.
- * @param {HTMLElement} [parentToolbar] - The toolbar the toolbox is to be added to
+ * @param {HTMLElement} [toolbar] - The toolbar the toolbox is to be added to
  */
-function ColorPickerToolbox(parentToolbar) {
-	Toolbox.call(this, 'color_picker', parentToolbar);
+function ColorPickerToolbox(toolbar) {
+	Toolbox.call(this, 'color_picker', toolbar);
 	this._element.id = 'colorPicker';
 	
 	/** {HTMLButtonElement} The color indicator that opens the color picker dialog when clicked. */
