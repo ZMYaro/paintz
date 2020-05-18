@@ -59,4 +59,18 @@ SelectionToolOptionsToolbox.prototype._setUp = function (contents) {
 	flipVertBtn.addEventListener('click', function () {
 		tools.currentTool.flip(true);
 	}, false);
+	
+	var transparentSelectionOn = this._element.querySelector('#transparentSelectionOn');
+	transparentSelectionOn.addEventListener('change', function() {
+		if (this.checked) {
+			tools.currentTool.setTransparentBackground(true);
+		}
+	});
+	
+	var transparentSelectionOff = this._element.querySelector('#transparentSelectionOff');
+	transparentSelectionOff.addEventListener('change', function() {
+		if (this.checked) {
+			tools.currentTool.setTransparentBackground(false);
+		}
+	});
 };
