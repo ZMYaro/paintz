@@ -7,6 +7,8 @@
  */
 function SelectionToolOptionsToolbox(toolbar) {
 	Toolbox.call(this, 'select_tool_options', toolbar);
+	
+	this._element.id = 'selectOptions';
 }
 // Extend Toolbox.
 SelectionToolOptionsToolbox.prototype = Object.create(Toolbox.prototype);
