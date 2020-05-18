@@ -55,6 +55,11 @@ DimensionsToolbox.prototype.updatePointerCoords = function (pointerX, pointerY) 
 	var xInCanvas = (pointerX === Utils.constrainValue(pointerX, 0, canvas.width - 1)),
 		yInCanvas = (pointerY === Utils.constrainValue(pointerY, 0, canvas.height - 1));
 	
+	if (!this._pointerCoords) {
+		// If something tries to update the pointer coordinates before the HTML has been parsed, abort.
+		return;
+	}
+	
 	if (!xInCanvas || !yInCanvas) {
 		// If the cursor is outside the canvas, clear the coordinates display.
 		this._pointerCoords.innerHTML = '';
