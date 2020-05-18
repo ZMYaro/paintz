@@ -32,6 +32,9 @@
 	#toolbar button,
 	#toolbar [role="button"] {
 		margin: 4px;
+		
+		transition-property: margin;
+		transition-duration: 0.2s;
 	}
 		#toolbar button svg,
 		#toolbar [role="button"] svg {
