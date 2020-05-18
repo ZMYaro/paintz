@@ -174,21 +174,13 @@ FreeformSelectionTool.prototype.end = function (pointerState) {
 			return;
 		}
 		
+		// Get the image data within the selections bounding rectangle.
+		this._selection.unmaskedContent = this._cxt.getImageData(
+			this._selection.startX, this._selection.startY,
+			this._selection.width, this._selection.height);
+		
 		// Save the selected content using the selection start cover function to cut it to the freeform shape.
-		var selectedRegionRectContent = this._cxt.getImageData(
-			this._selection.startX, this._selection.startY,
-			this._selection.width, this._selection.height);
-		
-		Utils.clearCanvas(this._preCxt);
-		this._preCxt.save();
-		this._preCxt.putImageData(selectedRegionRectContent, this._selection.startX, this._selection.startY);
-		this._preCxt.globalCompositeOperation = 'destination-in';
-		this._drawSelectionStartCover();
-		this._preCxt.restore();
-		
-		this._selection.content = this._preCxt.getImageData(
-			this._selection.startX, this._selection.startY,
-			this._selection.width, this._selection.height);
+		this._selection.content = this._maskToSelectionPath(this._selection.unmaskedContent);
 		
 		// Add the outline.
 		this._updateSelectionOutline();
@@ -199,6 +191,27 @@ FreeformSelectionTool.prototype.end = function (pointerState) {
 	if (this._selection) {
 		this._toolbar.show();
 	}
+};
+
+/**
+ * @override
+ * Set whether the background color in the selection should be transparent.
+ * @param {Boolean} transparencyOn - Whether the selection should have a transparent background
+ */
+FreeformSelectionTool.prototype.setTransparentBackground = function (transparencyOn) {
+	if (!this._selection) {
+		return;
+	}
+	
+	// Create/revert the transparent selection using the unmasked selection.
+	this._selection.content = Utils.cloneImageData(this._selection.unmaskedContent, this._preCxt);
+	if (transparencyOn) {
+		SelectionTool.prototype.setTransparentBackground.call(this, transparencyOn);
+	}
+	// Remask the selection.
+	this._selection.content = this._maskToSelectionPath(this._selection.content);
+	this._redrawSelection();
+	
 };
 
 /**
@@ -226,3 +239,25 @@ FreeformSelectionTool.prototype._createSelectionPath = function (cxt, points) {
 		cxt.lineTo(point.x, point.y);
 	});	
 };
+
+/**
+ * @private
+ * Create the masked version of the selection content using the saved selection path.
+ * @param {ImageData} imageData - The image data to mask
+ * @returns {ImageData} The image data masked to the selection region
+ */
+FreeformSelectionTool.prototype._maskToSelectionPath = function (imageData) {
+	Utils.clearCanvas(this._preCxt);
+	this._preCxt.save();
+	// Put the unmasked image data in the canvas.
+	this._preCxt.putImageData(imageData, this._selection.startX, this._selection.startY);
+	// Draw the selection shape with destination-in mode to remove all image data outside it.
+	this._preCxt.globalCompositeOperation = 'destination-in';
+	this._drawSelectionStartCover();
+	this._preCxt.restore();
+	
+	// Grab the selection region from the canvas now that it has been masked.
+	return this._preCxt.getImageData(
+		this._selection.startX, this._selection.startY,
+		this._selection.width, this._selection.height);
+}

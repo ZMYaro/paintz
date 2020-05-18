@@ -142,10 +142,7 @@ SelectionTool.prototype.update = function () {
 		return;
 	}
 	
-	Utils.clearCanvas(this._preCxt);
-	
-	this._drawSelectionContent();
-	this._updateSelectionOutline();
+	this._redrawSelection();
 	
 	this._canvasDirty = false;
 };
@@ -225,6 +222,7 @@ SelectionTool.prototype.clear = function () {
 
 /**
  * Copy the current selection to the clipboard.
+ * @returns {Promise} Resolves when the selection has been copied, rejects if the selection is unable to copy
  */
 SelectionTool.prototype.copy = function () {
 	// Quit if there is no selection to copy.
@@ -372,9 +370,7 @@ SelectionTool.prototype.flip = function (vertical) {
 		this._selection.transformed = true;
 		
 		// Put the updated selection back in place.
-		Utils.clearCanvas(this._preCxt);
-		this._drawSelectionContent();
-		this._updateSelectionOutline();
+		this._redrawSelection();
 		
 	} else {
 		// If there is no selection, flip the main canvas, and draw it to itself.
@@ -488,9 +484,36 @@ SelectionTool.prototype.nudge = function (deltaX, deltaY) {
 			Math.max(-this._selection.height,
 				Math.round(this._selection.y + deltaY)));
 	
-	Utils.clearCanvas(this._preCxt);
-	this._drawSelectionContent();
-	this._updateSelectionOutline();
+	this._redrawSelection();
+};
+
+/**
+ * Set whether the background color in the selection should be transparent.
+ * @param {Boolean} transparencyOn - Whether the selection should have a transparent background
+ */
+SelectionTool.prototype.setTransparentBackground = function (transparencyOn) {
+	if (!this._selection) {
+		return;
+	}
+	
+	var bgColor = Utils.colorToRGB(settings.get('fillColor')),
+		selectionData = this._selection.content.data;
+	
+	// Check every pixel in the selection.
+	for (var i = 0; i < selectionData.length; i += 4) {
+		// Check whether the current pixel matches the current background color.
+		var colorMatch = (selectionData[i] === bgColor.r &&
+				selectionData[i + 1] === bgColor.g &&
+				selectionData[i + 2] === bgColor.b);
+		
+		if (colorMatch && transparencyOn) {
+			selectionData[i + 3] = 0;
+		} else {
+			selectionData[i + 3] = 255;
+		}
+	}
+	
+	this._redrawSelection();
 };
 
 /**
@@ -547,6 +570,16 @@ SelectionTool.prototype._drawSelectionStartCover = function () {
 	this._preCxt.fillRect(
 		this._selection.startX, this._selection.startY,
 		this._selection.startWidth, this._selection.startHeight);
+};
+
+/**
+ * @private
+ * Redraw the selection and its outline with its current state.
+ */
+SelectionTool.prototype._redrawSelection = function () {
+	Utils.clearCanvas(this._preCxt);
+	this._drawSelectionContent();
+	this._updateSelectionOutline();
 };
 
 /**

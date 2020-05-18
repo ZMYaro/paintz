@@ -60,6 +60,18 @@ var Utils = {
 	},
 	
 	/**
+	 * Create a copy of an image data object.
+	 * @param {ImageData} sourceData - The image data object to copy
+	 * @param {CanvasRenderingContext2D} cxt - The rendering context to use to create the copy
+	 * @returns {ImageData} The new copy
+	 */
+	cloneImageData: function (sourceData, cxt) {
+		var copyData = cxt.createImageData(sourceData.width, sourceData.height);
+		copyData.data.set(sourceData.data);
+		return copyData;
+	},
+	
+	/**
 	 * Constrain a value between a minimum and maximum.
 	 * @param {Number} value - The value to constrain
 	 * @param {Number} min - The minimum value to allow

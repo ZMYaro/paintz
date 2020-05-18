@@ -33,7 +33,7 @@ Tool.prototype._deAntiAlias = function (color) {
 		} else {
 			// Reset < 50% opaque pixels to transparent black.
 			imageData.data[i] =
-			imageData.data[i - 3] =
+				imageData.data[i - 3] =
 				imageData.data[i - 2] =
 				imageData.data[i - 1] = 0;
 		}
