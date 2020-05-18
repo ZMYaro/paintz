@@ -138,6 +138,7 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 				tools.currentTool.activate();
 			}
 			break;
+		case 'fillColor':
 		case 'transparentSelection':
 			if (tools && tools.currentTool && tools.currentTool.setTransparentBackground) {
 				tools.currentTool.setTransparentBackground();
