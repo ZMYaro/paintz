@@ -178,6 +178,9 @@ SelectionTool.prototype.end = function (pointerState) {
 		this._selection.content = this._cxt.getImageData(
 			this._selection.startX, this._selection.startY,
 			this._selection.width, this._selection.height);
+		
+		// Make the selection transparent if the setting is enabled.
+		this.setTransparentBackground();
 	}
 	
 	// Show the selection toolbar if there is an active selection.
@@ -489,14 +492,14 @@ SelectionTool.prototype.nudge = function (deltaX, deltaY) {
 
 /**
  * Set whether the background color in the selection should be transparent.
- * @param {Boolean} transparencyOn - Whether the selection should have a transparent background
  */
-SelectionTool.prototype.setTransparentBackground = function (transparencyOn) {
+SelectionTool.prototype.setTransparentBackground = function () {
 	if (!this._selection) {
 		return;
 	}
 	
-	var bgColor = Utils.colorToRGB(settings.get('fillColor')),
+	var transparencyOn = settings.get('transparentSelection'),
+		bgColor = Utils.colorToRGB(settings.get('fillColor')),
 		selectionData = this._selection.content.data;
 	
 	// Check every pixel in the selection.
