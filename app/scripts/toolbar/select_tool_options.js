@@ -61,16 +61,18 @@ SelectionToolOptionsToolbox.prototype._setUp = function (contents) {
 	}, false);
 	
 	var transparentSelectionOn = this._element.querySelector('#transparentSelectionOn');
+	transparentSelectionOn.checked = settings.get('transparentSelection');
 	transparentSelectionOn.addEventListener('change', function() {
 		if (this.checked) {
-			tools.currentTool.setTransparentBackground(true);
+			settings.set('transparentSelection', true);
 		}
 	});
 	
 	var transparentSelectionOff = this._element.querySelector('#transparentSelectionOff');
+	transparentSelectionOff.checked = !settings.get('transparentSelection');
 	transparentSelectionOff.addEventListener('change', function() {
 		if (this.checked) {
-			tools.currentTool.setTransparentBackground(false);
+			settings.set('transparentSelection', false);
 		}
 	});
 };

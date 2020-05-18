@@ -26,6 +26,7 @@ SettingsManager.prototype.DEFAULTS = {
 	outlineOption: 'outlineFill',
 	lineColor: '#000000',
 	fillColor: '#ffffff',
+	transparentSelection: false,
 	fontFamily: 'sans-serif',
 	fontSize: 16,
 	bold: false,
@@ -135,6 +136,11 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			// Some tools' cursors change with the line width, so reactivate the tool.
 			if (tools && tools.currentTool) {
 				tools.currentTool.activate();
+			}
+			break;
+		case 'transparentSelection':
+			if (tools && tools.currentTool && tools.currentTool.setTransparentBackground) {
+				tools.currentTool.setTransparentBackground();
 			}
 			break;
 		case 'theme':
