@@ -3,13 +3,13 @@
 function ClipboardManager() {
 	window.addEventListener('paste', this._handlePaste.bind(this), false);
 	window.addEventListener('copy', function (e) {
-		if (tools.currentTool === tools.selection) {
+		if (tools.currentTool === tools.selection || tools.currentTool === tools.freeformSelection) {
 			e.preventDefault();
 			tools.currentTool.copy();
 		}
 	});
 	window.addEventListener('cut', function (e) {
-		if (tools.currentTool === tools.selection) {
+		if (tools.currentTool === tools.selection || tools.currentTool === tools.freeformSelection) {
 			e.preventDefault();
 			tools.currentTool.cut();
 		}
