@@ -175,11 +175,12 @@ SelectionTool.prototype.end = function (pointerState) {
 		this._selection.startY = this._selection.y;
 		
 		// Save the selected content in case the user moves it.
-		this._selection.content = this._cxt.getImageData(
+		this._selection.opaqueContent = this._cxt.getImageData(
 			this._selection.startX, this._selection.startY,
 			this._selection.width, this._selection.height);
 		
 		// Make the selection transparent if the setting is enabled.
+		// This creates _selection.content whether or not transparency is enabled.
 		this.setTransparentBackground();
 	}
 	
@@ -237,7 +238,7 @@ SelectionTool.prototype.copy = function () {
 		Utils.clearCanvas(cursorCxt);
 		cursorCanvas.width = this._selection.width;
 		cursorCanvas.height = this._selection.height;
-		cursorCxt.putImageData(this._selection.content, 0, 0);
+		cursorCxt.putImageData(this._selection.opaqueContent, 0, 0);
 		
 		cursorCanvas.toBlob(function (blob) {
 			var copySuccess = clipboard.copy(blob);
@@ -352,7 +353,7 @@ SelectionTool.prototype.flip = function (vertical) {
 		Utils.clearCanvas(cursorCxt);
 		cursorCanvas.width = this._selection.width;
 		cursorCanvas.height = this._selection.height;
-		cursorCxt.putImageData(this._selection.content, 0, 0);
+		cursorCxt.putImageData(this._selection.opaqueContent, 0, 0);
 		
 		// Flip the precanvas and draw the selection to it.
 		Utils.clearCanvas(this._preCxt);
@@ -367,7 +368,10 @@ SelectionTool.prototype.flip = function (vertical) {
 		this._preCxt.restore();
 		
 		// Save that as the new selection.
-		this._selection.content = this._preCxt.getImageData(0, 0, this._selection.width, this._selection.height);
+		this._selection.opaqueContent = this._preCxt.getImageData(0, 0, this._selection.width, this._selection.height);
+		
+		// Reapply transparency.
+		this.setTransparentBackground();
 		
 		// Note that the selection was flipped.
 		this._selection.transformed = true;
@@ -402,7 +406,7 @@ SelectionTool.prototype.rotate = function (clockwise) {
 		Utils.clearCanvas(cursorCxt);
 		cursorCanvas.width = this._selection.width;
 		cursorCanvas.height = this._selection.height;
-		cursorCxt.putImageData(this._selection.content, 0, 0);
+		cursorCxt.putImageData(this._selection.opaqueContent, 0, 0);
 		
 		// Rotate the precanvas and draw the selection to it.
 		this._preCxt.canvas.width =
@@ -420,7 +424,10 @@ SelectionTool.prototype.rotate = function (clockwise) {
 		this._preCxt.restore();
 		
 		// Save that as the new selection.
-		this._selection.content = this._preCxt.getImageData(0, 0, this._selection.height, this._selection.width);
+		this._selection.opaqueContent = this._preCxt.getImageData(0, 0, this._selection.height, this._selection.width);
+		
+		// Reapply transparency.
+		this.setTransparentBackground();
 		
 		// Update the selection's width and height, and note that the selection was flipped.
 		var oldSelectionWidth = this._selection.width;
@@ -499,23 +506,27 @@ SelectionTool.prototype.setTransparentBackground = function () {
 	}
 	
 	var transparencyOn = settings.get('transparentSelection'),
-		bgColor = Utils.colorToRGB(settings.get('fillColor')),
-		selectionData = this._selection.content.data;
+		selectionImageData = Utils.cloneImageData(this._selection.opaqueContent, this._preCxt),
+		selectionData = selectionImageData.data;
 	
-	// Check every pixel in the selection.
-	for (var i = 0; i < selectionData.length; i += 4) {
-		// Check whether the current pixel matches the current background color.
-		var colorMatch = (selectionData[i] === bgColor.r &&
-				selectionData[i + 1] === bgColor.g &&
-				selectionData[i + 2] === bgColor.b);
+	if (transparencyOn) {
+		var bgColor = Utils.colorToRGB(settings.get('fillColor'));
 		
-		if (colorMatch && transparencyOn) {
-			selectionData[i + 3] = 0;
-		} else {
-			selectionData[i + 3] = 255;
+		// Check every pixel in the selection.
+		for (var i = 0; i < selectionData.length; i += 4) {
+			// Check whether the current pixel matches the current background color.
+			var colorMatch = (selectionData[i] === bgColor.r &&
+					selectionData[i + 1] === bgColor.g &&
+					selectionData[i + 2] === bgColor.b);
+			
+			if (colorMatch) {
+				selectionData[i + 3] = 0;
+			}
 		}
 	}
 	
+	// Save the modified (or unmodified) content as the current content and redraw it.
+	this._selection.content = selectionImageData;
 	this._redrawSelection();
 };
 

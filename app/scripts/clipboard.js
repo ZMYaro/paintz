@@ -89,7 +89,8 @@ ClipboardManager.prototype.paste = function (image) {
 	// Set the selection content to the pasted image.
 	Utils.clearCanvas(preCxt);
 	preCxt.drawImage(image, 0, 0);
-	tools.selection._selection.content = preCxt.getImageData(0, 0, image.width, image.height);
+	tools.selection._selection.opaqueContent = preCxt.getImageData(0, 0, image.width, image.height);
+	tools.selection.setTransparentBackground();
 	
 	// Mark the selection as transformed so it gets saved no matter what.
 	tools.selection._selection.transformed = true;

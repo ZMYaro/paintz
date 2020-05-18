@@ -175,14 +175,15 @@ FreeformSelectionTool.prototype.end = function (pointerState) {
 		}
 		
 		// Get the image data within the selections bounding rectangle.
-		this._selection.unmaskedContent = this._cxt.getImageData(
+		var unmaskedSelectionContent = this._cxt.getImageData(
 			this._selection.startX, this._selection.startY,
 			this._selection.width, this._selection.height);
 		
 		// Save the selected content using the selection start cover function to cut it to the freeform shape.
-		this._selection.content = this._maskToSelectionPath(this._selection.unmaskedContent);
+		this._selection.opaqueContent = this._maskToSelectionPath(unmaskedSelectionContent);
 		
 		// Make the selection transparent if the setting is enabled.
+		// This creates _selection.content whether or not transparency is enabled.
 		this.setTransparentBackground();
 		
 		// Add the outline.
@@ -194,24 +195,6 @@ FreeformSelectionTool.prototype.end = function (pointerState) {
 	if (this._selection) {
 		this._toolbar.show();
 	}
-};
-
-/**
- * @override
- * Set whether the background color in the selection should be transparent.
- */
-FreeformSelectionTool.prototype.setTransparentBackground = function () {
-	if (!this._selection) {
-		return;
-	}
-	
-	// Create/revert the transparent selection using the unmasked selection.
-	this._selection.content = Utils.cloneImageData(this._selection.unmaskedContent, this._preCxt);
-	SelectionTool.prototype.setTransparentBackground.call(this);
-	// Remask the selection.
-	this._selection.content = this._maskToSelectionPath(this._selection.content);
-	this._redrawSelection();
-	
 };
 
 /**
