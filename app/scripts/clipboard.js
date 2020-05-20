@@ -90,13 +90,15 @@ ClipboardManager.prototype.paste = function (image) {
 	Utils.clearCanvas(preCxt);
 	preCxt.drawImage(image, 0, 0);
 	tools.selection._selection.opaqueContent = preCxt.getImageData(0, 0, image.width, image.height);
-	tools.selection.setTransparentBackground();
 	
 	// Mark the selection as transformed so it gets saved no matter what.
 	tools.selection._selection.transformed = true;
 	
 	// Set this to false so there is no selection start cover.
 	tools.selection._selection.firstMove = false;
+	
+	// Apply transparency (and create selection.content).
+	tools.selection.setTransparentBackground();
 	
 	// Hide the progress spinner.
 	progressSpinner.hide();
