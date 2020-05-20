@@ -32,7 +32,7 @@ ClipboardManager.prototype._handlePaste = function (e) {
 	Utils.readImage(e.clipboardData.files[0])
 		.then(this.paste)
 		.catch(function () {
-			// Hide the progress spinner.
+			// Hide the progress spinner if pasting failed.
 			progressSpinner.hide();
 		});
 };
@@ -80,16 +80,22 @@ ClipboardManager.prototype.paste = function (image) {
 		Math.max(image.height, settings.get('height')),
 		'crop');
 	
+	// Set up to paste at the top-left corner of the visible canvas.
+	var pasteX = Math.floor(window.scrollX),
+		pasteY = Math.floor(window.scrollY),
+		pasteRightX = Math.floor(window.scrollX + image.width),
+		pasteBottomY = Math.floor(window.scrollY + image.height);
+	
 	// Tell the selection tool it just moved to create a selection of the proper size.
 	tools.switchTool('selection');
-	tools.selection.start({ x: 0, y: 0 });
-	tools.selection.end({ x: image.width, y: image.height });
+	tools.selection.start({ x: pasteX, y: pasteY });
+	tools.selection.end({ x: pasteRightX, y: pasteBottomY });
 	tools.selection.update();
 	
 	// Set the selection content to the pasted image.
 	Utils.clearCanvas(preCxt);
-	preCxt.drawImage(image, 0, 0);
-	tools.selection._selection.opaqueContent = preCxt.getImageData(0, 0, image.width, image.height);
+	preCxt.drawImage(image, pasteX, pasteY);
+	tools.selection._selection.opaqueContent = preCxt.getImageData(pasteX, pasteY, image.width, image.height);
 	
 	// Mark the selection as transformed so it gets saved no matter what.
 	tools.selection._selection.transformed = true;
