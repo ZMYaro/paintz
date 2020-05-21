@@ -4,7 +4,8 @@
 var PNG_REGEX = (/.+\.png$/i),
 	JPEG_REGEX = (/.+\.(jpg|jpeg|jpe|jif|jfif|jfi)$/i),
 	FILE_EXT_REGEX = (/\.[a-z0-9]{1,4}$/i),
-	DEFAULT_TITLE = 'untitled.png';
+	DEFAULT_TITLE = 'untitled.png',
+	PAGE_TITLE_SUFFIX = ' - PaintZ';
 
 var canvas,
 	preCanvas,
@@ -139,7 +140,7 @@ function openImage(file) {
 		}
 		dialogs.save._element.fileName.value =
 			dialogs.save._downloadLink.download = fileName;
-		document.title = fileName + ' - PaintZ';
+		document.title = fileName + PAGE_TITLE_SUFFIX;
 		
 		// Clear the undo and redo stacks.
 		undoStack.clear();
@@ -265,7 +266,7 @@ function postLoadInit() {
 	clipboard.enabled = true;
 	
 	// Set the title once everything else is ready.
-	document.title = DEFAULT_TITLE + ' - PaintZ';
+	document.title = DEFAULT_TITLE + PAGE_TITLE_SUFFIX;
 	
 	// Hide the splash screen.
 	document.body.removeChild(document.getElementById('splashScreen'));
