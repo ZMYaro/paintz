@@ -1,19 +1,35 @@
 'use strict';
 
+/**
+ * Create a new ClipboardManager instance and set up its event listeners.
+ */
 function ClipboardManager() {
+	/** {Boolean} Whether the clipboard manager currently intercepts cilpboard events */
+	this.enabled = false;
+	
 	window.addEventListener('paste', this._handlePaste.bind(this), false);
-	window.addEventListener('copy', function (e) {
-		if (tools.currentTool === tools.selection || tools.currentTool === tools.freeformSelection) {
-			e.preventDefault();
-			tools.currentTool.copy();
+	window.addEventListener('copy', (function (e) {
+		if (!this.enabled) {
+			return;
 		}
-	});
-	window.addEventListener('cut', function (e) {
-		if (tools.currentTool === tools.selection || tools.currentTool === tools.freeformSelection) {
-			e.preventDefault();
-			tools.currentTool.cut();
+		if (tools.currentTool !== tools.selection && tools.currentTool !== tools.freeformSelection) {
+			return;
 		}
-	});
+		
+		e.preventDefault();
+		tools.currentTool.copy();
+	}).bind(this));
+	window.addEventListener('cut', (function (e) {
+		if (!this.enabled) {
+			return;
+		}
+		if (tools.currentTool !== tools.selection && tools.currentTool !== tools.freeformSelection) {
+			return;
+		}
+		
+		e.preventDefault();
+		tools.currentTool.cut();
+	}).bind(this));
 }
 
 /**
@@ -21,6 +37,10 @@ function ClipboardManager() {
  * @param {ClipboardEvent} e
  */
 ClipboardManager.prototype._handlePaste = function (e) {
+	if (!this.enabled) {
+		return;
+	}
+	
 	// If no image data was pasted, ignore it.
 	if (e.clipboardData.files.length === 0) {
 		return;

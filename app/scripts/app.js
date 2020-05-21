@@ -14,6 +14,7 @@ var canvas,
 	preCxt,
 	gridCxt,
 	cursorCxt,
+	keyManager,
 	tools,
 	zoomManager,
 	settings,
@@ -222,6 +223,7 @@ window.addEventListener('load', function () {
 	
 	// Initialize everything.
 	initCanvas();
+	keyManager = new KeyManager();
 	zoomManager = new ZoomManager();
 	settings = new SettingsManager();
 	clipboard = new ClipboardManager();
@@ -257,7 +259,10 @@ function postLoadInit() {
 	undoStack.addState();
 	
 	// Enable keyboard shortcuts.
-	keyManager.enableAppShortcuts();
+	keyManager.enabled = true;
+	
+	// Enable clipboard actions.
+	clipboard.enabled = true;
 	
 	// Set the title once everything else is ready.
 	document.title = DEFAULT_TITLE + ' - PaintZ';

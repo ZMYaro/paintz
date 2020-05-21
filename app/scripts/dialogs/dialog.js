@@ -118,8 +118,9 @@ Dialog.prototype.focus = function () {
  * Open the dialog.
  */
 Dialog.prototype.open = function () {
-	// Disable app keyboard shortcuts.
-	keyManager.disableAppShortcuts();
+	// Disable app keyboard shortcuts and clipboard interceptions.
+	keyManager.enabled = false;
+	clipboard.enabled = false;
 	
 	// Show the dialog and dialog container.
 	this._dialogContainer.style.display = 'block';
@@ -171,6 +172,7 @@ Dialog.prototype._finishClose = function () {
 	// Hide the dialog and dialog container.
 	this._dialogContainer.removeChild(this._element);
 	this._dialogContainer.style.display = 'none';
-	// Re-enable app keyboard shortcuts.
-	keyManager.enableAppShortcuts();
+	// Re-enable app keyboard shortcuts and clipboard interception.
+	keyManager.enabled = true;
+	clipboard.enabled = true;
 };

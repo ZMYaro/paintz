@@ -126,7 +126,7 @@ TextTool.prototype.start = function (pointerState) {
 		that.pasting = false;
 	}, false);
 	
-	keyManager.disableAppShortcuts();
+	keyManager.enabled = false;
 };
 
 /**
@@ -308,7 +308,7 @@ TextTool.prototype._removeTextElem = function () {
 				document.body.removeChild(this._textElem);
 			} catch (err) {}
 		}
-		keyManager.enableAppShortcuts();
+		keyManager.enabled = true;
 	}).bind(this));
 };
 
