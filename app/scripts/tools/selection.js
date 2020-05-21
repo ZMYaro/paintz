@@ -281,9 +281,9 @@ SelectionTool.prototype.duplicate = function () {
 	// There is no starting region to cover.
 	this._selection.firstMove = false;
 	
-	// Move the selection to (0,0).
-	this._selection.x = 0;
-	this._selection.y = 0;
+	// Move the selection to (the top-left corner of the visible canvas).
+	this._selection.x = Math.floor(window.scrollX);
+	this._selection.y = Math.floor(window.scrollY);
 	this._drawSelectionContent();
 	this._updateSelectionOutline();
 };
