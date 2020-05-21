@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2020-05-12, v2
+# 2020-05-21, v1
 index.html
 404.html
 manifest.webapp
@@ -58,6 +58,8 @@ images/icons/rotate.svg
 images/icons/save.svg
 images/icons/select.svg
 images/icons/select_all.svg
+images/icons/selection_opaque.svg
+images/icons/selection_transparent.svg
 images/icons/settings.svg
 images/icons/strike.svg
 images/icons/swap.svg
