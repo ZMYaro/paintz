@@ -390,6 +390,17 @@ TextTool.prototype._handleKeyDown = function (e) {
 		noModifiers = !Utils.checkModifierKeys(e);
 	
 	switch (e.keyCode) {
+		case 13: // Enter
+			console.log('Enter');
+			if (ctrlOrCmdOnly) {
+				e.preventDefault();
+				// Ctrl+Enter => Rasterize text
+				
+				this._saveText();
+				this._removeTextElem();
+				console.log('Ctrl+Enter');
+			}
+			break;
 		case 27: // Esc
 			if (noModifiers) {
 				e.preventDefault();
