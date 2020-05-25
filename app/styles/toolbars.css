@@ -33,8 +33,11 @@
 	#toolbar [role="button"] {
 		margin: 4px;
 		
-		transition-property: margin;
-		transition-duration: 0.2s;
+		-webkit-transition: margin 0.2s linear;
+		   -moz-transition: margin 0.2s linear;
+		    -ms-transition: margin 0.2s linear;
+		     -o-transition: margin 0.2s linear;
+		        transition: margin 0.2s linear;
 	}
 		#toolbar button svg,
 		#toolbar [role="button"] svg {
@@ -203,16 +206,13 @@ button#zoomInBtn {
 }
 
 @media (max-width: 600px) {
-	#toolbar {
-		padding: 0 2px;
+	#toolbar .divider {
+		height: 68px;
 	}
-		#toolbar .divider {
-			height: 68px;
-		}
-		#toolbar button,
-		#toolbar [role="button"] {
-			margin: 2px;
-		}
+	#toolbar button,
+	#toolbar [role="button"] {
+		margin: 2px;
+	}
 	
 	.toolbox .icon {
 		margin-top: 10px;

@@ -10,9 +10,7 @@ body {
 	overscroll-behavior-y: contain; /* Prevent pull-to-refresh. */
 }
 
-#canvas,
-#preCanvas,
-#gridCanvas,
+.canvas,
 .floatingRegion,
 .floatingToolbar {
 	position: absolute;
@@ -21,9 +19,7 @@ body {
 	margin: 20px 16px 48px;
 }
 
-	#canvas,
-	#preCanvas,
-	#gridCanvas {
+	.canvas {
 		-ms-interpolation-mode: nearest-neighbor;
 		image-rendering: -webkit-optimize-contrast;
 		image-rendering: pixelated;
@@ -36,6 +32,12 @@ body {
 		    -ms-transform-origin: 0 0;
 		     -o-transform-origin: 0 0;
 		        transform-origin: 0 0;
+		
+		-webkit-transition: top 0.2s linear;
+		   -moz-transition: top 0.2s linear;
+		    -ms-transition: top 0.2s linear;
+		     -o-transition: top 0.2s linear;
+		        transition: top 0.2s linear;
 	}
 	#canvas {
 		z-index: 1;
@@ -108,8 +110,7 @@ body {
 }
 
 @media (max-width: 600px) {
-	#canvas,
-	#preCanvas,
+	.canvas,
 	.floatingRegion {
 		top: 96px;
 	}
