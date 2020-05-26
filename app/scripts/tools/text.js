@@ -24,7 +24,6 @@ function TextTool(cxt, preCxt) {
 	// Prevent the element scrolling if it overflows.
 	this._textElem.onscroll = function () { this.scrollTop = 0; };
 	
-	this._textElem.onblur = this._removeTextElem.bind(this);
 	this._textElem.addEventListener('keydown', this._handleKeyDown.bind(this), false);
 }
 // Extend Tool.
@@ -94,7 +93,7 @@ TextTool.prototype.start = function (pointerState) {
 			height: 0
 		};
 		this._textElem.innerHTML = '';
-		this._updateTextElem();
+		this.updateTextElem();
 		if (!document.body.contains(this._textElem)) {
 			document.body.appendChild(this._textElem);
 		}
@@ -193,7 +192,7 @@ TextTool.prototype.update = function () {
 		return;
 	}
 	
-	this._updateTextElem();
+	this.updateTextElem();
 	
 	this._canvasDirty = false;
 };
@@ -266,10 +265,9 @@ TextTool.prototype._getTextDecorationValue = function () {
 };
 
 /**
- * @private
  * Update the text box element with the correct size and other properties.
  */
-TextTool.prototype._updateTextElem = function () {
+TextTool.prototype.updateTextElem = function () {
 	if (!this._textRegion) {
 		return;
 	}
@@ -435,10 +433,8 @@ TextTool.prototype._handleKeyDown = function (e) {
 				// Update the toolbar toggle.
 				toolbar.toolboxes.textToolOptions.boldToggle.checked =
 					!toolbar.toolboxes.textToolOptions.boldToggle.checked;
+				// Update the setting.
 				settings.set('bold', toolbar.toolboxes.textToolOptions.boldToggle.checked);
-				
-				// Update the text box's CSS.
-				this._textElem.style.font = this._getFontValue();
 			}
 			break;
 		
@@ -450,10 +446,8 @@ TextTool.prototype._handleKeyDown = function (e) {
 				// Update the toolbar toggle.
 				toolbar.toolboxes.textToolOptions.italicToggle.checked =
 					!toolbar.toolboxes.textToolOptions.italicToggle.checked;
+				// Update the setting.
 				settings.set('italic', toolbar.toolboxes.textToolOptions.italicToggle.checked);
-				
-				// Update the text box's CSS.
-				this._textElem.style.font = this._getFontValue();
 			}
 			break;
 		
@@ -465,10 +459,8 @@ TextTool.prototype._handleKeyDown = function (e) {
 				// Update the toolbar toggle.
 				toolbar.toolboxes.textToolOptions.underlineToggle.checked =
 					!toolbar.toolboxes.textToolOptions.underlineToggle.checked;
+				// Update the setting.
 				settings.set('underline', toolbar.toolboxes.textToolOptions.underlineToggle.checked);
-				
-				// Update the text box's CSS.
-				this._textElem.style.textDecoration = this._getTextDecorationValue();
 			}
 			break;
 	}

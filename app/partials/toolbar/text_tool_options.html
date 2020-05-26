@@ -1,13 +1,19 @@
 <svg role="img" class="icon">
 	<use xlink:href="images/icons/font_family.svg#icon" href="images/icons/font_family.svg#icon"></use>
 </svg><!--
---><select title="Font family" id="fontFamilySelect" style="margin-right: -2px; max-width: 224px;">
+--><select title="Font family" id="fontFamilySelect">
 	<option value="sans-serif" style="font-family: sans-serif;">Sans-serif</option>
 	<option value="serif" style="font-family: serif;">Serif</option>
 	<option value="monospace" style="font-family: monospace;">Monospace</option>
 </select><!--
---><input type="checkbox" name="textFillToggle" id="textFillToggle" /><!--
---><label role="button" for="textFillToggle" title="Fill text box" style="float: right;">
+--><input type="radio" name="textFillToggle" id="textFillOff" /><!--
+--><label role="button" for="textFillOff" title="Transparent text box">
+	<svg role="img">
+		<use xlink:href="images/icons/text.svg#icon" href="images/icons/text.svg#icon"></use>
+	</svg>
+</label><!--
+--><input type="radio" name="textFillToggle" id="textFillOn" /><!--
+--><label role="button" for="textFillOn" title="Opaque text box">
 	<svg role="img">
 		<use xlink:href="images/icons/text_fill.svg#icon" href="images/icons/text_fill.svg#icon"></use>
 	</svg>
@@ -16,7 +22,7 @@
 --><svg role="img" class="icon">
 	<use xlink:href="images/icons/font_size.svg#icon" href="images/icons/font_size.svg#icon"></use>
 </svg><!--
---><select title="Font size" id="fontSizeSelect" style="margin-right: 0;">
+--><select title="Font size" id="fontSizeSelect">
 	<option value="8">8</option>
 	<option value="9">9</option>
 	<option value="10">10</option>

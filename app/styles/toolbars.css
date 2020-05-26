@@ -92,13 +92,23 @@
 			padding-left: 40px;
 		}
 
-#outlineOptions input[type="radio"] + label,
-#textFormatOptions input[type="checkbox"] + label {
+#fontFamilySelect {
+	margin-right: 0;
+	width: 194px;
+}
+#fontSizeSelect {
+	margin-right: 0;
+	width: 110px;
+}
+#outlineOptions input[type="radio"] + label[role="button"],
+#textFormatOptions input[type="checkbox"] + label[role="button"],
+#textFillOff + label[role="button"] {
 	margin-left: 1px;
 	margin-right: 1px;
 }
 #selectOptions button:nth-of-type(2n),
-#selectOptions [role="button"]:nth-of-type(2n) {
+#selectOptions [role="button"]:nth-of-type(2n),
+#textFillOn + label[role="button"] {
 	margin-left: 1px;
 }
 #selectOptions button:nth-of-type(2n + 1),
