@@ -144,6 +144,17 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 				tools.currentTool.setTransparentBackground();
 			}
 			break;
+		case 'fontFamily':
+		case 'fontSize':
+		case 'bold':
+		case 'italic':
+		case 'underline':
+		case 'strike':
+		case 'textFill':
+			if (tools && tools.currentTool && tools.currentTool.updateTextElem) {
+				tools.currentTool.updateTextElem();
+			}
+			break;
 		case 'theme':
 		case 'systemThemeOverride':
 			this._setTheme();
