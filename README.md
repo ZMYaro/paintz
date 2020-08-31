@@ -10,7 +10,7 @@ Its goal is to make creating and editing drawings and other images as easy to do
 ## Principles
 
 * Fast and lightweight - New features should not make PaintZ significantly slower to start or use.
-* Focused and simple - PaintZ exists to make simple drawings and image edits like MS Paint; advanced features such as layers, filters, and vector paths are beyond its scope (and in the scope of other web apps, such as [Photopea](https://photopea.com).
+* Focused and simple - PaintZ exists to make simple drawings and image edits like MS Paint; advanced features such as layers, filters, and vector paths are beyond its scope (and in the scope of other web apps, such as [Photopea](https://photopea.com)).
 * Ephemiral - Anything related to file management, file syncing, user accounts, etc. is the responsibility of the system/file manager/other apps; PaintZ is not concerned with what happens to the file after it closes.
 * Familiar - PaintZ should keep UI patterns and keyboard shortcuts familiar to users of other drawing apps and Chrome OS wherever possible.
 * Privacy-conscious - No user-identifying data should be retained, minimal data should be retained at all, and nothing but basic anonymous analytics should leave the user's device.
@@ -36,7 +36,7 @@ Updates are posted to the @PaintZApp profiles on [Facebook](https://www.facebook
 
 ## Bug reports and feature requests
 
-You can submit bug reports and feature requests in [the Issues tab](https://github.com/ZMYaro/paintz/issues).  Please search before submitting to avoid submitting duplicates.  If you find it was already submitted, please just add a Ì±ç reaction to the existing one.
+You can submit bug reports and feature requests in [the Issues tab](https://github.com/ZMYaro/paintz/issues).  Please search before submitting to avoid submitting duplicates.  If you find it was already submitted, please just add a üëç reaction to the existing one.
 
 For feature requests, please also ensure features are in line with the principles above‚Äîcertain features will always be outside the intended scope of PaintZ.
 
