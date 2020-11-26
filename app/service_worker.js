@@ -1,7 +1,21 @@
 'use strict';
 
+// 2020-11-25, v1
 var CACHE_START_TEXT = 'CACHE MANIFEST',
 	CACHE_END_TEXT = 'NETWORK';
+
+/**
+ * Delete all old service worker caches.
+ * @returns {Promise} Resolves when all have been deleted
+ */
+function deleteOldCaches() {
+	return caches.keys().then(function (cacheNames) {
+		var cacheDeletionPromises = cacheNames.map(function (cacheName) {
+			return caches.delete(cacheName);
+		});
+		return Promise.all(cacheDeletionPromises);
+	});
+}
 
 self.addEventListener('install', function(ev) {
 	ev.waitUntil(fetch('/manifest.appcache')
@@ -26,20 +40,30 @@ self.addEventListener('install', function(ev) {
 			// Precede each URL with a “/”.
 			appCacheArray = appCacheArray.map(function (url) { return '/' + url });
 			
-			return caches.open(cacheName)
+			return deleteOldCaches()
+				.then(function () {
+					return caches.open(cacheName)
+				})
 				.then(function (cache) {
-					console.log('Opened cache: \u201c' + cacheName + '\u201d');
-					return cache.addAll(appCacheArray);
+					// Add files individually to make debugging easier if something goes wrong.
+					var cachePromises = appCacheArray.map(function (url) {
+						return cache.add(url)
+							.then(function () {
+								console.log('Added to service worker cache: ' + url);
+							}).catch(function (err) {
+								console.error('Failed to add file to service worker cache: ' + url);
+								console.error(err);
+							});
+					});
+					return Promise.all(cachePromises);
 				}).then(function () {
-					console.log('Added files to service worker cache:\n' + appCacheArray.join('\n'));
-				}).catch(function (err) {
-					console.error('Service worker failed to cache files:');
-					console.error(err);
+					console.log('Finished adding files to service worker cache.');
 				});
 		}));
 });
 
 self.addEventListener('fetch', function(ev) {
+	
 	var url = ev.request.url;
 	// Make any URL to a directory look for index.html in that directory.
 	if (url.substr(-1) === '/') {
