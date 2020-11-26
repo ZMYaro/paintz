@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html manifest="manifest.appcache">
+<html>
 	<head>
 		<!-- Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=GOOGLE_ANALYTICS_ID"></script>
@@ -17,6 +17,23 @@
 			var CANONICAL_HOST = "paintz.app";
 			if (CANONICAL_HOST === window.location.host && window.location.protocol !== 'https:') {
 				window.location.protocol = 'https';
+			}
+			
+			// Set up caching.
+			if (!!navigator.serviceWorker) {
+				navigator.serviceWorker.register('service_worker.js').then(function (registration) {
+					console.log('Service worker registration successful with scope:', registration.scope);
+				});
+			} else {
+				// If service worker is unavailable, fall back to app cache.
+				document.addEventListener('DOMContentLoaded', function () {
+					var appCacheIFrame = document.createElement('iframe');
+					appCacheIFrame.src = 'app_cacher.html';
+					appCacheIFrame.style.position = 'absolute';
+					appCacheIFrame.style.width = '1px';
+					appCacheIFrame.style.height = '1px';
+					document.body.appendChild(appCacheIFrame);
+				});
 			}
 		</script>
 		
