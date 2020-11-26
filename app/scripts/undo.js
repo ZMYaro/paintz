@@ -23,7 +23,7 @@ var undoStack = {
 		
 		settings.set('width', state.width);
 		settings.set('height', state.height);
-		cxt.drawImage(state.image, 0, 0);
+		cxt.putImageData(state, 0, 0);
 	},
 	
 	/**
@@ -50,13 +50,7 @@ var undoStack = {
 			}
 		}
 		// Save the current state.
-		var image = new Image();
-		image.src = canvas.toDataURL();
-		this._currentState = {
-			image: image,
-			width: canvas.width,
-			height: canvas.height
-		};
+		this._currentState = cxt.getImageData(0, 0, canvas.width, canvas.height);
 		
 		// Clear the redo stack.
 		this._redoStack = [];
