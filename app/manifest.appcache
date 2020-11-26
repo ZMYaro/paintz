@@ -88,6 +88,7 @@ partials/dialogs/settings.html
 partials/dialogs/welcome.html
 partials/toolbar/app.html
 partials/toolbar/color_picker.html
+partials/toolbar/dimensions.html
 partials/toolbar/draw_tool_options.html
 partials/toolbar/floating_selection_toolbar.html
 partials/toolbar/image.html
@@ -95,6 +96,7 @@ partials/toolbar/no_tool_options.html
 partials/toolbar/select_tool_options.html
 partials/toolbar/text_tool_options.html
 partials/toolbar/tools.html
+partials/toolbar/zoom.html
 privacy/index.html
 scripts/app.js
 scripts/clipboard.js
@@ -126,6 +128,7 @@ scripts/lib/pep.min.js
 scripts/lib/promise.auto.min.js
 scripts/toolbar/app.js
 scripts/toolbar/color_picker.js
+scripts/toolbar/dimensions.js
 scripts/toolbar/draw_tool_options.js
 scripts/toolbar/floating_selection_toolbar.js
 scripts/toolbar/image.js
@@ -135,6 +138,7 @@ scripts/toolbar/text_tool_options.js
 scripts/toolbar/toolbar.js
 scripts/toolbar/toolbox.js
 scripts/toolbar/tools.js
+scripts/toolbar/zoom.js
 scripts/tools/airbrush.js
 scripts/tools/curve.js
 scripts/tools/doodle.js
