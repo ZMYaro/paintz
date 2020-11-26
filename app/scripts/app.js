@@ -274,6 +274,11 @@ function postLoadInit() {
 	// Prevent closing with unsaved changes.
 	undoStack.changedSinceSave = false;
 	window.onbeforeunload = function () {
+		try {
+			sessionStorage.lastState = canvas.toDataURL();
+		} catch (err) {
+			console.warn('The latest state was too large to store in session storage.');
+		}
 		if (undoStack.changedSinceSave) {
 			return 'It looks like you have unsaved changes.';
 		}

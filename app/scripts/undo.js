@@ -24,14 +24,6 @@ var undoStack = {
 		settings.set('width', state.width);
 		settings.set('height', state.height);
 		cxt.drawImage(state.image, 0, 0);
-		
-		// Save the state to session storage in case the page gets reloaded.
-		try {
-			sessionStorage.lastState = state.image.src;
-		} catch (err) {
-			// If the image is too large to store, there is not much that can be done.
-			console.warn('The latest state was too large to store in session storage.');
-		}
 	},
 	
 	/**
@@ -65,14 +57,6 @@ var undoStack = {
 			width: canvas.width,
 			height: canvas.height
 		};
-		
-		// Save the state to session storage in case the page gets reloaded.
-		try {
-			sessionStorage.lastState = image.src;
-		} catch (err) {
-			// If the image is too large to store, there is not much that can be done.
-			console.warn('The latest state was too large to store in session storage.');
-		}
 		
 		// Clear the redo stack.
 		this._redoStack = [];
