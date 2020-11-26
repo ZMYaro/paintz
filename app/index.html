@@ -22,7 +22,7 @@
 			// Set up caching.
 			if (!!navigator.serviceWorker) {
 				navigator.serviceWorker.register('service_worker.js').then(function (registration) {
-					console.log('Service worker registration successful with scope:', registration.scope);
+					console.log('Registered service worker with scope:', registration.scope);
 				});
 			} else {
 				// If service worker is unavailable, fall back to app cache.
