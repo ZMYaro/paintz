@@ -48,13 +48,7 @@ TextTool.LINE_HEIGHT = 1;
 TextTool.prototype.activate = function () {
 	this._preCxt.canvas.style.cursor = 'crosshair';
 	toolbar.switchToolOptionsToolbox(toolbar.toolboxes.textToolOptions);
-	this._textElem.style.color = settings.get('lineColor');
-	this._textElem.style.font = settings.get('fontSize') + 'px sans-serif';
-	this._textElem.style.WebkitTransform =
-		this._textElem.style.MozTransform =
-		this._textElem.style.MsTransform =
-		this._textElem.style.OTransform =
-		this._textElem.style.transform = 'scale(' + zoomManager.level + ')';
+	this.updateTextElem();
 };
 
 /**
@@ -287,6 +281,7 @@ TextTool.prototype.updateTextElem = function () {
 	this._textElem.style.height = this._textRegion.height + 'px';
 	
 	this._textElem.style.background = this._getBackgroundValue();
+	this._textElem.style.color = settings.get('lineColor');
 	this._textElem.style.font = this._getFontValue();
 	this._textElem.style.textDecoration = this._getTextDecorationValue();
 };
