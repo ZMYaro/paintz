@@ -26,6 +26,12 @@ body {
 	top: 0;
 	left: 0;
 	margin: 0;
+	
+	-webkit-transform-origin: 0 0;
+	   -moz-transform-origin: 0 0;
+	    -ms-transform-origin: 0 0;
+	     -o-transform-origin: 0 0;
+	        transform-origin: 0 0;
 }
 
 	.canvas {
@@ -35,12 +41,6 @@ body {
 		image-rendering: -moz-crisp-edges;
 		image-rendering:   -o-crisp-edges;
 		image-rendering:      crisp-edges;
-		
-		-webkit-transform-origin: 0 0;
-		   -moz-transform-origin: 0 0;
-		    -ms-transform-origin: 0 0;
-		     -o-transform-origin: 0 0;
-		        transform-origin: 0 0;
 		
 		-webkit-transition: top 0.2s linear;
 		   -moz-transition: top 0.2s linear;
@@ -71,11 +71,35 @@ body {
 		border: 1px solid white;
 		outline: 1px dashed black;
 		outline-offset: -1px;
-		overflow: hidden;
-		resize: none;
-		pointer-events: none;
+		overflow: visible;
+		touch-action: none;
+		cursor: move;
 		z-index: 2;
 	}
+		.floatingRegion::before {
+			content: '';
+			display: block;
+			position: absolute;
+			left: -24px;
+			top: -24px;
+			right: -24px;
+			bottom: -24px;
+			z-index: -1;
+		}
+		.floatingRegion .textArea,
+		.floatingRegion .textArea:focus {
+			position: absolute;
+			left: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			margin: 0;
+			outline: none;
+			overflow: hidden;
+			word-break: break-word;
+			resize: none;
+			cursor: text;
+		}
 
 .floatingToolbar {
 	padding: 0;
