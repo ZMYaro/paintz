@@ -104,6 +104,7 @@ partials/toolbar/zoom.html
 privacy/index.html
 scripts/app.js
 scripts/clipboard.js
+scripts/floating_region.js
 scripts/keyboard.js
 scripts/pacman.js
 scripts/progress_spinner.js
