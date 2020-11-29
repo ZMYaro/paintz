@@ -108,7 +108,7 @@
 	a. Select tool with toolbar button  
 	b. Select tool with L key  
 	c. Draw with left click  
-	d. Draw with right cilck  
+	d. Draw with right click  
 	e. Draw with single-point touch  
 	f. Draw after changing line color  
 	g. Draw after changing fill color  
