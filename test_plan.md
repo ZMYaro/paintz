@@ -201,7 +201,7 @@
 	z. Erase selection with Delete key  
 	α. Erase selection with Backspace key  
 	β. Duplicate selection with toolbar button  
-	γ. Duplicate selection with Ctrl+V  
+	γ. Duplicate selection with Ctrl+D  
 	δ. Cancel selection with toolbar button  
 	ε. Cancel selection with Esc key  
 	ζ. Crop to selection with toolbar button  
@@ -238,7 +238,7 @@
 	z. Erase selection with Delete key  
 	α. Erase selection with Backspace key  
 	β. Duplicate selection with toolbar button  
-	γ. Duplicate selection with Ctrl+V  
+	γ. Duplicate selection with Ctrl+D  
 	δ. Cancel selection with toolbar button  
 	ε. Cancel selection with Esc key  
 	ζ. Crop to selection with toolbar button  
