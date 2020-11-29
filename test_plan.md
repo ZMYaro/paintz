@@ -195,6 +195,14 @@
 	t. Paste selection from PaintZ with Ctrl+V  
 	s. Paste selection from elsewhere with toolbar button  
 	t. Paste selection from elsewhere with Ctrl+V  
+	u. Erase selection with toolbar button  
+	v. Erase selection with Delete key  
+	w. Erase selection with Backspace key  
+	x. Duplicate selection with toolbar button  
+	y. Duplicate selection with Ctrl+V  
+	z. Cancel selection with toolbar button  
+	α. Cancel selection with Esc key  
+	β. Crop to selection with toolbar button  
 
 16. Freeform selection tool  
 	a. Select tool with toolbar button  
@@ -220,6 +228,14 @@
 	u. Paste selection from PaintZ with Ctrl+V  
 	v. Paste selection from elsewhere with toolbar button  
 	w. Paste selection from elsewhere with Ctrl+V  
+	u. Erase selection with toolbar button  
+	v. Erase selection with Delete key  
+	w. Erase selection with Backspace key  
+	x. Duplicate selection with toolbar button  
+	y. Duplicate selection with Ctrl+V  
+	z. Cancel selection with toolbar button  
+	α. Cancel selection with Esc key  
+	β. Crop to selection with toolbar button  
 
 17. Eraser tool  
 	a. Select tool with toolbar button  
