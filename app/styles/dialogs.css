@@ -29,6 +29,9 @@
 	}
 	#progressContainer {
 		cursor: wait;
+		-webkit-user-select: none;
+		   -moz-user-select: none;
+		        user-select: none;
 	}
 	#bottomSheetsContainer {
 		overflow: visible;
