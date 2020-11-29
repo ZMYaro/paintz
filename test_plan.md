@@ -203,6 +203,9 @@
 	z. Cancel selection with toolbar button  
 	α. Cancel selection with Esc key  
 	β. Crop to selection with toolbar button  
+	γ. Zoom in/out with an active selection  
+	δ. Duplicate a selection while zoomed in  
+	ε. Paste a selection while zoomed in
 
 16. Freeform selection tool  
 	a. Select tool with toolbar button  
@@ -236,6 +239,8 @@
 	z. Cancel selection with toolbar button  
 	α. Cancel selection with Esc key  
 	β. Crop to selection with toolbar button  
+	γ. Zoom in/out with an active selection  
+	δ. Duplicate a selection while zoomed in  
 
 17. Eraser tool  
 	a. Select tool with toolbar button  
@@ -288,6 +293,7 @@
 	t. Change line color while typing  
 	u. Change fill color between text boxes  
 	v. Change fill color while typing  
+	w. Zoom in/out with an active text box  
 
 
 ## Color picker
