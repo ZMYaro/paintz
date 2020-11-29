@@ -189,23 +189,25 @@
 	n. Flip selection vertically with toolbar button  
 	o. Move selection with left click  
 	p. Move selection with single-point touch  
-	q. Move selection in transparent selection mode  
-	r. Change background color in transparent selection mode  
-	s. Paste selection from PaintZ with toolbar button  
-	t. Paste selection from PaintZ with Ctrl+V  
-	s. Paste selection from elsewhere with toolbar button  
-	t. Paste selection from elsewhere with Ctrl+V  
-	u. Erase selection with toolbar button  
-	v. Erase selection with Delete key  
-	w. Erase selection with Backspace key  
-	x. Duplicate selection with toolbar button  
-	y. Duplicate selection with Ctrl+V  
-	z. Cancel selection with toolbar button  
-	α. Cancel selection with Esc key  
-	β. Crop to selection with toolbar button  
-	γ. Zoom in/out with an active selection  
-	δ. Duplicate a selection while zoomed in  
-	ε. Paste a selection while zoomed in
+	q. Move selection with arrow keys  
+	r. Move selection in transparent selection mode  
+	s. Change fill color between transparent selections  
+	t. Change fill color with an active transparent selection  
+	u. Paste selection from PaintZ with toolbar button  
+	v. Paste selection from PaintZ with Ctrl+V  
+	w. Paste selection from elsewhere with toolbar button  
+	x. Paste selection from elsewhere with Ctrl+V  
+	y. Erase selection with toolbar button  
+	z. Erase selection with Delete key  
+	α. Erase selection with Backspace key  
+	β. Duplicate selection with toolbar button  
+	γ. Duplicate selection with Ctrl+V  
+	δ. Cancel selection with toolbar button  
+	ε. Cancel selection with Esc key  
+	ζ. Crop to selection with toolbar button  
+	η. Zoom in/out with an active selection  
+	θ. Duplicate a selection while zoomed in  
+	ι. Paste a selection while zoomed in
 
 16. Freeform selection tool  
 	a. Select tool with toolbar button  
@@ -224,23 +226,24 @@
 	n. Flip selection vertically with toolbar button  
 	o. Move selection with left click  
 	p. Move selection with single-point touch  
-	q. Move selection in transparent selection mode  
-	r. Change fill color between transparent selections  
-	s. Change fill color with an active transparent selection  
-	t. Paste selection from PaintZ with toolbar button  
-	u. Paste selection from PaintZ with Ctrl+V  
-	v. Paste selection from elsewhere with toolbar button  
-	w. Paste selection from elsewhere with Ctrl+V  
-	u. Erase selection with toolbar button  
-	v. Erase selection with Delete key  
-	w. Erase selection with Backspace key  
-	x. Duplicate selection with toolbar button  
-	y. Duplicate selection with Ctrl+V  
-	z. Cancel selection with toolbar button  
-	α. Cancel selection with Esc key  
-	β. Crop to selection with toolbar button  
-	γ. Zoom in/out with an active selection  
-	δ. Duplicate a selection while zoomed in  
+	q. Move selection with arrow keys  
+	r. Move selection in transparent selection mode  
+	s. Change fill color between transparent selections  
+	t. Change fill color with an active transparent selection  
+	u. Paste selection from PaintZ with toolbar button  
+	v. Paste selection from PaintZ with Ctrl+V  
+	w. Paste selection from elsewhere with toolbar button  
+	x. Paste selection from elsewhere with Ctrl+V  
+	y. Erase selection with toolbar button  
+	z. Erase selection with Delete key  
+	α. Erase selection with Backspace key  
+	β. Duplicate selection with toolbar button  
+	γ. Duplicate selection with Ctrl+V  
+	δ. Cancel selection with toolbar button  
+	ε. Cancel selection with Esc key  
+	ζ. Crop to selection with toolbar button  
+	η. Zoom in/out with an active selection  
+	θ. Duplicate a selection while zoomed in  
 
 17. Eraser tool  
 	a. Select tool with toolbar button  
@@ -248,7 +251,7 @@
 	c. Draw with left click  
 	d. Draw with right cilck  
 	e. Draw with single-point touch  
-	f. Draw with draw with multi-point touch  
+	f. Draw with multi-point touch  
 	g. Draw after changing line color  
 	h. Draw after changing fill color  
 	i. Draw after changing line width  
