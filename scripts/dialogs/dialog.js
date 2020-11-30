@@ -55,7 +55,13 @@ Dialog.prototype._setUp = function (contents) {
 	
 	// Update keyboard shortcut listings for Apple users.
 	if (Utils.isApple) {
-		this._element.innerHTML = this._element.innerHTML.replace(/Ctrl\+/g, '&#x2318;').replace(/Alt\+/g, '&#x2325;').replace(/Shift\+/g, '&#x21e7;');
+		this._element.innerHTML = this._element.innerHTML
+			.replace(/Ctrl\+/g, '&#x2318;')
+			.replace(/\<kbd>Ctrl\<\/kbd>/g, '<kbd>&#x2318;</kbd>')
+			.replace(/Alt\+/g, '&#x2325;')
+			.replace(/\<kbd>Alt\<\/kbd>/g, '<kbd>&#x2325;</kbd>')
+			.replace(/Shift\+/g, '&#x21e7;')
+			.replace(/\<kbd>Shift\<\/kbd>/g, '<kbd>&#x21e7;</kbd>');
 	}
 	
 	// Set up all close buttons.
@@ -118,8 +124,9 @@ Dialog.prototype.focus = function () {
  * Open the dialog.
  */
 Dialog.prototype.open = function () {
-	// Disable app keyboard shortcuts.
-	keyManager.disableAppShortcuts();
+	// Disable app keyboard shortcuts and clipboard interceptions.
+	keyManager.enabled = false;
+	clipboard.enabled = false;
 	
 	// Show the dialog and dialog container.
 	this._dialogContainer.style.display = 'block';
@@ -171,6 +178,7 @@ Dialog.prototype._finishClose = function () {
 	// Hide the dialog and dialog container.
 	this._dialogContainer.removeChild(this._element);
 	this._dialogContainer.style.display = 'none';
-	// Re-enable app keyboard shortcuts.
-	keyManager.enableAppShortcuts();
+	// Re-enable app keyboard shortcuts and clipboard interception.
+	keyManager.enabled = true;
+	clipboard.enabled = true;
 };

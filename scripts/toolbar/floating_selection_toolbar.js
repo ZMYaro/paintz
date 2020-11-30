@@ -53,6 +53,11 @@ FloatingSelectionToolbar.prototype._setUp = function (contents) {
 	Toolbox.prototype._setUp.call(this, contents);
 	
 	// Set up buttons.
+	var deselectBtn = this._element.querySelector('#deselectBtn');
+	deselectBtn.addEventListener('click', function () {
+		tools.currentTool.deactivate();
+	}, false);
+	
 	var deleteBtn = this._element.querySelector('#deleteBtn');
 	deleteBtn.addEventListener('click', function () {
 		tools.currentTool.clear();

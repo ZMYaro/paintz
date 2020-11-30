@@ -4,6 +4,13 @@
 	z-index: -1;
 }
 
+.divider {
+	display: inline-block;
+	vertical-align: top;
+	padding: 0;
+	width: 1px;
+}
+
 #toolbar,
 #bottomBar {
 	overflow: hidden;
@@ -19,16 +26,18 @@
 	        user-select: none;
 }
 	#toolbar .divider {
-		display: inline-block;
-		vertical-align: top;
 		height: 76px;
 		margin: 10px 4px;
-		padding: 0;
-		width: 1px;
 	}
 	#toolbar button,
 	#toolbar [role="button"] {
 		margin: 4px;
+		
+		-webkit-transition: margin 0.2s linear;
+		   -moz-transition: margin 0.2s linear;
+		    -ms-transition: margin 0.2s linear;
+		     -o-transition: margin 0.2s linear;
+		        transition: margin 0.2s linear;
 	}
 		#toolbar button svg,
 		#toolbar [role="button"] svg {
@@ -83,9 +92,27 @@
 			padding-left: 40px;
 		}
 
-#outlineOptions input[type="radio"] + label,
-#textFormatOptions input[type="checkbox"] + label {
+#fontFamilySelect {
+	margin-right: 0;
+	width: 194px;
+}
+#fontSizeSelect {
+	margin-right: 0;
+	width: 110px;
+}
+#outlineOptions input[type="radio"] + label[role="button"],
+#textFormatOptions input[type="checkbox"] + label[role="button"],
+#textFillOff + label[role="button"] {
 	margin-left: 1px;
+	margin-right: 1px;
+}
+#selectOptions button:nth-of-type(2n),
+#selectOptions [role="button"]:nth-of-type(2n),
+#textFillOn + label[role="button"] {
+	margin-left: 1px;
+}
+#selectOptions button:nth-of-type(2n + 1),
+#selectOptions [role="button"]:nth-of-type(2n + 1) {
 	margin-right: 1px;
 }
 
@@ -106,34 +133,58 @@
 	   -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 4px 17px 0, rgba(0, 0, 0, 0.19) 0 2px 20px 0;
 	        box-shadow: rgba(0, 0, 0, 0.2) 0 4px 17px 0, rgba(0, 0, 0, 0.19) 0 2px 20px 0;
 }
+	#bottomBar .divider {
+		height: 16px;
+		margin: 8px 4px;
+	}
 	#bottomBar button {
-		width: 42px;
-		height: 42px;
-		padding: 8px 8px;
+		padding: 11px 8px 10px;
 		margin: -4px 0;
 	}
-		#bottomBar button > img,
-		#bottomBar button > [role="img"] {
-			width: 24px;
-			height: 24px;
-			margin: -6px 2px;
+	#bottomBar img,
+	#bottomBar [role="img"] {
+		width: 24px;
+		height: 24px;
+		margin: 4px;
+		-webkit-transform: scale(0.875);
+		   -moz-transform: scale(0.875);
+		    -ms-transform: scale(0.875);
+		     -o-transform: scale(0.875);
+		        transform: scale(0.875);
+	}
+		#bottomBar button img,
+		#bottomBar button [role="img"] {
+			margin: -6px 6px -6px 0;
 		}
-button#resolution {
-	width: auto;
-	text-transform: none;
-	margin: -5px 0;
+
+button#resolutionBtn {
+	color: inherit;
 	font-size: inherit;
 	font-weight: inherit;
+	text-transform: inherit;
 }
-#zoomContainer {
+#pointerCoords {
+	display: inline-block;
+	margin: 7px 0;
+}
+
+#zoomToolbox {
 	float: right;
 }
+	#zoomToolbox button [role="img"] {
+		margin: -3px 0 -6px;
+		-webkit-transform: scale(1);
+		   -moz-transform: scale(1);
+		    -ms-transform: scale(1);
+		     -o-transform: scale(1);
+		        transform: scale(1);
+	}
 button#zoomOutBtn {
-	margin-right: -6px;
+	margin-right: -2px;
 }
 button#zoomInBtn {
-	margin-left: -6px;
-	margin-right: -6px;
+	margin-left: -2px;
+	margin-right: -2px;
 }
 #zoomPercent {
 	text-align: right;
@@ -150,8 +201,11 @@ button#zoomInBtn {
 				appearance: none;
 	}
 	#zoomPercent + .icon {
-		margin-left: -18px;
-		margin-top: 1px;
+		vertical-align: baseline;
+		width: auto;
+		height: auto;
+		margin: 0;
+		margin-left: -14px;
 	}
 #zoomSlider {
 	width: 128px;
@@ -162,16 +216,13 @@ button#zoomInBtn {
 }
 
 @media (max-width: 600px) {
-	#toolbar {
-		padding: 0 2px;
+	#toolbar .divider {
+		height: 68px;
 	}
-		#toolbar .divider {
-			height: 68px;
-		}
-		#toolbar button,
-		#toolbar [role="button"] {
-			margin: 2px;
-		}
+	#toolbar button,
+	#toolbar [role="button"] {
+		margin: 2px;
+	}
 	
 	.toolbox .icon {
 		margin-top: 10px;
@@ -189,7 +240,7 @@ button#zoomInBtn {
 	}
 }
 @media (max-width: 480px) {
-	#resolution {
+	#dimensionsToolbox {
 		display: none;
 	}
 }

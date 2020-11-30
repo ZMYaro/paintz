@@ -3,9 +3,10 @@
 /**
  * @class
  * Create a new DrawToolOptionsToolbox instance.
+ * @param {HTMLElement} [toolbar] - The toolbar the toolbox is to be added to
  */
-function DrawToolOptionsToolbox() {
-	Toolbox.call(this, 'draw_tool_options');
+function DrawToolOptionsToolbox(toolbar) {
+	Toolbox.call(this, 'draw_tool_options', toolbar);
 }
 // Extend Toolbox.
 DrawToolOptionsToolbox.prototype = Object.create(Toolbox.prototype);

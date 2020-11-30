@@ -24,7 +24,6 @@ function TextTool(cxt, preCxt) {
 	// Prevent the element scrolling if it overflows.
 	this._textElem.onscroll = function () { this.scrollTop = 0; };
 	
-	this._textElem.onblur = this._removeTextElem.bind(this);
 	this._textElem.addEventListener('keydown', this._handleKeyDown.bind(this), false);
 }
 // Extend Tool.
@@ -49,13 +48,7 @@ TextTool.LINE_HEIGHT = 1;
 TextTool.prototype.activate = function () {
 	this._preCxt.canvas.style.cursor = 'crosshair';
 	toolbar.switchToolOptionsToolbox(toolbar.toolboxes.textToolOptions);
-	this._textElem.style.color = settings.get('lineColor');
-	this._textElem.style.font = settings.get('fontSize') + 'px sans-serif';
-	this._textElem.style.WebkitTransform =
-		this._textElem.style.MozTransform =
-		this._textElem.style.MsTransform =
-		this._textElem.style.OTransform =
-		this._textElem.style.transform = 'scale(' + zoomManager.level + ')';
+	this.updateTextElem();
 };
 
 /**
@@ -94,7 +87,7 @@ TextTool.prototype.start = function (pointerState) {
 			height: 0
 		};
 		this._textElem.innerHTML = '';
-		this._updateTextElem();
+		this.updateTextElem();
 		if (!document.body.contains(this._textElem)) {
 			document.body.appendChild(this._textElem);
 		}
@@ -126,7 +119,7 @@ TextTool.prototype.start = function (pointerState) {
 		that.pasting = false;
 	}, false);
 	
-	keyManager.disableAppShortcuts();
+	keyManager.enabled = false;
 };
 
 /**
@@ -193,7 +186,7 @@ TextTool.prototype.update = function () {
 		return;
 	}
 	
-	this._updateTextElem();
+	this.updateTextElem();
 	
 	this._canvasDirty = false;
 };
@@ -266,10 +259,9 @@ TextTool.prototype._getTextDecorationValue = function () {
 };
 
 /**
- * @private
  * Update the text box element with the correct size and other properties.
  */
-TextTool.prototype._updateTextElem = function () {
+TextTool.prototype.updateTextElem = function () {
 	if (!this._textRegion) {
 		return;
 	}
@@ -289,6 +281,7 @@ TextTool.prototype._updateTextElem = function () {
 	this._textElem.style.height = this._textRegion.height + 'px';
 	
 	this._textElem.style.background = this._getBackgroundValue();
+	this._textElem.style.color = settings.get('lineColor');
 	this._textElem.style.font = this._getFontValue();
 	this._textElem.style.textDecoration = this._getTextDecorationValue();
 };
@@ -308,7 +301,7 @@ TextTool.prototype._removeTextElem = function () {
 				document.body.removeChild(this._textElem);
 			} catch (err) {}
 		}
-		keyManager.enableAppShortcuts();
+		keyManager.enabled = true;
 	}).bind(this));
 };
 
@@ -390,6 +383,15 @@ TextTool.prototype._handleKeyDown = function (e) {
 		noModifiers = !Utils.checkModifierKeys(e);
 	
 	switch (e.keyCode) {
+		case 13: // Enter
+			if (ctrlOrCmdOnly) {
+				e.preventDefault();
+				// Ctrl+Enter => Rasterize text
+				
+				this._saveText();
+				this._removeTextElem();
+			}
+			break;
 		case 27: // Esc
 			if (noModifiers) {
 				e.preventDefault();
@@ -398,6 +400,15 @@ TextTool.prototype._handleKeyDown = function (e) {
 				// Clear the text box, then remove it.
 				this._textElem.innerHTML = '';
 				this._removeTextElem();
+			}
+			break;
+		
+		case 48: // 0
+		case 96: // Numpad 0
+			if (ctrlOrCmd && e.altKey && !metaOrControl && !e.shiftKey) {
+				e.preventDefault();
+				// Ctrl+Alt+0 => Zoom 100%
+				zoomManager.level = 1;
 			}
 			break;
 		
@@ -424,10 +435,8 @@ TextTool.prototype._handleKeyDown = function (e) {
 				// Update the toolbar toggle.
 				toolbar.toolboxes.textToolOptions.boldToggle.checked =
 					!toolbar.toolboxes.textToolOptions.boldToggle.checked;
+				// Update the setting.
 				settings.set('bold', toolbar.toolboxes.textToolOptions.boldToggle.checked);
-				
-				// Update the text box's CSS.
-				this._textElem.style.font = this._getFontValue();
 			}
 			break;
 		
@@ -439,10 +448,24 @@ TextTool.prototype._handleKeyDown = function (e) {
 				// Update the toolbar toggle.
 				toolbar.toolboxes.textToolOptions.italicToggle.checked =
 					!toolbar.toolboxes.textToolOptions.italicToggle.checked;
+				// Update the setting.
 				settings.set('italic', toolbar.toolboxes.textToolOptions.italicToggle.checked);
-				
-				// Update the text box's CSS.
-				this._textElem.style.font = this._getFontValue();
+			}
+			break;
+		
+		
+		case 79: // O
+			if (ctrlOrCmdOnly) {
+				e.preventDefault();
+				// Ctrl+O => Open
+				document.getElementById('upload').click();
+			}
+			break;
+		
+		case 83: // S
+			if (ctrlOrCmdOnly) {
+				e.preventDefault();
+				// Prevent saving while editing text.
 			}
 			break;
 		
@@ -454,10 +477,34 @@ TextTool.prototype._handleKeyDown = function (e) {
 				// Update the toolbar toggle.
 				toolbar.toolboxes.textToolOptions.underlineToggle.checked =
 					!toolbar.toolboxes.textToolOptions.underlineToggle.checked;
+				// Update the setting.
 				settings.set('underline', toolbar.toolboxes.textToolOptions.underlineToggle.checked);
-				
-				// Update the text box's CSS.
-				this._textElem.style.textDecoration = this._getTextDecorationValue();
+			}
+			break;
+		
+		case 112: // F1
+			if (noModifiers) {
+				e.preventDefault();
+				// F1 => Open help dialog
+				dialogs.help.open();
+			}
+			break;
+		
+		case 187: // =/+
+		case 107: // Numpad +
+			if (ctrlOrCmd && e.altKey && !metaOrControl) {
+				e.preventDefault();
+				// Ctrl+Alt+= => Zoom in
+				zoomManager.zoomIn();
+			}
+			break;
+		
+		case 189: // -/_
+		case 109: // Numpad -
+			if (ctrlOrCmd && e.altKey && !metaOrControl && !e.shiftKey) {
+				e.preventDefault();
+				// Ctrl+Alt+- => Zoom out
+				zoomManager.zoomOut();
 			}
 			break;
 	}

@@ -3,9 +3,10 @@
 /**
  * @class
  * Create a new ColorPickerToolbox instance.
+ * @param {HTMLElement} [toolbar] - The toolbar the toolbox is to be added to
  */
-function ColorPickerToolbox() {
-	Toolbox.call(this, 'color_picker');
+function ColorPickerToolbox(toolbar) {
+	Toolbox.call(this, 'color_picker', toolbar);
 	this._element.id = 'colorPicker';
 	
 	/** {HTMLButtonElement} The color indicator that opens the color picker dialog when clicked. */
@@ -27,12 +28,14 @@ ColorPickerToolbox.prototype.constructor = ColorPickerToolbox;
 ColorPickerToolbox.prototype.COLOR_PALETTES = {
 	material: [
 		'#000000', // Black
+		'#795548', // Brown
 		'#f44336', // Red
 		'#ff9800', // Orange
 		'#ffeb3b', // Yellow
 		'#76ff03', // Light green
 		
 		'#ffffff', // White
+		'#9e9e9e', // Gray
 		'#4caf50', // Dark green
 		'#80d8ff', // Light blue
 		'#2962ff', // Dark blue
@@ -40,12 +43,14 @@ ColorPickerToolbox.prototype.COLOR_PALETTES = {
 	],
 	classic: [
 		'#000000', // Black
+		'#783b00', // Brown
 		'#ff0000', // Red
 		'#ff00ff', // Pink
 		'#ffff00', // Yellow
 		'#00ff00', // Light green
 		
 		'#ffffff', // White
+		'#787878', // Gray
 		'#008100', // Dark green
 		'#00ffff', // Light blue
 		'#0000ff', // Dark blue
@@ -53,12 +58,14 @@ ColorPickerToolbox.prototype.COLOR_PALETTES = {
 	],
 	win7: [
 		'#000000', // Black
+		'#b97a57', // Brown
 		'#ed1c24', // Red
 		'#ff7f27', // Orange
 		'#fff200', // Yellow
 		'#b5e61d', // Light green
 		
 		'#ffffff', // White
+		'#7f7f7f', // Gray
 		'#21b14c', // Dark green
 		'#00a1e8', // Light blue
 		'#3f48cc', // Dark blue

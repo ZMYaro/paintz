@@ -1,9 +1,11 @@
 CACHE MANIFEST
-# 2019-11-29, v1
+# 2020-11-30, v1
 index.html
 404.html
 manifest.webapp
+about/index.html
 audio/pacman_start.mp3
+images/full_scrnsht.png
 images/og_image.png
 images/toolbar_overview.png
 images/cursors/airbrush.cur
@@ -18,6 +20,7 @@ images/icons/brush.svg
 images/icons/clear.svg
 images/icons/copy.svg
 images/icons/crop.svg
+images/icons/cursor.svg
 images/icons/curve.svg
 images/icons/cut.svg
 images/icons/cws.svg
@@ -33,6 +36,7 @@ images/icons/freeform_select.svg
 images/icons/full_screen.svg
 images/icons/github.svg
 images/icons/help.svg
+images/icons/image.svg
 images/icons/info.svg
 images/icons/instagram.svg
 images/icons/italic.svg
@@ -54,6 +58,8 @@ images/icons/rotate.svg
 images/icons/save.svg
 images/icons/select.svg
 images/icons/select_all.svg
+images/icons/selection_opaque.svg
+images/icons/selection_transparent.svg
 images/icons/settings.svg
 images/icons/strike.svg
 images/icons/swap.svg
@@ -82,6 +88,7 @@ partials/dialogs/settings.html
 partials/dialogs/welcome.html
 partials/toolbar/app.html
 partials/toolbar/color_picker.html
+partials/toolbar/dimensions.html
 partials/toolbar/draw_tool_options.html
 partials/toolbar/floating_selection_toolbar.html
 partials/toolbar/image.html
@@ -89,6 +96,8 @@ partials/toolbar/no_tool_options.html
 partials/toolbar/select_tool_options.html
 partials/toolbar/text_tool_options.html
 partials/toolbar/tools.html
+partials/toolbar/zoom.html
+privacy/index.html
 scripts/app.js
 scripts/clipboard.js
 scripts/keyboard.js
@@ -119,6 +128,7 @@ scripts/lib/pep.min.js
 scripts/lib/promise.auto.min.js
 scripts/toolbar/app.js
 scripts/toolbar/color_picker.js
+scripts/toolbar/dimensions.js
 scripts/toolbar/draw_tool_options.js
 scripts/toolbar/floating_selection_toolbar.js
 scripts/toolbar/image.js
@@ -128,6 +138,7 @@ scripts/toolbar/text_tool_options.js
 scripts/toolbar/toolbar.js
 scripts/toolbar/toolbox.js
 scripts/toolbar/tools.js
+scripts/toolbar/zoom.js
 scripts/tools/airbrush.js
 scripts/tools/curve.js
 scripts/tools/doodle.js
@@ -151,6 +162,7 @@ styles/dialogs.css
 styles/layout.css
 styles/toolbars.css
 styles/splash_screen.css
+styles/sub_page.css
 styles/fonts/Roboto-Bold.ttf
 styles/fonts/Roboto-BoldItalic.ttf
 styles/fonts/Roboto-Italic.ttf

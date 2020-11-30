@@ -4,14 +4,18 @@
 var PNG_REGEX = (/.+\.png$/i),
 	JPEG_REGEX = (/.+\.(jpg|jpeg|jpe|jif|jfif|jfi)$/i),
 	FILE_EXT_REGEX = (/\.[a-z0-9]{1,4}$/i),
-	DEFAULT_TITLE = 'untitled.png';
+	DEFAULT_TITLE = 'untitled.png',
+	PAGE_TITLE_SUFFIX = ' - PaintZ';
 
 var canvas,
 	preCanvas,
+	gridCanvas,
 	cursorCanvas,
 	cxt,
 	preCxt,
+	gridCxt,
 	cursorCxt,
+	keyManager,
 	tools,
 	zoomManager,
 	settings,
@@ -30,6 +34,9 @@ function initCanvas() {
 	// Get the preview canvas.
 	preCanvas = document.getElementById('preCanvas');
 	preCxt = preCanvas.getContext('2d');
+	// Get the grid canvas.
+	gridCanvas = document.getElementById('gridCanvas');
+	gridCxt = gridCanvas.getContext('2d');
 	// Get the cursor canvas.
 	cursorCanvas = document.getElementById('cursorCanvas');
 	cursorCxt = cursorCanvas.getContext('2d');
@@ -133,7 +140,7 @@ function openImage(file) {
 		}
 		dialogs.save._element.fileName.value =
 			dialogs.save._downloadLink.download = fileName;
-		document.title = fileName + ' - PaintZ';
+		document.title = fileName + PAGE_TITLE_SUFFIX;
 		
 		// Clear the undo and redo stacks.
 		undoStack.clear();
@@ -217,17 +224,14 @@ window.addEventListener('load', function () {
 	
 	// Initialize everything.
 	initCanvas();
+	keyManager = new KeyManager();
+	zoomManager = new ZoomManager();
 	settings = new SettingsManager();
 	clipboard = new ClipboardManager();
-	zoomManager = new ZoomManager();
 	toolbar = new ToolbarManager();
 	tools = new ToolManager();
 	progressSpinner = new ProgressSpinner();
 	initDragDrop();
-	
-	// Update the resolution in the bottom bar.
-	document.getElementById('resolution').innerHTML = settings.get('width') + ' &times; ' + settings.get('height') + 'px';
-	
 	
 	// Wait for all the toolbar and dialog content to load.
 	var dialogLoadPromises = Object.values(dialogs).map(function (dialog) { return dialog.loadPromise; }),
@@ -256,10 +260,13 @@ function postLoadInit() {
 	undoStack.addState();
 	
 	// Enable keyboard shortcuts.
-	keyManager.enableAppShortcuts();
+	keyManager.enabled = true;
+	
+	// Enable clipboard actions.
+	clipboard.enabled = true;
 	
 	// Set the title once everything else is ready.
-	document.title = DEFAULT_TITLE + ' - PaintZ';
+	document.title = DEFAULT_TITLE + PAGE_TITLE_SUFFIX;
 	
 	// Hide the splash screen.
 	document.body.removeChild(document.getElementById('splashScreen'));

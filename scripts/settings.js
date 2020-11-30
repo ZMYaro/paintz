@@ -26,6 +26,7 @@ SettingsManager.prototype.DEFAULTS = {
 	outlineOption: 'outlineFill',
 	lineColor: '#000000',
 	fillColor: '#ffffff',
+	transparentSelection: false,
 	fontFamily: 'sans-serif',
 	fontSize: 16,
 	bold: false,
@@ -37,6 +38,7 @@ SettingsManager.prototype.DEFAULTS = {
 	theme: 'default',
 	systemThemeOverride: true,
 	colorPalette: 'material',
+	grid: false,
 	ghostDraw: false,
 	antiAlias: true,
 	maxUndoStackDepth: 50,
@@ -107,8 +109,13 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			if (preCanvas.width !== value) {
 				preCanvas.width = value;
 			}
-			document.getElementById('resolution').innerHTML =
-				value + ' &times; ' + this.get('height') + 'px';
+			gridCanvas.width = value * zoomManager.level;
+			if (this.get('grid')) {
+				zoomManager.drawGrid();
+			}
+			if (toolbar.toolboxes) {
+				toolbar.toolboxes.dimensions.updateResolution();
+			}
 			break;
 		case 'height':
 			if (canvas.height !== value) {
@@ -117,8 +124,13 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			if (preCanvas.height !== value) {
 				preCanvas.height = value;
 			}
-			document.getElementById('resolution').innerHTML =
-				this.get('width') + ' &times; ' + value + 'px';
+			gridCanvas.height = value * zoomManager.level;
+			if (this.get('grid')) {
+				zoomManager.drawGrid();
+			}
+			if (toolbar.toolboxes) {
+				toolbar.toolboxes.dimensions.updateResolution();
+			}
 			break;
 		case 'lineWidth':
 			// Some tools' cursors change with the line width, so reactivate the tool.
@@ -126,9 +138,33 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 				tools.currentTool.activate();
 			}
 			break;
+		case 'fillColor':
+		case 'transparentSelection':
+			if (tools && tools.currentTool && tools.currentTool.setTransparentBackground) {
+				tools.currentTool.setTransparentBackground();
+			}
+			break;
+		case 'fontFamily':
+		case 'fontSize':
+		case 'bold':
+		case 'italic':
+		case 'underline':
+		case 'strike':
+		case 'textFill':
+			if (tools && tools.currentTool && tools.currentTool.updateTextElem) {
+				tools.currentTool.updateTextElem();
+			}
+			break;
 		case 'theme':
 		case 'systemThemeOverride':
 			this._setTheme();
+			break;
+		case 'grid':
+			if (value) {
+				zoomManager.drawGrid();
+			} else {
+				Utils.clearCanvas(gridCxt);
+			}
 			break;
 		case 'ghostDraw':
 			preCanvas.classList[value ? 'add' : 'remove']('ghost');

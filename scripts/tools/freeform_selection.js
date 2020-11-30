@@ -174,21 +174,17 @@ FreeformSelectionTool.prototype.end = function (pointerState) {
 			return;
 		}
 		
+		// Get the image data within the selections bounding rectangle.
+		var unmaskedSelectionContent = this._cxt.getImageData(
+			this._selection.startX, this._selection.startY,
+			this._selection.width, this._selection.height);
+		
 		// Save the selected content using the selection start cover function to cut it to the freeform shape.
-		var selectedRegionRectContent = this._cxt.getImageData(
-			this._selection.startX, this._selection.startY,
-			this._selection.width, this._selection.height);
+		this._selection.opaqueContent = this._maskToSelectionPath(unmaskedSelectionContent);
 		
-		Utils.clearCanvas(this._preCxt);
-		this._preCxt.save();
-		this._preCxt.putImageData(selectedRegionRectContent, this._selection.startX, this._selection.startY);
-		this._preCxt.globalCompositeOperation = 'destination-in';
-		this._drawSelectionStartCover();
-		this._preCxt.restore();
-		
-		this._selection.content = this._preCxt.getImageData(
-			this._selection.startX, this._selection.startY,
-			this._selection.width, this._selection.height);
+		// Make the selection transparent if the setting is enabled.
+		// This creates _selection.content whether or not transparency is enabled.
+		this.setTransparentBackground();
 		
 		// Add the outline.
 		this._updateSelectionOutline();
@@ -226,3 +222,25 @@ FreeformSelectionTool.prototype._createSelectionPath = function (cxt, points) {
 		cxt.lineTo(point.x, point.y);
 	});	
 };
+
+/**
+ * @private
+ * Create the masked version of the selection content using the saved selection path.
+ * @param {ImageData} imageData - The image data to mask
+ * @returns {ImageData} The image data masked to the selection region
+ */
+FreeformSelectionTool.prototype._maskToSelectionPath = function (imageData) {
+	Utils.clearCanvas(this._preCxt);
+	this._preCxt.save();
+	// Put the unmasked image data in the canvas.
+	this._preCxt.putImageData(imageData, this._selection.startX, this._selection.startY);
+	// Draw the selection shape with destination-in mode to remove all image data outside it.
+	this._preCxt.globalCompositeOperation = 'destination-in';
+	this._drawSelectionStartCover();
+	this._preCxt.restore();
+	
+	// Grab the selection region from the canvas now that it has been masked.
+	return this._preCxt.getImageData(
+		this._selection.startX, this._selection.startY,
+		this._selection.width, this._selection.height);
+}

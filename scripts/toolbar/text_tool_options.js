@@ -3,9 +3,10 @@
 /**
  * @class
  * Create a new TextToolOptionsToolbox instance.
+ * @param {HTMLElement} [toolbar] - The toolbar the toolbox is to be added to
  */
-function TextToolOptionsToolbox() {
-	Toolbox.call(this, 'text_tool_options');
+function TextToolOptionsToolbox(toolbar) {
+	Toolbox.call(this, 'text_tool_options', toolbar);
 	
 	this.boldToggle;
 	this.italicToggle;
@@ -45,10 +46,20 @@ TextToolOptionsToolbox.prototype._setUp = function (contents) {
 		settings.set('fontSize', e.target.value);
 	}, false);
 	
-	this.textFillToggle = this._element.querySelector('#textFillToggle');
-	this.textFillToggle.checked = settings.get('textFill');
-	this.textFillToggle.addEventListener('change', function (e) {
-		settings.set('textFill', e.target.checked);
+	this.textFillOn = this._element.querySelector('#textFillOn');
+	this.textFillOn.checked = settings.get('textFill');
+	this.textFillOn.addEventListener('change', function (e) {
+		if (this.checked) {
+			settings.set('textFill', true);
+		}
+	}, false);
+	
+	this.textFillOff = this._element.querySelector('#textFillOff');
+	this.textFillOff.checked = !settings.get('textFill');
+	this.textFillOff.addEventListener('change', function (e) {
+		if (this.checked) {
+			settings.set('textFill', false);
+		}
 	}, false);
 	
 	this.boldToggle = this._element.querySelector('#boldToggle');

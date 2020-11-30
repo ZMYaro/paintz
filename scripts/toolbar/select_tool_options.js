@@ -3,9 +3,12 @@
 /**
  * @class
  * Create a new SelectionToolOptionsToolbox instance.
+ * @param {HTMLElement} [toolbar] - The toolbar the toolbox is to be added to
  */
-function SelectionToolOptionsToolbox() {
-	Toolbox.call(this, 'select_tool_options');
+function SelectionToolOptionsToolbox(toolbar) {
+	Toolbox.call(this, 'select_tool_options', toolbar);
+	
+	this._element.id = 'selectOptions';
 }
 // Extend Toolbox.
 SelectionToolOptionsToolbox.prototype = Object.create(Toolbox.prototype);
@@ -56,4 +59,20 @@ SelectionToolOptionsToolbox.prototype._setUp = function (contents) {
 	flipVertBtn.addEventListener('click', function () {
 		tools.currentTool.flip(true);
 	}, false);
+	
+	var transparentSelectionOn = this._element.querySelector('#transparentSelectionOn');
+	transparentSelectionOn.checked = settings.get('transparentSelection');
+	transparentSelectionOn.addEventListener('change', function() {
+		if (this.checked) {
+			settings.set('transparentSelection', true);
+		}
+	});
+	
+	var transparentSelectionOff = this._element.querySelector('#transparentSelectionOff');
+	transparentSelectionOff.checked = !settings.get('transparentSelection');
+	transparentSelectionOff.addEventListener('change', function() {
+		if (this.checked) {
+			settings.set('transparentSelection', false);
+		}
+	});
 };

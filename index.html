@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html manifest="manifest.appcache">
+<html>
 	<head>
 		<!-- Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-125332101-1"></script>
@@ -17,6 +17,23 @@
 			var CANONICAL_HOST = "paintz.app";
 			if (CANONICAL_HOST === window.location.host && window.location.protocol !== 'https:') {
 				window.location.protocol = 'https';
+			}
+			
+			// Set up caching.
+			if (!!navigator.serviceWorker) {
+				navigator.serviceWorker.register('service_worker.js').then(function (registration) {
+					console.log('Registered service worker with scope:', registration.scope);
+				});
+			} else {
+				// If service worker is unavailable, fall back to app cache.
+				document.addEventListener('DOMContentLoaded', function () {
+					var appCacheIFrame = document.createElement('iframe');
+					appCacheIFrame.src = 'app_cacher.html';
+					appCacheIFrame.style.position = 'absolute';
+					appCacheIFrame.style.width = '1px';
+					appCacheIFrame.style.height = '1px';
+					document.body.appendChild(appCacheIFrame);
+				});
 			}
 		</script>
 		
@@ -99,6 +116,7 @@
 		<script type="text/javascript" src="scripts/toolbar/toolbox.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/toolbar/app.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/toolbar/color_picker.js" defer="defer"></script>
+		<script type="text/javascript" src="scripts/toolbar/dimensions.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/toolbar/draw_tool_options.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/toolbar/floating_selection_toolbar.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/toolbar/image.js" defer="defer"></script>
@@ -106,6 +124,7 @@
 		<script type="text/javascript" src="scripts/toolbar/select_tool_options.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/toolbar/text_tool_options.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/toolbar/tools.js" defer="defer"></script>
+		<script type="text/javascript" src="scripts/toolbar/zoom.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/toolbar/toolbar.js" defer="defer"></script>
 		
 		<!-- Drawing tools -->
@@ -139,29 +158,14 @@
 		<div class="appBar z2" id="toolbar" role="toolbar"></div>
 		
 		<!-- Image canvas -->
-		<canvas class="z1" id="canvas" width="1" height="1"></canvas>
+		<canvas class="z1 canvas" id="canvas" width="1" height="1"></canvas>
 		<!-- Drawing canvas -->
-		<canvas id="preCanvas" width="1" height="1" touch-action="none"></canvas>
+		<canvas class="canvas" id="preCanvas" width="1" height="1" touch-action="none" tabindex="-1"></canvas>
+		<!-- Grid canvas -->
+		<canvas class="canvas" id="gridCanvas" width="1" height="1"></canvas>
 		
 		<!-- Bottom toolbar -->
-		<div class="appBar z2" id="bottomBar" role="toolbar">
-			<button id="resolution"></button>
-			<span id="zoomContainer">
-				<input type="number" id="zoomPercent" value="100" maxlength="3" min="1" max="999" />
-				<span class="icon">%</span>
-				<button id="zoomOutBtn" title="Zoom out (Ctrl+Alt+-)">
-					<svg role="img">
-						<use xlink:href="images/icons/zoom_out.svg#icon" href="images/icons/zoom_out.svg#icon"></use>
-					</svg>
-				</button>
-				<input type="range" id="zoomSlider" list="zoomLevels" min="0" max="6" step="1" value="3" />
-				<button id="zoomInBtn" title="Zoom in (Ctrl+Alt+=)">
-					<svg role="img">
-						<use xlink:href="images/icons/zoom_in.svg#icon" href="images/icons/zoom_in.svg#icon"></use>
-					</svg>
-				</button>
-			</span>
-		</div>
+		<div class="appBar z2" id="bottomBar" role="toolbar"></div>
 		
 		<!-- Dialog containers -->
 		<div id="dialogsContainer"></div>

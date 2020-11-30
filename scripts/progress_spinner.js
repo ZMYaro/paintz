@@ -10,6 +10,7 @@ function ProgressSpinner() {
 	
 	this._container = document.createElement('div');
 	this._container.id = 'progressContainer';
+	this._container.addEventListener('contextmenu', function (e) { e.preventDefault(); }, false);
 	
 	this._container.appendChild(this._element);
 	document.body.appendChild(this._container);

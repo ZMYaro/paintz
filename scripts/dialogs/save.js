@@ -112,7 +112,7 @@ SaveDialog.prototype._handleSave = function (e) {
 		navigator.msSaveBlob(this._blob,
 			this._downloadLink.download || this._downloadLink.getAttribute('download'));
 	}
-	document.title = this._downloadLink.download + ' - PaintZ';
+	document.title = this._downloadLink.download + PAGE_TITLE_SUFFIX;
 	// Web app cannot confirm the user went through with the download, but assume xe did.
 	undoStack.changedSinceSave = false;
 	// Increment save count.

@@ -142,10 +142,7 @@ SelectionTool.prototype.update = function () {
 		return;
 	}
 	
-	Utils.clearCanvas(this._preCxt);
-	
-	this._drawSelectionContent();
-	this._updateSelectionOutline();
+	this._redrawSelection();
 	
 	this._canvasDirty = false;
 };
@@ -178,9 +175,13 @@ SelectionTool.prototype.end = function (pointerState) {
 		this._selection.startY = this._selection.y;
 		
 		// Save the selected content in case the user moves it.
-		this._selection.content = this._cxt.getImageData(
+		this._selection.opaqueContent = this._cxt.getImageData(
 			this._selection.startX, this._selection.startY,
 			this._selection.width, this._selection.height);
+		
+		// Make the selection transparent if the setting is enabled.
+		// This creates _selection.content whether or not transparency is enabled.
+		this.setTransparentBackground();
 	}
 	
 	// Show the selection toolbar if there is an active selection.
@@ -225,6 +226,7 @@ SelectionTool.prototype.clear = function () {
 
 /**
  * Copy the current selection to the clipboard.
+ * @returns {Promise} Resolves when the selection has been copied, rejects if the selection is unable to copy
  */
 SelectionTool.prototype.copy = function () {
 	// Quit if there is no selection to copy.
@@ -236,7 +238,7 @@ SelectionTool.prototype.copy = function () {
 		Utils.clearCanvas(cursorCxt);
 		cursorCanvas.width = this._selection.width;
 		cursorCanvas.height = this._selection.height;
-		cursorCxt.putImageData(this._selection.content, 0, 0);
+		cursorCxt.putImageData(this._selection.opaqueContent, 0, 0);
 		
 		cursorCanvas.toBlob(function (blob) {
 			var copySuccess = clipboard.copy(blob);
@@ -279,9 +281,9 @@ SelectionTool.prototype.duplicate = function () {
 	// There is no starting region to cover.
 	this._selection.firstMove = false;
 	
-	// Move the selection to (0,0).
-	this._selection.x = 0;
-	this._selection.y = 0;
+	// Move the selection to (the top-left corner of the visible canvas).
+	this._selection.x = Math.floor(window.scrollX / zoomManager.level);
+	this._selection.y = Math.floor(window.scrollY / zoomManager.level);
 	this._drawSelectionContent();
 	this._updateSelectionOutline();
 };
@@ -351,7 +353,7 @@ SelectionTool.prototype.flip = function (vertical) {
 		Utils.clearCanvas(cursorCxt);
 		cursorCanvas.width = this._selection.width;
 		cursorCanvas.height = this._selection.height;
-		cursorCxt.putImageData(this._selection.content, 0, 0);
+		cursorCxt.putImageData(this._selection.opaqueContent, 0, 0);
 		
 		// Flip the precanvas and draw the selection to it.
 		Utils.clearCanvas(this._preCxt);
@@ -366,15 +368,16 @@ SelectionTool.prototype.flip = function (vertical) {
 		this._preCxt.restore();
 		
 		// Save that as the new selection.
-		this._selection.content = this._preCxt.getImageData(0, 0, this._selection.width, this._selection.height);
+		this._selection.opaqueContent = this._preCxt.getImageData(0, 0, this._selection.width, this._selection.height);
+		
+		// Reapply transparency.
+		this.setTransparentBackground();
 		
 		// Note that the selection was flipped.
 		this._selection.transformed = true;
 		
 		// Put the updated selection back in place.
-		Utils.clearCanvas(this._preCxt);
-		this._drawSelectionContent();
-		this._updateSelectionOutline();
+		this._redrawSelection();
 		
 	} else {
 		// If there is no selection, flip the main canvas, and draw it to itself.
@@ -403,7 +406,7 @@ SelectionTool.prototype.rotate = function (clockwise) {
 		Utils.clearCanvas(cursorCxt);
 		cursorCanvas.width = this._selection.width;
 		cursorCanvas.height = this._selection.height;
-		cursorCxt.putImageData(this._selection.content, 0, 0);
+		cursorCxt.putImageData(this._selection.opaqueContent, 0, 0);
 		
 		// Rotate the precanvas and draw the selection to it.
 		this._preCxt.canvas.width =
@@ -421,7 +424,10 @@ SelectionTool.prototype.rotate = function (clockwise) {
 		this._preCxt.restore();
 		
 		// Save that as the new selection.
-		this._selection.content = this._preCxt.getImageData(0, 0, this._selection.height, this._selection.width);
+		this._selection.opaqueContent = this._preCxt.getImageData(0, 0, this._selection.height, this._selection.width);
+		
+		// Reapply transparency.
+		this.setTransparentBackground();
 		
 		// Update the selection's width and height, and note that the selection was flipped.
 		var oldSelectionWidth = this._selection.width;
@@ -488,9 +494,40 @@ SelectionTool.prototype.nudge = function (deltaX, deltaY) {
 			Math.max(-this._selection.height,
 				Math.round(this._selection.y + deltaY)));
 	
-	Utils.clearCanvas(this._preCxt);
-	this._drawSelectionContent();
-	this._updateSelectionOutline();
+	this._redrawSelection();
+};
+
+/**
+ * Set whether the background color in the selection should be transparent.
+ */
+SelectionTool.prototype.setTransparentBackground = function () {
+	if (!this._selection) {
+		return;
+	}
+	
+	var transparencyOn = settings.get('transparentSelection'),
+		selectionImageData = Utils.cloneImageData(this._selection.opaqueContent, this._preCxt),
+		selectionData = selectionImageData.data;
+	
+	if (transparencyOn) {
+		var bgColor = Utils.colorToRGB(settings.get('fillColor'));
+		
+		// Check every pixel in the selection.
+		for (var i = 0; i < selectionData.length; i += 4) {
+			// Check whether the current pixel matches the current background color.
+			var colorMatch = (selectionData[i] === bgColor.r &&
+					selectionData[i + 1] === bgColor.g &&
+					selectionData[i + 2] === bgColor.b);
+			
+			if (colorMatch) {
+				selectionData[i + 3] = 0;
+			}
+		}
+	}
+	
+	// Save the modified (or unmodified) content as the current content and redraw it.
+	this._selection.content = selectionImageData;
+	this._redrawSelection();
 };
 
 /**
@@ -547,6 +584,16 @@ SelectionTool.prototype._drawSelectionStartCover = function () {
 	this._preCxt.fillRect(
 		this._selection.startX, this._selection.startY,
 		this._selection.startWidth, this._selection.startHeight);
+};
+
+/**
+ * @private
+ * Redraw the selection and its outline with its current state.
+ */
+SelectionTool.prototype._redrawSelection = function () {
+	Utils.clearCanvas(this._preCxt);
+	this._drawSelectionContent();
+	this._updateSelectionOutline();
 };
 
 /**

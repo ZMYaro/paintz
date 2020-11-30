@@ -33,7 +33,9 @@
 		        box-shadow: 0 0 0 1px;
 	}
 	#colorPicker button[data-value="#000000"]::before { background-color: #000000; }
-	#colorPicker button[data-value="#ffffff"]::before { background-color: #ffffff; }
+	#colorPicker button[data-value="#795548"]::before { background-color: #795548; } /* Material brown */
+	#colorPicker button[data-value="#783b00"]::before { background-color: #783b00; } /* Classic brown */
+	#colorPicker button[data-value="#b97a57"]::before { background-color: #b97a57; } /* Win7 brown */
 	#colorPicker button[data-value="#f44336"]::before { background-color: #f44336; } /* Material red */
 	#colorPicker button[data-value="#ff0000"]::before { background-color: #ff0000; } /* Classic red */
 	#colorPicker button[data-value="#ed1c24"]::before { background-color: #ed1c24; } /* Win7 red */
@@ -46,6 +48,10 @@
 	#colorPicker button[data-value="#76ff03"]::before { background-color: #76ff03; } /* Material light green */
 	#colorPicker button[data-value="#00ff00"]::before { background-color: #00ff00; } /* Classic lime green */
 	#colorPicker button[data-value="#b5e61d"]::before { background-color: #b5e61d; } /* Win7 light green */
+	#colorPicker button[data-value="#ffffff"]::before { background-color: #ffffff; }
+	#colorPicker button[data-value="#9e9e9e"]::before { background-color: #9e9e9e; } /* Material gray */
+	#colorPicker button[data-value="#787878"]::before { background-color: #787878; } /* Classic gray */
+	#colorPicker button[data-value="#7f7f7f"]::before { background-color: #7f7f7f; } /* Win7 gray */
 	#colorPicker button[data-value="#4caf50"]::before { background-color: #4caf50; } /* Material green */
 	#colorPicker button[data-value="#008100"]::before { background-color: #008100; } /* Classic dark green */
 	#colorPicker button[data-value="#21b14c"]::before { background-color: #21b14c; } /* Win7 dark green */
