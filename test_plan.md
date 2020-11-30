@@ -72,7 +72,7 @@
 	a. Select tool with toolbar button  
 	b. Select tool with P key  
 	c. Draw with left click  
-	d. Draw with right cilck  
+	d. Draw with right click  
 	e. Draw with single-point touch  
 	f. Draw with draw with multi-point touch  
 	g. Draw after changing line color  
@@ -83,7 +83,7 @@
 	a. Select tool with toolbar button  
 	b. Select tool with B key  
 	c. Draw with left click  
-	d. Draw with right cilck  
+	d. Draw with right click  
 	e. Draw with single-point touch  
 	f. Draw with draw with multi-point touch  
 	g. Draw after changing line color  
@@ -96,7 +96,7 @@
 9. Airbrush tool  
 	a. Select tool with toolbar button  
 	b. Draw with left click  
-	c. Draw with right cilck  
+	c. Draw with right click  
 	d. Draw with single-point touch  
 	e. Draw with draw with multi-point touch  
 	f. Draw after changing line color  
@@ -119,7 +119,7 @@
 	a. Select tool with toolbar button  
 	b. Select tool with C key  
 	c. Draw with left click  
-	d. Draw with right cilck  
+	d. Draw with right click  
 	e. Draw with single-point touch  
 	f. Draw a line and change tools  
 	g. Draw a curve with 1 control point and change tools  
@@ -132,7 +132,7 @@
 	a. Select tool with toolbar button  
 	b. Select tool with R key  
 	c. Draw with left click  
-	d. Draw with right cilck  
+	d. Draw with right click  
 	e. Draw with single-point touch  
 	f. Draw with line only  
 	g. Draw with fill only  
@@ -151,7 +151,7 @@
 	a. Select tool with toolbar button  
 	b. Select tool with O key  
 	c. Draw with left click  
-	d. Draw with right cilck  
+	d. Draw with right click  
 	e. Draw with single-point touch  
 	f. Draw with line only  
 	g. Draw with fill only  
@@ -249,7 +249,7 @@
 	a. Select tool with toolbar button  
 	b. Select tool with E key  
 	c. Draw with left click  
-	d. Draw with right cilck  
+	d. Draw with right click  
 	e. Draw with single-point touch  
 	f. Draw with multi-point touch  
 	g. Draw after changing line color  
