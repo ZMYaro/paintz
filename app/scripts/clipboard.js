@@ -101,10 +101,10 @@ ClipboardManager.prototype.paste = function (image) {
 		'crop');
 	
 	// Set up to paste at the top-left corner of the visible canvas.
-	var pasteX = Math.floor(window.scrollX),
-		pasteY = Math.floor(window.scrollY),
-		pasteRightX = Math.floor(window.scrollX + image.width),
-		pasteBottomY = Math.floor(window.scrollY + image.height);
+	var pasteX = Math.floor(window.scrollX / zoomManager.level),
+		pasteY = Math.floor(window.scrollY / zoomManager.level),
+		pasteRightX = Math.floor(pasteX + image.width),
+		pasteBottomY = Math.floor(pasteY + image.height);
 	
 	// Tell the selection tool it just moved to create a selection of the proper size.
 	tools.switchTool('selection');

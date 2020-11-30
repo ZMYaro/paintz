@@ -282,8 +282,8 @@ SelectionTool.prototype.duplicate = function () {
 	this._selection.firstMove = false;
 	
 	// Move the selection to (the top-left corner of the visible canvas).
-	this._selection.x = Math.floor(window.scrollX);
-	this._selection.y = Math.floor(window.scrollY);
+	this._selection.x = Math.floor(window.scrollX / zoomManager.level);
+	this._selection.y = Math.floor(window.scrollY / zoomManager.level);
 	this._drawSelectionContent();
 	this._updateSelectionOutline();
 };
