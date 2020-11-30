@@ -109,7 +109,7 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			if (preCanvas.width !== value) {
 				preCanvas.width = value;
 			}
-			gridCanvas.width = value;
+			gridCanvas.width = value * zoomManager.level;
 			if (this.get('grid')) {
 				zoomManager.drawGrid();
 			}
@@ -124,7 +124,7 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			if (preCanvas.height !== value) {
 				preCanvas.height = value;
 			}
-			gridCanvas.height = value;
+			gridCanvas.height = value * zoomManager.level;
 			if (this.get('grid')) {
 				zoomManager.drawGrid();
 			}
