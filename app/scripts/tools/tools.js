@@ -123,6 +123,7 @@ ToolManager.prototype._handlePointerMove = function (e) {
 	
 	e.preventDefault();
 	e.stopPropagation();
+	preCanvas.focus(); // Pull focus from whatever else it might be on.
 	
 	// Update the tool.
 	this.currentTool.move({
