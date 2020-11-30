@@ -403,6 +403,15 @@ TextTool.prototype._handleKeyDown = function (e) {
 			}
 			break;
 		
+		case 48: // 0
+		case 96: // Numpad 0
+			if (ctrlOrCmd && e.altKey && !metaOrControl && !e.shiftKey) {
+				e.preventDefault();
+				// Ctrl+Alt+0 => Zoom 100%
+				zoomManager.level = 1;
+			}
+			break;
+		
 		case 53: // 5
 			if (e.altKey && e.shiftKey && !ctrlOrCmd && !metaOrControl) {
 				e.preventDefault();
@@ -444,6 +453,22 @@ TextTool.prototype._handleKeyDown = function (e) {
 			}
 			break;
 		
+		
+		case 79: // O
+			if (ctrlOrCmdOnly) {
+				e.preventDefault();
+				// Ctrl+O => Open
+				document.getElementById('upload').click();
+			}
+			break;
+		
+		case 83: // S
+			if (ctrlOrCmdOnly) {
+				e.preventDefault();
+				// Prevent saving while editing text.
+			}
+			break;
+		
 		case 85: // U
 			if (ctrlOrCmdOnly) {
 				e.preventDefault();
@@ -454,6 +479,32 @@ TextTool.prototype._handleKeyDown = function (e) {
 					!toolbar.toolboxes.textToolOptions.underlineToggle.checked;
 				// Update the setting.
 				settings.set('underline', toolbar.toolboxes.textToolOptions.underlineToggle.checked);
+			}
+			break;
+		
+		case 112: // F1
+			if (noModifiers) {
+				e.preventDefault();
+				// F1 => Open help dialog
+				dialogs.help.open();
+			}
+			break;
+		
+		case 187: // =/+
+		case 107: // Numpad +
+			if (ctrlOrCmd && e.altKey && !metaOrControl) {
+				e.preventDefault();
+				// Ctrl+Alt+= => Zoom in
+				zoomManager.zoomIn();
+			}
+			break;
+		
+		case 189: // -/_
+		case 109: // Numpad -
+			if (ctrlOrCmd && e.altKey && !metaOrControl && !e.shiftKey) {
+				e.preventDefault();
+				// Ctrl+Alt+- => Zoom out
+				zoomManager.zoomOut();
 			}
 			break;
 	}
