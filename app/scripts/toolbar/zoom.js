@@ -35,6 +35,17 @@ ZoomToolbox.prototype._setUp = function (contents) {
 	this.percent.oninput = function (e) {
 		zoomManager.levelPercent = parseInt(this.value);
 	};
+	this.percent.onkeydown = function (e) {
+		// Prevent text field keyboard shortcuts being overridden by global shortcuts while typing.
+		if (e.currentTarget !== document.activeElement) {
+			return;
+		}
+		var keysToIntercept = [8, 27, 37, 38, 39, 40, 46, 65, 67, 88, 89, 90, 191, 219, 221];
+		// Backspace, Esc, Left, Up, Right, Down, Delete, A, C, X, Y, Z, /, [, ]
+		if (keysToIntercept.indexOf(e.keyCode) !== -1) {
+			e.stopPropagation();
+		}
+	};
 	
 	// Set up slider.
 	this.slider = this._element.querySelector('#zoomSlider');
