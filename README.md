@@ -1,11 +1,12 @@
 # PaintZ
-
-PaintZ is a simple drawing program for the web.
+<img src="https://raw.githubusercontent.com/ZMYaro/paintz/master/app/images/og_image.png" width="640" alt="PaintZ logo." />
+<img src="https://raw.githubusercontent.com/ZMYaro/paintz/master/app/images/full_scrnsht.png" width="640" alt="Screenshot of PaintZ." />
 
 
 ## Overview
 
-Its goal is to make creating and editing drawings and other images as easy to do on Chrome OS and the web as similar native applications on other platforms, such as Microsoft Paint and KolourPaint.  PaintZ is designed to to be fast and easy to use, with a touch- and mouse-friendly Material Design interface, full offline support, and no Flash Player required.
+PaintZ is a simple drawing program for the web.  Its goal is to make creating and editing drawings and other images as easy to do on Chrome OS and the web as similar native applications on other platforms, such as Microsoft Paint and KolourPaint.  PaintZ is designed to to be fast and easy to use, with a touch- and mouse-friendly Material Design interface, full offline support, and no Flash Player or other plug-ins required.
+
 
 ## Principles
 
@@ -15,6 +16,7 @@ Its goal is to make creating and editing drawings and other images as easy to do
 * Familiar - PaintZ should keep UI patterns and keyboard shortcuts familiar to users of other drawing apps and Chrome OS wherever possible.
 * Privacy-conscious - No user-identifying data should be retained, minimal data should be retained at all, and nothing but basic anonymous analytics should leave the user's device.
 * Dependency-conscious - PaintZ will never require plug-in installation; new CSS/JS libraries should only be added if necessary, and after serious consideration.
+
 
 ## Live instance
 
@@ -34,11 +36,13 @@ _These are the **only** legitimate Chrome Web Store listings for PaintZ._
 
 Updates are posted to the @PaintZApp profiles on [Facebook](https://www.facebook.com/PaintZApp), [Instagram](https://www.instagram.com/PaintZApp), and [Twitter](https://twitter.com/PaintZApp).
 
+
 ## Bug reports and feature requests
 
 You can submit bug reports and feature requests in [the Issues tab](https://github.com/ZMYaro/paintz/issues).  Please search before submitting to avoid submitting duplicates.  If you find it was already submitted, please just add a 👍 reaction to the existing one.
 
 For feature requests, please also ensure features are in line with the principles above—certain features will always be outside the intended scope of PaintZ.
+
 
 ## Code styling
 
@@ -62,6 +66,7 @@ For feature requests, please also ensure features are in line with the principle
   */
 function sum(a, b) { ... }
 ```
+
 
 ## Credits
 
