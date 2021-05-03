@@ -19,7 +19,7 @@
 				window.location.protocol = 'https';
 			}
 			
-			// Set up caching.
+			// Set up offline caching.
 			if (!!navigator.serviceWorker) {
 				navigator.serviceWorker.register('service_worker.js').then(function (registration) {
 					console.log('Registered service worker with scope:', registration.scope);
@@ -32,6 +32,7 @@
 					appCacheIFrame.style.position = 'absolute';
 					appCacheIFrame.style.width = '1px';
 					appCacheIFrame.style.height = '1px';
+					appCacheIFrame.style.border = '0 none';
 					document.body.appendChild(appCacheIFrame);
 				});
 			}
