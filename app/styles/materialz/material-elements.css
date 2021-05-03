@@ -1,12 +1,13 @@
 /* Base Material styles for elements
  * Part of the MaterialZ CSS library
  *
- * Copyright 2015-2020 Zachary Yaro
+ * Copyright 2015-2021 Zachary Yaro
  * Released under the MIT license
- * http://materialz.zmyaro.com/LICENSE.txt
+ * https://materialz.dev/LICENSE.txt
  */
 
 @charset "UTF-8";
+@import url(//fonts.googleapis.com/css?family=Roboto+Mono:400italic,400|Roboto:400,400italic,500,500italic,700,700italic);
 
 ::selection {
 	background-color: #40c4ff;
@@ -136,11 +137,11 @@ select {
 		min-width: 0;
 		position: relative;
 		background-color: transparent;
-		background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAAICAYAAACs/DyzAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAFRJREFUeNrUzzEKACAMA8AMPjw/rzoIUlqqTqYQ6JAMBwAcscfQzPBz1r0g5wYqwFsk10gJeIrkPlADVkj6siIwQzIqqgI9klnpd2ArgNEvdV2AAQCCQISyxDe1CAAAAABJRU5ErkJggg==);
-		background-size: 28px 4px;
+		background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAIAgMAAADCRZTUAAAACVBMVEUAAAAAAAAAAACDY+nAAAAAAnRSTlMAgJsrThgAAAAySURBVAjXY8hatWolAwxIrVq1BM5hW7VqApzDuGqVAwMcZAG1IDQBtSA0AbUgNCG0AAD8iAqhtDTiaAAAAABJRU5ErkJggg==);
+		background-size: 24px 4px;
 		background-position: right center;
 		background-repeat: no-repeat;
-		padding-right: 36px;
+		padding-right: 32px;
 		
 		/* Hide the default arrow in Gecko. */
 		text-indent: 0.01px;
@@ -194,8 +195,8 @@ input[type="checkbox"] {
 	
 	border-style: solid;
 	border-width: 2px;
-	border-color: black;
-	color: black;
+	color: inherit;
+	border-color: currentcolor;
 	
 	background-color: transparent;
 	background-repeat: no-repeat;
@@ -222,9 +223,70 @@ input[type="checkbox"] {
 	}
 	input[type="radio"]:checked,
 	input[type="checkbox"]:checked {
-		border-color: #40c4ff;
 		color: #40c4ff;
+		color: var(--mz-accent-color, #40c4ff);
 	}
+	input[type="radio"]::before,
+	input[type="checkbox"]::before {
+		content: '';
+		
+		display: block;
+		position: absolute;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		
+		-webkit-border-radius: 50%;
+		   -moz-border-radius: 50%;
+		        border-radius: 50%;
+		
+		background-color: rgba(128, 128, 128, 0);
+		-webkit-box-shadow: rgba(128, 128, 128, 0.1) 0px 0px 0px 0px,
+		                    rgba(128, 128, 128, 0.1) 0px 0px 0px 0px;
+		   -moz-box-shadow: rgba(128, 128, 128, 0.1) 0px 0px 0px 0px,
+		                    rgba(128, 128, 128, 0.1) 0px 0px 0px 0px;
+		        box-shadow: rgba(128, 128, 128, 0.1) 0px 0px 0px 0px,
+		                    rgba(128, 128, 128, 0.1) 0px 0px 0px 0px;
+		
+		-webkit-transition-duration: 0.1s;
+		   -moz-transition-duration: 0.1s;
+		    -ms-transition-duration: 0.1s;
+		     -o-transition-duration: 0.1s;
+		        transition-duration: 0.1s;
+		-webkit-transition-timing-function: linear;
+		   -moz-transition-timing-function: linear;
+		    -ms-transition-timing-function: linear;
+		     -o-transition-timing-function: linear;
+		        transition-timing-function: linear;
+		-webkit-transition-property: background-color, -webkit-box-shadow, box-shadow;
+		   -moz-transition-property: background-color,    -moz-box-shadow, box-shadow;
+		    -ms-transition-property: background-color,                     box-shadow;
+		     -o-transition-property: background-color,                     box-shadow;
+		        transition-property: background-color,                     box-shadow;
+	}
+		input[type="radio"]:not(:disabled):focus::before,
+		input[type="checkbox"]:not(:disabled):focus::before {
+			background-color: rgba(128, 128, 128, 0.1);
+			-webkit-box-shadow: rgba(128, 128, 128, 0.1) 0px 0px 0px 13px,
+			                    rgba(128, 128, 128, 0.1) 0px 0px 0px 0px;
+			   -moz-box-shadow: rgba(128, 128, 128, 0.1) 0px 0px 0px 13px,
+			                    rgba(128, 128, 128, 0.1) 0px 0px 0px 0px;
+			        box-shadow: rgba(128, 128, 128, 0.1) 0px 0px 0px 13px,
+			                    rgba(128, 128, 128, 0.1) 0px 0px 0px 0px;
+		}
+		input[type="radio"]:not(:disabled):active::before,
+		input[type="radio"]:not(:disabled).active::before,
+		input[type="checkbox"]:not(:disabled):active::before,
+		input[type="checkbox"]:not(:disabled).active::before {
+			background-color: rgba(128, 128, 128, 0.2);
+			-webkit-box-shadow: rgba(128, 128, 128, 0.1) 0px 0px 0px 13px,
+			                    rgba(128, 128, 128, 0.1) 0px 0px 0px 13px;
+			   -moz-box-shadow: rgba(128, 128, 128, 0.1) 0px 0px 0px 13px,
+			                    rgba(128, 128, 128, 0.1) 0px 0px 0px 13px;
+			        box-shadow: rgba(128, 128, 128, 0.1) 0px 0px 0px 13px,
+			                    rgba(128, 128, 128, 0.1) 0px 0px 0px 13px;
+		}
 input[type="radio"] {
 	width: 20px;
 	height: 20px;
@@ -268,9 +330,9 @@ input[type="radio"] {
 		     -o-transition-property:                     box-shadow,      -o-transform, transform;
 		        transition-property:                     box-shadow,                    transform;
 		
-		-webkit-box-shadow: inset 0 0 0 0;
-		   -moz-box-shadow: inset 0 0 0 0;
-		        box-shadow: inset 0 0 0 0;
+		-webkit-box-shadow: inset 0 0 0 0 currentcolor;
+		   -moz-box-shadow: inset 0 0 0 0 currentcolor;
+		        box-shadow: inset 0 0 0 0 currentcolor;
 		
 		-webkit-transform: scale(1);
 		   -moz-transform: scale(1);
@@ -286,9 +348,9 @@ input[type="radio"] {
 			        transition-delay: 0, 0.13s;
 			
 			color: inherit;
-			-webkit-box-shadow: inset 0 0 0 10px;
-			   -moz-box-shadow: inset 0 0 0 10px;
-			        box-shadow: inset 0 0 0 10px;
+			-webkit-box-shadow: inset 0 0 0 10px currentcolor;
+			   -moz-box-shadow: inset 0 0 0 10px currentcolor;
+			        box-shadow: inset 0 0 0 10px currentcolor;
 			
 			-webkit-transform: scale(0.65);
 			   -moz-transform: scale(0.65);
@@ -302,16 +364,16 @@ input[type="checkbox"] {
 	-webkit-border-radius: 2px;
 	   -moz-border-radius: 2px;
 	        border-radius: 2px;
-	color: black;
-	-webkit-box-shadow: inset 0 0 0 0;
-	   -moz-box-shadow: inset 0 0 0 0;
-	        box-shadow: inset 0 0 0 0;
+	-webkit-box-shadow: inset 0 0 0 0 currentcolor;
+	   -moz-box-shadow: inset 0 0 0 0 currentcolor;
+	        box-shadow: inset 0 0 0 0 currentcolor;
 }
 	input[type="checkbox"]:checked {
 		color: #40c4ff;
-		-webkit-box-shadow: inset 0 0 0 10px;
-		   -moz-box-shadow: inset 0 0 0 10px;
-		        box-shadow: inset 0 0 0 10px;
+		color: var(--mz-accent-color, #40c4ff);
+		-webkit-box-shadow: inset 0 0 0 10px currentcolor;
+		   -moz-box-shadow: inset 0 0 0 10px currentcolor;
+		        box-shadow: inset 0 0 0 10px currentcolor;
 	}
 	input[type="checkbox"]::after {
 		content: '';
@@ -362,7 +424,8 @@ input[type="checkbox"] {
 		}
 
 /* --------======== RANGE SLIDERS and PROGRESS BARS ========-------- */
-input[type="range"], progress {
+input[type="range"],
+progress {
 	height: 2px;
 	margin: 16px 8px;
 	border-style: none;
@@ -374,6 +437,8 @@ input[type="range"], progress {
 	
 	-webkit-transition-duration: 0.1s;
 	   -moz-transition-duration: 0.1s;
+	    -ms-transition-duration: 0.1s;
+	     -o-transition-duration: 0.1s;
 	        transition-duration: 0.1s;
 }
 	input[type="range"]::-moz-range-track {
@@ -401,6 +466,7 @@ input[type="range"], progress {
 		-webkit-border-radius: 50%;
 		        border-radius: 50%;
 		background-color: #40c4ff;
+		background-color: var(--mz-accent-color, #40c4ff);
 		-webkit-box-shadow: none;
 		        box-shadow: none;
 		
@@ -414,6 +480,7 @@ input[type="range"], progress {
 		-moz-border-radius: 50%;
 		     border-radius: 50%;
 		background-color: #40c4ff;
+		background-color: var(--mz-accent-color, #40c4ff);
 		-moz-box-shadow: none;
 		     box-shadow: none;
 		
@@ -426,6 +493,7 @@ input[type="range"], progress {
 		border: 0 none;
 		border-radius: 50%;
 		background-color: #40c4ff;
+		background-color: var(--mz-accent-color, #40c4ff);
 		box-shadow: none;
 		
 		transition-duration: 0.1s;
@@ -484,12 +552,15 @@ input[type="range"], progress {
 progress::-webkit-progress-bar-value,
 progress::-webkit-progress-value {
 	background-color: #40c4ff;
+	background-color: var(--mz-accent-color, #40c4ff);
 }
 progress::-moz-progress-bar {
 	background-color: #40c4ff;
+	background-color: var(--mz-accent-color, #40c4ff);
 }
 progress::-ms-fill {
 	background-color: #40c4ff;
+	background-color: var(--mz-accent-color, #40c4ff);
 }
 
 /* --------======== TEXT FIELDS ========-------- */
@@ -538,6 +609,7 @@ select[size] > option {
 	textarea:focus,
 	select[size]:focus {
 		border-color: #40c4ff;
+		border-color: var(--mz-accent-color, #40c4ff);
 		outline: 0 none transparent;
 	}
 	input[type="text"]:focus,
@@ -569,5 +641,47 @@ select:disabled {
 @media (max-width: 600px) {
 	body {
 		padding: 16px;
+	}
+}
+
+/* Override animations for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+	input[type="radio"],
+	input[type="checkbox"],
+	input[type="radio"]::before,
+	input[type="checkbox"]::before,
+	input[type="checkbox"]::after,
+	input[type="range"],
+	progress {
+		-webkit-transition-duration: 0s;
+		   -moz-transition-duration: 0s;
+		    -ms-transition-duration: 0s;
+		     -o-transition-duration: 0s;
+		        transition-duration: 0s;
+	}
+	
+	input[type="radio"]::after {
+		-webkit-transition-delay: 0s, 0s, 0s, 0s;
+		   -moz-transition-delay: 0s, 0s, 0s, 0s;
+		    -ms-transition-delay:     0s, 0s, 0s;
+		     -o-transition-delay:     0s, 0s, 0s;
+		        transition-delay:     0s,     0s;
+		-webkit-transition-duration: 0s, 0s, 0s, 0s;
+		   -moz-transition-duration: 0s, 0s, 0s, 0s;
+		    -ms-transition-duration:     0s, 0s, 0s;
+		     -o-transition-duration:     0s, 0s, 0s;
+		        transition-duration:     0s,     0s;
+	}
+	
+	input[type="range"]::-webkit-slider-thumb {
+		-webkit-transition-duration: 0s;
+		        transition-duration: 0s;
+	}
+	input[type="range"]::-moz-range-thumb {
+		-moz-transition-duration: 0s;
+		     transition-duration: 0s;
+	}
+	input[type="range"]::-ms-thumb {
+		transition-duration: 0s;
 	}
 }

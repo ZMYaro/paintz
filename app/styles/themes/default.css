@@ -18,12 +18,8 @@ textarea:focus {
 }
 input[type="checkbox"]:checked,
 input[type="radio"]:checked {
-	border-color: #5767bd;
 	color: #5767bd;
 }
-	input[type="radio"]:checked::after {
-		color: #5767bd;
-	}
 
 button,
 [role="button"] {

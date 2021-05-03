@@ -1,9 +1,9 @@
 /* Base Material styles for widgets
  * Part of the MaterialZ CSS library
  *
- * Copyright 2015-2020 Zachary Yaro
+ * Copyright 2015-2021 Zachary Yaro
  * Released under the MIT license
- * http://materialz.zmyaro.com/LICENSE.txt
+ * https://materialz.dev/LICENSE.txt
  */
 
 @charset "UTF-8";
@@ -28,6 +28,7 @@ body {
 	        transition-property: padding;
 }
 
+/* --------======== TOOLBARS ========-------- */
 [role="toolbar"] {
 	padding: 20px 16px;
 	font-size: 20px;
@@ -72,7 +73,8 @@ body {
 			pointer-events: none;
 		}
 
-.appBar { /* the top action bar should be a <header> element */
+/* --------======== APP BARS ========-------- */
+.appBar { /* Recommendation: the top action bar should be a <header> element */
 	display: block;
 	-webkit-box-sizing: border-box;
 	   -moz-box-sizing: border-box;
@@ -153,7 +155,20 @@ body {
 		.appBar[role="toolbar"] input[type="reset"]:not(:disabled).active {
 			background-color: rgba(255,255,255,0.13);
 		}
+@media (max-width: 600px) {
+	body {
+		padding-top: 72px; /* 56px toolbar + 16px padding */
+	}
+	[role="toolbar"],
+	.appBar {
+		padding: 16px;
+	}
+		.appBar > [role="toolbar"] {
+			margin: -16px;
+		}
+}
 
+/* --------======== LISTS ========-------- */
 .list {
 	list-style-type: none;
 	margin: 0;
@@ -167,7 +182,7 @@ body {
 		border-width: 1px 0 0;
 		border-style: solid;
 		border-color: #dfdfdf;
-		border-color: rgba(0, 0, 0, 0.11);
+		border-color: rgba(128, 128, 128, 0.25);
 	}
 		.list li:last-child {
 			border-bottom-width: 1px;
@@ -198,11 +213,12 @@ body {
 			        box-shadow: none;
 		}
 
+/* --------======== CARDS ========-------- */
 .card {
 	background-color: white;
-	-webkit-border-radius: 2px;
-	   -moz-border-radius: 2px;
-	        border-radius: 2px;
+	-webkit-border-radius: 3px;
+	   -moz-border-radius: 3px;
+	        border-radius: 3px;
 	
 	-webkit-box-sizing: border-box;
 	   -moz-box-sizing: border-box;
@@ -214,7 +230,21 @@ body {
 	
 	overflow: hidden;
 }
+.card.full-width {
+	margin-left: auto;
+	margin-right: auto;
+}
+@media (max-width: 600px) {
+	.card.full-width {
+		margin-left: -16px;
+		margin-right: -16px;
+		-webkit-border-radius: 0;
+		   -moz-border-radius: 0;
+		        border-radius: 0;
+	}
+}
 
+/* --------======== CIRCULAR PROGRESS INDICATORS ========-------- */
 progress.circular,
 progress.circular::before,
 progress.circular::after,
@@ -222,12 +252,12 @@ progress.circular::after,
 [role="progressbar"].circular::before,
 [role="progressbar"].circular::after {
 	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
 	
 	-webkit-border-radius: 50%;
-	-moz-border-radius: 50%;
-	border-radius: 50%;
+	   -moz-border-radius: 50%;
+	        border-radius: 50%;
 	
 	background: transparent;
 	
@@ -235,20 +265,20 @@ progress.circular::after,
 	border-top-color: currentColor;
 	
 	-webkit-animation-iteration-count: infinite;
-	-moz-animation-iteration-count: infinite;
-	-ms-animation-iteration-count: infinite;
-	-o-animation-iteration-count: infinite;
-	animation-iteration-count: infinite;
+	   -moz-animation-iteration-count: infinite;
+	    -ms-animation-iteration-count: infinite;
+	     -o-animation-iteration-count: infinite;
+	        animation-iteration-count: infinite;
 	-webkit-animation-timing-function: linear;
-	-moz-animation-timing-function: linear;
-	-ms-animation-timing-function: linear;
-	-o-animation-timing-function: linear;
-	animation-timing-function: linear;
+	   -moz-animation-timing-function: linear;
+	    -ms-animation-timing-function: linear;
+	     -o-animation-timing-function: linear;
+	        animation-timing-function: linear;
 	-webkit-animation-duration: 1.5s;
-	-moz-animation-duration: 1.5s;
-	-ms-animation-duration: 1.5s;
-	-o-animation-duration: 1.5s;
-	animation-duration: 1.5s;
+	   -moz-animation-duration: 1.5s;
+	    -ms-animation-duration: 1.5s;
+	     -o-animation-duration: 1.5s;
+	        animation-duration: 1.5s;
 }
 	progress.circular,
 	[role="progressbar"].circular {
@@ -256,6 +286,8 @@ progress.circular::after,
 		height: 48px;
 		display: inline-block;
 		position: relative;
+		
+		color: var(--mz-accent-color);
 		
 		-webkit-animation-name: materialz-circular-progress-part1;
 		   -moz-animation-name: materialz-circular-progress-part1;
@@ -306,19 +338,244 @@ progress.circular::after,
 		background: transparent;
 	}
 
-@media (max-width: 600px) {
-	body {
-		padding-top: 72px; /* 56px toolbar + 16px padding */
+/* --------======== TOGGLE SWITCHES ========-------- */
+input[type="checkbox"].switch {
+	/* Switch track */
+	-webkit-appearance: none;
+	   -moz-appearance: none;
+	    -ms-appearance: none;
+	     -o-appearance: none;
+	        appearance: none;
+	
+	display: inline-block;
+	width: 26px;
+	height: 14px;
+	margin: 0px 8px;
+	-webkit-border-radius: 8px;
+	   -moz-border-radius: 8px;
+	        border-radius: 8px;
+	
+	background-color: rgba(128, 128, 128, 0.75);
+	border: 0 none;
+	outline: none;
+	
+	overflow: visible;
+	
+	-webkit-transition-duration: 0.1s;
+	   -moz-transition-duration: 0.1s;
+	    -ms-transition-duration: 0.1s;
+	     -o-transition-duration: 0.1s;
+	        transition-duration: 0.1s;
+	-webkit-transition-timing-function: linear;
+	   -moz-transition-timing-function: linear;
+	    -ms-transition-timing-function: linear;
+	     -o-transition-timing-function: linear;
+	        transition-timing-function: linear;
+	-webkit-transition-property: background-color;
+	   -moz-transition-property: background-color;
+	    -ms-transition-property: background-color;
+	     -o-transition-property: background-color;
+	        transition-property: background-color;
+}
+	input[type="checkbox"].switch::before {
+		/* Switch track color */
+		content: '';
+		
+		display: block;
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		-webkit-border-radius: 8px;
+		   -moz-border-radius: 8px;
+		        border-radius: 8px;
+		
+		background-color: currentColor;
+		opacity: 0;
+		
+		-webkit-transition-duration: inherit;
+		   -moz-transition-duration: inherit;
+		    -ms-transition-duration: inherit;
+		     -o-transition-duration: inherit;
+		        transition-duration: inherit;
+		-webkit-transition-property: opacity;
+		   -moz-transition-property: opacity;
+		    -ms-transition-property: opacity;
+		     -o-transition-property: opacity;
+		        transition-property: opacity;
 	}
-	[role="toolbar"],
-	.appBar {
-		padding: 16px;
+	input[type="checkbox"].switch::after {
+		/* Switch thumb */
+		content: '';
+		
+		display: block;
+		position: relative;
+		width: 20px;
+		height: 20px;
+		margin: -6px -8px;
+		border: 0 none;
+		-webkit-border-radius: 10px;
+		   -moz-border-radius: 10px;
+		        border-radius: 10px;
+		
+		background-color: #f0f0f0;
+		
+		-webkit-box-shadow: rgba(0, 0, 0, 0.26) 0 1px 2px 0,
+		                    rgba(0, 0, 0, 0.16) 0 1px 5px 0,
+		                    rgba(0, 0, 0, 0.25) 0 0 0 0;
+		   -moz-box-shadow: rgba(0, 0, 0, 0.26) 0 1px 2px 0,
+		                    rgba(0, 0, 0, 0.16) 0 1px 5px 0,
+		                    rgba(0, 0, 0, 0.25) 0 0 0 0;
+		        box-shadow: rgba(0, 0, 0, 0.26) 0 1px 2px 0,
+		                    rgba(0, 0, 0, 0.16) 0 1px 5px 0,
+		                    rgba(0, 0, 0, 0.25) 0 0 0 0;
+		        box-shadow: rgba(0, 0, 0, 0.2 ) 0px 3px 1px -2px,
+		                    rgba(0, 0, 0, 0.14) 0px 2px 2px 0px,
+		                    rgba(0, 0, 0, 0.12) 0px 1px 5px 0px,
+		                    rgba(128, 128, 128, 0.2) 0px 0px 0px 0px,
+		                    rgba(128, 128, 128, 0.2) 0px 0px 0px 0px;
+		
+		-webkit-transform: translateX(0px);
+		   -moz-transform: translateX(0px);
+		    -ms-transform: translateX(0px);
+		     -o-transform: translateX(0px);
+		        transform: translateX(0px);
+		
+		-webkit-transition-duration: inherit;
+		   -moz-transition-duration: inherit;
+		    -ms-transition-duration: inherit;
+		     -o-transition-duration: inherit;
+		        transition-duration: inherit;
+		-webkit-transition-property: -webkit-box-shadow, box-shadow, -webkit-transform;
+		   -moz-transition-property: -moz-box-shadow, box-shadow, -moz-transform;
+		    -ms-transition-property: box-shadow, -ms-transform;
+		     -o-transition-property: box-shadow, -o-transform;
+		        transition-property: box-shadow, transform;
 	}
-		.appBar > [role="toolbar"] {
-			margin: -16px;
+		input[type="checkbox"].switch:not(:disabled):hover::before,
+		input[type="checkbox"].switch:not(:disabled):focus::before,
+		input[type="checkbox"].switch:not(:disabled):active::before,
+		input[type="checkbox"].switch:not(:disabled).active::before {
+			background-color: currentColor;
+			-webkit-box-shadow: none;
+			   -moz-box-shadow: none;
+			        box-shadow: none;
+		}
+		input[type="checkbox"].switch:not(:disabled):focus::after {
+			background-color: #f8f8f8;
+			-webkit-box-shadow: rgba(0, 0, 0, 0.2 ) 0px 3px 2px -2px,
+			                    rgba(0, 0, 0, 0.14) 0px 2px 3px 0px,
+			                    rgba(0, 0, 0, 0.12) 0px 1px 6px 0px,
+			                    rgba(128, 128, 128, 0.2) 0px 0px 0px 12px,
+			                    rgba(128, 128, 128, 0.2) 0px 0px 0px 0px;
+			   -moz-box-shadow: rgba(0, 0, 0, 0.2 ) 0px 3px 2px -2px,
+			                    rgba(0, 0, 0, 0.14) 0px 2px 3px 0px,
+			                    rgba(0, 0, 0, 0.12) 0px 1px 6px 0px,
+			                    rgba(128, 128, 128, 0.2) 0px 0px 0px 12px,
+			                    rgba(128, 128, 128, 0.2) 0px 0px 0px 0px;
+			        box-shadow: rgba(0, 0, 0, 0.2 ) 0px 3px 2px -2px,
+			                    rgba(0, 0, 0, 0.14) 0px 2px 3px 0px,
+			                    rgba(0, 0, 0, 0.12) 0px 1px 6px 0px,
+			                    rgba(128, 128, 128, 0.2) 0px 0px 0px 12px,
+			                    rgba(128, 128, 128, 0.2) 0px 0px 0px 0px;
+		}
+		input[type="checkbox"].switch:not(:disabled):active::after,
+		input[type="checkbox"].switch:not(:disabled).active::after {
+			background-color: #ffffff;
+			-webkit-box-shadow: rgba(0, 0, 0, 0.2 ) 0px 3px 3px -1px,
+			                    rgba(0, 0, 0, 0.14) 0px 2px 4px 0px,
+			                    rgba(0, 0, 0, 0.12) 0px 1px 7px 0px,
+			                    rgba(128, 128, 128, 0.1) 0px 0px 0px 12px,
+			                    rgba(128, 128, 128, 0.1) 0px 0px 0px 12px;
+			   -moz-box-shadow: rgba(0, 0, 0, 0.2 ) 0px 3px 3px -1px,
+			                    rgba(0, 0, 0, 0.14) 0px 2px 4px 0px,
+			                    rgba(0, 0, 0, 0.12) 0px 1px 7px 0px,
+			                    rgba(128, 128, 128, 0.1) 0px 0px 0px 12px,
+			                    rgba(128, 128, 128, 0.1) 0px 0px 0px 12px;
+			        box-shadow: rgba(0, 0, 0, 0.2 ) 0px 3px 3px -1px,
+			                    rgba(0, 0, 0, 0.14) 0px 2px 4px 0px,
+			                    rgba(0, 0, 0, 0.12) 0px 1px 7px 0px,
+			                    rgba(128, 128, 128, 0.1) 0px 0px 0px 12px,
+			                    rgba(128, 128, 128, 0.1) 0px 0px 0px 12px;
+		}
+		input[type="checkbox"].switch:checked {
+			background-color: rgba(128, 128, 128, 0.15);
+			-webkit-box-shadow: none;
+			   -moz-box-shadow: none;
+			        box-shadow: none;
+		}
+		input[type="checkbox"].switch:checked::before {
+			opacity: 0.54;
+		}
+		input[type="checkbox"].switch:checked::after,
+		input[type="checkbox"].switch:checked:hover::after,
+		input[type="checkbox"].switch:checked:focus::after,
+		input[type="checkbox"].switch:checked:active::after,
+		input[type="checkbox"].switch:checked.active::after {
+			background-color: currentColor;
+			
+			-webkit-transform: translateX(22px);
+			   -moz-transform: translateX(22px);
+			    -ms-transform: translateX(22px);
+			     -o-transform: translateX(22px);
+			        transform: translateX(22px);
+			
+			-webkit-transition-duration: inherit;
+			   -moz-transition-duration: inherit;
+			    -ms-transition-duration: inherit;
+			     -o-transition-duration: inherit;
+			        transition-duration: inherit;
+		}
+
+/* Override animations for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+	body,
+	.appBar,
+	input[type="checkbox"].switch {
+		-webkit-transition-duration: 0s;
+		   -moz-transition-duration: 0s;
+		    -ms-transition-duration: 0s;
+		     -o-transition-duration: 0s;
+		        transition-duration: 0s;
+	}
+	
+	progress.circular,
+	progress.circular::before,
+	progress.circular::after,
+	[role="progressbar"].circular,
+	[role="progressbar"].circular::before,
+	[role="progressbar"].circular::after {
+		-webkit-animation-duration: 0s;
+		   -moz-animation-duration: 0s;
+		    -ms-animation-duration: 0s;
+		     -o-animation-duration: 0s;
+		        animation-duration: 0s;
+		-webkit-animation-name: none;
+		   -moz-animation-name: none;
+		    -ms-animation-name: none;
+		     -o-animation-name: none;
+		        animation-name: none;
+	}
+		progress.circular::before,
+		[role="progressbar"].circular::before {
+			-webkit-transform: rotateZ(89deg);
+			   -moz-transform: rotateZ(89deg);
+			    -ms-transform: rotateZ(89deg);
+			     -o-transform: rotateZ(89deg);
+			        transform: rotateZ(89deg);
+		}
+		progress.circular::after,
+		[role="progressbar"].circular::after {
+			-webkit-transform: rotateZ(178deg);
+			   -moz-transform: rotateZ(178deg);
+			    -ms-transform: rotateZ(178deg);
+			     -o-transform: rotateZ(178deg);
+			        transform: rotateZ(178deg);
 		}
 }
 
+/* Keyframes for circular progress spinners */
 @-webkit-keyframes materialz-circular-progress-part1 {
 	0% {
 		-webkit-transform: rotateZ(0deg);
