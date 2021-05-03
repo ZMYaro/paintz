@@ -237,6 +237,7 @@ input[type="checkbox"] {
 		right: 0;
 		bottom: 0;
 		
+		-webkit-border-radius: 10px; /* 50% for old Android */
 		-webkit-border-radius: 50%;
 		   -moz-border-radius: 50%;
 		        border-radius: 50%;
@@ -290,6 +291,7 @@ input[type="checkbox"] {
 input[type="radio"] {
 	width: 20px;
 	height: 20px;
+	-webkit-border-radius: 10px; /* 50% for old Android */
 	-webkit-border-radius: 50%;
 	   -moz-border-radius: 50%;
 	        border-radius: 50%;
@@ -303,6 +305,7 @@ input[type="radio"] {
 		right: 0;
 		bottom: 0;
 		
+		-webkit-border-radius: 10px; /* 50% for old Android */
 		-webkit-border-radius: 50%;
 		   -moz-border-radius: 50%;
 		        border-radius: 50%;
@@ -463,6 +466,7 @@ progress {
 
 		width: 12px;
 		height: 12px;
+		-webkit-border-radius: 9px; /* 50% of maximum for old Android */
 		-webkit-border-radius: 50%;
 		        border-radius: 50%;
 		background-color: #40c4ff;
@@ -570,6 +574,12 @@ input[type="password"],
 input[type="email"],
 input[type="url"],
 input[type="number"],
+input[type="tel"],
+input[type="date"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
 textarea,
 select[size] {
 	-webkit-appearance: none;
@@ -606,6 +616,12 @@ select[size] > option {
 	input[type="email"]:focus,
 	input[type="url"]:focus,
 	input[type="number"]:focus,
+	input[type="tel"]:focus,
+	input[type="date"]:focus,
+	input[type="datetime-local"]:focus,
+	input[type="month"]:focus,
+	input[type="time"]:focus,
+	input[type="week"]:focus,
 	textarea:focus,
 	select[size]:focus {
 		border-color: #40c4ff;
@@ -618,6 +634,12 @@ select[size] > option {
 	input[type="email"]:focus,
 	input[type="url"]:focus,
 	input[type="number"]:focus,
+	input[type="tel"]:focus,
+	input[type="date"]:focus,
+	input[type="datetime-local"]:focus,
+	input[type="month"]:focus,
+	input[type="time"]:focus,
+	input[type="week"]:focus,
 	textarea:focus {
 		padding-bottom: 3px;
 		border-bottom-width: 2px;

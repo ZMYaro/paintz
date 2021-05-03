@@ -255,6 +255,7 @@ progress.circular::after,
 	   -moz-box-sizing: border-box;
 	        box-sizing: border-box;
 	
+	-webkit-border-radius: 512px; /* Big number for old Android */
 	-webkit-border-radius: 50%;
 	   -moz-border-radius: 50%;
 	        border-radius: 50%;
