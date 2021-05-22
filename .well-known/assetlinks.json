@@ -1,0 +1,8 @@
+[{
+	"relation": ["delegate_permission/common.handle_all_urls"],
+	"target": {
+		"namespace": "android_app",
+		"package_name": "com.zmyaro.paintz",
+		"sha256_cert_fingerprints": ["0C:69:9D:AA:9F:8E:8C:2A:62:C2:30:C0:DF:84:3B:6F:0F:67:EA:5E:E3:C9:DB:D4:B7:38:57:E6:CE:4B:5E:D6"]
+	}
+}]
