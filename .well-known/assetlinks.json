@@ -3,6 +3,9 @@
 	"target": {
 		"namespace": "android_app",
 		"package_name": "com.zmyaro.paintz",
-		"sha256_cert_fingerprints": ["0C:69:9D:AA:9F:8E:8C:2A:62:C2:30:C0:DF:84:3B:6F:0F:67:EA:5E:E3:C9:DB:D4:B7:38:57:E6:CE:4B:5E:D6"]
+		"sha256_cert_fingerprints": [
+			"29:EC:BB:30:A9:D8:E1:09:9D:57:2A:82:4C:AE:18:21:91:CF:2C:90:81:32:38:9D:8E:0C:29:27:2C:6A:99:FF",
+			"E7:59:EE:F2:FD:84:A2:A1:31:36:ED:FF:C5:9D:5B:5F:67:E1:0D:EF:1D:D9:18:07:B1:82:3A:C1:77:44:BD:A8"
+		]
 	}
 }]
