@@ -32,6 +32,10 @@ function ClipboardManager() {
 	}).bind(this));
 }
 
+// Define constants.
+ClipboardManager.prototype.CLIPBOARD_UNSUPPORTED_MESSAGE = 'Your browser does not support copying or cutting selections from PaintZ.  To use this feature, please switch to a supported browser, such as the latest Google Chrome.';
+ClipboardManager.prototype.CLIPBOARD_UNAUTHORIZED_MESSAGE = 'PaintZ needs permission to paste from your clipboard.  You may need to go into your browser\'s site settings to grant that permission.';
+
 /**
  * Handle something being pasted to the page.
  * @param {ClipboardEvent} e
@@ -83,7 +87,7 @@ ClipboardManager.prototype.triggerPaste = function () {
 		})
 		.catch(function (err) {
 			if (err.name === 'NotAllowedError') {
-				alert('PaintZ needs permission to paste from your clipboard.  You may need to go into your browser\'s site settings to grant that permission.');
+				alert(that.CLIPBOARD_UNAUTHORIZED_MESSAGE);
 			}
 		});
 	return true;
@@ -136,16 +140,17 @@ ClipboardManager.prototype.paste = function (image) {
  */
 ClipboardManager.prototype.copy = function (imageBlob) {
 	if (!navigator.clipboard || !navigator.clipboard.write) {
-		alert('Your browser does not support copying or cutting selections from PaintZ.  To use this feature, please switch to a supported browser, such as the latest Google Chrome.');
+		alert(this.CLIPBOARD_UNSUPPORTED);
 		return false;
 	}
 	
 	var clipboardItem = new ClipboardItem({ 'image/png': imageBlob });
 	
+	var that = this;
 	navigator.clipboard.write([clipboardItem])
 		.catch(function (err) {
 			if (err.name === 'NotAllowedError') {
-				alert('PaintZ needs permission to copy or cut to your clipboard.  You may need to go into your browser\'s site settings to grant that permission.');
+				alert(that.CLIPBOARD_UNAUTHORIZED_MESSAGE);
 			}
 		});
 	return true;
