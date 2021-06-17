@@ -62,6 +62,21 @@ function initCanvasContents() {
 		};
 		image.src = sessionStorage.lastState;
 	}
+	
+	// If the browser supports queuing files to open with the app.
+	// There should be nothing in session storage on launch, but this
+	// should overwrite that regardless.
+	if (window.launchQueue) {
+		launchQueue.setConsumer(function (launchParams) {
+			if (!launchParams.files.length) {
+				return;
+			}
+			// Open the first file in the queue.
+			launchParams.files[0].getFile().then(function (file) {
+				openImage(file);
+			});
+		});
+	}
 }
 
 /**
