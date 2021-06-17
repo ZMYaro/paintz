@@ -261,6 +261,17 @@ small,
 		font-weight: normal;
 	}
 
+#saveDialog progress {
+	display: none;
+}
+	#saveDialog.loading progress {
+		display: inline-block;
+	}
+	#saveDialog.loading #shareButton,
+	#saveDialog.loading #downloadLink {
+		display: none;
+	}
+
 #keyboardDialog table td:first-child {
 	white-space: nowrap;
 }
