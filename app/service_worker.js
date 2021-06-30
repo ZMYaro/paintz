@@ -69,6 +69,16 @@ self.addEventListener('fetch', function(ev) {
 		return fetch(ev.request);
 	}
 	
+	// Handle any file open request specially.
+	if (ev.request.method === 'POST' && new URL(ev.request.url).pathname === '/') {
+		ev.request.formData().then(function (formData) {
+			self.clients.get(ev.resultingClientId || ev.clientId).then(function (client) {
+				var file = formData.get('file');
+				client.postMessage({ file: file, action: 'load-image' });
+			});
+		});
+	}
+	
 	var url = ev.request.url.split('?')[0].split('#')[0];
 	// Make any URL to a directory look for index.html in that directory.
 	if (url.substr(-1) === '/') {

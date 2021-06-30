@@ -63,6 +63,12 @@ function initCanvasContents() {
 		image.src = sessionStorage.lastState;
 	}
 	
+	// If a shared file was received by the service worker, open it.
+	if (window.sharedFile) {
+		openImage(sharedFile);
+		delete window.sharedFile;
+	}
+	
 	// If the browser supports queuing files to open with the app.
 	// There should be nothing in session storage on launch, but this
 	// should overwrite that regardless.
