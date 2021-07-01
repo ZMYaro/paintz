@@ -16,10 +16,13 @@ Object.values = Object.values || function (obj) {
 };
 
 var Utils = {
-	/** Whether the device runs Apple software. */
+	/** {Boolean} Whether the device runs Apple software */
 	isApple: (navigator.userAgent.indexOf('Mac') !== -1),
 	
-	/** Whether the user prefers reduced motion. */
+	/** {Boolean} Whether the device runs a mobile or similarly limited OS */
+	isMobileLike: !!navigator.userAgent.match(/android|ipad|iphone|ipod|mobile/i),
+	
+	/** {Boolean} Whether the user prefers reduced motion. */
 	get prefersReducedMotion() {
 		return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 	},
