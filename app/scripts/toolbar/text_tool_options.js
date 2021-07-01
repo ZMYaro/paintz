@@ -207,8 +207,7 @@ TextToolOptionsToolbox.prototype._populateLocalFonts = function (fontFamilySelec
 TextToolOptionsToolbox.prototype._populateWebSafeFonts = function (fontFamilySelect) {
 	// There is no good way to feature detect browsers with extra fonts, so just exclude
 	// the mainstream “mobile” OSes :/
-	var treatAsMobile = navigator.userAgent.match(/android|ipad|iphone|ipod/i);
-	if (treatAsMobile) {
+	if (Utils.isMobileLike) {
 		return;
 	}
 	
