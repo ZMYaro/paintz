@@ -91,7 +91,7 @@ ColorPickerToolbox.prototype._setUp = function (contents) {
 		.addEventListener('click', this._handlePacManButtonClick.bind(this), false);
 	
 	// Set up the toolbar color picker.
-	var colorButtons = Array.prototype.slice.call(this._element.getElementsByTagName('button')),
+	var colorButtons = Array.from(this._element.getElementsByTagName('button')),
 		boundColorButtonClickHandler = this._handleColorButtonClick.bind(this);
 	colorButtons.forEach(function (colorButton) {
 		colorButton.addEventListener('click', boundColorButtonClickHandler, false);

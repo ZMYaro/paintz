@@ -65,7 +65,7 @@ Dialog.prototype._setUp = function (contents) {
 	}
 	
 	// Set up all close buttons.
-	Array.prototype.slice.call(this._element.querySelectorAll('.closeButton')).forEach(function (closeButton) {
+	Array.from(this._element.querySelectorAll('.closeButton')).forEach(function (closeButton) {
 		closeButton.onclick = this.close.bind(this);
 	}, this);
 	

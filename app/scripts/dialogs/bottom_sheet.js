@@ -33,7 +33,7 @@ BottomSheetDialog.prototype._setUp = function (contents) {
 	Dialog.prototype._setUp.call(this, contents);
 	
 	// Set up later buttons.
-	Array.prototype.slice.call(this._element.querySelectorAll('.postponeButton')).forEach(function (postponeButton) {
+	Array.from(this._element.querySelectorAll('.postponeButton')).forEach(function (postponeButton) {
 		postponeButton.onclick = this._postpone.bind(this);
 	}, this);
 };
