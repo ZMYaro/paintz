@@ -87,29 +87,50 @@ TextToolOptionsToolbox.prototype._setUp = function (contents) {
 	}, false);
 };
 
+/**
+ * @private
+ * Populate the font family menu with all fonts known to be safely accessible.
+ */
 TextToolOptionsToolbox.prototype._setUpFontFamilyMenu = function () {
 	var fontFamilySelect = this._element.querySelector('#fontFamilySelect');
 	
 	// There is no good way to feature detect browsers with extra fonts, so just exclude
-	// the mainstream “mobile” OSes :/\
+	// the mainstream “mobile” OSes :\
 	
 	var treatAsMobile = navigator.userAgent.match(/android|ipad|iphone|ipod/i);
 	if (!treatAsMobile) {
-		var divider = document.createElement('option');
-		divider.disabled = true;
-		fontFamilySelect.appendChild(divider);
-		
-		this.DESKTOP_FONTS.forEach(function (font) {
-			var newOption = document.createElement('option');
-			newOption.value = font.css;
-			newOption.style.fontFamily = font.css;
-			newOption.innerHTML = font.name;
-			fontFamilySelect.appendChild(newOption);
-		});
+		this._populateWebSafeFonts(fontFamilySelect);
 	}
 	
 	fontFamilySelect.value = settings.get('fontFamily');
 	fontFamilySelect.addEventListener('change', function (e) {
 		settings.set('fontFamily', e.target.value);
 	}, false);
+};
+
+/**
+ * @private
+ * Add a divider row to a <select> menu.
+ * @param {HTMLSelectElement} selectMenu - The drop-down menu to add the divider to
+ */
+TextToolOptionsToolbox.prototype._addDividerToMenu = function (selectMenu) {
+	var divider = document.createElement('option');
+		divider.disabled = true;
+	selectMenu.appendChild(divider);
+};
+
+/**
+ * @private
+ * Load “web safe” font families into the font family menu.
+ * @param {HTMLSelectElement} fontFamilySelect - The font family drop-down menu
+ */
+TextToolOptionsToolbox.prototype._populateWebSafeFonts = function (fontFamilySelect) {
+	this._addDividerToMenu(fontFamilySelect);
+	this.DESKTOP_FONTS.forEach(function (font) {
+		var newOption = document.createElement('option');
+		newOption.value = font.css;
+		newOption.style.fontFamily = font.css;
+		newOption.innerHTML = font.name;
+		fontFamilySelect.appendChild(newOption);
+	});
 };
