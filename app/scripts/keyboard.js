@@ -238,6 +238,14 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			}
 			break;
 		
+		case 78: // N
+			if (ctrlOrCmdOnly) {
+				e.preventDefault();
+				// Ctrl+N => Clear (new image)
+				dialogs.clear.open();
+			}
+			break;
+		
 		case 79: // O
 			if (ctrlOrCmdOnly) {
 				e.preventDefault();
