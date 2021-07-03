@@ -6,6 +6,8 @@
 	right: 0;
 	bottom: 0;
 	
+	overscroll-behavior: contain;
+	
 	display: -webkit-box;
 	display:    -moz-box;
 	display: -ms-flexbox;
