@@ -24,6 +24,11 @@
 	     -o-transition-property: background-color;
 	        transition-property: background-color;
 }
+	#dialogsContainer,
+	#progressContainer {
+		/* Prevent scrolling the canvas. */
+		overscroll-behavior: contain;
+	}
 	#dialogsContainer {
 		padding-top: 64px;
 	}
