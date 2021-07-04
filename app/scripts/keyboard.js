@@ -42,6 +42,22 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			}
 			break;
 		
+		case 33: // PgUp
+			if (ctrlOrCmdOnly) {
+				e.preventDefault();
+				// Ctrl+PgUp => Zoom in
+				zoomManager.zoomIn();
+			}
+			break;
+		
+		case 34: // PgDn
+			if (ctrlOrCmdOnly) {
+				e.preventDefault();
+				// Ctrl+PgDn => Zoom out
+				zoomManager.zoomOut();
+			}
+			break;
+		
 		case 37: // Left arrow
 			if (tools.currentTool instanceof SelectionTool) {
 				if (noModifiers) {
