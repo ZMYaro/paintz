@@ -51,6 +51,12 @@ ImageToolbox.prototype._setUp = function (contents) {
 		uploadInput.click();
 	}, false);
 	
+	// Print button.
+	var printBtn = this._element.querySelector('#printBtn');
+	printBtn.addEventListener('click', function (e) {
+		window.print();
+	}, false);
+	
 	// Undo and redo buttons.
 	this.undoBtn = this._element.querySelector('#undoBtn');
 	this.redoBtn = this._element.querySelector('#redoBtn');

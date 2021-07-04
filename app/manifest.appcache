@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2021-02-08, v1
+# 2021-07-04, v1
 index.html
 404.html
 manifest.webapp
@@ -51,6 +51,7 @@ images/icons/paint_bucket.svg
 images/icons/pan.svg
 images/icons/paste.svg
 images/icons/pencil.svg
+images/icons/print.svg
 images/icons/rect.svg
 images/icons/redo.svg
 images/icons/resize.svg
@@ -160,6 +161,7 @@ scripts/tools/tools.js
 styles/color_picker.css
 styles/dialogs.css
 styles/layout.css
+styles/print.css
 styles/toolbars.css
 styles/splash_screen.css
 styles/sub_page.css
