@@ -280,7 +280,11 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 80: // P
-			if (noModifiers) {
+			if (ctrlOrCmdOnly) {
+				e.preventDefault();
+				// Ctrl+P => Print
+				window.print();
+			} else if (noModifiers) {
 				e.preventDefault();
 				// P => Pencil tool
 				tools.switchTool('pencil');
