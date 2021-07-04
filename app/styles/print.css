@@ -22,5 +22,6 @@ body {
 #dialogsContainer,
 #bottomSheetsContainer,
 #progressContainer {
-	display: none;
+	/* Override any inline styles. */
+	display: none !important;
 }
