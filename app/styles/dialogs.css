@@ -89,16 +89,16 @@
 		background-color: #3f51b5;
 		color: white;
 	}
-		.dialog button[type="submit"]:hover,
-		.dialog button[type="submit"]:focus,
-		[role="button"].submitLink:hover,
-		[role="button"].submitLink:focus {
+		.dialog button[type="submit"]:not(:disabled):hover,
+		.dialog button[type="submit"]:not(:disabled):focus,
+		[role="button"].submitLink:not(:disabled):hover,
+		[role="button"].submitLink:not(:disabled):focus {
 			background-color: #4b5cb9;
 		}
-		.dialog button[type="submit"]:active,
-		.dialog button[type="submit"].active,
-		[role="button"].submitLink:active,
-		[role="button"].submitLink.active {
+		.dialog button[type="submit"]:not(:disabled):active,
+		.dialog button[type="submit"]:not(:disabled).active,
+		[role="button"].submitLink:not(:disabled):active,
+		[role="button"].submitLink:not(:disabled).active {
 			background-color: #5767bd;
 		}
 	.dialog#settingsDialog select:not([size]),
