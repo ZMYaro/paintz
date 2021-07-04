@@ -239,7 +239,12 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 78: // N
-			if (ctrlOrCmdOnly) {
+			if (ctrlOrCmd && e.shiftKey && !e.altKey && !metaOrControl) {
+				e.preventDefault();
+				// Ctrl+Shift+N => Clear canvas (no confirmation)
+				// TODO: Make this not access ClearDialog private method.
+				dialogs.clear._clear();
+			} else if (ctrlOrCmdOnly) {
 				e.preventDefault();
 				// Ctrl+N => Clear (new image)
 				dialogs.clear.open();

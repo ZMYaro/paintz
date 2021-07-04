@@ -15,7 +15,7 @@ KeyboardDialog.prototype.constructor = KeyboardDialog;
 
 // Define constants.
 /** @override @constant {String} The width of the dialog, as a CSS value */
-KeyboardDialog.prototype.WIDTH = '460px';
+KeyboardDialog.prototype.WIDTH = '512px';
 
 /**
  * @override
