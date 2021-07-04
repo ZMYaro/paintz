@@ -25,6 +25,11 @@ Site: http://templarian.com
 Twitter: @Templarian
 Location: Chicago, Illinois, USA
 
+SVG Optimiser: Peter Collingridge
+Site: https://petercollingridge.appspot.com
+Twitter: @Aleatoric
+Location: Oxford, UK
+
 Pac-Man: Toru Iwatani
 Location: Tokyo, Japan
 
