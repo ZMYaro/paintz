@@ -15,6 +15,9 @@ Object.values = Object.values || function (obj) {
 	return vals;
 };
 
+// Fake polyfill to prevent older browsers choking on this function.
+CanvasRenderingContext2D.prototype.setLineDash = CanvasRenderingContext2D.prototype.setLineDash || function () {};
+
 var Utils = {
 	/** {Boolean} Whether the device runs Apple software */
 	isApple: (navigator.userAgent.indexOf('Mac') !== -1),
