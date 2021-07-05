@@ -189,7 +189,7 @@ TextToolOptionsToolbox.prototype._populateLocalFonts = function (fontFamilySelec
 		.then(function (fonts) {
 			var fontFamilies = fonts.map(function (font) { return font.family; }),
 				// Use Set to automatically remove duplicates.
-				uniqueFontFamilies = [...new Set(fontFamilies)];
+				uniqueFontFamilies = Array.from(new Set(fontFamilies));
 			
 			fontFamilySelect.innerHTML = '';
 			that._addFontsToMenu(fontFamilySelect, that.BASE_FONTS);
