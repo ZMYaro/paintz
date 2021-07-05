@@ -223,12 +223,19 @@ KeyManager.prototype._handleKeyDown = function (e) {
 		case 73: // I
 			if (ctrlOrCmdOnly) {
 				e.preventDefault();
-				// Ctrl+I => Italic
 				
 				if (settings.get('tool') === 'text') {
+					// Ctrl+I => Italic (text tool)
 					toolbar.toolboxes.textToolOptions.italicToggle.checked =
 						!toolbar.toolboxes.textToolOptions.italicToggle.checked;
 					settings.set('italic', toolbar.toolboxes.textToolOptions.italicToggle.checked);
+				} else {
+					// Ctrl+I => Invert colors
+					if (tools.currentTool instanceof SelectionTool) {
+						tools.currentTool.invertColors();
+					} else {
+						tools.selection.invertColors();
+					}
 				}
 			}
 			if (noModifiers) {
