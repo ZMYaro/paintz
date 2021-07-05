@@ -101,6 +101,8 @@
 	width: 110px;
 }
 #outlineOptions input[type="radio"] + label[role="button"],
+#selectOptions button,
+#selectOptions [role="button"],
 #textFormatOptions input[type="checkbox"] + label[role="button"],
 #textFillOff + label[role="button"] {
 	margin-left: 1px;

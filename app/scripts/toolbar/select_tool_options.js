@@ -60,6 +60,11 @@ SelectionToolOptionsToolbox.prototype._setUp = function (contents) {
 		tools.currentTool.flip(true);
 	}, false);
 	
+	var invertColorsBtn = this._element.querySelector('#invertColorsBtn');
+	invertColorsBtn.addEventListener('click', function () {
+		tools.currentTool.invertColors();
+	}, false);
+	
 	var transparentSelectionOn = this._element.querySelector('#transparentSelectionOn');
 	transparentSelectionOn.checked = settings.get('transparentSelection');
 	transparentSelectionOn.addEventListener('change', function() {

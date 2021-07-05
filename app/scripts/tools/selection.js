@@ -343,6 +343,60 @@ SelectionTool.prototype.cropToSelection = function () {
 };
 
 /**
+ * Invert the colors of the selection.  If there is no selection, invert the colors of the entire canvas.
+ */
+SelectionTool.prototype.invertColors = function () {
+	if (this._selection) {
+		this._preCxt.save();
+		cursorCxt.save();
+		
+		// Copy the selection content to the cursor canvas because you
+		// cannot put image data with composite modes.
+		Utils.clearCanvas(cursorCxt);
+		cursorCanvas.width = this._selection.width;
+		cursorCanvas.height = this._selection.height;
+		cursorCxt.putImageData(this._selection.opaqueContent, 0, 0);
+		
+		// Invert the selection on the pre-canvas.
+		this._preCxt.putImageData(this._selection.opaqueContent, this._selection.x, this._selection.y);
+		this._preCxt.globalCompositeOperation = 'difference';
+		this._preCxt.fillStyle = '#ffffff';
+		this._preCxt.fillRect(
+			this._selection.x, this._selection.y,
+			this._selection.width, this._selection.height);
+		
+		// Re-mask to the shape of the selection.
+		this._preCxt.globalCompositeOperation = 'destination-in';
+		this._preCxt.drawImage(cursorCanvas, this._selection.x, this._selection.y);
+		
+		// Set the re-masked image data as the selection content.
+		this._selection.opaqueContent = this._preCxt.getImageData(
+			this._selection.x, this._selection.y,
+			this._selection.width, this._selection.height);
+		
+		// Reapply background color transparency on the new colors.
+		this.setTransparentBackground();
+		
+		// Note the selection was altered.
+		this._selection.transformed = true;
+		
+		// Restore canvas states.
+		this._preCxt.restore();
+		cursorCxt.restore();
+	} else {
+		// Invert the whole canvas.
+		this._cxt.save();
+		this._cxt.globalCompositeOperation = 'difference';
+		this._cxt.fillStyle = '#ffffff';
+		this._cxt.fillRect(0, 0, this._cxt.canvas.width, this._cxt.canvas.height);
+		this._cxt.restore();
+		
+		// Save the new state.
+		undoStack.addState();
+	}
+};
+
+/**
  * Flip the selection over its center.  If there is no selection, flip the entire canvas.
  * @param {Boolean} vertical - True if vertical, false if horizontal
  */
@@ -355,7 +409,7 @@ SelectionTool.prototype.flip = function (vertical) {
 		cursorCanvas.height = this._selection.height;
 		cursorCxt.putImageData(this._selection.opaqueContent, 0, 0);
 		
-		// Flip the precanvas and draw the selection to it.
+		// Flip the pre-canvas and draw the selection to it.
 		Utils.clearCanvas(this._preCxt);
 		this._preCxt.save();
 		this._preCxt.translate(
@@ -373,7 +427,7 @@ SelectionTool.prototype.flip = function (vertical) {
 		// Reapply transparency.
 		this.setTransparentBackground();
 		
-		// Note that the selection was flipped.
+		// Note the selection was flipped.
 		this._selection.transformed = true;
 		
 		// Put the updated selection back in place.
@@ -408,7 +462,7 @@ SelectionTool.prototype.rotate = function (clockwise) {
 		cursorCanvas.height = this._selection.height;
 		cursorCxt.putImageData(this._selection.opaqueContent, 0, 0);
 		
-		// Rotate the precanvas and draw the selection to it.
+		// Rotate the pre-canvas and draw the selection to it.
 		this._preCxt.canvas.width =
 			this._preCxt.canvas.height = Math.max(this._selection.width, this._selection.height);
 		this._preCxt.save();
