@@ -212,6 +212,13 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			}
 			break;
 		
+		case 71: // G
+			if (ctrlOrCmdOnly) {
+				e.preventDefault();
+				// Ctrl+G => Toggle grid
+				settings.set('grid', !settings.get('grid'));
+			}
+		
 		case 72: // H
 			if (noModifiers) {
 				e.preventDefault();
