@@ -67,6 +67,14 @@ ImageToolbox.prototype._setUp = function (contents) {
 	var resizeBtn = this._element.querySelector('#resizeBtn');
 	dialogs.resize.trigger = resizeBtn;
 	resizeBtn.addEventListener('click', dialogs.resize.open.bind(dialogs.resize), false);
+	
+	
+	var pasteBtn = this._element.querySelector('#pasteBtn');
+	pasteBtn.addEventListener('click', function () {
+		if (!clipboard.triggerPaste() && !document.execCommand('paste')) {
+			alert('For now, you need to use ' + (Utils.isApple ? '\u2318' : 'Ctrl+') + 'V to paste an image into PaintZ.');
+		}
+	}, false);
 };
 
 /**
