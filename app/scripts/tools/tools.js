@@ -82,7 +82,12 @@ ToolManager.prototype._handlePointerDown = function (e) {
 	e.preventDefault();
 	e.stopPropagation();
 	
-	preCanvas.focus();
+	// If something other than the canvas is focused, unfocus it to make
+	// it seem as though focus has moved to the canvas.  (Do not actually
+	// focus the canvas because that can scroll the window.)
+	if (document.activeElement !== preCanvas) {
+		document.activeElement.blur();
+	}
 	
 	var adjustedX = Utils.getCanvasX(e.pageX) / zoomManager.level,
 		adjustedY = Utils.getCanvasY(e.pageY) / zoomManager.level;
@@ -123,7 +128,6 @@ ToolManager.prototype._handlePointerMove = function (e) {
 	
 	e.preventDefault();
 	e.stopPropagation();
-	preCanvas.focus(); // Pull focus from whatever else it might be on.
 	
 	// Update the tool.
 	this.currentTool.move({
