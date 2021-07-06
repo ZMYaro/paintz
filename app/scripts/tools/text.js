@@ -88,8 +88,8 @@ TextTool.prototype.start = function (pointerState) {
 		};
 		this._textElem.innerHTML = '';
 		this.updateTextElem();
-		if (!document.body.contains(this._textElem)) {
-			document.body.appendChild(this._textElem);
+		if (!canvasPositioner.contains(this._textElem)) {
+			canvasPositioner.appendChild(this._textElem);
 		}
 	}
 	this._textElem.style.pointerEvents = null;
@@ -295,10 +295,10 @@ TextTool.prototype._removeTextElem = function () {
 	this._saveText().then((function () {
 		// Remove the text region and element.
 		delete this._textRegion;
-		if (document.body.contains(this._textElem)) {
+		if (canvasPositioner.contains(this._textElem)) {
 			try {
 				// Wrapping in a try block because sometimes contains incorrectly returns true.
-				document.body.removeChild(this._textElem);
+				canvasPositioner.removeChild(this._textElem);
 			} catch (err) {}
 		}
 		keyManager.enabled = true;

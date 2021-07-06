@@ -108,7 +108,7 @@ FloatingSelectionToolbar.prototype._updatePosition = function () {
  * Add and show the toolbar on the page.
  */
 FloatingSelectionToolbar.prototype.show = function () {
-	document.body.appendChild(this._element);
+	canvasPositioner.appendChild(this._element);
 };
 
 /**

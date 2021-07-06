@@ -73,7 +73,7 @@ SelectionTool.prototype.start = function (pointerState) {
 			transformed: false
 		};
 		this._updateSelectionOutline();
-		document.body.appendChild(this._outline);
+		canvasPositioner.appendChild(this._outline);
 	}
 };
 
@@ -219,7 +219,7 @@ SelectionTool.prototype.clear = function () {
 	
 	// Delete the selection.
 	this._toolbar.hide();
-	document.body.removeChild(this._outline);
+	canvasPositioner.removeChild(this._outline);
 	undoStack.addState();
 	delete this._selection;
 };
@@ -309,8 +309,8 @@ SelectionTool.prototype.deselectAll = function () {
 	}
 	Utils.clearCanvas(this._preCxt);
 	this._toolbar.hide();
-	if (document.body.contains(this._outline)) {
-		document.body.removeChild(this._outline);
+	if (canvasPositioner.contains(this._outline)) {
+		canvasPositioner.removeChild(this._outline);
 	}
 };
 

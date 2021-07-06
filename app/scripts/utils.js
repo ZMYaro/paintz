@@ -170,7 +170,7 @@ var Utils = {
 	 * @returns {Number}
 	 */
 	getCanvasX: function (pageX) {
-		return pageX - preCanvas.offsetLeft;
+		return pageX - canvasPositioner.offsetLeft;
 	},
 
 	/**
@@ -179,7 +179,7 @@ var Utils = {
 	 * @returns {Number}
 	 */
 	getCanvasY: function (pageY) {
-		return pageY - preCanvas.offsetTop;
+		return pageY - canvasPositioner.offsetTop;
 	},
 	
 	/**

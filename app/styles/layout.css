@@ -8,15 +8,24 @@
 
 body {
 	overscroll-behavior-y: contain; /* Prevent pull-to-refresh. */
+	
+	position: absolute; /* Stretch to contain canvasas wider than the window */
+	padding: 16px;
+	padding-top: 128px; /* 16px padding + 112px toolbar */
+	padding-bottom: 48px; /* 16px padding + 32px bottom bar */
+}
+
+#canvasPositioner {
+	position: relative;
 }
 
 .canvas,
 .floatingRegion,
 .floatingToolbar {
 	position: absolute;
-	top: 104px; /* Toolbar offset */
+	top: 0;
 	left: 0;
-	margin: 20px 16px 48px;
+	margin: 0;
 }
 
 	.canvas {
@@ -56,6 +65,7 @@ body {
 	#gridCanvas {
 		pointer-events: none;
 	}
+	
 	.floatingRegion,
 	.floatingRegion:focus {
 		border: 1px solid white;
@@ -68,7 +78,6 @@ body {
 	}
 
 .floatingToolbar {
-	position: absolute;
 	padding: 0;
 	z-index: 3;
 }
@@ -113,8 +122,7 @@ body {
 }
 
 @media (max-width: 600px) {
-	.canvas,
-	.floatingRegion {
-		top: 96px;
+	body {
+		padding-top: 120px; /* 16px padding + 104px toolbar */
 	}
 }

@@ -103,6 +103,7 @@ SettingsManager.prototype._toExpectedType = function (setting, value) {
 SettingsManager.prototype._implementSettingChange = function (setting, value) {
 	switch (setting) {
 		case 'width':
+			canvasPositioner.style.width = value + 'px';
 			if (canvas.width !== value) {
 				canvas.width = value;
 			}
@@ -118,6 +119,7 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			}
 			break;
 		case 'height':
+			canvasPositioner.style.height = value + 'px';
 			if (canvas.height !== value) {
 				canvas.height = value;
 			}

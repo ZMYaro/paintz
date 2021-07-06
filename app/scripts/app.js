@@ -7,7 +7,8 @@ var PNG_REGEX = (/.+\.png$/i),
 	DEFAULT_TITLE = 'untitled.png',
 	PAGE_TITLE_SUFFIX = ' - PaintZ';
 
-var canvas,
+var canvasPositioner,
+	canvas,
 	preCanvas,
 	gridCanvas,
 	cursorCanvas,
@@ -28,6 +29,8 @@ var canvas,
  * Get the canvases and their drawing contexts, and set up event listeners.
  */
 function initCanvas() {
+	// Get the canvas container.
+	canvasPositioner = document.getElementById('canvasPositioner');
 	// Get the real canvas.
 	canvas = document.getElementById('canvas');
 	cxt = canvas.getContext('2d');
