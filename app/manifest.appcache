@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2021-07-04, v1
+# 2021-07-06, v1
 index.html
 404.html
 manifest.webapp
@@ -39,6 +39,7 @@ images/icons/help.svg
 images/icons/image.svg
 images/icons/info.svg
 images/icons/instagram.svg
+images/icons/invert_colors.svg
 images/icons/italic.svg
 images/icons/line.svg
 images/icons/line_weight.svg
