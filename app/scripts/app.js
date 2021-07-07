@@ -227,7 +227,8 @@ function checkSaveCountMilestone() {
 	var MILESTONES = {
 		'10': 'install',
 		'50': 'coffee',
-		'100': 'rate'
+		'100': 'rate',
+		'500': 'patreon'
 	};
 	
 	var saveCount = settings.get('saveCount');
@@ -245,6 +246,7 @@ window.addEventListener('load', function () {
 	dialogs.install = new InstallDialog();
 	dialogs.keyboard = new KeyboardDialog();
 	dialogs.rate = new RateDialog();
+	dialogs.patreon = new PatreonDialog();
 	
 	// Initialize everything.
 	initCanvas();
