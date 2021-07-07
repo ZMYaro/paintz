@@ -68,6 +68,14 @@ function sum(a, b) { ... }
 ```
 
 
+## Development environment
+
+To run a local instance of PaintZ:
+
+1. Clone the repository.
+2. Serve the `app` directory in the repository from the HTTP server of your choice (e.g., Node's `http-server`, Python 2's `SimpleHTTPServer`, or Python 3's `http.server`).
+
+
 ## Credits
 
 PaintZ is developed and maintained by [Zachary Yaro](https://zmyaro.com).
