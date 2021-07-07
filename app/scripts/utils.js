@@ -8,7 +8,7 @@ HTMLElement.prototype.remove = HTMLElement.prototype.remove || function () { thi
 Object.values = Object.values || function (obj) {
 	var vals = [];
 	for (var key in obj) {
-		if (obj.hasOwnProperty(obj[key]) && obj.propertyIsEnumerable(obj[key])) {
+		if (obj.hasOwnProperty(key) && obj.propertyIsEnumerable(key)) {
 			vals.push(obj[key]);
 		}
 	}
