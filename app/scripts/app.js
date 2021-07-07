@@ -263,19 +263,20 @@ window.addEventListener('load', function () {
 	var dialogLoadPromises = Object.values(dialogs).map(function (dialog) { return dialog.loadPromise; }),
 		masterLoadPromise = Promise.all([toolbar.loadPromise, dialogLoadPromises]);
 	
-	masterLoadPromise.then(postLoadInit);
-	masterLoadPromise.catch(function (err) {
-		var errorDisplay = document.createElement('p'),
-			errorMessage = document.createElement('span');
-		errorDisplay.innerHTML = 'Oops, something went wrong!  Maybe try again later?<br /><br />If this keeps happening, you can tell the developer: ';
-		errorMessage.style.display = 'inline-block';
-		errorMessage.innerText += '\u201c' + err + '\u201d';
-		errorDisplay.appendChild(errorMessage);
-		
-		var splashScreen = document.getElementById('splashScreen');
-		splashScreen.removeChild(splashScreen.querySelector('progress'));
-		splashScreen.appendChild(errorDisplay);
-	});
+	masterLoadPromise
+		.then(postLoadInit)
+		.catch(function (err) {
+			var errorDisplay = document.createElement('p'),
+				errorMessage = document.createElement('span');
+			errorDisplay.innerHTML = 'Oops, something went wrong!  Maybe try again later?<br /><br />If this keeps happening, you can tell the developer: ';
+			errorMessage.style.display = 'inline-block';
+			errorMessage.innerText += '\u201c' + err + '\u201d';
+			errorDisplay.appendChild(errorMessage);
+			
+			var splashScreen = document.getElementById('splashScreen');
+			splashScreen.removeChild(splashScreen.querySelector('progress'));
+			splashScreen.appendChild(errorDisplay);
+		});
 }, false);
 
 function postLoadInit() {
