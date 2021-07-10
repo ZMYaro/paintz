@@ -38,7 +38,7 @@ AppToolbox.prototype._setUp = function (contents) {
 		} else if (canvas.msRequestFullscreen) {
 			canvas.msRequestFullscreen();
 		} else {
-			alert('Sorry, your web browser does not support full screen mode.');
+			alert('Your browser or system does not support full screen mode.');
 		}
 	}, false);
 	

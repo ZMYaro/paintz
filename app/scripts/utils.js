@@ -247,7 +247,7 @@ var Utils = {
 	readImage: function (file) {
 		return new Promise(function (resolve, reject) {
 			if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
-				reject('Please switch to a browser that supports the file APIs, such as Google Chrome.');
+				reject('Please switch to a browser that supports the file APIs, such as the latest Google Chrome.');
 				return;
 			}
 			if (!file) {
