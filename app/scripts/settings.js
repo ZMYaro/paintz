@@ -103,14 +103,14 @@ SettingsManager.prototype._toExpectedType = function (setting, value) {
 SettingsManager.prototype._implementSettingChange = function (setting, value) {
 	switch (setting) {
 		case 'width':
-			canvasPositioner.style.width = value + 'px';
 			if (canvas.width !== value) {
 				canvas.width = value;
 			}
 			if (preCanvas.width !== value) {
 				preCanvas.width = value;
 			}
-			gridCanvas.width = value * zoomManager.level;
+			canvasPositioner.style.width = (value * zoomManager.level) + 'px';
+			gridCanvas.width = (value * zoomManager.level);
 			if (this.get('grid')) {
 				zoomManager.drawGrid();
 			}
@@ -119,14 +119,14 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			}
 			break;
 		case 'height':
-			canvasPositioner.style.height = value + 'px';
 			if (canvas.height !== value) {
 				canvas.height = value;
 			}
 			if (preCanvas.height !== value) {
 				preCanvas.height = value;
 			}
-			gridCanvas.height = value * zoomManager.level;
+			canvasPositioner.style.height = (value * zoomManager.level) + 'px';
+			gridCanvas.height = (value * zoomManager.level);
 			if (this.get('grid')) {
 				zoomManager.drawGrid();
 			}
