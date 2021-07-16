@@ -43,6 +43,11 @@ function ToolbarManager() {
 	/** @private {Toolbox} The currently shown tool options toolbox */
 	this._currentToolOptionsToolbox = this.toolboxes.drawToolOptions;
 	
+	// Set up scroll event listeners for different browsers.
+	var boundScrollHandler = this._handleScroll.bind(this);
+	this._mainToolbar.addEventListener('wheel', boundScrollHandler, false);
+	this._mainToolbar.addEventListener('mousewheel', boundScrollHandler, false);
+	
 	var toolboxLoadPromises =
 		Object.values(this.toolboxes)
 		.map(function (toolbox) { return toolbox.loadPromise; });
@@ -67,6 +72,27 @@ ToolbarManager.prototype._addDivider = function (toolbar) {
 	var divider = document.createElement('span');
 	divider.className = 'divider';
 	toolbar.appendChild(divider);
+};
+
+/**
+ * @private
+ * Handle the user scrolling the toolbar and convert vertical scrolling to horizontal scrolling if need be.
+ * @param {WheelEvent|Event} ev
+ */
+ToolbarManager.prototype._handleScroll = function (ev) {
+	if (Utils.checkModifierKeys(ev)) {
+		// Do not intercept if combined with a modifier key.
+		return;
+	}
+	var scrollX = ev.deltaX || ev.wheelDeltaX || 0,
+		scrollY = ev.deltaY || ev.wheelDeltaY || ev.wheelDelta || 0;
+		
+	if (Math.abs(scrollY) > Math.abs(scrollX)) {
+		// If there is primarily or exclusively vertical scrolling,
+		// intercept and map it to horizontal scrolling.
+		ev.preventDefault();
+		this._mainToolbar.scrollLeft += scrollY;
+	}
 };
 
 /**
