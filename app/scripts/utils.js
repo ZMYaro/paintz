@@ -31,6 +31,16 @@ var Utils = {
 	},
 	
 	/**
+	 * Alphabetize items without sorting capitalized items before uncapitalized items.
+	 * @param {String} a - The first element for comparison
+	 * @param {String} b - The second element for comparison
+	 * @returns {Number} -1 if a < b, or 1 if a > b
+	 */
+	caseInsensitiveSort: function (a, b) {
+		return (a.toLowerCase() < b.toLowerCase() ? -1 : 1);
+	},
+	
+	/**
 	 * Check whether any modifier keys are pressed for the given event.
 	 * @param {MouseEvent} e - The event for which to check the keys
 	 * @returns {Boolean} - Whether any modifier key is pressed
