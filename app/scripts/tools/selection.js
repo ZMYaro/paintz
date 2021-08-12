@@ -33,7 +33,8 @@ SelectionTool.prototype.activate = function () {
 SelectionTool.prototype.start = function (pointerState) {
 	this._roundPointerState(pointerState);
 	
-	// Hide the selection toolbar.
+	// Hide the resize handles and selection toolbar while creating/moving.
+	this._outline.showHandles = false;
 	this._toolbar.hide();
 	
 	// If a selection exists and the pointer is inside it, drag the selection.
@@ -75,6 +76,8 @@ SelectionTool.prototype.start = function (pointerState) {
 			transformed: false
 		};
 		this._updateSelectionOutline();
+		// Hide resize handles while creating.
+		this._outline.showHandles = false;
 		this._outline.addToDOM();
 	}
 };
@@ -91,12 +94,12 @@ SelectionTool.prototype.move = function (pointerState) {
 	
 	this._roundPointerState(pointerState);
 	
-	// If there is a pointer offset, move the selection.
-	// If there is no pointer offset, then this must be a new selection.
 	if (this._selection.pointerOffset) {
+		// If there is a pointer offset, move the selection.
 		this._selection.x = pointerState.x - this._selection.pointerOffset.x;
 		this._selection.y = pointerState.y - this._selection.pointerOffset.y;
 	} else {
+		// Otherwise, this is a new selection.
 		// Limit the region to the canvas.
 		pointerState.x = Utils.constrainValue(pointerState.x, 0, this._cxt.canvas.width);
 		pointerState.y = Utils.constrainValue(pointerState.y, 0, this._cxt.canvas.height);
@@ -161,13 +164,14 @@ SelectionTool.prototype.end = function (pointerState) {
 	
 	this._preCxt.canvas.style.cursor = 'crosshair';
 	
-	// If there is a pointer offset, remove it.
-	// If a new selection was created, ensure the dimensions are valid values.
 	if (this._selection.pointerOffset) {
+		// If there is a pointer offset, the selection was being moved, so just remove the pointer offset.
 		delete this._selection.pointerOffset;
 	} else {
-		// If either dimension is zero, the selection is invalid.
+		// Otherwise, a new selection was created.
+		
 		if (this._selection.width === 0 || this._selection.height === 0) {
+			// If either dimension is zero, the selection is invalid.
 			this.deselectAll();
 			return;
 		}
@@ -182,12 +186,13 @@ SelectionTool.prototype.end = function (pointerState) {
 			this._selection.width, this._selection.height);
 		
 		// Make the selection transparent if the setting is enabled.
-		// This creates _selection.content whether or not transparency is enabled.
+		// This creates `this._selection.content` whether or not transparency is enabled.
 		this.setTransparentBackground();
 	}
 	
-	// Show the selection toolbar if there is an active selection.
 	if (this._selection) {
+		// Show resize handles and selection toolbar once done creating/moving if there is an active selection.
+		this._outline.showHandles = true;
 		this._toolbar.show();
 	}
 };
