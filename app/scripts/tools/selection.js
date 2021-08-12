@@ -15,6 +15,16 @@ function SelectionTool(cxt, preCxt) {
 SelectionTool.prototype = Object.create(Tool.prototype);
 SelectionTool.prototype.constructor = SelectionTool;
 
+// Define constants.
+/** @constant {Number} The minimum x-coordinate for the floating selection toolbar, relative to the canvas */
+SelectionTool.prototype.TOOLBAR_MIN_X = -8;
+/** @constant {Number} The minimum y-coordinate for the floating selection toolbar, relative to the canvas */
+SelectionTool.prototype.TOOLBAR_MIN_Y = -68;
+/** @constant {Number} The x-offset of the floating selection toolbar from the selection's left side */
+SelectionTool.prototype.TOOLBAR_OFFSET_X = 8;
+/** @constant {Number} The y-offset of the floating selection toolbar from the selection's top side */
+SelectionTool.prototype.TOOLBAR_OFFSET_Y = -68;
+
 /**
  * @override
  * Handle the selection tool becoming the active tool.
@@ -603,8 +613,8 @@ SelectionTool.prototype._updateSelectionOutline = function () {
 		zoomedWidth = Math.ceil(zoomManager.level * this._selection.width),
 		zoomedHeight = Math.ceil(zoomManager.level * this._selection.height);
 	
-	this._toolbar.x = Math.max(-8, zoomedX + 8);
-	this._toolbar.y = Math.max(-56, zoomedY - 52);
+	this._toolbar.x = Math.max(this.TOOLBAR_MIN_X, zoomedX + this.TOOLBAR_OFFSET_X);
+	this._toolbar.y = Math.max(this.TOOLBAR_MIN_Y, zoomedY + this.TOOLBAR_OFFSET_Y);
 	
 	this._outline.x = zoomedX;
 	this._outline.y = zoomedY;
