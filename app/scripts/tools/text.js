@@ -69,6 +69,8 @@ TextTool.prototype.start = function (pointerState) {
 			x: pointerState.x - this._textRegionData.x,
 			y: pointerState.y - this._textRegionData.y
 		};
+		// Hide resize handles while moving.
+		this._textRegion.showHandles = false;
 		this._preCxt.canvas.style.cursor =
 			this._textArea.style.cursor = 'move';
 	} else {
@@ -85,6 +87,8 @@ TextTool.prototype.start = function (pointerState) {
 		};
 		this._textArea.innerHTML = '';
 		this.updateTextElem();
+		// Hide resize handles while creating.
+		this._textRegion.showHandles = false;
 		this._textRegion.addToDOM();
 	}
 	
@@ -130,12 +134,13 @@ TextTool.prototype.move = function (pointerState) {
 	
 	Utils.clearCanvas(this._preCxt);
 	
-	// If there is no pointer offset, then this must be a new text region.
 	if (this._textRegionData.pointerOffset) {
+		// If there is a pointer offset, move the text box.
 		this._textRegionData.x = pointerState.x - this._textRegionData.pointerOffset.x;
 		this._textRegionData.y = pointerState.y - this._textRegionData.pointerOffset.y;
 	} else {
-		// Limit the region to the canvas.
+		// Otherwise, this is a new box.
+		// Limit the box to the canvas.
 		pointerState.x = Math.max(0, Math.min(this._cxt.canvas.width, pointerState.x));
 		pointerState.y = Math.max(0, Math.min(this._cxt.canvas.height, pointerState.y));
 		
@@ -198,10 +203,11 @@ TextTool.prototype.end = function (pointerState) {
 	this._textArea.style.cursor = null;
 	this._preCxt.canvas.style.cursor = 'crosshair';
 	
-	// If a new text region was created, ensure the dimensions are valid values.
 	if (this._textRegionData && !this._textRegionData.pointerOffset) {
-		// If either dimension is zero, the region is invalid.
+		// If there was no pointer offset, a new text box was created.
+		
 		if (this._textRegionData.width < TextTool.MIN_SIZE || this._textRegionData.height < TextTool.MIN_SIZE) {
+			// If either dimension is zero, the region is invalid.
 			this._removeTextElem();
 			return;
 		}
@@ -213,6 +219,9 @@ TextTool.prototype.end = function (pointerState) {
 		// Focus the text box.
 		this._textArea.focus();
 	}
+	
+	// Show resize handles once done creating/moving.
+	this._textRegion.showHandles = true;
 };
 
 /**

@@ -9,9 +9,12 @@ function FloatingRegion() {
 		this._width =
 		this._height = 0;
 	this._scale = 1;
+	this._showHandles = true;
 	
 	this.elem = document.createElement('div');
 	this.elem.className = 'floatingRegion';
+	
+	this._addDragHandles();
 	
 	setTimeout((function () {
 		// TODO: Rewrite this to not access a private field.
@@ -69,8 +72,30 @@ Object.defineProperties(FloatingRegion.prototype, {
 			this._height = value;
 			this.elem.style.height = value + 'px';
 		}
+	},
+	showHandles: {
+		get: function () {
+			return this._showHandles;
+		},
+		set: function (value) {
+			// For browsers that do not support calling `classList.toggle` with a boolean.
+			this.elem.classList[value ? 'remove' : 'add']('hideHandles');
+			this._showHandles = value;
+		}
 	}
 });
+
+/**
+ * Create and append drag handle elements for the draggable region.
+ */
+FloatingRegion.prototype._addDragHandles = function () {
+	['nw', 'n', 'ne', 'e', 'se', 's', 'sw', 'w'].forEach(function (direction) {
+		var dragHandle = document.createElement('div');
+		dragHandle.className = 'resizeHandle resize' + direction.toUpperCase();
+		// TODO: Add event listener.
+		this.elem.appendChild(dragHandle);
+	}, this);
+};
 
 /**
  * Update the region's CSS translation to the current x- and y-values.

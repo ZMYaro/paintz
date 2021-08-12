@@ -80,7 +80,7 @@ body {
 			content: '';
 			display: block;
 			position: absolute;
-			left: -24px;
+			left: -24px; /* Floating region grabbable margin */
 			top: -24px;
 			right: -24px;
 			bottom: -24px;
@@ -100,6 +100,84 @@ body {
 			resize: none;
 			cursor: text;
 		}
+		.floatingRegion .resizeHandle {
+			position: absolute;
+			background-color: white;
+			width: 24px; /* Floating region grabbable margin */
+			height: 24px;
+			-webkit-border-radius: 12px; /* 0.5 * grabbable margin */
+			   -moz-border-radius: 12px;
+			        border-radius: 12px;
+			-webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.26), 0 1px 5px 0 rgba(0, 0, 0, 0.16);
+			   -moz-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.26), 0 1px 5px 0 rgba(0, 0, 0, 0.16);
+			        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.26), 0 1px 5px 0 rgba(0, 0, 0, 0.16);
+		}
+			.floatingRegion.hideHandles .resizeHandle {
+				visibility: hidden;
+			}
+			.floatingRegion .resizeHandle.resizeNW {
+				left: -24px;
+				top: -24px;
+				cursor: nwse-resize;
+				cursor: nw-resize;
+				-webkit-border-bottom-right-radius: 0;
+				    -moz-border-radius-bottomright: 0;
+				        border-bottom-right-radius: 0;
+			}
+			.floatingRegion .resizeHandle.resizeN {
+				left: 45%;
+				left: calc(50% - 12px);
+				top: -24px;
+				cursor: ns-resize;
+				cursor: n-resize;
+			}
+			.floatingRegion .resizeHandle.resizeNE {
+				right: -24px;
+				bottom: 100%;
+				cursor: nesw-resize;
+				cursor: ne-resize;
+				-webkit-border-bottom-left-radius: 0;
+				    -moz-border-radius-bottomleft: 0;
+				        border-bottom-left-radius: 0;
+			}
+			.floatingRegion .resizeHandle.resizeE {
+				left: 100%;
+				top: 45%;
+				top: calc(50% - 12px);
+				cursor: ew-resize;
+				cursor: e-resize;
+			}
+			.floatingRegion .resizeHandle.resizeSE {
+				right: -24px;
+				bottom: -24px;
+				cursor: nwse-resize;
+				cursor: se-resize;
+				-webkit-border-top-left-radius: 0;
+				    -moz-border-radius-topleft: 0;
+				        border-top-left-radius: 0;
+			}
+			.floatingRegion .resizeHandle.resizeS {
+				left: 45%;
+				left: calc(50% - 12px);
+				bottom: -24px;
+				cursor: ns-resize;
+				cursor: s-resize;
+			}
+			.floatingRegion .resizeHandle.resizeSW {
+				left: -24px;
+				bottom: -24px;
+				cursor: nesw-resize;
+				cursor: sw-resize;
+				-webkit-border-top-right-radius: 0;
+				    -moz-border-radius-topright: 0;
+				        border-top-right-radius: 0;
+			}
+			.floatingRegion .resizeHandle.resizeW {
+				left: -24px;
+				top: 45%;	
+				top: calc(50% - 12px);
+				cursor: w-resize;
+			}
 
 .floatingToolbar {
 	padding: 0;
