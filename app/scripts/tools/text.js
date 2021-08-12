@@ -13,8 +13,8 @@ function TextTool(cxt, preCxt) {
 	this._textArea = document.createElement('p');
 	this._textArea.contentEditable = true;
 	this._textArea.className = 'textArea';
-	this._textArea.style.lineHeight = TextTool.LINE_HEIGHT;
-	this._textArea.style.padding = TextTool.PADDING + 'px';
+	this._textArea.style.lineHeight = this.LINE_HEIGHT;
+	this._textArea.style.padding = this.PADDING + 'px';
 	this._textRegion.elem.appendChild(this._textArea);
 	
 	// Prevent selecting text moving the text box.
@@ -28,14 +28,15 @@ function TextTool(cxt, preCxt) {
 TextTool.prototype = Object.create(Tool.prototype);
 TextTool.prototype.constructor = TextTool;
 
-/** {Number} The minimum viable text box width/height */
-TextTool.MIN_SIZE = 7;
-/** {Number} The padding on the text box */
-TextTool.PADDING = 4;
-/** {Number} The border width on the text box */
-TextTool.BORDER_WIDTH = 1;
-/** {Number} The line height of the text box */
-TextTool.LINE_HEIGHT = 1;
+// Define constants.
+/** @constant {Number} The minimum viable text box width/height */
+TextTool.prototype.MIN_SIZE = 7;
+/** @constant {Number} The padding on the text box */
+TextTool.prototype.PADDING = 4;
+/** @constant {Number} The border width on the text box */
+TextTool.prototype.BORDER_WIDTH = 1;
+/** @constant {Number} The line height of the text box */
+TextTool.prototype.LINE_HEIGHT = 1;
 
 /**
  * @override
@@ -61,10 +62,10 @@ TextTool.prototype.start = function (pointerState) {
 			Utils.isPointInRect(
 				pointerState.x,
 				pointerState.y,
-				this._textRegionData.x - FloatingRegion.GRABBABLE_MARGIN,
-				this._textRegionData.y - FloatingRegion.GRABBABLE_MARGIN,
-				this._textRegionData.width + (2 * FloatingRegion.GRABBABLE_MARGIN),
-				this._textRegionData.height + (2 * FloatingRegion.GRABBABLE_MARGIN))) {
+				this._textRegionData.x - FloatingRegion.prototype.GRABBABLE_MARGIN,
+				this._textRegionData.y - FloatingRegion.prototype.GRABBABLE_MARGIN,
+				this._textRegionData.width + (2 * FloatingRegion.prototype.GRABBABLE_MARGIN),
+				this._textRegionData.height + (2 * FloatingRegion.prototype.GRABBABLE_MARGIN))) {
 		this._textRegionData.pointerOffset = {
 			x: pointerState.x - this._textRegionData.x,
 			y: pointerState.y - this._textRegionData.y
@@ -206,7 +207,7 @@ TextTool.prototype.end = function (pointerState) {
 	if (this._textRegionData && !this._textRegionData.pointerOffset) {
 		// If there was no pointer offset, a new text box was created.
 		
-		if (this._textRegionData.width < TextTool.MIN_SIZE || this._textRegionData.height < TextTool.MIN_SIZE) {
+		if (this._textRegionData.width < this.MIN_SIZE || this._textRegionData.height < this.MIN_SIZE) {
 			// If either dimension is zero, the region is invalid.
 			this._removeTextElem();
 			return;
@@ -319,12 +320,12 @@ TextTool.prototype._saveText = function () {
 							'overflow: visible; ' +
 							'word-break: break-word; ' +
 							'box-sizing: border-box; ' +
-							'line-height: ' + TextTool.LINE_HEIGHT + '; ' +
-							'padding: ' + TextTool.PADDING + 'px; ' +
+							'line-height: ' + this.LINE_HEIGHT + '; ' +
+							'padding: ' + this.PADDING + 'px; ' +
 							'width: ' + this._textRegionData.width + 'px; ' +
 							'height: ' + this._textRegionData.height + 'px; ' +
 							'background: ' + this._getBackgroundValue() + '; ' +
-							'border: ' + TextTool.BORDER_WIDTH + 'px solid transparent; ' +
+							'border: ' + this.BORDER_WIDTH + 'px solid transparent; ' +
 							'font: ' + this._getFontValue() + '; ' +
 							'text-decoration: ' + this._getTextDecorationValue() + '; ' +
 							'color: ' + settings.get('lineColor') + ';">' +

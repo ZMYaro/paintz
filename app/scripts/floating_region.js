@@ -23,9 +23,9 @@ function FloatingRegion() {
 	}).bind(this), 1);
 }
 
-// Constants.
+// Define constants.
 /** @constant {Number} How far outside the region it can be clicked to drag, in pixels */
-FloatingRegion.GRABBABLE_MARGIN = 24;
+FloatingRegion.prototype.GRABBABLE_MARGIN = 24;
 
 Object.defineProperties(FloatingRegion.prototype, {
 	x: {
