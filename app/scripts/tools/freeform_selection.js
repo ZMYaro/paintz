@@ -28,10 +28,10 @@ FreeformSelectionTool.prototype.start = function (pointerState) {
 			Utils.isPointInRect(
 				pointerState.x,
 				pointerState.y,
-				this._selection.x - FloatingRegion.GRABBABLE_MARGIN,
-				this._selection.y - FloatingRegion.GRABBABLE_MARGIN,
-				this._selection.width + (2 * FloatingRegion.GRABBABLE_MARGIN),
-				this._selection.height + (2 * FloatingRegion.GRABBABLE_MARGIN))) {
+				this._selection.x - FloatingRegion.prototype.GRABBABLE_MARGIN,
+				this._selection.y - FloatingRegion.prototype.GRABBABLE_MARGIN,
+				this._selection.width + (2 * FloatingRegion.prototype.GRABBABLE_MARGIN),
+				this._selection.height + (2 * FloatingRegion.prototype.GRABBABLE_MARGIN))) {
 		// If a selection exists and the pointer is inside it, drag the selection.
 		SelectionTool.prototype.start.call(this, pointerState);
 	} else {
