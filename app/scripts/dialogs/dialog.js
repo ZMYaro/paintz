@@ -136,8 +136,8 @@ Dialog.prototype.open = function () {
 	// Make selecting outside the dialog close the dialog.
 	this._dialogContainer.addEventListener('pointerdown', this._boundClose);
 	
-	requestAnimationFrame((function () {
-		requestAnimationFrame(this._finishOpen.bind(this));
+	Utils.raf((function () {
+		Utils.raf(this._finishOpen.bind(this));
 	}).bind(this));
 };
 
