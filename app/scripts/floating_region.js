@@ -131,8 +131,8 @@ FloatingRegion.prototype.handleDragStart = function (ev) {
 			height: this.height
 		},
 		pointerStart: {
-			x: Utils.getCanvasX(ev.pageX) / zoomManager.level,
-			y: Utils.getCanvasY(ev.pageY) / zoomManager.level,
+			x: Math.round(Utils.getCanvasX(ev.pageX) / zoomManager.level),
+			y: Math.round(Utils.getCanvasY(ev.pageY) / zoomManager.level),
 		},
 		// If the drag was started on a resize handle, get the direction;
 		// otherwise, the entire region is being dragged.
@@ -154,35 +154,44 @@ FloatingRegion.prototype.handleDragMove = function (pointerState) {
 		x: pointerState.x - this.drag.pointerStart.x,
 		y: pointerState.y - this.drag.pointerStart.y
 	};
+	
+	// Handle dragging to move the entire selection.
+	if (this.drag.type === 'move') {
+		this.x = this.drag.initial.x + pointerDelta.x,
+		this.y = this.drag.initial.y + pointerDelta.y
+		return;
+	}
+	
+	// Handle horizontal resizing.
 	switch (this.drag.type) {
-		case 'move':
-			this.x = this.drag.initial.x + pointerDelta.x,
-			this.y = this.drag.initial.y + pointerDelta.y
+		case 'ne':
+		case 'e':
+		case 'se':
+			pointerDelta.x = Math.max(pointerDelta.x, -this.drag.initial.width + 1);
+			this.width = this.drag.initial.width + pointerDelta.x;
 			break;
 		case 'nw':
-			// TODO
+		case 'w':
+		case 'sw':
+			pointerDelta.x = Math.min(pointerDelta.x, this.drag.initial.width - 1);
+			this.x = this.drag.initial.x + pointerDelta.x;
+			this.width = this.drag.initial.width - pointerDelta.x;
 			break;
+	}
+	// Handle vertical resizing.
+	switch (this.drag.type) {
+		case 'nw':
 		case 'n':
-			// TODO
-			break;
 		case 'ne':
-			// TODO
-			break;
-		case 'e':
-			this.width = this.drag.initial.width + pointerDelta.x;
+			pointerDelta.y = Math.min(pointerDelta.y, this.drag.initial.height - 1);
+			this.y = this.drag.initial.y + pointerDelta.y;
+			this.height = this.drag.initial.height - pointerDelta.y;
 			break;
 		case 'se':
-			this.width = this.drag.initial.width + pointerDelta.x;
-			this.height = this.drag.initial.height + pointerDelta.y;
-			break;
 		case 's':
-			this.height = this.drag.initial.height + pointerDelta.y;
-			break;
 		case 'sw':
-			// TODO
-			break;
-		case 'w':
-			// TODO
+			pointerDelta.y = Math.max(pointerDelta.y, -this.drag.initial.height + 1);
+			this.height = this.drag.initial.height + pointerDelta.y;
 			break;
 	}
 };
