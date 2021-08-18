@@ -114,12 +114,11 @@ ClipboardManager.prototype.paste = function (image) {
 	tools.switchTool('selection');
 	tools.selection.start({ x: pasteX, y: pasteY });
 	tools.selection.end({ x: pasteRightX, y: pasteBottomY });
-	tools.selection.update();
 	
 	// Set the selection content to the pasted image.
 	Utils.clearCanvas(preCxt);
 	preCxt.drawImage(image, pasteX, pasteY);
-	tools.selection._selection.opaqueContent = preCxt.getImageData(pasteX, pasteY, image.width, image.height);
+	tools.selection._selection.content.opaqueData = preCxt.getImageData(pasteX, pasteY, image.width, image.height);
 	
 	// Mark the selection as transformed so it gets saved no matter what.
 	tools.selection._selection.transformed = true;
@@ -127,8 +126,11 @@ ClipboardManager.prototype.paste = function (image) {
 	// Set this to false so there is no selection start cover.
 	tools.selection._selection.firstMove = false;
 	
-	// Apply transparency (and create selection.content).
+	// Apply transparency (and create `_selection.content.data`).
 	tools.selection.setTransparentBackground();
+	
+	// Draw the new selection.
+	tools.selection.redrawSelection();
 	
 	// Hide the progress spinner.
 	progressSpinner.hide();

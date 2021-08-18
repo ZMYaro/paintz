@@ -144,6 +144,7 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 		case 'transparentSelection':
 			if (tools && tools.currentTool && tools.currentTool.setTransparentBackground) {
 				tools.currentTool.setTransparentBackground();
+				tools.currentTool.redrawSelection();
 			}
 			break;
 		case 'fontFamily':
