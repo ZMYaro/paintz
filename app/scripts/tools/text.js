@@ -9,13 +9,13 @@ function TextTool(cxt, preCxt) {
 	Tool.apply(this, arguments);
 	
 	// Initialize text box element.
-	this._textRegion = new FloatingRegion();
+	this._outline = new FloatingRegion();
 	this._textArea = document.createElement('p');
 	this._textArea.contentEditable = true;
 	this._textArea.className = 'textArea';
 	this._textArea.style.lineHeight = this.LINE_HEIGHT;
 	this._textArea.style.padding = this.PADDING + 'px';
-	this._textRegion.elem.appendChild(this._textArea);
+	this._outline.elem.appendChild(this._textArea);
 	
 	// Prevent selecting text moving the text box.
 	this._textArea.addEventListener('pointerdown', function (ev) { ev.stopPropagation(); });
@@ -56,41 +56,37 @@ TextTool.prototype.activate = function () {
 TextTool.prototype.start = function (pointerState) {
 	this._roundPointerState(pointerState);
 	
-	// If a text box exists and the pointer is near it, drag the text box.
-	// Otherwise, start a new text box.
-	if (this._textRegionData &&
-			Utils.isPointInRect(
-				pointerState.x,
-				pointerState.y,
-				this._textRegionData.x - FloatingRegion.prototype.GRABBABLE_MARGIN,
-				this._textRegionData.y - FloatingRegion.prototype.GRABBABLE_MARGIN,
-				this._textRegionData.width + (2 * FloatingRegion.prototype.GRABBABLE_MARGIN),
-				this._textRegionData.height + (2 * FloatingRegion.prototype.GRABBABLE_MARGIN))) {
-		this._textRegionData.pointerOffset = {
-			x: pointerState.x - this._textRegionData.x,
-			y: pointerState.y - this._textRegionData.y
-		};
-		// Hide resize handles while moving.
-		this._textRegion.showHandles = false;
-		this._preCxt.canvas.style.cursor =
-			this._textArea.style.cursor = 'move';
+	if (this._outline.drag) {
+		// If the text box is being dragged, handle that.
+		
+		if (this._outline.drag.type === 'move') {
+			// Hide resize handles while moving.
+			this._outline.showHandles = false;
+			this._preCxt.canvas.style.cursor =
+				this._textArea.style.cursor = 'move';
+		} else {
+			this._preCxt.canvas.style.cursor =
+				this._textArea.style.cursor = this._outline.drag.type + '-resize';
+		}
 	} else {
-		// Save any existing text.
+		// Otherwise, save any existing text...
 		this._saveText();
-		// Start a new text box.
+		// ...and start a new text box.
 		this._textRegionData = {
-			startX: pointerState.x,
-			startY: pointerState.y,
+			pointerStart: {
+				x: pointerState.x,
+				y: pointerState.y
+			},
 			x: pointerState.x,
 			y: pointerState.y,
 			width: 0,
 			height: 0
 		};
 		this._textArea.innerHTML = '';
-		this.updateTextElem();
 		// Hide resize handles while creating.
-		this._textRegion.showHandles = false;
-		this._textRegion.addToDOM();
+		this._outline.showHandles = false;
+		this.updateTextElem();
+		this._outline.addToDOM();
 	}
 	
 	// Strip formatting on paste, if possible.
@@ -135,26 +131,25 @@ TextTool.prototype.move = function (pointerState) {
 	
 	Utils.clearCanvas(this._preCxt);
 	
-	if (this._textRegionData.pointerOffset) {
-		// If there is a pointer offset, move the text box.
-		this._textRegionData.x = pointerState.x - this._textRegionData.pointerOffset.x;
-		this._textRegionData.y = pointerState.y - this._textRegionData.pointerOffset.y;
+	if (this._outline.drag) {
+		this._outline.handleDragMove(pointerState);
+		this._updateTextAreaToOutline();
 	} else {
-		// Otherwise, this is a new box.
+		// If nothing is being dragged, this is a new text box.
 		// Limit the box to the canvas.
 		pointerState.x = Math.max(0, Math.min(this._cxt.canvas.width, pointerState.x));
 		pointerState.y = Math.max(0, Math.min(this._cxt.canvas.height, pointerState.y));
 		
-		this._textRegionData.width = pointerState.x - this._textRegionData.startX;
-		this._textRegionData.height = pointerState.y - this._textRegionData.startY;
+		this._textRegionData.width = pointerState.x - this._textRegionData.pointerStart.x;
+		this._textRegionData.height = pointerState.y - this._textRegionData.pointerStart.y;
 		
 		// Keep x and y at the top-left corner.
 		if (this._textRegionData.width < 0) {
-			this._textRegionData.x = this._textRegionData.startX + this._textRegionData.width;
+			this._textRegionData.x = this._textRegionData.pointerStart.x + this._textRegionData.width;
 			this._textRegionData.width = Math.abs(this._textRegionData.width);
 		}
 		if (this._textRegionData.height < 0) {
-			this._textRegionData.y = this._textRegionData.startY + this._textRegionData.height;
+			this._textRegionData.y = this._textRegionData.pointerStart.y + this._textRegionData.height;
 			this._textRegionData.height = Math.abs(this._textRegionData.height);
 		}
 		
@@ -163,12 +158,12 @@ TextTool.prototype.move = function (pointerState) {
 			if (this._textRegionData.width < this._textRegionData.height) {
 				this._textRegionData.height = this._textRegionData.width;
 				if (this._textRegionData.y === pointerState.y) {
-					this._textRegionData.y = this._textRegionData.startY - this._textRegionData.height;
+					this._textRegionData.y = this._textRegionData.pointerStart.y - this._textRegionData.height;
 				}
 			} else {
 				this._textRegionData.width = this._textRegionData.height;
 				if (this._textRegionData.x === pointerState.x) {
-					this._textRegionData.x = this._textRegionData.startX - this._textRegionData.width;
+					this._textRegionData.x = this._textRegionData.pointerStart.x - this._textRegionData.width;
 				}
 			}
 		}
@@ -201,11 +196,15 @@ TextTool.prototype.end = function (pointerState) {
 	pointerState.y = Math.round(pointerState.y);
 	
 	this.move(pointerState);
+	
 	this._textArea.style.cursor = null;
 	this._preCxt.canvas.style.cursor = 'crosshair';
 	
-	if (this._textRegionData && !this._textRegionData.pointerOffset) {
-		// If there was no pointer offset, a new text box was created.
+	if (this._outline.drag) {
+		// If there is outline drag data, tell the floating region to finish.
+		this._outline.handleDragEnd(pointerState);
+	} else {
+		// Otherwise, a new text box was created.
 		
 		if (this._textRegionData.width < this.MIN_SIZE || this._textRegionData.height < this.MIN_SIZE) {
 			// If either dimension is zero, the region is invalid.
@@ -213,16 +212,12 @@ TextTool.prototype.end = function (pointerState) {
 			return;
 		}
 		
-		// Update the start coordinates to the top-left corner.
-		this._textRegionData.startX = this._textRegionData.x;
-		this._textRegionData.startY = this._textRegionData.y;
-		
 		// Focus the text box.
 		this._textArea.focus();
 	}
 	
 	// Show resize handles once done creating/moving.
-	this._textRegion.showHandles = true;
+	this._outline.showHandles = true;
 };
 
 /**
@@ -269,21 +264,33 @@ TextTool.prototype.updateTextElem = function () {
 		return;
 	}
 	
-	var zoomedX = Math.floor(zoomManager.level * this._textRegionData.x),
-		zoomedY = Math.floor(zoomManager.level * this._textRegionData.y),
-		zoomedWidth = Math.ceil(zoomManager.level * this._textRegionData.width),
-		zoomedHeight = Math.ceil(zoomManager.level * this._textRegionData.height);
+	this._outline.x = this._textRegionData.x;
+	this._outline.y = this._textRegionData.y;
+	this._outline.width = this._textRegionData.width;
+	this._outline.height = this._textRegionData.height;
 	
-	this._textRegion.x = zoomedX;
-	this._textRegion.y = zoomedY;
-	this._textRegion.scale = zoomManager.level;
-	this._textRegion.width = this._textRegionData.width;
-	this._textRegion.height = this._textRegionData.height;
-	
-	this._textArea.style.background = this._getBackgroundValue();
+	this._outline.elem.style.background = this._getBackgroundValue();
+	this._textArea.style.width = this._textRegionData.width + 'px';
+	this._textArea.style.height = this._textRegionData.height + 'px';
+	this._textArea.style.WebkitTransform = 'scale(' + zoomManager.level + ')';
+	this._textArea.style.MozTransform =    'scale(' + zoomManager.level + ')';
+	this._textArea.style.MsTransform =    'scale(' + zoomManager.level + ')';
+	this._textArea.style.OTransform =    'scale(' + zoomManager.level + ')';
+	this._textArea.style.transform =       'scale(' + zoomManager.level + ')';
 	this._textArea.style.color = settings.get('lineColor');
 	this._textArea.style.font = this._getFontValue();
 	this._textArea.style.textDecoration = this._getTextDecorationValue();
+};
+
+/**
+ * @private
+ * Update the text area to the position and size of the floating region.
+ */
+TextTool.prototype._updateTextAreaToOutline = function () {
+	this._textRegionData.x = this._outline.x;
+	this._textRegionData.y = this._outline.y;
+	this._textRegionData.width = this._outline.width;
+	this._textRegionData.height = this._outline.height;
 };
 
 /**
@@ -295,7 +302,7 @@ TextTool.prototype._removeTextElem = function () {
 	this._saveText().then((function () {
 		// Remove the text region and element.
 		delete this._textRegionData;
-		this._textRegion.removeFromDOM();
+		this._outline.removeFromDOM();
 		keyManager.enabled = true;
 	}).bind(this));
 };

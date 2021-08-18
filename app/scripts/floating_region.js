@@ -11,16 +11,15 @@ function FloatingRegion() {
 	this._scale = 1;
 	this._showHandles = true;
 	
+	this.drag;
+	
 	this.elem = document.createElement('div');
 	this.elem.className = 'floatingRegion';
 	
 	this._addDragHandles();
 	
-	setTimeout((function () {
-		// TODO: Rewrite this to not access a private field.
-		// And not to need to happen a frame later so `tools` has been defined.
-		this.elem.addEventListener('pointerdown', tools._boundPointerDownHandler, false);
-	}).bind(this), 1);
+	// Use the pointer handlers for tools when the region gets moved or resized.
+	this.elem.addEventListener('pointerdown', this.handleDragStart.bind(this), false);
 }
 
 // Define constants.
@@ -33,7 +32,7 @@ Object.defineProperties(FloatingRegion.prototype, {
 			return this._x;
 		},
 		set: function (value) {
-			this._x = value;
+			this._x = Math.round(value);
 			this._updateTransform();
 		}
 	},
@@ -42,7 +41,7 @@ Object.defineProperties(FloatingRegion.prototype, {
 			return this._y;
 		},
 		set: function (value) {
-			this._y = value;
+			this._y = Math.round(value);
 			this._updateTransform();
 		}
 	},
@@ -60,8 +59,9 @@ Object.defineProperties(FloatingRegion.prototype, {
 			return this._width;
 		},
 		set: function (value) {
-			this._width = value;
-			this.elem.style.width = value + 'px';
+			this._width = Math.round(value);
+			var zoomedWidth = Math.ceil(zoomManager.level * this._width);
+			this.elem.style.width = zoomedWidth + 'px';
 		}
 	},
 	height: {
@@ -69,8 +69,9 @@ Object.defineProperties(FloatingRegion.prototype, {
 			return this._height;
 		},
 		set: function (value) {
-			this._height = value;
-			this.elem.style.height = value + 'px';
+			this._height = Math.round(value);
+			var zoomedHeight = Math.ceil(zoomManager.level * this._height);
+			this.elem.style.height = zoomedHeight + 'px';
 		}
 	},
 	showHandles: {
@@ -86,27 +87,116 @@ Object.defineProperties(FloatingRegion.prototype, {
 });
 
 /**
+ * @private
  * Create and append drag handle elements for the draggable region.
  */
 FloatingRegion.prototype._addDragHandles = function () {
+	var boundHandleDragStart = this.handleDragStart.bind(this);
+	
 	['nw', 'n', 'ne', 'e', 'se', 's', 'sw', 'w'].forEach(function (direction) {
 		var dragHandle = document.createElement('div');
 		dragHandle.className = 'resizeHandle resize' + direction.toUpperCase();
-		// TODO: Add event listener.
+		dragHandle.dataset.direction = direction;
+		dragHandle.addEventListener('pointerdown', boundHandleDragStart, false);
 		this.elem.appendChild(dragHandle);
 	}, this);
 };
 
 /**
+ * @private
  * Update the region's CSS translation to the current x- and y-values.
  */
 FloatingRegion.prototype._updateTransform = function () {
+	var zoomedX = Math.floor(zoomManager.level * this._x),
+		zoomedY = Math.floor(zoomManager.level * this._y);
 	this.elem.style.WebkitTransform =
 		this.elem.style.MozTransform =
 		this.elem.style.MsTransform =
 		this.elem.style.OTransform =
-		this.elem.style.transform = 'translate(' + this._x + 'px, ' + this._y + 'px)' +
+		this.elem.style.transform = 'translate(' + zoomedX + 'px, ' + zoomedY + 'px)' +
 			'scale(' + this._scale + ')';
+};
+
+/**
+ * @private
+ * Handle starting to drag the region or a resize handle.
+ * @param {PointerEvent} ev
+ */
+FloatingRegion.prototype.handleDragStart = function (ev) {
+	this.drag = {
+		initial: {
+			x: this.x,
+			y: this.y,
+			width: this.width,
+			height: this.height
+		},
+		pointerStart: {
+			x: Utils.getCanvasX(ev.pageX) / zoomManager.level,
+			y: Utils.getCanvasY(ev.pageY) / zoomManager.level,
+		},
+		// If the drag was started on a resize handle, get the direction;
+		// otherwise, the entire region is being dragged.
+		type: ev.currentTarget.dataset.direction || 'move'
+	};
+	tools._boundPointerDownHandler(ev);
+};
+
+/**
+ * @private
+ * Handle a dragged resize handle being moved.
+ * @param {Object} pointerState - The pointer coordinates and button
+ */
+FloatingRegion.prototype.handleDragMove = function (pointerState) {
+	if (!this.drag) {
+		return;
+	}
+	var pointerDelta = {
+		x: pointerState.x - this.drag.pointerStart.x,
+		y: pointerState.y - this.drag.pointerStart.y
+	};
+	switch (this.drag.type) {
+		case 'move':
+			this.x = this.drag.initial.x + pointerDelta.x,
+			this.y = this.drag.initial.y + pointerDelta.y
+			break;
+		case 'nw':
+			// TODO
+			break;
+		case 'n':
+			// TODO
+			break;
+		case 'ne':
+			// TODO
+			break;
+		case 'e':
+			this.width = this.drag.initial.width + pointerDelta.x;
+			break;
+		case 'se':
+			this.width = this.drag.initial.width + pointerDelta.x;
+			this.height = this.drag.initial.height + pointerDelta.y;
+			break;
+		case 's':
+			this.height = this.drag.initial.height + pointerDelta.y;
+			break;
+		case 'sw':
+			// TODO
+			break;
+		case 'w':
+			// TODO
+			break;
+	}
+};
+
+/**
+ * @private
+ * Handle a dragged resize handle being released.
+ * @param {Object} pointerState - The pointer coordinates and button
+ */
+FloatingRegion.prototype.handleDragEnd = function (pointerState) {
+	if (!this.drag) {
+		return;
+	}
+	delete this.drag;
 };
 
 /**
