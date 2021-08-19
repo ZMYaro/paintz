@@ -33,8 +33,6 @@ TextTool.prototype.constructor = TextTool;
 TextTool.prototype.MIN_SIZE = 7;
 /** @constant {Number} The padding on the text box */
 TextTool.prototype.PADDING = 4;
-/** @constant {Number} The border width on the text box */
-TextTool.prototype.BORDER_WIDTH = 1;
 /** @constant {Number} The line height of the text box */
 TextTool.prototype.LINE_HEIGHT = 1;
 
@@ -332,7 +330,6 @@ TextTool.prototype._saveText = function () {
 							'width: ' + this._textRegionData.width + 'px; ' +
 							'height: ' + this._textRegionData.height + 'px; ' +
 							'background: ' + this._getBackgroundValue() + '; ' +
-							'border: ' + this.BORDER_WIDTH + 'px solid transparent; ' +
 							'font: ' + this._getFontValue() + '; ' +
 							'text-decoration: ' + this._getTextDecorationValue() + '; ' +
 							'color: ' + settings.get('lineColor') + ';">' +
