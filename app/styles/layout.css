@@ -66,10 +66,8 @@ body {
 		pointer-events: none;
 	}
 	
-	.floatingRegion,
-	.floatingRegion:focus {
-		border: 1px solid white;
-		outline: 1px dashed black;
+	.floatingRegion {
+		outline: 1px solid white;
 		outline-offset: -1px;
 		overflow: visible;
 		touch-action: none;
@@ -85,6 +83,19 @@ body {
 			right: -24px;
 			bottom: -24px;
 			z-index: -1;
+		}
+		.floatingRegion::after {
+			/* Dashed black outline over solid white outline. */
+			/* Child elements cover base element's outline, but get covered by ::after. */
+			content: '';
+			display: block;
+			position: absolute;
+			left: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			border: 1px dashed black;
+			pointer-events: none;
 		}
 		.floatingRegion .textArea,
 		.floatingRegion .textArea:focus {
