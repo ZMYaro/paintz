@@ -85,7 +85,14 @@ var Utils = {
 	 */
 	cloneImageData: function (sourceData, cxt) {
 		var copyData = cxt.createImageData(sourceData.width, sourceData.height);
-		copyData.data.set(sourceData.data);
+		if (copyData.data.set) {
+			copyData.data.set(sourceData.data);
+		} else {
+			// If imageData.data.set is not defined in this browser, manually copy the data.
+			for (var i = 0; i < sourceData.data.length; i++) {
+				copyData.data[i] = sourceData.data[i];
+			}
+		}
 		return copyData;
 	},
 	
