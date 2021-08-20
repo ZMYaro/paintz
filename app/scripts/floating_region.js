@@ -24,6 +24,8 @@ function FloatingRegion() {
 // Define constants.
 /** @constant {Number} How far outside the region it can be clicked to drag, in pixels */
 FloatingRegion.prototype.GRABBABLE_MARGIN = 24;
+/** @constant {Number} How much to enlarge the outline around its contents (0 = on the outer ring of pixels) */
+FloatingRegion.prototype.PADDING = 1;
 
 Object.defineProperties(FloatingRegion.prototype, {
 	x: {
@@ -51,6 +53,7 @@ Object.defineProperties(FloatingRegion.prototype, {
 		set: function (value) {
 			this._width = Math.round(value);
 			var zoomedWidth = Math.ceil(zoomManager.level * this._width);
+			zoomedWidth += (2 * this.PADDING);
 			this.elem.style.width = zoomedWidth + 'px';
 		}
 	},
@@ -61,6 +64,7 @@ Object.defineProperties(FloatingRegion.prototype, {
 		set: function (value) {
 			this._height = Math.round(value);
 			var zoomedHeight = Math.ceil(zoomManager.level * this._height);
+			zoomedHeight += (2 * this.PADDING);
 			this.elem.style.height = zoomedHeight + 'px';
 		}
 	},
@@ -99,6 +103,8 @@ FloatingRegion.prototype._addDragHandles = function () {
 FloatingRegion.prototype._updateTransform = function () {
 	var zoomedX = Math.floor(zoomManager.level * this._x),
 		zoomedY = Math.floor(zoomManager.level * this._y);
+	zoomedX -= this.PADDING;
+	zoomedY -= this.PADDING;
 	this.elem.style.WebkitTransform =
 		this.elem.style.MozTransform =
 		this.elem.style.MsTransform =
