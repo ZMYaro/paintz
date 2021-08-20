@@ -8,7 +8,6 @@ function FloatingRegion() {
 		this._y =
 		this._width =
 		this._height = 0;
-	this._scale = 1;
 	this._showHandles = true;
 	
 	this.drag;
@@ -42,15 +41,6 @@ Object.defineProperties(FloatingRegion.prototype, {
 		},
 		set: function (value) {
 			this._y = Math.round(value);
-			this._updateTransform();
-		}
-	},
-	scale: {
-		get: function () {
-			return this._scale;
-		},
-		set: function (value) {
-			this._scale = value;
 			this._updateTransform();
 		}
 	},
@@ -113,8 +103,7 @@ FloatingRegion.prototype._updateTransform = function () {
 		this.elem.style.MozTransform =
 		this.elem.style.MsTransform =
 		this.elem.style.OTransform =
-		this.elem.style.transform = 'translate(' + zoomedX + 'px, ' + zoomedY + 'px)' +
-			'scale(' + this._scale + ')';
+		this.elem.style.transform = 'translate(' + zoomedX + 'px, ' + zoomedY + 'px)';
 };
 
 /**
