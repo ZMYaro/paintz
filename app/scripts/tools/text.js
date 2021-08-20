@@ -58,10 +58,7 @@ TextTool.prototype.start = function (pointerState) {
 	
 	if (this._outline.drag) {
 		// If the text box is being dragged, handle that.
-		
 		if (this._outline.drag.type === 'move') {
-			// Hide resize handles while moving.
-			this._outline.showHandles = false;
 			this._preCxt.canvas.style.cursor =
 				this._textArea.style.cursor = 'move';
 		} else {
@@ -212,12 +209,12 @@ TextTool.prototype.end = function (pointerState) {
 		
 		delete this._pointerStart;
 		
+		// Show resize handles once done creating.
+		this._outline.showHandles = true;
+		
 		// Focus the text box.
 		this._textArea.focus();
 	}
-	
-	// Show resize handles once done creating/moving.
-	this._outline.showHandles = true;
 };
 
 /**

@@ -55,8 +55,8 @@ SelectionTool.prototype.start = function (pointerState) {
 			this._selection.firstMove = false;
 		}
 		if (this._outline.drag.type === 'move') {
-			// Hide resize handles while moving.
-			this._outline.showHandles = false;
+			// Hide the outline while moving.
+			this._outline.removeFromDOM();
 			this._preCxt.canvas.style.cursor = 'move';
 		} else {
 			this._preCxt.canvas.style.cursor = this._outline.drag.type + '-resize';
@@ -182,6 +182,7 @@ SelectionTool.prototype.end = function (pointerState) {
 		// finish, and then update the image data.
 		this._outline.handleDragEnd(pointerState);
 		this._updateSelectionContentToOutline();
+		this._outline.addToDOM();
 	} else {
 		// Otherwise, a new selection was created.
 		
@@ -207,14 +208,16 @@ SelectionTool.prototype.end = function (pointerState) {
 		this.setTransparentBackground();
 		
 		delete this._selection.pointerStart;
+		
+		// Show resize handles once done creating.
+		this._outline.showHandles = true;
 	}
 	
 	// Redraw the selection one last time.
 	this.redrawSelection();
 	
 	if (this._selection) {
-		// Show resize handles and selection toolbar once done creating/moving if there is an active selection.
-		this._outline.showHandles = true;
+		// Show selection toolbar once done creating/moving if there is an active selection.
 		this._toolbar.show();
 	}
 };
