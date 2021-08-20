@@ -264,6 +264,12 @@ TextTool.prototype.updateTextElem = function () {
 		return;
 	}
 	
+	// Tell the outline to recompute its dimensions.
+	this._outline.x = this._outline.x;
+	this._outline.y = this._outline.y;
+	this._outline.width = this._outline.width;
+	this._outline.height = this._outline.height;
+	
 	this._outline.elem.style.background = this._getBackgroundValue();
 	this._textArea.style.width = this._outline.width + 'px';
 	this._textArea.style.height = this._outline.height + 'px';
