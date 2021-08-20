@@ -205,6 +205,8 @@ SelectionTool.prototype.end = function (pointerState) {
 		// Make the selection transparent if the setting is enabled.
 		// This creates `this._selection.content.data` whether or not transparency is enabled.
 		this.setTransparentBackground();
+		
+		delete this._selection.pointerStart;
 	}
 	
 	// Redraw the selection one last time.
