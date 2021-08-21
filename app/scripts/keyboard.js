@@ -350,19 +350,7 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			if (noModifiers) {
 				e.preventDefault();
 				// X => Switch fill and line colors
-				
-				// Swap the stored colors.
-				var oldLine = settings.get('lineColor'),
-					oldFill = settings.get('fillColor');
-				settings.set('lineColor', oldFill);
-				settings.set('fillColor', oldLine);
-				
-				// Update the toolbar.
-				toolbar.toolboxes.colorPicker.colorIndicator.style.borderColor = oldFill;
-				toolbar.toolboxes.colorPicker.colorIndicator.style.backgroundColor = oldLine;
-				
-				// Some tools' cursors change with colors, so reactivate the cursor.
-				tools.currentTool.activate();
+				toolbar.toolboxes.colorPicker.swapSelectedColors();
 			}
 			break;
 		
