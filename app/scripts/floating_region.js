@@ -204,12 +204,27 @@ FloatingRegion.prototype.handleDragEnd = function (pointerState) {
 };
 
 /**
+ * Show the floating region if it has been hidden.
+ */
+FloatingRegion.prototype.show = function () {
+	this.elem.style.visibility = null;
+};
+
+/**
+ * Hide the floating region.
+ */
+FloatingRegion.prototype.hide = function () {
+	this.elem.style.visibility = 'hidden';
+};
+
+/**
  * Append the floating region element to the body.
  */
 FloatingRegion.prototype.addToDOM = function () {
 	if (!canvasPositioner.contains(this.elem)) {
 		canvasPositioner.appendChild(this.elem);
 	}
+	this.show();
 };
 
 /**

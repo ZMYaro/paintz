@@ -56,7 +56,7 @@ SelectionTool.prototype.start = function (pointerState) {
 		}
 		if (this._outline.drag.type === 'move') {
 			// Hide the outline while moving.
-			this._outline.removeFromDOM();
+			this._outline.hide();
 			this._preCxt.canvas.style.cursor = 'move';
 		} else {
 			this._preCxt.canvas.style.cursor = this._outline.drag.type + '-resize';
@@ -182,7 +182,7 @@ SelectionTool.prototype.end = function (pointerState) {
 		// finish, and then update the image data.
 		this._outline.handleDragEnd(pointerState);
 		this._updateSelectionContentToOutline();
-		this._outline.addToDOM();
+		this._outline.show();
 	} else {
 		// Otherwise, a new selection was created.
 		
