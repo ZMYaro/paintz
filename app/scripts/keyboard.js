@@ -346,6 +346,13 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			}
 			break;
 		
+		case 86: // V
+			if(ctrlOrCmd && e.altKey && !e.shiftKey && !metaOrControl) {
+				e.preventDefault();
+				// Ctrl+Alt+V => Paste from...
+				document.getElementById('pasteFrom').click();
+			}
+		
 		case 88: // X
 			if (noModifiers) {
 				e.preventDefault();
