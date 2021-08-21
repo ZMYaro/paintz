@@ -247,13 +247,10 @@ SelectionTool.prototype.clear = function () {
 		this._drawSelectionStartCover();
 		this._cxt.drawImage(this._preCxt.canvas, 0, 0);
 	}
-	Utils.clearCanvas(this._preCxt);
 	
-	// Delete the selection.
-	this._toolbar.hide();
-	this._outline.removeFromDOM();
+	this.deselectAll();
+	
 	undoStack.addState();
-	delete this._selection;
 };
 
 /**
