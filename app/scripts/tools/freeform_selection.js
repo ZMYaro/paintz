@@ -106,6 +106,9 @@ FreeformSelectionTool.prototype.update = function () {
 	if (!this._canvasDirty) {
 		return;
 	}
+	if (!this._selection) {
+		return;
+	}
 	if (this._outline.drag) {
 		// If dragging, behavior is the same as a rectangular selection.
 		SelectionTool.prototype.update.call(this);
@@ -147,6 +150,9 @@ FreeformSelectionTool.prototype.update = function () {
  * @param {Object} pointerState - The pointer coordinates
  */
 FreeformSelectionTool.prototype.end = function (pointerState) {
+	if (!this._selection) {
+		return;
+	}
 	if (this._outline.drag) {
 		// If dragging, behavior is the same as a rectangular selection.
 		SelectionTool.prototype.end.call(this, pointerState);

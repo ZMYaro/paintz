@@ -194,9 +194,8 @@ FloatingRegion.prototype.handleDragMove = function (pointerState) {
 /**
  * @private
  * Handle a dragged resize handle being released.
- * @param {Object} pointerState - The pointer coordinates and button
  */
-FloatingRegion.prototype.handleDragEnd = function (pointerState) {
+FloatingRegion.prototype.handleDragEnd = function () {
 	if (!this.drag) {
 		return;
 	}
@@ -231,6 +230,8 @@ FloatingRegion.prototype.addToDOM = function () {
  * Append the floating region element to the body.
  */
 FloatingRegion.prototype.removeFromDOM = function () {
+	// End any ongoing drag if in progress.
+	this.handleDragEnd();
 	if (canvasPositioner.contains(this.elem)) {
 		try {
 			// Wrapping in a try block because sometimes contains incorrectly returns true for the text tool.

@@ -159,6 +159,9 @@ SelectionTool.prototype.update = function () {
 	if (!this._canvasDirty) {
 		return;
 	}
+	if (!this._selection) {
+		return;
+	}
 	
 	this.redrawSelection();
 	
@@ -171,16 +174,21 @@ SelectionTool.prototype.update = function () {
  * @param {Object} pointerState - The pointer coordinates
  */
 SelectionTool.prototype.end = function (pointerState) {
+	
+	this._preCxt.canvas.style.cursor = 'crosshair';
+	
+	if (!this._selection) {
+		return;
+	}
+	
 	this._roundPointerState(pointerState);
 	
 	this.move(pointerState);
 	
-	this._preCxt.canvas.style.cursor = 'crosshair';
-	
 	if (this._outline.drag) {
 		// If there is outline drag data, tell the floating region to
 		// finish, and then update the image data.
-		this._outline.handleDragEnd(pointerState);
+		this._outline.handleDragEnd();
 		this._updateSelectionContentToOutline();
 		this._outline.show();
 	} else {
@@ -742,7 +750,8 @@ SelectionTool.prototype._saveSelection = function () {
 	Utils.clearCanvas(this._preCxt);
 	
 	var selectionExistsAndWasTransformed = (
-		this._selection && (
+		this._selection &&
+		this._selection.content.data && (
 			this._selection.transformed ||
 			this._selection.content.x !== this._selection.initial.x ||
 			this._selection.content.y !== this._selection.initial.y));
