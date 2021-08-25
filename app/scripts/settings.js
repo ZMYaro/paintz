@@ -172,6 +172,9 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 		case 'ghostDraw':
 			preCanvas.classList[value ? 'add' : 'remove']('ghost');
 			break;
+		case 'maxUndoStackDepth':
+			undoStack.pruneToLimit();
+			break;
 	}
 };
 

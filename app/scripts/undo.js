@@ -51,11 +51,8 @@ var undoStack = {
 	addState: function () {
 		// Add the last state to the undo stack.
 		if (this._currentState) {
-			if (this._undoStack.push(this._currentState) > settings.get('maxUndoStackDepth')) {
-				// If the maximum stack depth has been exceeded, start removing the bottom
-				// of the stack.
-				this._undoStack.splice(0, 1);
-			}
+			this._undoStack.push(this._currentState);
+			this.pruneToLimit();
 		}
 		// Save the current state.
 		var image = new Image();
@@ -79,6 +76,19 @@ var undoStack = {
 		
 		this.changedSinceSave = true;
 		this._updateUI();
+	},
+	
+	/**
+	 * Prune the undo stack down to the limit.
+	 */
+	pruneToLimit: function () {
+		if (this._undoStack.length === 0 || this._undoStack.length <= settings.get('maxUndoStackDepth')) {
+			// Abort if the undo stack is empty or otherwise under the limit.
+			// Need to short-circuit the settings check on initial load because `settings` does not exist yet.
+			return;
+		}
+		var amountExceededBy = this._undoStack.length - settings.get('maxUndoStackDepth');
+		this._undoStack.splice(0, amountExceededBy);
 	},
 	
 	/**
@@ -110,6 +120,7 @@ var undoStack = {
 		// the redo stack.
 		var restoreState = this._redoStack.pop();
 		this._undoStack.push(this._currentState);
+		this.pruneToLimit();
 		this._applyState(restoreState);
 		
 		this.changedSinceSave = true;
