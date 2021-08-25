@@ -114,13 +114,39 @@ SaveDialog.prototype._setDownloadURL = function (blob) {
  */
 SaveDialog.prototype._updateFileExtension = function () {
 	// Update file name.
-	var newName = fixExtension(this._element.fileName.value, this._element.fileType.value);
+	var newName = this._matchExtensionToMIMEType(this._element.fileName.value, this._element.fileType.value);
 	this._element.fileName.value = newName;
 	this._downloadLink.download = newName;
 	if (this._element.fileType.value !== this._downloadLink.type) {
 		this._downloadLink.type = this._element.fileType.value;
 		this._createDownloadURL();
 	}
+};
+
+/**
+ * @private
+ * Fix the extension on a file name to match a MIME type.
+ * @param {String} name - The file name to fix
+ * @param {String} type - The MIME type to match (image/jpeg or image/png)
+ * @returns {String} - The modified file name
+ */
+SaveDialog.prototype._matchExtensionToMIMEType = function (name, type) {
+	name = name.trim();
+	
+	if (type === 'image/png' && !PNG_REGEX.test(name)) {
+		if (FILE_EXT_REGEX.test(name)) {
+			return name.replace(FILE_EXT_REGEX, '.png');
+		} else {
+			return name + '.png';
+		}
+	} else if (type === 'image/jpeg' && !JPEG_REGEX.test(name)) {
+		if (FILE_EXT_REGEX.test(name)) {
+			return name.replace(FILE_EXT_REGEX, '.jpg');
+		} else {
+			return name + '.jpg';
+		}
+	}
+	return name;
 };
 
 /**

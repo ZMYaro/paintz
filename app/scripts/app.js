@@ -185,31 +185,6 @@ function openImage(file) {
 }
 
 /**
- * Fix the extension on a file name to match a MIME type.
- * @param {String} name - The file name to fix
- * @param {String} type - The MIME type to match (JPEG or PNG)
- * @returns {String} - The modified file name
- */
-function fixExtension(name, type) {
-	name = name.trim();
-	
-	if (type === 'image/png' && !PNG_REGEX.test(name)) {
-		if (FILE_EXT_REGEX.test(name)) {
-			return name.replace(FILE_EXT_REGEX, '.png');
-		} else {
-			return name + '.png';
-		}
-	} else if (type === 'image/jpeg' && !JPEG_REGEX.test(name)) {
-		if (FILE_EXT_REGEX.test(name)) {
-			return name.replace(FILE_EXT_REGEX, '.jpg');
-		} else {
-			return name + '.jpg';
-		}
-	}
-	return name;
-}
-
-/**
  * Set up events for opening images via drag-and-drop.
  */
 function initDragDrop() {
