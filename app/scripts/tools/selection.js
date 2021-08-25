@@ -573,6 +573,9 @@ SelectionTool.prototype.rotate = function (clockwise) {
 		// Save the new width and height.
 		settings.set('width', oldCanvasHeight);
 		settings.set('height', oldCanvasWidth);
+		
+		// Clear the precanvas.
+		Utils.clearCanvas(preCxt);
 	}
 };
 
