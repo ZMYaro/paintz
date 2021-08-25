@@ -139,6 +139,10 @@ function openImage(file) {
 	// Show the progress spinner until the image loads.
 	progressSpinner.show();
 	
+	// Deactivate and reactivate the current tool in case it is being used.
+	tools.currentTool.deactivate();
+	tools.currentTool.activate();
+	
 	Utils.readImage(file).then(function (image) {
 		// There is no need to clear the canvas.  Resizing the canvas will do that.
 		canvas.width =
