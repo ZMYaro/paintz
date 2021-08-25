@@ -30,10 +30,6 @@ PanTool.prototype.activate = function () {
  * @param {Object} pointerState - The pointer coordinates and button
  */
 PanTool.prototype.start = function (pointerState) {
-	if (pointerState.button !== 0) {
-		return;
-	}
-	
 	this._startX = pointerState.windowX;
 	this._startY = pointerState.windowY;
 	this._startScrollX = window.scrollX;
