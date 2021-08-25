@@ -49,6 +49,8 @@ CurveTool.prototype.start = function (pointerState) {
 			this.point1Y =
 			this.point2X =
 			this.point2Y = undefined;
+	} else {
+		this.move(pointerState);
 	}
 };
 
