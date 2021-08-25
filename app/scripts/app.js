@@ -3,7 +3,7 @@
 // Constants.
 var PNG_REGEX = (/.+\.png$/i),
 	JPEG_REGEX = (/.+\.(jpg|jpeg|jpe|jif|jfif|jfi)$/i),
-	FILE_EXT_REGEX = (/\.[a-z0-9]{1,4}$/i),
+	FILE_EXT_REGEX = (/\.[a-z0-9]{0,4}$/i),
 	DEFAULT_TITLE = 'untitled.png',
 	PAGE_TITLE_SUFFIX = ' - PaintZ';
 
