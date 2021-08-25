@@ -25,8 +25,12 @@
 	g. Type a file name with .jpg/.jpeg/.jfif file extension while the dialog is set to PNG  
 	h. Type a file name with .png file extension while the dialog is set to JPEG  
 	i. Type a file name with .png file extension while the dialog is set to PNG  
-	j. Save as JPEG  
-	k. Save as PNG  
+	j. Type a file name with a different image file extension while the dialog is set to JPEG  
+	k. Type a file name with a different image file extension while the dialog is set to PNG  
+	l. Type a file name with a period at the end of the file name while the dialog is set to JPEG  
+	m. Type a file name with a period at the end of the file name while the dialog is set to PNG  
+	n. Save as JPEG  
+	o. Save as PNG  
 
 4. Undo/redo  
 	a. Undo with toolbar button  
