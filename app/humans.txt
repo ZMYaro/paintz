@@ -6,6 +6,12 @@ Twitter: @ZMYaro
 Location: Boston, Massachusetts, USA
 
 /* THANKS */
+Testing/feedback:
+David Martin
+Joe Porsella
+Taylor Braun
+Wendy Enoch
+
 easy.Filter: Alois Zingl
 Site: http://members.chello.at/easyfilter
 Location: Vienna, Austria

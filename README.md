@@ -91,3 +91,9 @@ Code libraries used:
 Icon libraries used:
 * [Material Design](https://material.io/resources/icons)
 * [Material Design Icons](https://materialdesignicons.com)
+
+Testing/feedback:
+* David Martin
+* Joe Porsella
+* Taylor Braun
+* Wendy Enoch
