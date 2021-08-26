@@ -590,14 +590,14 @@ SelectionTool.prototype.nudge = function (deltaX, deltaY) {
 		return;
 	}
 	
-	this._selection.content.x =
-		Math.min(this._cxt.canvas.width,
-			Math.max(-this._selection.content.width,
-				Math.round(this._selection.content.x + deltaX)));
-	this._selection.content.y = 
-		Math.min(this._cxt.canvas.height,
-			Math.max(-this._selection.content.height,
-				Math.round(this._selection.content.y + deltaY)));
+	this._selection.content.x = Utils.constrainValue(
+		Math.round(this._selection.content.x + deltaX),
+		-this._selection.content.width,
+		this._cxt.canvas.width);
+	this._selection.content.y = Utils.constrainValue(
+		Math.round(this._selection.content.y + deltaY),
+		-this._selection.content.height,
+		this._cxt.canvas.height);
 	
 	this.redrawSelection();
 };
