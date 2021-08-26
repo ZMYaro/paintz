@@ -152,8 +152,14 @@ FloatingRegion.prototype.handleDragMove = function (pointerState) {
 	
 	// Handle dragging to move the entire selection.
 	if (this.drag.type === 'move') {
-		this.x = this.drag.initial.x + pointerDelta.x,
-		this.y = this.drag.initial.y + pointerDelta.y
+		this.x = Utils.constrainValue(
+			this.drag.initial.x + pointerDelta.x,
+			-this.drag.initial.width,
+			canvas.width);
+		this.y = Utils.constrainValue(
+			this.drag.initial.y + pointerDelta.y,
+			-this.drag.initial.height,
+			canvas.height);
 		return;
 	}
 	
