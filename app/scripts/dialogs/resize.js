@@ -33,6 +33,8 @@ ResizeDialog.prototype.MAX_PERCENTAGE = 500;
 ResizeDialog.prototype._setUp = function (contents) {
 	Dialog.prototype._setUp.call(this, contents);
 	
+	this._element.width.addEventListener('input', this._handleDimensionChange.bind(this), false);
+	this._element.height.addEventListener('input', this._handleDimensionChange.bind(this), false);
 	this._element.units.addEventListener('change', this._handleUnitChange.bind(this), false);
 	this._element.addEventListener('submit', this._saveNewSize.bind(this), false);
 };
@@ -75,6 +77,37 @@ ResizeDialog.prototype._handleUnitChange = function () {
 			this._element.width.max =
 				this._element.height.max = this.MAX_SIZE;
 			this._showCurrentSize();
+			break;
+	}
+};
+
+/**
+ * @private
+ * Handle the width field being changed.
+ * @param {Event} e
+ */
+ResizeDialog.prototype._handleDimensionChange = function (e) {
+	if (!this._element.maintainAspectRatio.checked) {
+		return;
+	}
+	
+	var changedDimension = (e.target === this._element.width ? 'width' : 'height'),
+		otherDimension = (changedDimension === 'width' ? 'height' : 'width'),
+		otherInput = this._element[otherDimension];
+	
+	var intValue = parseInt(e.target.value);
+	if (isNaN(intValue)) {
+		return;
+	}
+	intValue = Math.max(this.MIN_SIZE, intValue);
+	e.target.value = intValue;
+	switch (this._element.units.value) {
+		case 'percentage':
+			otherInput.value = intValue;
+			break;
+		case 'pixels':
+			otherInput.value =
+				Math.round(intValue / settings.get(changedDimension) * settings.get(otherDimension));
 			break;
 	}
 };

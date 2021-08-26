@@ -240,11 +240,14 @@ kbd {
 	margin: 0 4px;
 }
 
-input[type="checkbox"] {
-	margin: 0px 2px;
-}
 input[type="radio"] {
 	margin: -4px 4px;
+}
+input[type="checkbox"] {
+	margin: -3px 5px;
+}
+[role="button"] input[type="checkbox"] {
+	margin: 0px 2px;
 }
 input[type=range]::-ms-tooltip {
 	display: none;
