@@ -36,6 +36,8 @@ ResizeDialog.prototype._setUp = function (contents) {
 	this._element.width.addEventListener('input', this._handleDimensionChange.bind(this), false);
 	this._element.height.addEventListener('input', this._handleDimensionChange.bind(this), false);
 	this._element.units.addEventListener('change', this._handleUnitChange.bind(this), false);
+	this._element.maintainAspectRatio.addEventListener(
+		'change', this._handleMaintainAspectRatioChange.bind(this), false);
 	this._element.addEventListener('submit', this._saveNewSize.bind(this), false);
 };
 
@@ -109,6 +111,27 @@ ResizeDialog.prototype._handleDimensionChange = function (e) {
 			otherInput.value =
 				Math.round(intValue / settings.get(changedDimension) * settings.get(otherDimension));
 			break;
+	}
+};
+
+/**
+ * @private
+ * Handle the option to maintain aspect ratio being toggled.
+ */
+ResizeDialog.prototype._handleMaintainAspectRatioChange = function () {
+	if (!this._element.maintainAspectRatio.checked) {
+		return;
+	}
+	
+	var widthInt = parseInt(this._element.width.value),
+		heightInt = parseInt(this._element.height.value),
+		currentWidth = (this._element.units.value === 'percentage' ? 100 : settings.get('width')),
+		currentHeight = (this._element.units.value === 'percentage' ? 100 : settings.get('height'));
+	
+	if (widthInt !== currentWidth) {
+		this._handleDimensionChange({ target: this._element.width });
+	} else if (heightInt !== currentHeight) {
+		this._handleDimensionChange({ target: this._element.height });
 	}
 };
 
