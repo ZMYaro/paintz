@@ -10,6 +10,7 @@ function SaveDialog(trigger) {
 	this._element.id = 'saveDialog';
 	this._progressSpinner;
 	this._downloadLink;
+	this._shareButton;
 	this._blob;
 	this._boundSetDownloadURL = this._setDownloadURL.bind(this);
 }
