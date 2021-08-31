@@ -114,18 +114,31 @@ body {
 			resize: none;
 			cursor: text;
 		}
-		.floatingRegion .resizeHandle {
+		.floatingRegion .resizeHandle,
+		.floatingRegion .resizeHandle:hover,
+		.floatingRegion .resizeHandle:focus {
 			position: absolute;
-			background-color: white;
+			margin: 0;
+			padding: 0;
+			border: 0 none;
+			outline: 0 none;
 			width: 24px; /* Floating region grabbable margin */
 			height: 24px;
 			-webkit-border-radius: 12px; /* 0.5 * grabbable margin */
 			   -moz-border-radius: 12px;
 			        border-radius: 12px;
+			background-color: white;
 			-webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.26), 0 1px 5px 0 rgba(0, 0, 0, 0.16);
 			   -moz-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.26), 0 1px 5px 0 rgba(0, 0, 0, 0.16);
 			        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.26), 0 1px 5px 0 rgba(0, 0, 0, 0.16);
 		}
+			.floatingRegion .resizeHandle:active,
+			.floatingRegion .resizeHandle.active {
+				background-color: #ebedf7; /* rgba(63, 81, 181, 0.1) over white */
+				-webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 5px 0 rgba(0, 0, 0, 0.16);
+				   -moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 5px 0 rgba(0, 0, 0, 0.16);
+				        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 5px 0 rgba(0, 0, 0, 0.16);
+			}
 			.floatingRegion.hideHandles .resizeHandle {
 				visibility: hidden;
 			}

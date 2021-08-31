@@ -88,7 +88,7 @@ FloatingRegion.prototype._addDragHandles = function () {
 	var boundHandleDragStart = this.handleDragStart.bind(this);
 	
 	['nw', 'n', 'ne', 'e', 'se', 's', 'sw', 'w'].forEach(function (direction) {
-		var dragHandle = document.createElement('div');
+		var dragHandle = document.createElement('button');
 		dragHandle.className = 'resizeHandle resize' + direction.toUpperCase();
 		dragHandle.dataset.direction = direction;
 		dragHandle.addEventListener('pointerdown', boundHandleDragStart, false);
