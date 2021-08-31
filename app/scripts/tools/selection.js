@@ -83,7 +83,8 @@ SelectionTool.prototype.start = function (pointerState) {
 			transformed: false
 		};
 		// Hide resize handles while creating.
-		this._outline.showHandles = false;
+		this._outline.interactable =
+			this._outline.showHandles = false;
 		this._outline.x = pointerState.x;
 		this._outline.y = pointerState.y;
 		this._outline.width = 0;
@@ -218,7 +219,8 @@ SelectionTool.prototype.end = function (pointerState) {
 		delete this._selection.pointerStart;
 		
 		// Show resize handles once done creating.
-		this._outline.showHandles = true;
+		this._outline.interactable =
+			this._outline.showHandles = true;
 	}
 	
 	// Redraw the selection one last time.

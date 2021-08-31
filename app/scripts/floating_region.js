@@ -8,6 +8,7 @@ function FloatingRegion() {
 		this._y =
 		this._width =
 		this._height = 0;
+	this._interactable = true;
 	this._showHandles = true;
 	
 	this.drag;
@@ -66,6 +67,15 @@ Object.defineProperties(FloatingRegion.prototype, {
 			var zoomedHeight = Math.ceil(zoomManager.level * this._height);
 			zoomedHeight += (2 * this.PADDING);
 			this.elem.style.height = zoomedHeight + 'px';
+		}
+	},
+	interactable: {
+		get: function () {
+			return this._interactable;
+		},
+		set: function (value) {
+			this.elem.style.pointerEvents = (value ? null : 'none');
+			this._interactable = value;
 		}
 	},
 	showHandles: {
@@ -133,6 +143,11 @@ FloatingRegion.prototype.handleDragStart = function (ev) {
 		// otherwise, the entire region is being dragged.
 		type: ev.currentTarget.dataset.direction || 'move'
 	};
+	if (ev.currentTarget.dataset.direction) {
+		this.elem.style.cursor = ev.currentTarget.dataset.direction + '-resize';
+	} else {
+		this.elem.style.cursor = null;
+	}
 	tools._boundPointerDownHandler(ev);
 };
 
@@ -206,6 +221,7 @@ FloatingRegion.prototype.handleDragEnd = function () {
 		return;
 	}
 	delete this.drag;
+	this.elem.style.cursor = null;
 };
 
 /**
