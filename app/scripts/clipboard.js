@@ -12,7 +12,7 @@ function ClipboardManager() {
 		if (!this.enabled) {
 			return;
 		}
-		if (tools.currentTool !== tools.selection && tools.currentTool !== tools.freeformSelection) {
+		if (!(tools.currentTool instanceof SelectionTool)) {
 			return;
 		}
 		
@@ -23,7 +23,7 @@ function ClipboardManager() {
 		if (!this.enabled) {
 			return;
 		}
-		if (tools.currentTool !== tools.selection && tools.currentTool !== tools.freeformSelection) {
+		if (!(tools.currentTool instanceof SelectionTool)) {
 			return;
 		}
 		
