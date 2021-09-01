@@ -71,7 +71,7 @@ ClassicAccessKeyDialog.prototype.KEY_SEQUENCES = {
 			alert('\u201cCopy To...\u201d is not supported in PaintZ.'); },
 		'F': function () { document.getElementById('pasteFrom').click(); } // Paste From
 	},
-	'V': { // View menu...
+	'V': { // View menu.../Win7 View tab...
 		'T': function () {
 			alert('\u201cShow/Hide Tool Box\u201d is not supported in PaintZ.'); },
 		'C': function () {
@@ -87,7 +87,14 @@ ClassicAccessKeyDialog.prototype.KEY_SEQUENCES = {
 			'G': function () { settings.set('grid', !settings.get('grid')); }, // Show Grid
 			'H': function () {
 				alert('\u201cShow Thumbnail\u201d is not supported in PaintZ.'); }, 
-		}
+		},
+		'I': function () { zoomManager.zoomIn(); }, // Win7 Zoom in
+		'O': function () { zoomManager.zoomOut(); }, // Win7 Zoom out
+		'M': function () { zoomManager.level = 1; }, // Win7 100%
+		'R': function () {
+				alert('\u201cShow/Hide Rulers\u201d is not supported in PaintZ.'); },
+		'G': function () { settings.set('grid', !settings.get('grid')); }, // Win7 Gridlines
+		'F': function () { toolbar.toolboxes.app.attemptFullScreen(); } // Win7 Full screen
 	}
 };
 
