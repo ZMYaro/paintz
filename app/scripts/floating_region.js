@@ -15,6 +15,7 @@ function FloatingRegion() {
 	
 	this.elem = document.createElement('div');
 	this.elem.className = 'floatingRegion';
+	this.elem.setAttribute('touch-action', 'none');
 	
 	this._addDragHandles();
 	
