@@ -51,6 +51,25 @@ ClassicAccessKeyDialog.prototype.KEY_SEQUENCES = {
 		'D': function () {
 			dialogs.save._createDownloadURL().then(dialogs.save._boundHandleShare); }, // Win7 Send in email
 		'T': function () { dialogs.about.open(); } // Win7 About Paint
+	},
+	'E': { // Edit menu...
+		'U': function () { undoStack.undo(); }, // Undo
+		'R': function () { undoStack.redo(); }, // Repeat
+		'T': function () { if (tools.currentTool instanceof SelectionTool) { tools.currentTool.cut(); } }, // Cut
+		'C': function () { if (tools.currentTool instanceof SelectionTool) { tools.currentTool.copy(); } }, // Copy
+		'P': function () { if (!clipboard.triggerPaste()) {
+			alert('For now, you need to use ' + (Utils.isApple ? '\u2318' : 'Ctrl+') + 'V to paste an image into PaintZ.'); } }, // Paste
+		'L': function () { if (tools.currentTool instanceof SelectionTool) { tools.currentTool.clear(); } }, // Clear Selection
+		'A': function () {
+			// Select All
+			if (tools.currentTool !== tools.selection) {
+				tools.switchTool('selection');
+			}
+			tools.currentTool.selectAll(canvas.width, canvas.height);
+		},
+		'O': function () {
+			alert('\u201cCopy To...\u201d is not supported in PaintZ.'); },
+		'F': function () { document.getElementById('pasteFrom').click(); } // Paste From
 	}
 };
 

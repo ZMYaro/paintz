@@ -199,7 +199,12 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 69: // E
-			if (noModifiers) {
+			if (e.altKey && !e.ctrlKey && !e.metaKey) {
+				// Alt+E => Begin classic MS Paint access key sequence
+				if (dialogs.classicAccessKey.open('E')) {
+					e.preventDefault();
+				}
+			} else if (noModifiers) {
 				e.preventDefault();
 				// E => Eraser tool
 				tools.switchTool('eraser');
