@@ -12,7 +12,7 @@ function SaveDialog(trigger) {
 	this._downloadLink;
 	this._shareButton;
 	this._blob;
-	this._boundSetDownloadURL = this._setDownloadURL.bind(this);
+	this._boundHandleShare = this._handleShare.bind(this);
 }
 // Extend Dialog.
 SaveDialog.prototype = Object.create(Dialog.prototype);
@@ -40,7 +40,7 @@ SaveDialog.prototype._setUp = function (contents) {
 	this._progressSpinner = this._element.querySelector('progress');
 	
 	this._shareButton = this._element.querySelector('#shareButton');
-	this._shareButton.onclick = this._handleShare.bind(this);
+	this._shareButton.onclick = this._boundHandleShare;
 	this._shareButton.disabled = true;
 	this._shareButton.title = this.SHARE_UNSUPPORTED_MESSAGE;
 	
@@ -67,15 +67,23 @@ SaveDialog.prototype.open = function () {
 /**
  * @private
  * Create a new blob URL, and set it as the download URL when done.
+ * @returns {Promise} Resolves when the blob has been created and the download URL set
  */
 SaveDialog.prototype._createDownloadURL = function () {
-	this._element.classList.add('loading');
-	
-	var blob = canvas.toBlob(this._boundSetDownloadURL, this._downloadLink.type || 'image/png');
-	if (blob instanceof Blob) {
-		// Fallback for browsers in which toBlob is synchronous and returns a Blob.
-		this._setDownloadURL(blob);
-	}
+	var that = this;
+	return new Promise(function (resolve, reject) {
+		that._element.classList.add('loading');
+		
+		var blob = canvas.toBlob(function (blob) {
+			that._setDownloadURL(blob);
+			resolve();
+		}, that._downloadLink.type || 'image/png');
+		if (blob instanceof Blob) {
+			// Fallback for browsers in which toBlob is synchronous and returns a Blob.
+			that._setDownloadURL(blob);
+			resolve();
+		}
+	});
 };
 
 /**

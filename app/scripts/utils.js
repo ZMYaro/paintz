@@ -4,7 +4,9 @@
 Math.TAU = Math.TAU || (2 * Math.PI);
 window.URL = window.webkitURL || window.URL;
 Array.from = Array.from || Array.prototype.slice.call.bind(Array.prototype.slice);
-HTMLElement.prototype.remove = HTMLElement.prototype.remove || function () { this.parentElement.removeChild(this); };
+HTMLElement.prototype.remove = HTMLElement.prototype.remove || function () {
+	this.parentElement ? this.parentElement.removeChild(this) : undefined;
+};
 Object.values = Object.values || function (obj) {
 	var vals = [];
 	for (var key in obj) {

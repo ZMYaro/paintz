@@ -207,7 +207,12 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 70: // F
-			if (noModifiers) {
+			if (e.altKey && !e.ctrlKey && !e.metaKey) {
+				// Alt+F => Begin classic MS Paint access key sequence
+				if (dialogs.classicAccessKey.open('F')) {
+					e.preventDefault();
+				}
+			} else if (noModifiers) {
 				e.preventDefault();
 				// F => Freeform selection tool
 				tools.switchTool('freeformSelection');
