@@ -28,19 +28,7 @@ AppToolbox.prototype._setUp = function (contents) {
 	
 	// Full screen button.
 	var fullScreenBtn = this._element.querySelector('#fullScreenBtn');
-	fullScreenBtn.addEventListener('click', function () {
-		if (canvas.requestFullscreen) {
-			canvas.requestFullscreen();
-		} else if (canvas.webkitRequestFullscreen) {
-			canvas.webkitRequestFullscreen();
-		} else if (canvas.mozRequestFullScreen) {
-			canvas.mozRequestFullScreen();
-		} else if (canvas.msRequestFullscreen) {
-			canvas.msRequestFullscreen();
-		} else {
-			alert('Your browser or system does not support full screen mode.');
-		}
-	}, false);
+	fullScreenBtn.addEventListener('click', this.attemptFullScreen, false);
 	
 	// Settings button and dialog.
 	var settingsBtn = this._element.querySelector('#settingsBtn');
@@ -56,4 +44,21 @@ AppToolbox.prototype._setUp = function (contents) {
 	var aboutBtn = this._element.querySelector('#aboutBtn');
 	dialogs.about.trigger = aboutBtn;
 	aboutBtn.addEventListener('click', dialogs.about.open.bind(dialogs.about), false);
+};
+
+/**
+ * Attempt to full-screen the canvas with various browsers' commands.
+ */
+AppToolbox.prototype.attemptFullScreen = function () {
+	if (canvas.requestFullscreen) {
+		canvas.requestFullscreen();
+	} else if (canvas.webkitRequestFullscreen) {
+		canvas.webkitRequestFullscreen();
+	} else if (canvas.mozRequestFullScreen) {
+		canvas.mozRequestFullScreen();
+	} else if (canvas.msRequestFullscreen) {
+		canvas.msRequestFullscreen();
+	} else {
+		alert('Your browser or system does not support full screen mode.');
+	}
 };
