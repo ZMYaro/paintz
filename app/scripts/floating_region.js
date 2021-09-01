@@ -147,7 +147,7 @@ FloatingRegion.prototype.handleDragStart = function (ev) {
 	if (ev.currentTarget.dataset.direction) {
 		this.elem.style.cursor = ev.currentTarget.dataset.direction + '-resize';
 	} else {
-		this.elem.style.cursor = null;
+		this.elem.style.removeProperty('cursor');
 	}
 	tools._boundPointerDownHandler(ev);
 };
@@ -222,14 +222,14 @@ FloatingRegion.prototype.handleDragEnd = function () {
 		return;
 	}
 	delete this.drag;
-	this.elem.style.cursor = null;
+	this.elem.style.removeProperty('cursor');
 };
 
 /**
  * Show the floating region if it has been hidden.
  */
 FloatingRegion.prototype.show = function () {
-	this.elem.style.visibility = null;
+	this.elem.style.removeProperty('visibility');
 };
 
 /**

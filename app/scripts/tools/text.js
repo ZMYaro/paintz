@@ -193,7 +193,7 @@ TextTool.prototype.end = function (pointerState) {
 	
 	this.move(pointerState);
 	
-	this._textArea.style.cursor = null;
+	this._textArea.style.removeProperty('cursor');
 	this._preCxt.canvas.style.cursor = 'crosshair';
 	
 	if (this._outline.drag) {
