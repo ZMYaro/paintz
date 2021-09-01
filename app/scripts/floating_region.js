@@ -75,7 +75,11 @@ Object.defineProperties(FloatingRegion.prototype, {
 			return this._interactable;
 		},
 		set: function (value) {
-			this.element.style.pointerEvents = (value ? null : 'none');
+			if (value) {
+				this.element.style.removeProperty('pointer-events');
+			} else {
+				this.element.style.pointerEvents = 'none';
+			}
 			this._interactable = value;
 		}
 	},
