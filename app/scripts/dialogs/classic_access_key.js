@@ -70,6 +70,24 @@ ClassicAccessKeyDialog.prototype.KEY_SEQUENCES = {
 		'O': function () {
 			alert('\u201cCopy To...\u201d is not supported in PaintZ.'); },
 		'F': function () { document.getElementById('pasteFrom').click(); } // Paste From
+	},
+	'V': { // View menu...
+		'T': function () {
+			alert('\u201cShow/Hide Tool Box\u201d is not supported in PaintZ.'); },
+		'C': function () {
+			alert('\u201cShow/Hide Color Box\u201d is not supported in PaintZ.'); },
+		'S': function () {
+			alert('\u201cShow/Hide Status Bar\u201d is not supported in PaintZ.'); }, 
+		'E': function () { tools.switchTool('text'); }, // Text Toolbar
+		'V': function () { toolbar.toolboxes.app.attemptFullScreen(); }, // View Bitmap
+		'Z': { // Zoom submenu...
+			'N': function () { zoomManager.level = 1; }, // Normal Size
+			'L': function () { zoomManager.level = 4; }, // Large Size
+			'U': function () { toolbar.toolboxes.zoom.percent.focus(); }, // Custom...
+			'G': function () { settings.set('grid', !settings.get('grid')); }, // Show Grid
+			'H': function () {
+				alert('\u201cShow Thumbnail\u201d is not supported in PaintZ.'); }, 
+		}
 	}
 };
 

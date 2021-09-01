@@ -359,10 +359,15 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 86: // V
-			if(ctrlOrCmd && e.altKey && !e.shiftKey && !metaOrControl) {
+			if (ctrlOrCmd && e.altKey && !e.shiftKey && !metaOrControl) {
 				e.preventDefault();
 				// Ctrl+Alt+V => Paste from...
 				document.getElementById('pasteFrom').click();
+			} else if (e.altKey && !e.ctrlKey && !e.metaKey) {
+				// Alt+V => Begin classic MS Paint access key sequence
+				if (dialogs.classicAccessKey.open('V')) {
+					e.preventDefault();
+				}
 			}
 		
 		case 88: // X
