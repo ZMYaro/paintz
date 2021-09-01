@@ -84,7 +84,7 @@ ImageToolbox.prototype._setUp = function (contents) {
 			pasteFromInput.click();
 			return;
 		}
-		if (!clipboard.triggerPaste() && !document.execCommand('paste')) {
+		if (!clipboard.triggerPaste()) {
 			alert('For now, you need to use ' + (Utils.isApple ? '\u2318' : 'Ctrl+') + 'V to paste an image into PaintZ.');
 		}
 	}, false);
