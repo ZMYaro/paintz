@@ -13,14 +13,14 @@ function FloatingRegion() {
 	
 	this.drag;
 	
-	this.elem = document.createElement('div');
-	this.elem.className = 'floatingRegion';
-	this.elem.setAttribute('touch-action', 'none');
+	this.element = document.createElement('div');
+	this.element.className = 'floatingRegion';
+	this.element.setAttribute('touch-action', 'none');
 	
 	this._addDragHandles();
 	
 	// Use the pointer handlers for tools when the region gets moved or resized.
-	this.elem.addEventListener('pointerdown', this.handleDragStart.bind(this), false);
+	this.element.addEventListener('pointerdown', this.handleDragStart.bind(this), false);
 }
 
 // Define constants.
@@ -56,7 +56,7 @@ Object.defineProperties(FloatingRegion.prototype, {
 			this._width = Math.round(value);
 			var zoomedWidth = Math.ceil(zoomManager.level * this._width);
 			zoomedWidth += (2 * this.PADDING);
-			this.elem.style.width = zoomedWidth + 'px';
+			this.element.style.width = zoomedWidth + 'px';
 		}
 	},
 	height: {
@@ -67,7 +67,7 @@ Object.defineProperties(FloatingRegion.prototype, {
 			this._height = Math.round(value);
 			var zoomedHeight = Math.ceil(zoomManager.level * this._height);
 			zoomedHeight += (2 * this.PADDING);
-			this.elem.style.height = zoomedHeight + 'px';
+			this.element.style.height = zoomedHeight + 'px';
 		}
 	},
 	interactable: {
@@ -75,7 +75,7 @@ Object.defineProperties(FloatingRegion.prototype, {
 			return this._interactable;
 		},
 		set: function (value) {
-			this.elem.style.pointerEvents = (value ? null : 'none');
+			this.element.style.pointerEvents = (value ? null : 'none');
 			this._interactable = value;
 		}
 	},
@@ -85,7 +85,7 @@ Object.defineProperties(FloatingRegion.prototype, {
 		},
 		set: function (value) {
 			// For browsers that do not support calling `classList.toggle` with a boolean.
-			this.elem.classList[value ? 'remove' : 'add']('hideHandles');
+			this.element.classList[value ? 'remove' : 'add']('hideHandles');
 			this._showHandles = value;
 		}
 	}
@@ -103,7 +103,7 @@ FloatingRegion.prototype._addDragHandles = function () {
 		dragHandle.className = 'resizeHandle resize' + direction.toUpperCase();
 		dragHandle.dataset.direction = direction;
 		dragHandle.addEventListener('pointerdown', boundHandleDragStart, false);
-		this.elem.appendChild(dragHandle);
+		this.element.appendChild(dragHandle);
 	}, this);
 };
 
@@ -116,11 +116,11 @@ FloatingRegion.prototype._updateTransform = function () {
 		zoomedY = Math.floor(zoomManager.level * this._y);
 	zoomedX -= this.PADDING;
 	zoomedY -= this.PADDING;
-	this.elem.style.WebkitTransform =
-		this.elem.style.MozTransform =
-		this.elem.style.MsTransform =
-		this.elem.style.OTransform =
-		this.elem.style.transform = 'translate(' + zoomedX + 'px, ' + zoomedY + 'px)';
+	this.element.style.WebkitTransform =
+		this.element.style.MozTransform =
+		this.element.style.MsTransform =
+		this.element.style.OTransform =
+		this.element.style.transform = 'translate(' + zoomedX + 'px, ' + zoomedY + 'px)';
 };
 
 /**
@@ -145,9 +145,9 @@ FloatingRegion.prototype.handleDragStart = function (ev) {
 		type: ev.currentTarget.dataset.direction || 'move'
 	};
 	if (ev.currentTarget.dataset.direction) {
-		this.elem.style.cursor = ev.currentTarget.dataset.direction + '-resize';
+		this.element.style.cursor = ev.currentTarget.dataset.direction + '-resize';
 	} else {
-		this.elem.style.removeProperty('cursor');
+		this.element.style.removeProperty('cursor');
 	}
 	tools._boundPointerDownHandler(ev);
 };
@@ -222,29 +222,29 @@ FloatingRegion.prototype.handleDragEnd = function () {
 		return;
 	}
 	delete this.drag;
-	this.elem.style.removeProperty('cursor');
+	this.element.style.removeProperty('cursor');
 };
 
 /**
  * Show the floating region if it has been hidden.
  */
 FloatingRegion.prototype.show = function () {
-	this.elem.style.removeProperty('visibility');
+	this.element.style.removeProperty('visibility');
 };
 
 /**
  * Hide the floating region.
  */
 FloatingRegion.prototype.hide = function () {
-	this.elem.style.visibility = 'hidden';
+	this.element.style.visibility = 'hidden';
 };
 
 /**
  * Append the floating region element to the body.
  */
 FloatingRegion.prototype.addToDOM = function () {
-	if (!canvasPositioner.contains(this.elem)) {
-		canvasPositioner.appendChild(this.elem);
+	if (!canvasPositioner.contains(this.element)) {
+		canvasPositioner.appendChild(this.element);
 	}
 	this.show();
 };
@@ -255,10 +255,10 @@ FloatingRegion.prototype.addToDOM = function () {
 FloatingRegion.prototype.removeFromDOM = function () {
 	// End any ongoing drag if in progress.
 	this.handleDragEnd();
-	if (canvasPositioner.contains(this.elem)) {
+	if (canvasPositioner.contains(this.element)) {
 		try {
 			// Wrapping in a try block because sometimes contains incorrectly returns true for the text tool.
-			canvasPositioner.removeChild(this.elem);
+			canvasPositioner.removeChild(this.element);
 		} catch (err) {}
 	}
 };

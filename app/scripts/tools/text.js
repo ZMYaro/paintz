@@ -17,7 +17,7 @@ function TextTool(cxt, preCxt) {
 	this._textArea.className = 'textArea';
 	this._textArea.style.lineHeight = this.LINE_HEIGHT;
 	this._textArea.style.padding = this.PADDING + 'px';
-	this._outline.elem.appendChild(this._textArea);
+	this._outline.element.appendChild(this._textArea);
 	
 	// Prevent selecting text moving the text box.
 	this._textArea.addEventListener('pointerdown', function (ev) { ev.stopPropagation(); });
@@ -269,7 +269,7 @@ TextTool.prototype.updateTextElem = function () {
 	this._outline.width = this._outline.width;
 	this._outline.height = this._outline.height;
 	
-	this._outline.elem.style.background = this._getBackgroundValue();
+	this._outline.element.style.background = this._getBackgroundValue();
 	this._textArea.style.width = this._outline.width + 'px';
 	this._textArea.style.height = this._outline.height + 'px';
 	this._textArea.style.WebkitTransform = 'scale(' + zoomManager.level + ')';
