@@ -237,7 +237,12 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			}
 		
 		case 72: // H
-			if (noModifiers) {
+			if (e.altKey && !e.ctrlKey && !e.metaKey) {
+				// Alt+H => Begin classic MS Paint access key sequence
+				if (dialogs.classicAccessKey.open('H')) {
+					e.preventDefault();
+				}
+			} else if (noModifiers) {
 				e.preventDefault();
 				// H => Pan (hand) tool
 				tools.switchTool('pan');

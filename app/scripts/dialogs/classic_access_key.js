@@ -130,6 +130,10 @@ ClassicAccessKeyDialog.prototype.KEY_SEQUENCES = {
 	},
 	'C': { // Colors menu...
 		'E': function () { dialogs.colorPicker.open(); } // Edit colors...
+	},
+	'H': { // Help menu...
+		'H': function () { dialogs.help.open(); }, // Help Topics
+		'A': function () { dialogs.about.open(); } // About Paint
 	}
 };
 
