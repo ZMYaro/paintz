@@ -180,7 +180,12 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 67: // C
-			if (noModifiers) {
+			if (e.altKey && !e.ctrlKey && !e.metaKey) {
+				// Alt+E => Begin classic MS Paint access key sequence
+				if (dialogs.classicAccessKey.open('C')) {
+					e.preventDefault();
+				}
+			} else if (noModifiers) {
 				e.preventDefault();
 				// C => Curve tool
 				tools.switchTool('curve');

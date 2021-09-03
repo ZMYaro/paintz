@@ -127,6 +127,9 @@ ClassicAccessKeyDialog.prototype.KEY_SEQUENCES = {
 				toolbar.toolboxes.textToolOptions.textFillOn.checked = settings.get('textFill');
 			}
 		}
+	},
+	'C': { // Colors menu...
+		'E': function () { dialogs.colorPicker.open(); } // Edit colors...
 	}
 };
 
