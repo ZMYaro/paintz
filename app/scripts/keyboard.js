@@ -34,12 +34,27 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			}
 			break;
 		
+		case 13: // Enter
+			if (ctrlOrCmdOnly) {
+				if (tools.currentTool === tools.text) {
+					e.preventDefault();
+					// Ctrl+Enter => Rasterize text
+					tools.currentTool._removeTextElem();
+				}
+			}
+			break;
+		
 		case 27: // Esc
 			if (noModifiers) {
 				if (tools.currentTool instanceof SelectionTool) {
 					e.preventDefault();
 					// Esc => Drop/cancel selection
 					tools.currentTool.deactivate();
+				} else if (tools.currentTool === tools.text) {
+					e.preventDefault();
+					// Esc => Cancel text box
+					tools.currentTool._textArea.innerHTML = '';
+					tools.currentTool._removeTextElem();
 				}
 			}
 			break;
