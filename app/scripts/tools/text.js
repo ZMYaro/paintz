@@ -110,8 +110,6 @@ TextTool.prototype.start = function (pointerState) {
 		}
 		that.pasting = false;
 	}, false);
-	
-	keyManager.enabled = false;
 };
 
 /**
@@ -292,7 +290,6 @@ TextTool.prototype._removeTextElem = function () {
 		// Remove the text region and element.
 		this._textBoxActive = false;
 		this._outline.removeFromDOM();
-		keyManager.enabled = true;
 	}).bind(this));
 };
 
@@ -371,6 +368,8 @@ TextTool.prototype._handleKeyDown = function (e) {
 		metaOrControl = Utils.checkPlatformMetaOrControlKey(e),
 		ctrlOrCmdOnly = ctrlOrCmd && !e.altKey && !e.shiftKey && !metaOrControl,
 		noModifiers = !Utils.checkModifierKeys(e);
+	
+	e.stopPropagation();
 	
 	switch (e.keyCode) {
 		case 13: // Enter
