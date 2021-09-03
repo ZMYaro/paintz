@@ -181,7 +181,7 @@ KeyManager.prototype._handleKeyDown = function (e) {
 		
 		case 67: // C
 			if (e.altKey && !e.ctrlKey && !e.metaKey) {
-				// Alt+E => Begin classic MS Paint access key sequence
+				// Alt+C => Begin classic MS Paint access key sequence
 				if (dialogs.classicAccessKey.open('C')) {
 					e.preventDefault();
 				}
