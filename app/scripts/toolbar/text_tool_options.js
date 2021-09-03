@@ -12,6 +12,8 @@ function TextToolOptionsToolbox(toolbar) {
 	this.italicToggle;
 	this.underlineToggle;
 	this.strikeToggle;
+	this.textFillOff;
+	this.textFillOn;
 }
 // Extend Toolbox.
 TextToolOptionsToolbox.prototype = Object.create(Toolbox.prototype);

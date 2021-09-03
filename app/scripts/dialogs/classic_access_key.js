@@ -95,6 +95,38 @@ ClassicAccessKeyDialog.prototype.KEY_SEQUENCES = {
 				alert('\u201cShow/Hide Rulers\u201d is not supported in PaintZ.'); },
 		'G': function () { settings.set('grid', !settings.get('grid')); }, // Win7 Gridlines
 		'F': function () { toolbar.toolboxes.app.attemptFullScreen(); } // Win7 Full screen
+	},
+	'I': { // Image menu...
+		'F': function () {
+			// Flip/Rotate...
+			if (!(tools.currentTool instanceof SelectionTool)) {
+				tools.switchTool('selection');
+			}
+		},
+		'S': function () {
+				alert('\u201cStretch/Skew\u201d is not supported in PaintZ.'); },
+		'I': function () {
+			// Invert Colors
+			if (tools.currentTool instanceof SelectionTool) {
+				tools.currentTool.invertColors();
+			} else {
+				tools.selection.invertColors();
+			}
+		},
+		'A': function () { dialogs.resize.open(); }, // Attributes...
+		'C': function () { dialogs.clear._clear(); }, // Clear Image
+		'D': function () {
+			// Draw Opaque
+			if (tools.currentTool instanceof SelectionTool) {
+				settings.set('transparentSelection', !settings.get('transparentSelection'));
+				toolbar.toolboxes.selectToolOptions.transparentSelectionOff.checked = !settings.get('transparentSelection');
+				toolbar.toolboxes.selectToolOptions.transparentSelectionOn.checked = settings.get('transparentSelection');
+			} else if (tools.currentTool === tools.text) {
+				settings.set('textFill', !settings.get('textFill'));
+				toolbar.toolboxes.textToolOptions.textFillOff.checked = !settings.get('textFill');
+				toolbar.toolboxes.textToolOptions.textFillOn.checked = settings.get('textFill');
+			}
+		}
 	}
 };
 

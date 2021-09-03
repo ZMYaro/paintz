@@ -9,6 +9,9 @@ function SelectionToolOptionsToolbox(toolbar) {
 	Toolbox.call(this, 'select_tool_options', toolbar);
 	
 	this._element.id = 'selectOptions';
+	
+	this.transparentSelectionOff;
+	this.transparentSelectionOn;
 }
 // Extend Toolbox.
 SelectionToolOptionsToolbox.prototype = Object.create(Toolbox.prototype);
@@ -58,17 +61,17 @@ SelectionToolOptionsToolbox.prototype._setUp = function (contents) {
 		tools.currentTool.invertColors();
 	}, false);
 	
-	var transparentSelectionOn = this._element.querySelector('#transparentSelectionOn');
-	transparentSelectionOn.checked = settings.get('transparentSelection');
-	transparentSelectionOn.addEventListener('change', function() {
+	this.transparentSelectionOn = this._element.querySelector('#transparentSelectionOn');
+	this.transparentSelectionOn.checked = settings.get('transparentSelection');
+	this.transparentSelectionOn.addEventListener('change', function() {
 		if (this.checked) {
 			settings.set('transparentSelection', true);
 		}
 	});
 	
-	var transparentSelectionOff = this._element.querySelector('#transparentSelectionOff');
-	transparentSelectionOff.checked = !settings.get('transparentSelection');
-	transparentSelectionOff.addEventListener('change', function() {
+	this.transparentSelectionOff = this._element.querySelector('#transparentSelectionOff');
+	this.transparentSelectionOff.checked = !settings.get('transparentSelection');
+	this.transparentSelectionOff.addEventListener('change', function() {
 		if (this.checked) {
 			settings.set('transparentSelection', false);
 		}

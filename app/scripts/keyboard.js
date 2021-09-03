@@ -240,7 +240,12 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 73: // I
-			if (ctrlOrCmdOnly) {
+			if (e.altKey && !e.ctrlKey && !e.metaKey) {
+				// Alt+I => Begin classic MS Paint access key sequence
+				if (dialogs.classicAccessKey.open('I')) {
+					e.preventDefault();
+				}
+			} else if (ctrlOrCmdOnly) {
 				e.preventDefault();
 				
 				if (settings.get('tool') === 'text') {
