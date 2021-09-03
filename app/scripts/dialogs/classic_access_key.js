@@ -236,8 +236,31 @@ ClassicAccessKeyDialog.prototype.KEY_SEQUENCES = {
 		'M': function () {
 			alert('\u201cMagnifier\u201d is not currently supported in PaintZ.'); },
 		'B': function () { tools.switchTool('doodle'); }, // Brushes
-		'O': function () {  }, // 
-		'I': function () {  }, // 
+		'O': function () {
+			// Outline
+			if (tools.currentTool instanceof ShapeTool) {
+				var outlineOption = ({
+					'outlineOnly': 'fillOnly',
+					'fillOnly': 'outlineFill',
+					'outlineFill': 'fillOnly'
+				})[settings.get('outlineOption')];
+				toolbar.toolboxes.drawToolOptions.outlineOptions.outlineOption.value = outlineOption;
+				settings.set('outlineOption', outlineOption);
+			}
+		},
+		'I': function () {
+			// Fill
+			if (tools.currentTool instanceof ShapeTool) {
+				var outlineOption = ({
+					'outlineOnly': 'outlineFill',
+					'fillOnly': 'outlineOnly',
+					'outlineFill': 'outlineOnly'
+				})[settings.get('outlineOption')];
+				toolbar.toolboxes.drawToolOptions.outlineOptions.outlineOption.value = outlineOption;
+				settings.set('outlineOption', outlineOption);
+			}
+			
+		}
 	}
 };
 
