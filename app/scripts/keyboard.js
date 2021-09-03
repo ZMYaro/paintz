@@ -235,6 +235,7 @@ KeyManager.prototype._handleKeyDown = function (e) {
 				// Ctrl+G => Toggle grid
 				settings.set('grid', !settings.get('grid'));
 			}
+			break;
 		
 		case 72: // H
 			if (e.altKey && !e.ctrlKey && !e.metaKey) {
