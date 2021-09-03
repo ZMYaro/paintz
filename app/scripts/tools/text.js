@@ -377,10 +377,10 @@ TextTool.prototype._handleKeyDown = function (e) {
 				e.preventDefault();
 				// Ctrl+Enter => Rasterize text
 				
-				this._saveText();
 				this._removeTextElem();
 			}
 			break;
+		
 		case 27: // Esc
 			if (noModifiers) {
 				e.preventDefault();
