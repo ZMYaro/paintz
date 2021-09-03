@@ -40,8 +40,8 @@ function ToolbarManager() {
 	this.toolboxes.selectToolOptions.hide();
 	this.toolboxes.textToolOptions.hide();
 	
-	/** @private {Toolbox} The currently shown tool options toolbox */
-	this._currentToolOptionsToolbox = this.toolboxes.drawToolOptions;
+	/** {Toolbox} The currently shown tool options toolbox */
+	this.currentToolOptionsToolbox = this.toolboxes.drawToolOptions;
 	
 	// Set up scroll event listeners for different browsers.
 	var boundScrollHandler = this._handleScroll.bind(this);
@@ -100,10 +100,10 @@ ToolbarManager.prototype._handleScroll = function (ev) {
  * @param {Toolbox} toolbox - Which toolbox to show (if none, defaults to the no tool options toolbox)
  */
 ToolbarManager.prototype.switchToolOptionsToolbox = function (toolbox) {
-	if (this._currentToolOptionsToolbox) {
-		this._currentToolOptionsToolbox.hide();
+	if (this.currentToolOptionsToolbox) {
+		this.currentToolOptionsToolbox.hide();
 	}
 	toolbox = (toolbox || this.toolboxes.noToolOptions);
 	toolbox.show();
-	this._currentToolOptionsToolbox = toolbox;
+	this.currentToolOptionsToolbox = toolbox;
 };
