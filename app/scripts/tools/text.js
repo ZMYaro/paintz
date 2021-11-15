@@ -533,6 +533,7 @@ TextTool.prototype._handleKeyDown = function (e) {
 					e.preventDefault();
 				}
 			}
+			break;
 		
 		case 112: // F1
 			if (noModifiers) {
