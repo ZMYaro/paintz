@@ -208,6 +208,7 @@ body {
 
 .floatingToolbar {
 	padding: 0;
+	white-space: nowrap;
 	z-index: 3;
 }
 	.floatingToolbar button {
