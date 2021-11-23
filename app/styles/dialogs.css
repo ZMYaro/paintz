@@ -287,6 +287,9 @@ small,
 #helpDialog table {
 	text-align: left;
 }
+.dialog th {
+	text-align: left;
+}
 .dialog .helpIcon {
 	box-sizing: content-box;
 	
