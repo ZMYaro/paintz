@@ -562,7 +562,11 @@ TextTool.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 191: // //?
-			if (ctrlOrCmd && e.altKey && e.shiftKey && !metaOrControl) {
+			if (ctrlOrCmd && e.shiftKey && !e.altKey && !metaOrControl) {
+				e.preventDefault();
+				// Ctrl+? => Keyboard shortcuts dialog
+				dialogs.keyboard.open();
+			} else if (ctrlOrCmd && e.altKey && e.shiftKey && !metaOrControl) {
 				e.preventDefault();
 				// Ctrl+Alt+Shift+? => MS Paint access key help dialog
 				dialogs.msAccessKeyHelp.open();
