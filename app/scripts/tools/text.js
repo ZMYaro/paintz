@@ -430,7 +430,7 @@ TextTool.prototype._handleKeyDown = function (e) {
 		case 67: // C
 			if (e.altKey && !e.ctrlKey && !e.metaKey) {
 				// Alt+C => Begin classic MS Paint access key sequence
-				if (dialogs.classicAccessKey.open('C')) {
+				if (dialogs.msAccessKey.open('C')) {
 					e.preventDefault();
 				}
 			}
@@ -439,7 +439,7 @@ TextTool.prototype._handleKeyDown = function (e) {
 		case 69: // E
 			if (e.altKey && !e.ctrlKey && !e.metaKey) {
 				// Alt+E => Begin classic MS Paint access key sequence
-				if (dialogs.classicAccessKey.open('E')) {
+				if (dialogs.msAccessKey.open('E')) {
 					e.preventDefault();
 				}
 			}
@@ -448,7 +448,7 @@ TextTool.prototype._handleKeyDown = function (e) {
 		case 70: // F
 			if (e.altKey && !e.ctrlKey && !e.metaKey) {
 				// Alt+F => Begin classic MS Paint access key sequence
-				if (dialogs.classicAccessKey.open('F')) {
+				if (dialogs.msAccessKey.open('F')) {
 					e.preventDefault();
 				}
 			}
@@ -457,7 +457,7 @@ TextTool.prototype._handleKeyDown = function (e) {
 		case 72: // H
 			if (e.altKey && !e.ctrlKey && !e.metaKey) {
 				// Alt+H => Begin classic MS Paint access key sequence
-				if (dialogs.classicAccessKey.open('H')) {
+				if (dialogs.msAccessKey.open('H')) {
 					e.preventDefault();
 				}
 			}
@@ -466,7 +466,7 @@ TextTool.prototype._handleKeyDown = function (e) {
 		case 73: // I
 			if (e.altKey && !e.ctrlKey && !e.metaKey) {
 				// Alt+I => Begin classic MS Paint access key sequence
-				if (dialogs.classicAccessKey.open('I')) {
+				if (dialogs.msAccessKey.open('I')) {
 					e.preventDefault();
 				}
 			} else if (ctrlOrCmdOnly) {
@@ -529,7 +529,7 @@ TextTool.prototype._handleKeyDown = function (e) {
 				document.getElementById('pasteFrom').click();
 			} else if (e.altKey && !e.ctrlKey && !e.metaKey) {
 				// Alt+V => Begin classic MS Paint access key sequence
-				if (dialogs.classicAccessKey.open('V')) {
+				if (dialogs.msAccessKey.open('V')) {
 					e.preventDefault();
 				}
 			}

@@ -2,24 +2,24 @@
 
 /**
  * @class
- * Create a new ClassicAccessKeyDialog instance.
+ * Create a new MSAccessKeyDialog instance.
  * @param {HTMLElement} [trigger] - The button that triggers the dialog, if any
  */
-function ClassicAccessKeyDialog(trigger) {
-	Dialog.call(this, 'classic_access_key', trigger);
+function MSAccessKeyDialog(trigger) {
+	Dialog.call(this, 'ms_access_key', trigger);
 	
 	this._keySequencePosition = undefined;
 	this._keySequenceDisplay;
 }
 // Extend Dialog.
-ClassicAccessKeyDialog.prototype = Object.create(Dialog.prototype);
-ClassicAccessKeyDialog.prototype.constructor = ClassicAccessKeyDialog;
+MSAccessKeyDialog.prototype = Object.create(Dialog.prototype);
+MSAccessKeyDialog.prototype.constructor = MSAccessKeyDialog;
 
 // Define constants.
 /** @override @constant {String} The width of the dialog, as a CSS value */
-ClassicAccessKeyDialog.prototype.WIDTH = '304px';
+MSAccessKeyDialog.prototype.WIDTH = '296px';
 /** @constant {Object} Maps of key sequences to actions */
-ClassicAccessKeyDialog.prototype.KEY_SEQUENCES = {
+MSAccessKeyDialog.prototype.KEY_SEQUENCES = {
 	'F': { // File menu...
 		'N': function () { dialogs.clear.open(); }, // New (clear)
 		'O': function () { document.getElementById('upload').click(); }, // Open...
@@ -270,7 +270,7 @@ ClassicAccessKeyDialog.prototype.KEY_SEQUENCES = {
  * Populate the dialog with its contents.
  * @param {String} contents - The HTML contents of the dialog
  */
-ClassicAccessKeyDialog.prototype._setUp = function (contents) {
+MSAccessKeyDialog.prototype._setUp = function (contents) {
 	Dialog.prototype._setUp.call(this, contents);
 	
 	this._element.tabIndex = -1;
@@ -288,7 +288,7 @@ ClassicAccessKeyDialog.prototype._setUp = function (contents) {
  * @param {String} firstKey - The key pressed (with Alt) to open the dialog
  * @returns {Boolean} If the dialog was opened validly
  */
-ClassicAccessKeyDialog.prototype.open = function (firstKey) {
+MSAccessKeyDialog.prototype.open = function (firstKey) {
 	if (!window.matchMedia || !window.matchMedia('(display-mode: standalone)').matches) {
 		// Only allow access key overrides in standalone windows.
 		return false;
@@ -311,7 +311,7 @@ ClassicAccessKeyDialog.prototype.open = function (firstKey) {
  * @override
  * Focus the dialog itself instead of searching for a child to focus.
  */
-ClassicAccessKeyDialog.prototype.focus = function () {
+MSAccessKeyDialog.prototype.focus = function () {
 	this._element.focus();
 };
 
@@ -321,7 +321,7 @@ ClassicAccessKeyDialog.prototype.focus = function () {
  * @param {Event} [e] - The event that triggered the close, if any.
  * @returns {Promise} Resolves when the dialog has closed
  */
-ClassicAccessKeyDialog.prototype.close = function (e) {
+MSAccessKeyDialog.prototype.close = function (e) {
 	this._keySequencePosition = undefined;
 	
 	return Dialog.prototype.close.call(this, e);
@@ -332,7 +332,7 @@ ClassicAccessKeyDialog.prototype.close = function (e) {
  * Handle keyboard shortcuts with the dialog active.
  * @param {KeyboardEvent} e
  */
-ClassicAccessKeyDialog.prototype._handleKeyDown = function (e) {
+MSAccessKeyDialog.prototype._handleKeyDown = function (e) {
 	var instantAbort =
 			(!this._keySequencePosition ||
 			e.ctrlKey || e.metaKey ||

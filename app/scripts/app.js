@@ -221,7 +221,7 @@ function checkSaveCountMilestone() {
 
 window.addEventListener('load', function () {
 	// Initialize dialogs not bound to specific buttons.
-	dialogs.classicAccessKey = new ClassicAccessKeyDialog();
+	dialogs.msAccessKey = new MSAccessKeyDialog();
 	dialogs.msAccessKeyHelp = new MSAccessKeyHelpDialog();
 	dialogs.coffee = new CoffeeDialog();
 	dialogs.install = new InstallDialog();
