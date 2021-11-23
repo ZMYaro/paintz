@@ -560,5 +560,13 @@ TextTool.prototype._handleKeyDown = function (e) {
 				zoomManager.zoomOut();
 			}
 			break;
+		
+		case 191: // //?
+			if (ctrlOrCmd && e.altKey && e.shiftKey && !metaOrControl) {
+				e.preventDefault();
+				// Ctrl+Alt+Shift+? => MS Paint access key help dialog
+				dialogs.msAccessKeyHelp.open();
+			}
+			break;
 	}
 };

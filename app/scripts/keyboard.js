@@ -460,6 +460,10 @@ KeyManager.prototype._handleKeyDown = function (e) {
 				e.preventDefault();
 				// ? OR Ctrl+? => Keyboard shortcuts dialog
 				dialogs.keyboard.open();
+			} else if (ctrlOrCmd && e.altKey && e.shiftKey && !metaOrControl) {
+				e.preventDefault();
+				// Ctrl+Alt+Shift+? => MS Paint access key help dialog
+				dialogs.msAccessKeyHelp.open();
 			}
 			break;
 		
