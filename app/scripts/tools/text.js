@@ -423,7 +423,7 @@ TextTool.prototype._handleKeyDown = function (e) {
 		
 		case 67: // C
 			if (e.altKey && !e.ctrlKey && !e.metaKey) {
-				// Alt+C => Begin classic MS Paint access key sequence
+				// Alt+C => Begin MS Paint access key sequence
 				if (dialogs.msAccessKey.open('C')) {
 					e.preventDefault();
 				}
@@ -432,7 +432,7 @@ TextTool.prototype._handleKeyDown = function (e) {
 		
 		case 69: // E
 			if (e.altKey && !e.ctrlKey && !e.metaKey) {
-				// Alt+E => Begin classic MS Paint access key sequence
+				// Alt+E => Begin MS Paint access key sequence
 				if (dialogs.msAccessKey.open('E')) {
 					e.preventDefault();
 				}
@@ -445,7 +445,7 @@ TextTool.prototype._handleKeyDown = function (e) {
 		
 		case 70: // F
 			if (e.altKey && !e.ctrlKey && !e.metaKey) {
-				// Alt+F => Begin classic MS Paint access key sequence
+				// Alt+F => Begin MS Paint access key sequence
 				if (dialogs.msAccessKey.open('F')) {
 					e.preventDefault();
 				}
@@ -454,7 +454,7 @@ TextTool.prototype._handleKeyDown = function (e) {
 		
 		case 72: // H
 			if (e.altKey && !e.ctrlKey && !e.metaKey) {
-				// Alt+H => Begin classic MS Paint access key sequence
+				// Alt+H => Begin MS Paint access key sequence
 				if (dialogs.msAccessKey.open('H')) {
 					e.preventDefault();
 				}
@@ -463,7 +463,7 @@ TextTool.prototype._handleKeyDown = function (e) {
 		
 		case 73: // I
 			if (e.altKey && !e.ctrlKey && !e.metaKey) {
-				// Alt+I => Begin classic MS Paint access key sequence
+				// Alt+I => Begin MS Paint access key sequence
 				if (dialogs.msAccessKey.open('I')) {
 					e.preventDefault();
 				}
@@ -504,6 +504,15 @@ TextTool.prototype._handleKeyDown = function (e) {
 			}
 			break;
 		
+		case 84: // T
+			if (e.altKey && !e.ctrlKey && !e.metaKey) {
+				// Alt+T => Begin MS Paint access key sequence
+				if (dialogs.msAccessKey.open('T')) {
+					e.preventDefault();
+				}
+			}
+			break;
+		
 		case 85: // U
 			if (ctrlOrCmdOnly) {
 				e.preventDefault();
@@ -520,7 +529,7 @@ TextTool.prototype._handleKeyDown = function (e) {
 				// Ctrl+Alt+V => Paste from...
 				document.getElementById('pasteFrom').click();
 			} else if (e.altKey && !e.ctrlKey && !e.metaKey) {
-				// Alt+V => Begin classic MS Paint access key sequence
+				// Alt+V => Begin MS Paint access key sequence
 				if (dialogs.msAccessKey.open('V')) {
 					e.preventDefault();
 				}

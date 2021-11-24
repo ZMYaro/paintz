@@ -230,7 +230,7 @@ MSAccessKeyDialog.prototype.KEY_SEQUENCES = {
 		'T': function () { tools.switchTool('text'); }, // 
 		'E': { // First part of ER or EC
 			'R': function () { tools.switchTool('eraser'); }, // Eraser
-			'C': function () { dialogs.colorPicker.open(); }, // Edit colors
+			'C': function () { dialogs.colorPicker.open(); } // Edit colors
 		},
 		'D': function () { tools.switchTool('eyedropper'); }, // Color picker
 		'M': function () {
@@ -259,7 +259,64 @@ MSAccessKeyDialog.prototype.KEY_SEQUENCES = {
 				toolbar.toolboxes.drawToolOptions.outlineOptions.outlineOption.value = outlineOption;
 				settings.set('outlineOption', outlineOption);
 			}
-			
+		}
+	},
+	'T': { // Win7 Text tab...
+		'P': function () { document.execCommand('paste'); }, // Paste (text)
+		'X': function () { document.execCommand('cut'); }, // Cut (text)
+		'C': function () { document.execCommand('copy'); }, // Copy (text)
+		'F': { // First part of FF, FS, FB, FI, FU, or FX
+			'F': function () { if (tools.currentTool === tools.text) {
+				toolbar.toolboxes.textToolOptions.fontFamilySelect.focus(); } }, // Font family
+			'S': function () { if (tools.currentTool === tools.text) {
+				toolbar.toolboxes.textToolOptions.fontSizeSelect.focus(); } }, // Font size
+			'B': function () {
+				// Bold
+				if (tools.currentTool === tools.text) {
+					settings.set('bold', !settings.get('bold'));
+					toolbar.toolboxes.textToolOptions.boldToggle.checked = settings.get('bold');
+				}
+			},
+			'I': function () {
+				// Italic
+				if (tools.currentTool === tools.text) {
+					settings.set('italic', !settings.get('italic'));
+					toolbar.toolboxes.textToolOptions.italicToggle.checked = settings.get('italic');
+				}
+			},
+			'U': function () {
+				// Underline
+				if (tools.currentTool === tools.text) {
+					settings.set('underline', !settings.get('underline'));
+					toolbar.toolboxes.textToolOptions.underlineToggle.checked = settings.get('underline');
+				}
+			},
+			'X': function () {
+				// Strikethrough
+				if (tools.currentTool === tools.text) {
+					settings.set('strike', !settings.get('strike'));
+					toolbar.toolboxes.textToolOptions.strikeToggle.checked = settings.get('strike');
+				}
+			}
+		},
+		'O': function () {
+			// Opaque background
+			if (tools.currentTool === tools.text) {
+				settings.set('textFill', true);
+				toolbar.toolboxes.textToolOptions.textFillOn.checked = true;
+				toolbar.toolboxes.textToolOptions.textFillOff.checked = false;
+			}
+		},
+		'T': function () {
+			// Transparent background
+			if (tools.currentTool === tools.text) {
+				settings.set('textFill', false);
+				toolbar.toolboxes.textToolOptions.textFillOn.checked = false;
+				toolbar.toolboxes.textToolOptions.textFillOff.checked = true;
+			}
+		},
+		'E': { // First part of EC
+			'C': function () { dialogs.colorPicker.open(); } // Edit colors
 		}
 	}
 };

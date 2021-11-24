@@ -56,9 +56,9 @@ TextToolOptionsToolbox.prototype._setUp = function (contents) {
 	
 	this._setUpFontFamilyMenu();
 	
-	var fontSizeSelect = this._element.querySelector('#fontSizeSelect');
-	fontSizeSelect.value = settings.get('fontSize');
-	fontSizeSelect.addEventListener('change', function (e) {
+	this.fontSizeSelect = this._element.querySelector('#fontSizeSelect');
+	this.fontSizeSelect.value = settings.get('fontSize');
+	this.fontSizeSelect.addEventListener('change', function (e) {
 		settings.set('fontSize', e.target.value);
 	}, false);
 	
@@ -108,33 +108,33 @@ TextToolOptionsToolbox.prototype._setUp = function (contents) {
  * Set up the font family menu's options and listeners.
  */
 TextToolOptionsToolbox.prototype._setUpFontFamilyMenu = function () {
-	var fontFamilySelect = this._element.querySelector('#fontFamilySelect'),
-		that = this;
+	this.fontFamilySelect = this._element.querySelector('#fontFamilySelect');
 	
-	this._populateFonts(fontFamilySelect)
+	var that = this;
+	this._populateFonts(this.fontFamilySelect)
 		.then(function () {
 			// Try to set the menu to the last selected font.
-			fontFamilySelect.value = settings.get('fontFamily');
+			that.fontFamilySelect.value = settings.get('fontFamily');
 			
 			// If the last selected font is no longer available, default to the first on the list.
-			if (fontFamilySelect.selectedIndex === -1) {
-				fontFamilySelect.selectedIndex = 0;
-				settings.set('fontFamily', fontFamilySelect.value);
+			if (that.fontFamilySelect.selectedIndex === -1) {
+				that.fontFamilySelect.selectedIndex = 0;
+				settings.set('fontFamily', that.fontFamilySelect.value);
 			}
 			
-			fontFamilySelect.addEventListener('change', function (e) {
+			that.fontFamilySelect.addEventListener('change', function (e) {
 				if (e.target.value === that.REQUEST_FONT_ACCESS_OPTION_VALUE) {
 					// If the option to add local fonts was selected, attempt to load them.
-					that._populateLocalFonts(fontFamilySelect, true)
+					that._populateLocalFonts(that.fontFamilySelect, true)
 						// If granted, switch the selected option to the first
 						// local font (after the base fonts and the divider).
 						.then(function () {
-							fontFamilySelect.selectedIndex = that.BASE_FONTS.length + 1;
+							that.fontFamilySelect.selectedIndex = that.BASE_FONTS.length + 1;
 						})
 						// If denied, show a message and switch the selected
 						// option back to the last selected font family.
 						.catch(function (err) {
-							fontFamilySelect.value = settings.get('fontFamily');
+							that.fontFamilySelect.value = settings.get('fontFamily');
 							alert(that.FONT_ACCESS_UNAUTHORIZED_MESSAGE);
 						});
 					return;
