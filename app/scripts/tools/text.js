@@ -406,11 +406,8 @@ TextTool.prototype._handleKeyDown = function (e) {
 				e.preventDefault();
 				// Alt+Shift+5 => Strikethrough
 				
-				// Update the toolbar toggle.
-				toolbar.toolboxes.textToolOptions.strikeToggle.checked =
-					!toolbar.toolboxes.textToolOptions.strikeToggle.checked;
-				// Update the setting.
-				settings.set('strike', toolbar.toolboxes.textToolOptions.strikeToggle.checked);
+				settings.set('strike', !settings.get('strike'));
+				toolbar.toolboxes.textToolOptions.strikeToggle.checked = settings.get('strike');
 			}
 			break;
 		
@@ -419,11 +416,8 @@ TextTool.prototype._handleKeyDown = function (e) {
 				e.preventDefault();
 				// Ctrl+B => Bold
 				
-				// Update the toolbar toggle.
-				toolbar.toolboxes.textToolOptions.boldToggle.checked =
-					!toolbar.toolboxes.textToolOptions.boldToggle.checked;
-				// Update the setting.
-				settings.set('bold', toolbar.toolboxes.textToolOptions.boldToggle.checked);
+				settings.set('bold', !settings.get('bold'));
+				toolbar.toolboxes.textToolOptions.boldToggle.checked = settings.get('bold');
 			}
 			break;
 		
@@ -477,11 +471,8 @@ TextTool.prototype._handleKeyDown = function (e) {
 				e.preventDefault();
 				// Ctrl+I => Italic
 				
-				// Update the toolbar toggle.
-				toolbar.toolboxes.textToolOptions.italicToggle.checked =
-					!toolbar.toolboxes.textToolOptions.italicToggle.checked;
-				// Update the setting.
-				settings.set('italic', toolbar.toolboxes.textToolOptions.italicToggle.checked);
+				settings.set('italic', !settings.get('italic'));
+				toolbar.toolboxes.textToolOptions.italicToggle.checked = settings.get('italic');
 			}
 			break;
 		
@@ -518,11 +509,8 @@ TextTool.prototype._handleKeyDown = function (e) {
 				e.preventDefault();
 				// Ctrl+U => Underline
 				
-				// Update the toolbar toggle.
-				toolbar.toolboxes.textToolOptions.underlineToggle.checked =
-					!toolbar.toolboxes.textToolOptions.underlineToggle.checked;
-				// Update the setting.
-				settings.set('underline', toolbar.toolboxes.textToolOptions.underlineToggle.checked);
+				settings.set('underline', !settings.get('underline'));
+				toolbar.toolboxes.textToolOptions.underlineToggle.checked = settings.get('underline');
 			}
 			break;
 		

@@ -156,9 +156,8 @@ KeyManager.prototype._handleKeyDown = function (e) {
 				// Alt+Shift+5 => Strikethrough
 				
 				if (settings.get('tool') === 'text') {
-					toolbar.toolboxes.textToolOptions.strikeToggle.checked =
-						!toolbar.toolboxes.textToolOptions.strikeToggle.checked;
-					settings.set('strike', toolbar.toolboxes.textToolOptions.strikeToggle.checked);
+					settings.set('strike', !settings.get('strike'));
+					toolbar.toolboxes.textToolOptions.strikeToggle.checked = settings.get('strike');
 				}
 			}
 			break;
@@ -183,9 +182,8 @@ KeyManager.prototype._handleKeyDown = function (e) {
 				// Ctrl+B => Bold
 				
 				if (settings.get('tool') === 'text') {
-					toolbar.toolboxes.textToolOptions.boldToggle.checked =
-						!toolbar.toolboxes.textToolOptions.boldToggle.checked;
-					settings.set('bold', toolbar.toolboxes.textToolOptions.boldToggle.checked);
+					settings.set('bold', !settings.get('bold'));
+					toolbar.toolboxes.textToolOptions.boldToggle.checked = settings.get('bold');
 				}
 			} else if (noModifiers) {
 				e.preventDefault();
@@ -280,9 +278,8 @@ KeyManager.prototype._handleKeyDown = function (e) {
 				
 				if (settings.get('tool') === 'text') {
 					// Ctrl+I => Italic (text tool)
-					toolbar.toolboxes.textToolOptions.italicToggle.checked =
-						!toolbar.toolboxes.textToolOptions.italicToggle.checked;
-					settings.set('italic', toolbar.toolboxes.textToolOptions.italicToggle.checked);
+					settings.set('italic', !settings.get('italic'));
+					toolbar.toolboxes.textToolOptions.italicToggle.checked = settings.get('italic');
 				} else {
 					// Ctrl+I => Invert colors
 					if (tools.currentTool instanceof SelectionTool) {
@@ -386,9 +383,8 @@ KeyManager.prototype._handleKeyDown = function (e) {
 				// Ctrl+U => Underline
 				
 				if (settings.get('tool') === 'text') {
-					toolbar.toolboxes.textToolOptions.underlineToggle.checked =
-						!toolbar.toolboxes.textToolOptions.underlineToggle.checked;
-					settings.set('underline', toolbar.toolboxes.textToolOptions.underlineToggle.checked);
+					settings.set('underline', !settings.get('underline'));
+					toolbar.toolboxes.textToolOptions.underlineToggle.checked = settings.get('underline');
 				}
 			}
 			break;
