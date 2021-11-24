@@ -544,6 +544,14 @@ TextTool.prototype._handleKeyDown = function (e) {
 			}
 			break;
 		
+		case 122: // F11
+			if (ctrlOrCmdOnly) {
+				e.preventDefault();
+				// Ctrl+F11 => Full screen
+				toolbar.toolboxes.app.attemptFullScreen();
+			}
+			break;
+		
 		case 187: // =/+
 		case 107: // Numpad +
 			if (ctrlOrCmd && e.altKey && !metaOrControl) {
