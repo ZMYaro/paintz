@@ -151,7 +151,7 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 53: // 5
-			if (e.altKey && e.shiftKey && !e.ctrlKey && !metaOrControl) {
+			if (e.altKey && e.shiftKey && !ctrlOrCmd && !metaOrControl) {
 				e.preventDefault();
 				// Alt+Shift+5 => Strikethrough
 				
@@ -193,7 +193,7 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 67: // C
-			if (e.altKey && !e.ctrlKey && !e.metaKey) {
+			if (e.altKey && !ctrlOrCmd && !metaOrControl) {
 				// Alt+C => Begin MS Paint access key sequence
 				if (dialogs.msAccessKey.open('C')) {
 					e.preventDefault();
@@ -217,7 +217,7 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 69: // E
-			if (e.altKey && !e.ctrlKey && !e.metaKey) {
+			if (e.altKey && !ctrlOrCmd && !metaOrControl) {
 				// Alt+E => Begin MS Paint access key sequence
 				if (dialogs.msAccessKey.open('E')) {
 					e.preventDefault();
@@ -234,7 +234,7 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 70: // F
-			if (e.altKey && !e.ctrlKey && !e.metaKey) {
+			if (e.altKey && !ctrlOrCmd && !metaOrControl) {
 				// Alt+F => Begin MS Paint access key sequence
 				if (dialogs.msAccessKey.open('F')) {
 					e.preventDefault();
@@ -255,7 +255,7 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 72: // H
-			if (e.altKey && !e.ctrlKey && !e.metaKey) {
+			if (e.altKey && !ctrlOrCmd && !metaOrControl) {
 				// Alt+H => Begin MS Paint access key sequence
 				if (dialogs.msAccessKey.open('H')) {
 					e.preventDefault();
@@ -268,7 +268,7 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 73: // I
-			if (e.altKey && !e.ctrlKey && !e.metaKey) {
+			if (e.altKey && !ctrlOrCmd && !metaOrControl) {
 				// Alt+I => Begin MS Paint access key sequence
 				if (dialogs.msAccessKey.open('I')) {
 					e.preventDefault();
@@ -370,7 +370,7 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 84: // T
-			if (e.altKey && !e.ctrlKey && !e.metaKey) {
+			if (e.altKey && !ctrlOrCmd && !metaOrControl) {
 				// Alt+T => Begin MS Paint access key sequence
 				if (dialogs.msAccessKey.open('T')) {
 					e.preventDefault();
@@ -399,7 +399,7 @@ KeyManager.prototype._handleKeyDown = function (e) {
 				e.preventDefault();
 				// Ctrl+Alt+V => Paste from...
 				document.getElementById('pasteFrom').click();
-			} else if (e.altKey && !e.ctrlKey && !e.metaKey) {
+			} else if (e.altKey && !ctrlOrCmd && !metaOrControl) {
 				// Alt+V => Begin MS Paint access key sequence
 				if (dialogs.msAccessKey.open('V')) {
 					e.preventDefault();
