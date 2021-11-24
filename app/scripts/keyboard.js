@@ -224,6 +224,10 @@ KeyManager.prototype._handleKeyDown = function (e) {
 				if (dialogs.msAccessKey.open('E')) {
 					e.preventDefault();
 				}
+			} else if (ctrlOrCmdOnly) {
+				e.preventDefault();
+				// Ctrl+E => Resize dialog
+				dialogs.resize.open();
 			} else if (noModifiers) {
 				e.preventDefault();
 				// E => Eraser tool
