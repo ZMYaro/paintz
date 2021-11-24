@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2021-08-30, v1
+# 2021-11-24, v1
 index.html
 404.html
 manifest.webapp
@@ -78,13 +78,14 @@ images/logo/256.png
 images/logo/512.png
 images/logo/favicon.ico
 partials/dialogs/about.html
-partials/dialogs/classic_access_key.html
 partials/dialogs/clear.html
 partials/dialogs/coffee.html
 partials/dialogs/color_picker.html
 partials/dialogs/help.html
 partials/dialogs/install.html
 partials/dialogs/keyboard.html
+partials/dialogs/ms_access_key.html
+partials/dialogs/ms_access_key_help.html
 partials/dialogs/patreon.html
 partials/dialogs/rate.html
 partials/dialogs/resize.html
@@ -116,13 +117,14 @@ scripts/zoom.js
 scripts/dialogs/dialog.js
 scripts/dialogs/bottom_sheet.js
 scripts/dialogs/about.js
-scripts/dialogs/classic_access_key.js
 scripts/dialogs/clear.js
 scripts/dialogs/coffee.js
 scripts/dialogs/color_picker.js
 scripts/dialogs/help.js
 scripts/dialogs/install.js
 scripts/dialogs/keyboard.js
+scripts/dialogs/ms_access_key.js
+scripts/dialogs/ms_access_key_help.js
 scripts/dialogs/patreon.js
 scripts/dialogs/rate.js
 scripts/dialogs/resize.js
