@@ -77,7 +77,7 @@ MSAccessKeyDialog.prototype.KEY_SEQUENCES = {
 			alert('\u201cShow/Hide Color Box\u201d is not currently supported in PaintZ.'); },
 		'S': function () {
 			alert('\u201cShow/Hide Status Bar\u201d is not currently supported in PaintZ.'); }, 
-		'E': function () { tools.switchTool('text'); }, // Text Toolbar
+		'E': function () { if (tools.currentTool !== tools.text) { tools.switchTool('text'); } }, // Text Toolbar
 		'V': function () { toolbar.toolboxes.app.attemptFullScreen(); }, // View Bitmap
 		'Z': { // Zoom submenu...
 			'N': function () { zoomManager.level = 1; }, // Normal Size
