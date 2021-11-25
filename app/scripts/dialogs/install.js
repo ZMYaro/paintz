@@ -28,6 +28,7 @@ InstallDialog.prototype._setUp = function (contents) {
 	
 	this._cta = this._element.querySelector('.callToAction');
 	this._submitLink = this._element.querySelector('.submitLink');
+	this._icon = this._element.querySelector('svg use');
 	
 	if (this.deferredInstall) {
 		this._changeToPWAInstallPrompt();
@@ -38,9 +39,9 @@ InstallDialog.prototype._setUp = function (contents) {
 		this._cta.innerHTML = 'install PaintZ from the Chrome Web Store';
 		this._submitLink.innerHTML = 'Install';
 		this._submitLink.href = 'https://chrome.google.com/webstore/detail/gdjcnhanmagpjdpilaehedkchegnkdoj';
-		var icon = this._element.querySelector('svg use');
-		icon.setAttribute('href',       'images/icons/cws.svg#icon');
-		icon.setAttribute('xlink:href', 'images/icons/cws.svg#icon');
+		var iconURL = 'images/icons/cws.svg#icon';
+		this._icon.setAttribute('href',       iconURL);
+		this._icon.setAttribute('xlink:href', iconURL);
 	}
 	
 	this._submitLink.addEventListener('click', this._closeAfterDelay.bind(this), false);
@@ -78,4 +79,7 @@ InstallDialog.prototype._changeToPWAInstallPrompt = function () {
 		e.preventDefault();
 		this.deferredInstall.prompt();
 	}).bind(this));
+	var iconURL = 'images/icons/install_' + (Utils.isMobileLike ? 'mobile' : 'desktop') + '.svg#icon';
+	this._icon.setAttribute('href',       iconURL);
+	this._icon.setAttribute('xlink:href', iconURL);
 };

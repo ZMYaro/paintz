@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2021-11-24, v1
+# 2021-11-25, v1
 index.html
 404.html
 manifest.webapp
@@ -12,7 +12,6 @@ images/cursors/airbrush.cur
 images/cursors/eyedropper.cur
 images/cursors/paint_bucket.cur
 images/cursors/pencil.cur
-images/icons/add_to_home_screen.svg
 images/icons/airbrush.svg
 images/icons/back.svg
 images/icons/bold.svg
@@ -39,6 +38,8 @@ images/icons/help.svg
 images/icons/image.svg
 images/icons/info.svg
 images/icons/instagram.svg
+images/icons/install_desktop.svg
+images/icons/install_mobile.svg
 images/icons/invert_colors.svg
 images/icons/italic.svg
 images/icons/line.svg
