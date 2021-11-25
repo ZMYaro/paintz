@@ -217,6 +217,7 @@
 					}
 
 #bottomSheetsContainer .dialog {
+	max-width: 100%;
 	margin-bottom: -4px;
 	pointer-events: auto;
 	
