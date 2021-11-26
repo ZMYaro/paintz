@@ -419,6 +419,11 @@ KeyManager.prototype._handleKeyDown = function (e) {
 				e.preventDefault();
 				// Ctrl+Y => Redo
 				undoStack.redo();
+			} else if (e.altKey && !ctrlOrCmd && !metaOrControl) {
+				// Alt+Y => Win7 Paint Help button
+				if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) {
+					dialogs.help.open();
+				}
 			}
 			break;
 		

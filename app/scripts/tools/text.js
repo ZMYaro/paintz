@@ -536,6 +536,15 @@ TextTool.prototype._handleKeyDown = function (e) {
 			}
 			break;
 		
+		case 89: // Y
+			if (e.altKey && !ctrlOrCmd && !metaOrControl) {
+				// Alt+Y => Win7 Paint Help button
+				if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) {
+					dialogs.help.open();
+				}
+			}
+			break;
+		
 		case 112: // F1
 			if (noModifiers) {
 				e.preventDefault();
