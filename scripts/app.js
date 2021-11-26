@@ -3,11 +3,12 @@
 // Constants.
 var PNG_REGEX = (/.+\.png$/i),
 	JPEG_REGEX = (/.+\.(jpg|jpeg|jpe|jif|jfif|jfi)$/i),
-	FILE_EXT_REGEX = (/\.[a-z0-9]{1,4}$/i),
+	FILE_EXT_REGEX = (/\.[a-z0-9]{0,4}$/i),
 	DEFAULT_TITLE = 'untitled.png',
 	PAGE_TITLE_SUFFIX = ' - PaintZ';
 
-var canvas,
+var canvasPositioner,
+	canvas,
 	preCanvas,
 	gridCanvas,
 	cursorCanvas,
@@ -28,6 +29,8 @@ var canvas,
  * Get the canvases and their drawing contexts, and set up event listeners.
  */
 function initCanvas() {
+	// Get the canvas container.
+	canvasPositioner = document.getElementById('canvasPositioner');
 	// Get the real canvas.
 	canvas = document.getElementById('canvas');
 	cxt = canvas.getContext('2d');
@@ -61,6 +64,27 @@ function initCanvasContents() {
 			undoStack.clear();
 		};
 		image.src = sessionStorage.lastState;
+	}
+	
+	// If a shared file was received by the service worker, open it.
+	if (window.sharedFile) {
+		openImage(sharedFile);
+		delete window.sharedFile;
+	}
+	
+	// If the browser supports queuing files to open with the app.
+	// There should be nothing in session storage on launch, but this
+	// should overwrite that regardless.
+	if (window.launchQueue) {
+		launchQueue.setConsumer(function (launchParams) {
+			if (!launchParams.files.length) {
+				return;
+			}
+			// Open the first file in the queue.
+			launchParams.files[0].getFile().then(function (file) {
+				openImage(file);
+			});
+		});
 	}
 }
 
@@ -115,6 +139,10 @@ function openImage(file) {
 	// Show the progress spinner until the image loads.
 	progressSpinner.show();
 	
+	// Deactivate and reactivate the current tool in case it is being used.
+	tools.currentTool.deactivate();
+	tools.currentTool.activate();
+	
 	Utils.readImage(file).then(function (image) {
 		// There is no need to clear the canvas.  Resizing the canvas will do that.
 		canvas.width =
@@ -157,31 +185,6 @@ function openImage(file) {
 }
 
 /**
- * Fix the extension on a file name to match a MIME type.
- * @param {String} name - The file name to fix
- * @param {String} type - The MIME type to match (JPEG or PNG)
- * @returns {String} - The modified file name
- */
-function fixExtension(name, type) {
-	name = name.trim();
-	
-	if (type === 'image/png' && !PNG_REGEX.test(name)) {
-		if (FILE_EXT_REGEX.test(name)) {
-			return name.replace(FILE_EXT_REGEX, '.png');
-		} else {
-			return name + '.png';
-		}
-	} else if (type === 'image/jpeg' && !JPEG_REGEX.test(name)) {
-		if (FILE_EXT_REGEX.test(name)) {
-			return name.replace(FILE_EXT_REGEX, '.jpg');
-		} else {
-			return name + '.jpg';
-		}
-	}
-	return name;
-}
-
-/**
  * Set up events for opening images via drag-and-drop.
  */
 function initDragDrop() {
@@ -203,7 +206,8 @@ function checkSaveCountMilestone() {
 	var MILESTONES = {
 		'10': 'install',
 		'50': 'coffee',
-		'100': 'rate'
+		'100': 'rate',
+		'500': 'patreon'
 	};
 	
 	var saveCount = settings.get('saveCount');
@@ -217,10 +221,13 @@ function checkSaveCountMilestone() {
 
 window.addEventListener('load', function () {
 	// Initialize dialogs not bound to specific buttons.
+	dialogs.msAccessKey = new MSAccessKeyDialog();
+	dialogs.msAccessKeyHelp = new MSAccessKeyHelpDialog();
 	dialogs.coffee = new CoffeeDialog();
 	dialogs.install = new InstallDialog();
 	dialogs.keyboard = new KeyboardDialog();
 	dialogs.rate = new RateDialog();
+	dialogs.patreon = new PatreonDialog();
 	
 	// Initialize everything.
 	initCanvas();
@@ -237,19 +244,20 @@ window.addEventListener('load', function () {
 	var dialogLoadPromises = Object.values(dialogs).map(function (dialog) { return dialog.loadPromise; }),
 		masterLoadPromise = Promise.all([toolbar.loadPromise, dialogLoadPromises]);
 	
-	masterLoadPromise.then(postLoadInit);
-	masterLoadPromise.catch(function (err) {
-		var errorDisplay = document.createElement('p'),
-			errorMessage = document.createElement('span');
-		errorDisplay.innerHTML = 'Oops, something went wrong!  Maybe try again later?<br /><br />If this keeps happening, you can tell the developer: ';
-		errorMessage.style.display = 'inline-block';
-		errorMessage.innerText += '\u201c' + err + '\u201d';
-		errorDisplay.appendChild(errorMessage);
-		
-		var splashScreen = document.getElementById('splashScreen');
-		splashScreen.removeChild(splashScreen.querySelector('progress'));
-		splashScreen.appendChild(errorDisplay);
-	});
+	masterLoadPromise
+		.then(postLoadInit)
+		.catch(function (err) {
+			var errorDisplay = document.createElement('p'),
+				errorMessage = document.createElement('span');
+			errorDisplay.innerHTML = 'Oops, something went wrong!  Maybe try again later?<br /><br />If this keeps happening, you can tell the developer: ';
+			errorMessage.style.display = 'inline-block';
+			errorMessage.innerText += '\u201c' + err + '\u201d';
+			errorDisplay.appendChild(errorMessage);
+			
+			var splashScreen = document.getElementById('splashScreen');
+			splashScreen.removeChild(splashScreen.querySelector('progress'));
+			splashScreen.appendChild(errorDisplay);
+		});
 }, false);
 
 function postLoadInit() {

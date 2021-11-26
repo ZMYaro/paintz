@@ -59,6 +59,8 @@ Object.defineProperties(ZoomManager.prototype, {
 				preCanvas.style.MsTransform =
 				preCanvas.style.OTransform =
 				preCanvas.style.transform = 'scale(' + this._zoomLevel + ')';
+			canvasPositioner.style.width = (settings.get('width') * this._zoomLevel) + 'px';
+			canvasPositioner.style.height = (settings.get('height') * this._zoomLevel) + 'px';
 			gridCanvas.width = settings.get('width') * this._zoomLevel;
 			gridCanvas.height = settings.get('height') * this._zoomLevel;
 			

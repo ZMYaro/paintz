@@ -7,10 +7,12 @@
  */
 function SaveDialog(trigger) {
 	Dialog.call(this, 'save', trigger);
+	this._element.id = 'saveDialog';
 	this._progressSpinner;
 	this._downloadLink;
+	this._shareButton;
 	this._blob;
-	this._boundSetDownloadURL = this._setDownloadURL.bind(this);
+	this._boundHandleShare = this._handleShare.bind(this);
 }
 // Extend Dialog.
 SaveDialog.prototype = Object.create(Dialog.prototype);
@@ -19,6 +21,8 @@ SaveDialog.prototype.constructor = SaveDialog;
 // Define constants.
 /** @override @constant {String} The width of the dialog, as a CSS value */
 SaveDialog.prototype.WIDTH = '384px';
+/** @constant {String} The message for browsers that do not support sharing files */
+SaveDialog.prototype.SHARE_UNSUPPORTED_MESSAGE = 'Your browser or system does not support sharing from PaintZ.  To use this feature, please switch to a supported browser, such as the latest Google Chrome.';
 
 /**
  * @override
@@ -35,12 +39,18 @@ SaveDialog.prototype._setUp = function (contents) {
 	
 	this._progressSpinner = this._element.querySelector('progress');
 	
+	this._shareButton = this._element.querySelector('#shareButton');
+	this._shareButton.onclick = this._boundHandleShare;
+	this._shareButton.disabled = true;
+	this._shareButton.title = this.SHARE_UNSUPPORTED_MESSAGE;
+	
 	this._downloadLink = this._element.querySelector('#downloadLink');
-	this._downloadLink.style.display = 'none';
 	this._downloadLink.onclick = this._handleSave.bind(this);
 	this._element.onsubmit = (function () {
 		this._downloadLink.click();
 	}).bind(this);
+	
+	this._element.classList.add('loading');
 };
 
 /**
@@ -57,16 +67,23 @@ SaveDialog.prototype.open = function () {
 /**
  * @private
  * Create a new blob URL, and set it as the download URL when done.
+ * @returns {Promise} Resolves when the blob has been created and the download URL set
  */
 SaveDialog.prototype._createDownloadURL = function () {
-	this._downloadLink.style.display = 'none';
-	this._progressSpinner.style.removeProperty('display');
-	
-	var blob = canvas.toBlob(this._boundSetDownloadURL, this._downloadLink.type || 'image/png');
-	if (blob instanceof Blob) {
-		// Fallback for browsers in which toBlob is synchronous and returns a Blob.
-		this._setDownloadURL(blob);
-	}
+	var that = this;
+	return new Promise(function (resolve, reject) {
+		that._element.classList.add('loading');
+		
+		var blob = canvas.toBlob(function (blob) {
+			that._setDownloadURL(blob);
+			resolve();
+		}, that._downloadLink.type || 'image/png');
+		if (blob instanceof Blob) {
+			// Fallback for browsers in which toBlob is synchronous and returns a Blob.
+			that._setDownloadURL(blob);
+			resolve();
+		}
+	});
 };
 
 /**
@@ -75,15 +92,29 @@ SaveDialog.prototype._createDownloadURL = function () {
  * @param {Blob} blob - The image blob from the canvas
  */
 SaveDialog.prototype._setDownloadURL = function (blob) {
+	// Remove any old blob URL.
 	URL.revokeObjectURL(this._downloadLink.href);
-	if (navigator.msSaveBlob) {
-		this._blob = blob;
-	}
+	
+	// Save the new blob in case it needs to be shared or saved with `msSaveBlob`.
+	this._blob = blob;
+	
+	// Create a new URL to save.
 	var url = URL.createObjectURL(blob);
 	this._downloadLink.href = url;
 	
-	this._downloadLink.style.removeProperty('display');
-	this._progressSpinner.style.display = 'none';
+	// If the web share API is supported, create a file to test whether it can be shared.
+	if (navigator.canShare) {
+		var file = new File([blob], this._element.fileName.value, { type: blob.type });
+		if (!navigator.canShare({ files: [file] })) {
+			this._shareButton.disabled = true;
+			this._shareButton.title = this.SHARE_UNSUPPORTED_MESSAGE;
+		} else {
+			this._shareButton.disabled = false;
+			this._shareButton.title = '';
+		}
+	}
+	
+	this._element.classList.remove('loading');
 };
 
 /**
@@ -92,13 +123,39 @@ SaveDialog.prototype._setDownloadURL = function (blob) {
  */
 SaveDialog.prototype._updateFileExtension = function () {
 	// Update file name.
-	var newName = fixExtension(this._element.fileName.value, this._element.fileType.value);
+	var newName = this._matchExtensionToMIMEType(this._element.fileName.value, this._element.fileType.value);
 	this._element.fileName.value = newName;
 	this._downloadLink.download = newName;
 	if (this._element.fileType.value !== this._downloadLink.type) {
 		this._downloadLink.type = this._element.fileType.value;
 		this._createDownloadURL();
 	}
+};
+
+/**
+ * @private
+ * Fix the extension on a file name to match a MIME type.
+ * @param {String} name - The file name to fix
+ * @param {String} type - The MIME type to match (image/jpeg or image/png)
+ * @returns {String} - The modified file name
+ */
+SaveDialog.prototype._matchExtensionToMIMEType = function (name, type) {
+	name = name.trim();
+	
+	if (type === 'image/png' && !PNG_REGEX.test(name)) {
+		if (FILE_EXT_REGEX.test(name)) {
+			return name.replace(FILE_EXT_REGEX, '.png');
+		} else {
+			return name + '.png';
+		}
+	} else if (type === 'image/jpeg' && !JPEG_REGEX.test(name)) {
+		if (FILE_EXT_REGEX.test(name)) {
+			return name.replace(FILE_EXT_REGEX, '.jpg');
+		} else {
+			return name + '.jpg';
+		}
+	}
+	return name;
 };
 
 /**
@@ -121,4 +178,30 @@ SaveDialog.prototype._handleSave = function (e) {
 	checkSaveCountMilestone();
 	// Close the dialog.
 	this.close();
+};
+
+/**
+ * @private
+ * Handle the share button being clicked.
+ * @param {MouseEvent} e
+ */
+SaveDialog.prototype._handleShare = function (e) {
+	if (!navigator.canShare) {
+		alert(this.SHARE_UNSUPPORTED_MESSAGE);
+		return;
+	}
+	
+	var file = new File([this._blob], this._element.fileName.value, { type: this._blob.type });
+	
+	if (!navigator.canShare({ files: [file] })) {
+		alert(this.SHARE_UNSUPPORTED_MESSAGE);
+		return;
+	}
+	
+	navigator.share({
+		files: [file],
+		title: this._element.fileName.value
+	}).then((function () {
+		this.close();
+	}).bind(this));
 };

@@ -65,7 +65,7 @@ Dialog.prototype._setUp = function (contents) {
 	}
 	
 	// Set up all close buttons.
-	Array.prototype.slice.call(this._element.querySelectorAll('.closeButton')).forEach(function (closeButton) {
+	Array.from(this._element.querySelectorAll('.closeButton')).forEach(function (closeButton) {
 		closeButton.onclick = this.close.bind(this);
 	}, this);
 	
@@ -136,8 +136,8 @@ Dialog.prototype.open = function () {
 	// Make selecting outside the dialog close the dialog.
 	this._dialogContainer.addEventListener('pointerdown', this._boundClose);
 	
-	requestAnimationFrame((function () {
-		requestAnimationFrame(this._finishOpen.bind(this));
+	Utils.raf((function () {
+		Utils.raf(this._finishOpen.bind(this));
 	}).bind(this));
 };
 
@@ -154,20 +154,26 @@ Dialog.prototype._finishOpen = function () {
 /**
  * Close the dialog.
  * @param {Event} [e] - The event that triggered the close, if any.
+ * @returns {Promise} Resolves when the dialog has closed
  */
 Dialog.prototype.close = function (e) {
 	if (e && e.preventDefault) {
 		e.preventDefault();
 	}
-	
-	// Remove the listener that makes selecting outside the dialog close the dialog.
-	this._dialogContainer.removeEventListener('pointerdown', this._boundClose);
-	
-	this._setTransformOrigin();
-	this._element.classList.remove('open');
-	this._dialogContainer.classList.remove('visible');
-	// After the closing animation has completed, hide the dialog box element completely.
-	setTimeout(this._finishClose.bind(this), (Utils.prefersReducedMotion ? 1 : this.TRANSITION_DURATION));
+	var that = this;
+	return new Promise(function (resolve, reject) {
+		// Remove the listener that makes selecting outside the dialog close the dialog.
+		that._dialogContainer.removeEventListener('pointerdown', that._boundClose);
+		
+		that._setTransformOrigin();
+		that._element.classList.remove('open');
+		that._dialogContainer.classList.remove('visible');
+		// After the closing animation has completed, hide the dialog box element completely.
+		setTimeout(function () {
+			that._finishClose();
+			resolve();
+		}, (Utils.prefersReducedMotion ? 1 : that.TRANSITION_DURATION));
+	});
 };
 
 /**
@@ -176,7 +182,7 @@ Dialog.prototype.close = function (e) {
  */
 Dialog.prototype._finishClose = function () {
 	// Hide the dialog and dialog container.
-	this._dialogContainer.removeChild(this._element);
+	this._element.remove();
 	this._dialogContainer.style.display = 'none';
 	// Re-enable app keyboard shortcuts and clipboard interception.
 	keyManager.enabled = true;

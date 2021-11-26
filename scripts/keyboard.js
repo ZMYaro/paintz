@@ -8,6 +8,8 @@ function KeyManager() {
 	this.enabled = false;
 	
 	window.addEventListener('keydown', this._handleKeyDown.bind(this), false);
+	document.getElementById('dialogsContainer')
+		.addEventListener('keydown', this._handleDialogKeyDown.bind(this), false);
 }
 
 KeyManager.prototype._handleKeyDown = function (e) {
@@ -32,13 +34,44 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			}
 			break;
 		
+		case 13: // Enter
+			if (ctrlOrCmdOnly) {
+				if (tools.currentTool === tools.text) {
+					e.preventDefault();
+					// Ctrl+Enter => Rasterize text
+					tools.currentTool._removeTextElem();
+				}
+			}
+			break;
+		
 		case 27: // Esc
 			if (noModifiers) {
 				if (tools.currentTool instanceof SelectionTool) {
 					e.preventDefault();
 					// Esc => Drop/cancel selection
 					tools.currentTool.deactivate();
+				} else if (tools.currentTool === tools.text) {
+					e.preventDefault();
+					// Esc => Cancel text box
+					tools.currentTool._textArea.innerHTML = '';
+					tools.currentTool._removeTextElem();
 				}
+			}
+			break;
+		
+		case 33: // PgUp
+			if (ctrlOrCmdOnly) {
+				e.preventDefault();
+				// Ctrl+PgUp => Zoom in
+				zoomManager.zoomIn();
+			}
+			break;
+		
+		case 34: // PgDn
+			if (ctrlOrCmdOnly) {
+				e.preventDefault();
+				// Ctrl+PgDn => Zoom out
+				zoomManager.zoomOut();
 			}
 			break;
 		
@@ -118,14 +151,13 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 53: // 5
-			if (e.altKey && e.shiftKey && !e.ctrlKey && !metaOrControl) {
+			if (e.altKey && e.shiftKey && !ctrlOrCmd && !metaOrControl) {
 				e.preventDefault();
 				// Alt+Shift+5 => Strikethrough
 				
 				if (settings.get('tool') === 'text') {
-					toolbar.toolboxes.textToolOptions.strikeToggle.checked =
-						!toolbar.toolboxes.textToolOptions.strikeToggle.checked;
-					settings.set('strike', toolbar.toolboxes.textToolOptions.strikeToggle.checked);
+					settings.set('strike', !settings.get('strike'));
+					toolbar.toolboxes.textToolOptions.strikeToggle.checked = settings.get('strike');
 				}
 			}
 			break;
@@ -150,9 +182,8 @@ KeyManager.prototype._handleKeyDown = function (e) {
 				// Ctrl+B => Bold
 				
 				if (settings.get('tool') === 'text') {
-					toolbar.toolboxes.textToolOptions.boldToggle.checked =
-						!toolbar.toolboxes.textToolOptions.boldToggle.checked;
-					settings.set('bold', toolbar.toolboxes.textToolOptions.boldToggle.checked);
+					settings.set('bold', !settings.get('bold'));
+					toolbar.toolboxes.textToolOptions.boldToggle.checked = settings.get('bold');
 				}
 			} else if (noModifiers) {
 				e.preventDefault();
@@ -162,7 +193,12 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 67: // C
-			if (noModifiers) {
+			if (e.altKey && !ctrlOrCmd && !metaOrControl) {
+				// Alt+C => Begin MS Paint access key sequence
+				if (dialogs.msAccessKey.open('C')) {
+					e.preventDefault();
+				}
+			} else if (noModifiers) {
 				e.preventDefault();
 				// C => Curve tool
 				tools.switchTool('curve');
@@ -181,7 +217,16 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 69: // E
-			if (noModifiers) {
+			if (e.altKey && !ctrlOrCmd && !metaOrControl) {
+				// Alt+E => Begin MS Paint access key sequence
+				if (dialogs.msAccessKey.open('E')) {
+					e.preventDefault();
+				}
+			} else if (ctrlOrCmdOnly) {
+				e.preventDefault();
+				// Ctrl+E => Resize dialog
+				dialogs.resize.open();
+			} else if (noModifiers) {
 				e.preventDefault();
 				// E => Eraser tool
 				tools.switchTool('eraser');
@@ -189,15 +234,33 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 70: // F
-			if (noModifiers) {
+			if (e.altKey && !ctrlOrCmd && !metaOrControl) {
+				// Alt+F => Begin MS Paint access key sequence
+				if (dialogs.msAccessKey.open('F')) {
+					e.preventDefault();
+				}
+			} else if (noModifiers) {
 				e.preventDefault();
 				// F => Freeform selection tool
 				tools.switchTool('freeformSelection');
 			}
 			break;
 		
+		case 71: // G
+			if (ctrlOrCmdOnly) {
+				e.preventDefault();
+				// Ctrl+G => Toggle grid
+				settings.set('grid', !settings.get('grid'));
+			}
+			break;
+		
 		case 72: // H
-			if (noModifiers) {
+			if (e.altKey && !ctrlOrCmd && !metaOrControl) {
+				// Alt+H => Begin MS Paint access key sequence
+				if (dialogs.msAccessKey.open('H')) {
+					e.preventDefault();
+				}
+			} else if (noModifiers) {
 				e.preventDefault();
 				// H => Pan (hand) tool
 				tools.switchTool('pan');
@@ -205,14 +268,25 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 73: // I
-			if (ctrlOrCmdOnly) {
+			if (e.altKey && !ctrlOrCmd && !metaOrControl) {
+				// Alt+I => Begin MS Paint access key sequence
+				if (dialogs.msAccessKey.open('I')) {
+					e.preventDefault();
+				}
+			} else if (ctrlOrCmdOnly) {
 				e.preventDefault();
-				// Ctrl+I => Italic
 				
 				if (settings.get('tool') === 'text') {
-					toolbar.toolboxes.textToolOptions.italicToggle.checked =
-						!toolbar.toolboxes.textToolOptions.italicToggle.checked;
-					settings.set('italic', toolbar.toolboxes.textToolOptions.italicToggle.checked);
+					// Ctrl+I => Italic (text tool)
+					settings.set('italic', !settings.get('italic'));
+					toolbar.toolboxes.textToolOptions.italicToggle.checked = settings.get('italic');
+				} else {
+					// Ctrl+I => Invert colors
+					if (tools.currentTool instanceof SelectionTool) {
+						tools.currentTool.invertColors();
+					} else {
+						tools.selection.invertColors();
+					}
 				}
 			}
 			if (noModifiers) {
@@ -238,6 +312,19 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			}
 			break;
 		
+		case 78: // N
+			if (ctrlOrCmd && e.shiftKey && !e.altKey && !metaOrControl) {
+				e.preventDefault();
+				// Ctrl+Shift+N => Clear canvas (no confirmation)
+				// TODO: Make this not access ClearDialog private method.
+				dialogs.clear._clear();
+			} else if (ctrlOrCmdOnly) {
+				e.preventDefault();
+				// Ctrl+N => Clear (new image)
+				dialogs.clear.open();
+			}
+			break;
+		
 		case 79: // O
 			if (ctrlOrCmdOnly) {
 				e.preventDefault();
@@ -251,7 +338,11 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 80: // P
-			if (noModifiers) {
+			if (ctrlOrCmdOnly) {
+				e.preventDefault();
+				// Ctrl+P => Print
+				window.print();
+			} else if (noModifiers) {
 				e.preventDefault();
 				// P => Pencil tool
 				tools.switchTool('pencil');
@@ -279,7 +370,12 @@ KeyManager.prototype._handleKeyDown = function (e) {
 			break;
 		
 		case 84: // T
-			if (noModifiers) {
+			if (e.altKey && !ctrlOrCmd && !metaOrControl) {
+				// Alt+T => Begin MS Paint access key sequence
+				if (dialogs.msAccessKey.open('T')) {
+					e.preventDefault();
+				}
+			} else if (noModifiers) {
 				e.preventDefault();
 				// T => Text tool
 				tools.switchTool('text');
@@ -292,30 +388,29 @@ KeyManager.prototype._handleKeyDown = function (e) {
 				// Ctrl+U => Underline
 				
 				if (settings.get('tool') === 'text') {
-					toolbar.toolboxes.textToolOptions.underlineToggle.checked =
-						!toolbar.toolboxes.textToolOptions.underlineToggle.checked;
-					settings.set('underline', toolbar.toolboxes.textToolOptions.underlineToggle.checked);
+					settings.set('underline', !settings.get('underline'));
+					toolbar.toolboxes.textToolOptions.underlineToggle.checked = settings.get('underline');
 				}
 			}
 			break;
+		
+		case 86: // V
+			if (ctrlOrCmd && e.altKey && !e.shiftKey && !metaOrControl) {
+				e.preventDefault();
+				// Ctrl+Alt+V => Paste from...
+				document.getElementById('pasteFrom').click();
+			} else if (e.altKey && !ctrlOrCmd && !metaOrControl) {
+				// Alt+V => Begin MS Paint access key sequence
+				if (dialogs.msAccessKey.open('V')) {
+					e.preventDefault();
+				}
+			}
 		
 		case 88: // X
 			if (noModifiers) {
 				e.preventDefault();
 				// X => Switch fill and line colors
-				
-				// Swap the stored colors.
-				var oldLine = settings.get('lineColor'),
-					oldFill = settings.get('fillColor');
-				settings.set('lineColor', oldFill);
-				settings.set('fillColor', oldLine);
-				
-				// Update the toolbar.
-				toolbar.toolboxes.colorPicker.colorIndicator.style.borderColor = oldFill;
-				toolbar.toolboxes.colorPicker.colorIndicator.style.backgroundColor = oldLine;
-				
-				// Some tools' cursors change with colors, so reactivate the cursor.
-				tools.currentTool.activate();
+				toolbar.toolboxes.colorPicker.swapSelectedColors();
 			}
 			break;
 		
@@ -324,6 +419,11 @@ KeyManager.prototype._handleKeyDown = function (e) {
 				e.preventDefault();
 				// Ctrl+Y => Redo
 				undoStack.redo();
+			} else if (e.altKey && !ctrlOrCmd && !metaOrControl) {
+				// Alt+Y => Win7 Paint Help button
+				if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) {
+					dialogs.help.open();
+				}
 			}
 			break;
 		
@@ -344,6 +444,14 @@ KeyManager.prototype._handleKeyDown = function (e) {
 				e.preventDefault();
 				// F1 => Open help dialog
 				dialogs.help.open();
+			}
+			break;
+		
+		case 122: // F11
+			if (ctrlOrCmdOnly) {
+				e.preventDefault();
+				// Ctrl+F11 => Full screen
+				toolbar.toolboxes.app.attemptFullScreen();
 			}
 			break;
 		
@@ -370,6 +478,10 @@ KeyManager.prototype._handleKeyDown = function (e) {
 				e.preventDefault();
 				// ? OR Ctrl+? => Keyboard shortcuts dialog
 				dialogs.keyboard.open();
+			} else if (ctrlOrCmd && e.altKey && e.shiftKey && !metaOrControl) {
+				e.preventDefault();
+				// Ctrl+Alt+Shift+? => MS Paint access key help dialog
+				dialogs.msAccessKeyHelp.open();
 			}
 			break;
 		
@@ -396,6 +508,43 @@ KeyManager.prototype._handleKeyDown = function (e) {
 					settings.set('lineWidth',
 						lineWidthSelect.value = lineWidthSelect.options[lineWidthSelect.selectedIndex + 1].value);
 				}
+			}
+			break;
+	}
+};
+
+KeyManager.prototype._handleDialogKeyDown = function (e) {
+	// Use Command on Mac and iOS devices and Ctrl everywhere else.
+	var ctrlOrCmd = Utils.checkPlatformCtrlOrCmdKey(e),
+		metaOrControl = Utils.checkPlatformMetaOrControlKey(e),
+		ctrlOrCmdOnly = ctrlOrCmd && !e.altKey && !e.shiftKey && !metaOrControl;
+	
+	switch (e.keyCode) {
+		case 78: // N
+			if (ctrlOrCmd && e.shiftKey && !e.altKey && !metaOrControl) {
+				// Ctrl+Shift+N => Prevent new incognito window (Chrome)
+				e.preventDefault();
+				e.stopPropagation();
+			} else if (ctrlOrCmdOnly) {
+				// Ctrl+N => Prevent new window
+				e.preventDefault();
+				e.stopPropagation();
+			}
+			break;
+		
+		case 79: // O
+			if (ctrlOrCmdOnly) {
+				// Ctrl+O => Prevent open file
+				e.preventDefault();
+				e.stopPropagation();
+			}
+			break;
+		
+		case 83: // S
+			if (ctrlOrCmdOnly) {
+				// Ctrl+S => Prevent save page as
+				e.preventDefault();
+				e.stopPropagation();
 			}
 			break;
 	}

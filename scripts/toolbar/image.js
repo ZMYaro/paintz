@@ -51,6 +51,12 @@ ImageToolbox.prototype._setUp = function (contents) {
 		uploadInput.click();
 	}, false);
 	
+	// Print button.
+	var printBtn = this._element.querySelector('#printBtn');
+	printBtn.addEventListener('click', function (e) {
+		window.print();
+	}, false);
+	
 	// Undo and redo buttons.
 	this.undoBtn = this._element.querySelector('#undoBtn');
 	this.redoBtn = this._element.querySelector('#redoBtn');
@@ -61,6 +67,34 @@ ImageToolbox.prototype._setUp = function (contents) {
 	var resizeBtn = this._element.querySelector('#resizeBtn');
 	dialogs.resize.trigger = resizeBtn;
 	resizeBtn.addEventListener('click', dialogs.resize.open.bind(dialogs.resize), false);
+	
+	
+	var pasteBtn = this._element.querySelector('#pasteBtn'),
+		pasteFromInput = this._element.querySelector('#pasteFrom');
+	pasteFromInput.addEventListener('change', function (e) {
+		var file = e.target.files[0];
+		Utils.readImage(file).then(function (image) {
+			clipboard.paste(image);
+			// Clear the input so it registers as changed if the next
+			// selected has the same file name as the last.
+			e.target.value = null;
+		});
+	}, false);
+	pasteBtn.addEventListener('click', function (e) {
+		e.preventDefault();
+		if (e.altKey || Utils.checkPlatformMetaOrControlKey(e)) {
+			// “Paste from” if alt-clicked or Control-clicked on Mac.
+			pasteFromInput.click();
+			return;
+		}
+		if (!clipboard.triggerPaste()) {
+			alert('For now, you need to use ' + (Utils.isApple ? '\u2318' : 'Ctrl+') + 'V to paste an image into PaintZ.');
+		}
+	}, false);
+	pasteBtn.addEventListener('contextmenu', function (e) {
+		e.preventDefault();
+		pasteFromInput.click();
+	}, false);
 };
 
 /**
@@ -71,4 +105,7 @@ ImageToolbox.prototype._setUp = function (contents) {
 ImageToolbox.prototype._handleFileUpload = function (e) {
 	var file = e.target.files[0];
 	openImage(file);
+	// Clear the input so it registers as changed if the next
+	// selected has the same file name as the last.
+	e.target.value = null;
 };

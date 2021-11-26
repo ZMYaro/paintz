@@ -40,8 +40,13 @@ function ToolbarManager() {
 	this.toolboxes.selectToolOptions.hide();
 	this.toolboxes.textToolOptions.hide();
 	
-	/** @private {Toolbox} The currently shown tool options toolbox */
-	this._currentToolOptionsToolbox = this.toolboxes.drawToolOptions;
+	/** {Toolbox} The currently shown tool options toolbox */
+	this.currentToolOptionsToolbox = this.toolboxes.drawToolOptions;
+	
+	// Set up scroll event listeners for different browsers.
+	var boundScrollHandler = this._handleScroll.bind(this);
+	this._mainToolbar.addEventListener('wheel', boundScrollHandler, false);
+	this._mainToolbar.addEventListener('mousewheel', boundScrollHandler, false);
 	
 	var toolboxLoadPromises =
 		Object.values(this.toolboxes)
@@ -70,14 +75,35 @@ ToolbarManager.prototype._addDivider = function (toolbar) {
 };
 
 /**
+ * @private
+ * Handle the user scrolling the toolbar and convert vertical scrolling to horizontal scrolling if need be.
+ * @param {WheelEvent|Event} ev
+ */
+ToolbarManager.prototype._handleScroll = function (ev) {
+	if (Utils.checkModifierKeys(ev)) {
+		// Do not intercept if combined with a modifier key.
+		return;
+	}
+	var scrollX = ev.deltaX || ev.wheelDeltaX || 0,
+		scrollY = ev.deltaY || ev.wheelDeltaY || ev.wheelDelta || 0;
+		
+	if (Math.abs(scrollY) > Math.abs(scrollX)) {
+		// If there is primarily or exclusively vertical scrolling,
+		// intercept and map it to horizontal scrolling.
+		ev.preventDefault();
+		this._mainToolbar.scrollLeft += scrollY;
+	}
+};
+
+/**
  * Switch which tool options toolbox is shown.
  * @param {Toolbox} toolbox - Which toolbox to show (if none, defaults to the no tool options toolbox)
  */
 ToolbarManager.prototype.switchToolOptionsToolbox = function (toolbox) {
-	if (this._currentToolOptionsToolbox) {
-		this._currentToolOptionsToolbox.hide();
+	if (this.currentToolOptionsToolbox) {
+		this.currentToolOptionsToolbox.hide();
 	}
 	toolbox = (toolbox || this.toolboxes.noToolOptions);
 	toolbox.show();
-	this._currentToolOptionsToolbox = toolbox;
+	this.currentToolOptionsToolbox = toolbox;
 };

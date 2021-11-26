@@ -12,7 +12,7 @@ function ClipboardManager() {
 		if (!this.enabled) {
 			return;
 		}
-		if (tools.currentTool !== tools.selection && tools.currentTool !== tools.freeformSelection) {
+		if (!(tools.currentTool instanceof SelectionTool)) {
 			return;
 		}
 		
@@ -23,7 +23,7 @@ function ClipboardManager() {
 		if (!this.enabled) {
 			return;
 		}
-		if (tools.currentTool !== tools.selection && tools.currentTool !== tools.freeformSelection) {
+		if (!(tools.currentTool instanceof SelectionTool)) {
 			return;
 		}
 		
@@ -31,6 +31,10 @@ function ClipboardManager() {
 		tools.currentTool.cut();
 	}).bind(this));
 }
+
+// Define constants.
+ClipboardManager.prototype.CLIPBOARD_UNSUPPORTED_MESSAGE = 'Your browser does not support copying or cutting selections from PaintZ.  To use this feature, please switch to a supported browser, such as the latest Google Chrome.';
+ClipboardManager.prototype.CLIPBOARD_UNAUTHORIZED_MESSAGE = 'PaintZ needs permission to paste from your clipboard.  You may need to go into your browser\'s site settings to grant that permission.';
 
 /**
  * Handle something being pasted to the page.
@@ -62,7 +66,9 @@ ClipboardManager.prototype._handlePaste = function (e) {
  */
 ClipboardManager.prototype.triggerPaste = function () {
 	if (!navigator.clipboard || !navigator.clipboard.read) {
-		return false;
+		// If the browser does not support the clipboard API, fall back
+		// to `document.execCommand`; if that fails, it will return false.
+		return document.execCommand('paste');
 	}
 	
 	var that = this;
@@ -83,7 +89,7 @@ ClipboardManager.prototype.triggerPaste = function () {
 		})
 		.catch(function (err) {
 			if (err.name === 'NotAllowedError') {
-				alert('PaintZ needs permission to paste from your clipboard.  You may need to go into your browser\'s site settings to grant that permission.');
+				alert(that.CLIPBOARD_UNAUTHORIZED_MESSAGE);
 			}
 		});
 	return true;
@@ -110,12 +116,11 @@ ClipboardManager.prototype.paste = function (image) {
 	tools.switchTool('selection');
 	tools.selection.start({ x: pasteX, y: pasteY });
 	tools.selection.end({ x: pasteRightX, y: pasteBottomY });
-	tools.selection.update();
 	
 	// Set the selection content to the pasted image.
 	Utils.clearCanvas(preCxt);
 	preCxt.drawImage(image, pasteX, pasteY);
-	tools.selection._selection.opaqueContent = preCxt.getImageData(pasteX, pasteY, image.width, image.height);
+	tools.selection._selection.content.opaqueData = preCxt.getImageData(pasteX, pasteY, image.width, image.height);
 	
 	// Mark the selection as transformed so it gets saved no matter what.
 	tools.selection._selection.transformed = true;
@@ -123,8 +128,11 @@ ClipboardManager.prototype.paste = function (image) {
 	// Set this to false so there is no selection start cover.
 	tools.selection._selection.firstMove = false;
 	
-	// Apply transparency (and create selection.content).
+	// Apply transparency (and create `_selection.content.data`).
 	tools.selection.setTransparentBackground();
+	
+	// Draw the new selection.
+	tools.selection.redrawSelection();
 	
 	// Hide the progress spinner.
 	progressSpinner.hide();
@@ -136,16 +144,17 @@ ClipboardManager.prototype.paste = function (image) {
  */
 ClipboardManager.prototype.copy = function (imageBlob) {
 	if (!navigator.clipboard || !navigator.clipboard.write) {
-		alert('Your browser does not support copying or cutting selections from PaintZ.  To use this feature, please switch to a supported browser, such as the latest Google Chrome.');
+		alert(this.CLIPBOARD_UNSUPPORTED);
 		return false;
 	}
 	
 	var clipboardItem = new ClipboardItem({ 'image/png': imageBlob });
 	
+	var that = this;
 	navigator.clipboard.write([clipboardItem])
 		.catch(function (err) {
 			if (err.name === 'NotAllowedError') {
-				alert('PaintZ needs permission to copy or cut to your clipboard.  You may need to go into your browser\'s site settings to grant that permission.');
+				alert(that.CLIPBOARD_UNAUTHORIZED_MESSAGE);
 			}
 		});
 	return true;

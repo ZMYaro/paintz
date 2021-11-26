@@ -8,15 +8,30 @@
 
 body {
 	overscroll-behavior-y: contain; /* Prevent pull-to-refresh. */
+	
+	position: absolute; /* Stretch to contain canvasas wider than the window */
+	padding: 16px;
+	padding-top: 128px; /* 16px padding + 112px toolbar */
+	padding-bottom: 48px; /* 16px padding + 32px bottom bar */
+}
+
+#canvasPositioner {
+	position: relative;
 }
 
 .canvas,
 .floatingRegion,
 .floatingToolbar {
 	position: absolute;
-	top: 104px; /* Toolbar offset */
+	top: 0;
 	left: 0;
-	margin: 20px 16px 48px;
+	margin: 0;
+	
+	-webkit-transform-origin: 0 0;
+	   -moz-transform-origin: 0 0;
+	    -ms-transform-origin: 0 0;
+	     -o-transform-origin: 0 0;
+	        transform-origin: 0 0;
 }
 
 	.canvas {
@@ -26,12 +41,6 @@ body {
 		image-rendering: -moz-crisp-edges;
 		image-rendering:   -o-crisp-edges;
 		image-rendering:      crisp-edges;
-		
-		-webkit-transform-origin: 0 0;
-		   -moz-transform-origin: 0 0;
-		    -ms-transform-origin: 0 0;
-		     -o-transform-origin: 0 0;
-		        transform-origin: 0 0;
 		
 		-webkit-transition: top 0.2s linear;
 		   -moz-transition: top 0.2s linear;
@@ -56,20 +65,150 @@ body {
 	#gridCanvas {
 		pointer-events: none;
 	}
-	.floatingRegion,
-	.floatingRegion:focus {
-		border: 1px solid white;
-		outline: 1px dashed black;
+	
+	.floatingRegion {
+		outline: 1px solid white;
 		outline-offset: -1px;
-		overflow: hidden;
-		resize: none;
-		pointer-events: none;
+		overflow: visible;
+		touch-action: none;
+		cursor: move;
 		z-index: 2;
 	}
+		.floatingRegion::before {
+			content: '';
+			display: block;
+			position: absolute;
+			left: -24px; /* Floating region grabbable margin */
+			top: -24px;
+			right: -24px;
+			bottom: -24px;
+			z-index: -1;
+		}
+		.floatingRegion::after {
+			/* Dashed black outline over solid white outline. */
+			/* Child elements cover base element's outline, but get covered by ::after. */
+			content: '';
+			display: block;
+			position: absolute;
+			left: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			border: 1px dashed black;
+			pointer-events: none;
+		}
+		.floatingRegion .textArea,
+		.floatingRegion .textArea:focus {
+			position: absolute;
+			left: 0;
+			top: 0;
+			-webkit-transform-origin: 0 0;
+			   -moz-transform-origin: 0 0;
+			    -ms-transform-origin: 0 0;
+			     -o-transform-origin: 0 0;
+			        transform-origin: 0 0;
+			margin: 0;
+			outline: none;
+			overflow: hidden;
+			word-break: break-word;
+			resize: none;
+			cursor: text;
+		}
+		.floatingRegion .resizeHandle,
+		.floatingRegion .resizeHandle:hover,
+		.floatingRegion .resizeHandle:focus {
+			position: absolute;
+			margin: 0;
+			padding: 0;
+			border: 0 none;
+			outline: 0 none;
+			width: 24px; /* Floating region grabbable margin */
+			height: 24px;
+			-webkit-border-radius: 12px; /* 0.5 * grabbable margin */
+			   -moz-border-radius: 12px;
+			        border-radius: 12px;
+			background-color: white;
+			-webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.26), 0 1px 5px 0 rgba(0, 0, 0, 0.16);
+			   -moz-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.26), 0 1px 5px 0 rgba(0, 0, 0, 0.16);
+			        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.26), 0 1px 5px 0 rgba(0, 0, 0, 0.16);
+		}
+			.floatingRegion .resizeHandle:active,
+			.floatingRegion .resizeHandle.active {
+				background-color: #ebedf7; /* rgba(63, 81, 181, 0.1) over white */
+				-webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 5px 0 rgba(0, 0, 0, 0.16);
+				   -moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 5px 0 rgba(0, 0, 0, 0.16);
+				        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 5px 0 rgba(0, 0, 0, 0.16);
+			}
+			.floatingRegion.hideHandles .resizeHandle {
+				visibility: hidden;
+			}
+			.floatingRegion .resizeHandle.resizeNW {
+				left: -24px;
+				top: -24px;
+				cursor: nwse-resize;
+				cursor: nw-resize;
+				-webkit-border-bottom-right-radius: 0;
+				    -moz-border-radius-bottomright: 0;
+				        border-bottom-right-radius: 0;
+			}
+			.floatingRegion .resizeHandle.resizeN {
+				left: 45%;
+				left: calc(50% - 12px);
+				top: -24px;
+				cursor: ns-resize;
+				cursor: n-resize;
+			}
+			.floatingRegion .resizeHandle.resizeNE {
+				right: -24px;
+				bottom: 100%;
+				cursor: nesw-resize;
+				cursor: ne-resize;
+				-webkit-border-bottom-left-radius: 0;
+				    -moz-border-radius-bottomleft: 0;
+				        border-bottom-left-radius: 0;
+			}
+			.floatingRegion .resizeHandle.resizeE {
+				left: 100%;
+				top: 45%;
+				top: calc(50% - 12px);
+				cursor: ew-resize;
+				cursor: e-resize;
+			}
+			.floatingRegion .resizeHandle.resizeSE {
+				right: -24px;
+				bottom: -24px;
+				cursor: nwse-resize;
+				cursor: se-resize;
+				-webkit-border-top-left-radius: 0;
+				    -moz-border-radius-topleft: 0;
+				        border-top-left-radius: 0;
+			}
+			.floatingRegion .resizeHandle.resizeS {
+				left: 45%;
+				left: calc(50% - 12px);
+				bottom: -24px;
+				cursor: ns-resize;
+				cursor: s-resize;
+			}
+			.floatingRegion .resizeHandle.resizeSW {
+				left: -24px;
+				bottom: -24px;
+				cursor: nesw-resize;
+				cursor: sw-resize;
+				-webkit-border-top-right-radius: 0;
+				    -moz-border-radius-topright: 0;
+				        border-top-right-radius: 0;
+			}
+			.floatingRegion .resizeHandle.resizeW {
+				left: -24px;
+				top: 45%;	
+				top: calc(50% - 12px);
+				cursor: w-resize;
+			}
 
 .floatingToolbar {
-	position: absolute;
 	padding: 0;
+	white-space: nowrap;
 	z-index: 3;
 }
 	.floatingToolbar button {
@@ -113,8 +252,7 @@ body {
 }
 
 @media (max-width: 600px) {
-	.canvas,
-	.floatingRegion {
-		top: 96px;
+	body {
+		padding-top: 120px; /* 16px padding + 104px toolbar */
 	}
 }

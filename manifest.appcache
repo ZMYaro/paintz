@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2021-02-08, v1
+# 2021-11-26, v1
 index.html
 404.html
 manifest.webapp
@@ -12,7 +12,6 @@ images/cursors/airbrush.cur
 images/cursors/eyedropper.cur
 images/cursors/paint_bucket.cur
 images/cursors/pencil.cur
-images/icons/add_to_home_screen.svg
 images/icons/airbrush.svg
 images/icons/back.svg
 images/icons/bold.svg
@@ -39,6 +38,9 @@ images/icons/help.svg
 images/icons/image.svg
 images/icons/info.svg
 images/icons/instagram.svg
+images/icons/install_desktop.svg
+images/icons/install_mobile.svg
+images/icons/invert_colors.svg
 images/icons/italic.svg
 images/icons/line.svg
 images/icons/line_weight.svg
@@ -50,7 +52,9 @@ images/icons/oval.svg
 images/icons/paint_bucket.svg
 images/icons/pan.svg
 images/icons/paste.svg
+images/icons/patreon.svg
 images/icons/pencil.svg
+images/icons/print.svg
 images/icons/rect.svg
 images/icons/redo.svg
 images/icons/resize.svg
@@ -81,6 +85,9 @@ partials/dialogs/color_picker.html
 partials/dialogs/help.html
 partials/dialogs/install.html
 partials/dialogs/keyboard.html
+partials/dialogs/ms_access_key.html
+partials/dialogs/ms_access_key_help.html
+partials/dialogs/patreon.html
 partials/dialogs/rate.html
 partials/dialogs/resize.html
 partials/dialogs/save.html
@@ -100,6 +107,7 @@ partials/toolbar/zoom.html
 privacy/index.html
 scripts/app.js
 scripts/clipboard.js
+scripts/floating_region.js
 scripts/keyboard.js
 scripts/pacman.js
 scripts/progress_spinner.js
@@ -116,6 +124,9 @@ scripts/dialogs/color_picker.js
 scripts/dialogs/help.js
 scripts/dialogs/install.js
 scripts/dialogs/keyboard.js
+scripts/dialogs/ms_access_key.js
+scripts/dialogs/ms_access_key_help.js
+scripts/dialogs/patreon.js
 scripts/dialogs/rate.js
 scripts/dialogs/resize.js
 scripts/dialogs/save.js
@@ -160,6 +171,7 @@ scripts/tools/tools.js
 styles/color_picker.css
 styles/dialogs.css
 styles/layout.css
+styles/print.css
 styles/toolbars.css
 styles/splash_screen.css
 styles/sub_page.css

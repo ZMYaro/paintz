@@ -23,5 +23,40 @@
 			"sizes": "512x512",
 			"type": "image/png"
 		}
-	]
+	],
+	
+	"file_handlers": [
+		{
+			"action": "/",
+			"accept": {
+				"image/*": [
+					".apng",
+					".avif",
+					".bmp",
+					".gif",
+					".ico",
+					".jpg",
+					".jpeg",
+					".jfif",
+					".pjpeg",
+					".pjp",
+					".png",
+					".svg",
+					".webp"
+				]
+			}
+		}
+	],
+	
+	"share_target": {
+		"action": "/",
+		"method": "POST",
+		"enctype": "multipart/form-data",
+		"params": {
+			"files": [{
+				"name": "file",
+				"accept": ["image/*"]
+			}]
+		}
+	}
 }

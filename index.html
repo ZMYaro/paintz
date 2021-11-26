@@ -19,10 +19,19 @@
 				window.location.protocol = 'https';
 			}
 			
-			// Set up caching.
+			// Set up offline caching.
 			if (!!navigator.serviceWorker) {
 				navigator.serviceWorker.register('service_worker.js').then(function (registration) {
 					console.log('Registered service worker with scope:', registration.scope);
+				});
+				navigator.serviceWorker.addEventListener('message', function (ev) {
+					// If a new image was sent to be opened, open it.
+					// If this is first load, save it to be fetched during normal initialization.
+					try {
+						openImage(ev.data.file);
+					} catch (err) {
+						window.sharedFile = ev.data.file;
+					}
 				});
 			} else {
 				// If service worker is unavailable, fall back to app cache.
@@ -32,6 +41,7 @@
 					appCacheIFrame.style.position = 'absolute';
 					appCacheIFrame.style.width = '1px';
 					appCacheIFrame.style.height = '1px';
+					appCacheIFrame.style.border = '0 none';
 					document.body.appendChild(appCacheIFrame);
 				});
 			}
@@ -80,6 +90,8 @@
 		
 		<link rel="stylesheet" type="text/css" href="styles/themes/default.css" id="themeStyleLink" />
 		
+		<link rel="stylesheet" type="text/css" href="styles/print.css" media="print" />
+		
 		<!-- Libraries, helpers, and polyfills -->
 		<script type="text/javascript" src="scripts/lib/material-touch.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/lib/canvas-to-blob.min.js" defer="defer"></script>
@@ -106,6 +118,9 @@
 		<script type="text/javascript" src="scripts/dialogs/help.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/dialogs/install.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/dialogs/keyboard.js" defer="defer"></script>
+		<script type="text/javascript" src="scripts/dialogs/ms_access_key.js" defer="defer"></script>
+		<script type="text/javascript" src="scripts/dialogs/ms_access_key_help.js" defer="defer"></script>
+		<script type="text/javascript" src="scripts/dialogs/patreon.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/dialogs/rate.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/dialogs/resize.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/dialogs/save.js" defer="defer"></script>
@@ -128,6 +143,7 @@
 		<script type="text/javascript" src="scripts/toolbar/toolbar.js" defer="defer"></script>
 		
 		<!-- Drawing tools -->
+		<script type="text/javascript" src="scripts/floating_region.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/tools/tool.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/tools/drawing.js" defer="defer"></script>
 		<script type="text/javascript" src="scripts/tools/shape.js" defer="defer"></script>
@@ -157,12 +173,15 @@
 		<!-- Top toolbar -->
 		<div class="appBar z2" id="toolbar" role="toolbar"></div>
 		
-		<!-- Image canvas -->
-		<canvas class="z1 canvas" id="canvas" width="1" height="1"></canvas>
-		<!-- Drawing canvas -->
-		<canvas class="canvas" id="preCanvas" width="1" height="1" touch-action="none" tabindex="-1"></canvas>
-		<!-- Grid canvas -->
-		<canvas class="canvas" id="gridCanvas" width="1" height="1"></canvas>
+		<!-- Flow-positioned canvas size holder -->
+		<div class="canvas" id="canvasPositioner">
+			<!-- Image canvas -->
+			<canvas class="z1 canvas" id="canvas" width="1" height="1"></canvas>
+			<!-- Drawing canvas -->
+			<canvas class="canvas" id="preCanvas" width="1" height="1" touch-action="none"></canvas>
+			<!-- Grid canvas -->
+			<canvas class="canvas" id="gridCanvas" width="1" height="1"></canvas>
+		</div>
 		
 		<!-- Bottom toolbar -->
 		<div class="appBar z2" id="bottomBar" role="toolbar"></div>

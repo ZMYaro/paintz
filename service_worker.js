@@ -1,6 +1,6 @@
 'use strict';
 
-// 2020-12-01, v1
+// 2021-11-26, v1
 var CACHE_START_TEXT = 'CACHE MANIFEST',
 	CACHE_END_TEXT = 'NETWORK';
 
@@ -26,8 +26,9 @@ self.addEventListener('install', function(ev) {
 			appCacheText = appCacheText.replace(/\r/g, '');
 			
 			var startIndex = appCacheText.indexOf(CACHE_START_TEXT) + CACHE_START_TEXT.length + 1,
-				endIndex = appCacheText.indexOf(CACHE_END_TEXT) - 2,
-				appCacheArray = appCacheText
+				endIndex = appCacheText.indexOf(CACHE_END_TEXT) - 2;
+			if (endIndex === -3) { endIndex = appCacheText.length - 1; }
+			var appCacheArray = appCacheText
 					// Take only the CACHE MANIFEST section.
 					.substring(startIndex, endIndex)
 					// Remove any extra line breaks.
@@ -68,7 +69,17 @@ self.addEventListener('fetch', function(ev) {
 		return fetch(ev.request);
 	}
 	
-	var url = ev.request.url;
+	// Handle any file open request specially.
+	if (ev.request.method === 'POST' && new URL(ev.request.url).pathname === '/') {
+		ev.request.formData().then(function (formData) {
+			self.clients.get(ev.resultingClientId || ev.clientId).then(function (client) {
+				var file = formData.get('file');
+				client.postMessage({ file: file, action: 'load-image' });
+			});
+		});
+	}
+	
+	var url = ev.request.url.split('?')[0].split('#')[0];
 	// Make any URL to a directory look for index.html in that directory.
 	if (url.substr(-1) === '/') {
 		url += 'index.html';

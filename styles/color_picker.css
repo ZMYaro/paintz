@@ -79,6 +79,9 @@
 		border-color: transparent;
 	}
 
+#colorPickerDialog th {
+	text-align: center;
+}
 #colorPickerDialog input {
 	margin-top: 8px;
 	margin-bottom: -4px;

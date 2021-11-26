@@ -85,13 +85,17 @@ ColorPickerToolbox.prototype._setUp = function (contents) {
 	// Set up the color picker dialog.
 	dialogs.colorPicker.trigger = this.colorIndicator;
 	this.colorIndicator.addEventListener('click', dialogs.colorPicker.open.bind(dialogs.colorPicker), false);
+	this.colorIndicator.addEventListener('contextmenu', (function (e) {
+		e.preventDefault();
+		this.swapSelectedColors();
+	}).bind(this), false);
 	
 	// Set up the event listener for the Pac-Man easter egg.
 	this._element.querySelector('#colorPicker button[data-value=\"#ffeb3b\"]')
 		.addEventListener('click', this._handlePacManButtonClick.bind(this), false);
 	
 	// Set up the toolbar color picker.
-	var colorButtons = Array.prototype.slice.call(this._element.getElementsByTagName('button')),
+	var colorButtons = Array.from(this._element.getElementsByTagName('button')),
 		boundColorButtonClickHandler = this._handleColorButtonClick.bind(this);
 	colorButtons.forEach(function (colorButton) {
 		colorButton.addEventListener('click', boundColorButtonClickHandler, false);
@@ -117,7 +121,6 @@ ColorPickerToolbox.prototype._createColorIndicator = function () {
 };
 
 /**
- * @private
  * Change the displayed colors to a different set.
  * @param {String} paletteName - The identifier for the color set
  */
@@ -126,6 +129,24 @@ ColorPickerToolbox.prototype.setColorPalette = function (paletteName) {
 	this.COLOR_PALETTES[paletteName].forEach(function (color, i) {
 		colorButtons[i].dataset.value = color;
 	}, this);
+};
+
+/**
+ * Swap the line and fill colors.
+ */
+ColorPickerToolbox.prototype.swapSelectedColors = function () {
+	// Swap the stored colors.
+	var oldLine = settings.get('lineColor'),
+		oldFill = settings.get('fillColor');
+	settings.set('lineColor', oldFill);
+	settings.set('fillColor', oldLine);
+	
+	// Update the indicator.
+	this.colorIndicator.style.borderColor = oldFill;
+	this.colorIndicator.style.backgroundColor = oldLine;
+	
+	// Some tools' cursors change with colors, so reactivate the current tool.
+	tools.currentTool.activate();
 };
 
 /**
@@ -153,7 +174,7 @@ ColorPickerToolbox.prototype._handleColorButtonClick = function (e) {
 		e.preventDefault();
 		e.stopPropagation();
 		
-		// If the left mouse button was used, set the fill color.
+		// If the right mouse button was used, set the fill color.
 		settings.set('fillColor', e.target.dataset.value);
 		this.colorIndicator.style.backgroundColor = e.target.dataset.value;
 		

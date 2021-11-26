@@ -55,7 +55,7 @@ SettingsManager.prototype.THEME_COLORS = {
 	light: '#f5f5f5'
 };
 /** @constant {Number} The maximum number of file saves to count. */
-SettingsManager.prototype.MAX_SAVE_COUNT = 102;
+SettingsManager.prototype.MAX_SAVE_COUNT = 502;
 
 /**
  * Set settings based on local storage, falling back to defaults where necessary.
@@ -109,7 +109,8 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			if (preCanvas.width !== value) {
 				preCanvas.width = value;
 			}
-			gridCanvas.width = value * zoomManager.level;
+			canvasPositioner.style.width = (value * zoomManager.level) + 'px';
+			gridCanvas.width = (value * zoomManager.level);
 			if (this.get('grid')) {
 				zoomManager.drawGrid();
 			}
@@ -124,7 +125,8 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			if (preCanvas.height !== value) {
 				preCanvas.height = value;
 			}
-			gridCanvas.height = value * zoomManager.level;
+			canvasPositioner.style.height = (value * zoomManager.level) + 'px';
+			gridCanvas.height = (value * zoomManager.level);
 			if (this.get('grid')) {
 				zoomManager.drawGrid();
 			}
@@ -142,6 +144,7 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 		case 'transparentSelection':
 			if (tools && tools.currentTool && tools.currentTool.setTransparentBackground) {
 				tools.currentTool.setTransparentBackground();
+				tools.currentTool.redrawSelection();
 			}
 			break;
 		case 'fontFamily':
@@ -168,6 +171,9 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			break;
 		case 'ghostDraw':
 			preCanvas.classList[value ? 'add' : 'remove']('ghost');
+			break;
+		case 'maxUndoStackDepth':
+			undoStack.pruneToLimit();
 			break;
 	}
 };

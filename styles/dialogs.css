@@ -24,6 +24,11 @@
 	     -o-transition-property: background-color;
 	        transition-property: background-color;
 }
+	#dialogsContainer,
+	#progressContainer {
+		/* Prevent scrolling the canvas. */
+		overscroll-behavior: contain;
+	}
 	#dialogsContainer {
 		padding-top: 64px;
 	}
@@ -84,16 +89,16 @@
 		background-color: #3f51b5;
 		color: white;
 	}
-		.dialog button[type="submit"]:hover,
-		.dialog button[type="submit"]:focus,
-		[role="button"].submitLink:hover,
-		[role="button"].submitLink:focus {
+		.dialog button[type="submit"]:not(:disabled):hover,
+		.dialog button[type="submit"]:not(:disabled):focus,
+		[role="button"].submitLink:not(:disabled):hover,
+		[role="button"].submitLink:not(:disabled):focus {
 			background-color: #4b5cb9;
 		}
-		.dialog button[type="submit"]:active,
-		.dialog button[type="submit"].active,
-		[role="button"].submitLink:active,
-		[role="button"].submitLink.active {
+		.dialog button[type="submit"]:not(:disabled):active,
+		.dialog button[type="submit"]:not(:disabled).active,
+		[role="button"].submitLink:not(:disabled):active,
+		[role="button"].submitLink:not(:disabled).active {
 			background-color: #5767bd;
 		}
 	.dialog#settingsDialog select:not([size]),
@@ -123,6 +128,7 @@
 	.dialog .dialog-header,
 	.dialog .dialog-footer {
 		position: sticky;
+		z-index: 1;
 	}
 		.dialog .dialog-header {
 			top: -64px;
@@ -211,6 +217,7 @@
 					}
 
 #bottomSheetsContainer .dialog {
+	max-width: 100%;
 	margin-bottom: -4px;
 	pointer-events: auto;
 	
@@ -235,11 +242,14 @@ kbd {
 	margin: 0 4px;
 }
 
-input[type="checkbox"] {
-	margin: 0px 2px;
-}
 input[type="radio"] {
 	margin: -4px 4px;
+}
+input[type="checkbox"] {
+	margin: -3px 5px;
+}
+[role="button"] input[type="checkbox"] {
+	margin: 0px 2px;
 }
 input[type=range]::-ms-tooltip {
 	display: none;
@@ -261,10 +271,24 @@ small,
 		font-weight: normal;
 	}
 
+#saveDialog progress {
+	display: none;
+}
+	#saveDialog.loading progress {
+		display: inline-block;
+	}
+	#saveDialog.loading #shareButton,
+	#saveDialog.loading #downloadLink {
+		display: none;
+	}
+
 #keyboardDialog table td:first-child {
 	white-space: nowrap;
 }
 #helpDialog table {
+	text-align: left;
+}
+.dialog th {
 	text-align: left;
 }
 .dialog .helpIcon {

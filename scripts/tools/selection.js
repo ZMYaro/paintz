@@ -7,9 +7,7 @@
  */
 function SelectionTool(cxt, preCxt) {
 	Tool.apply(this, arguments);
-	this._outline = document.createElement('div');
-	this._outline.className = 'floatingRegion';
-	this._outline.style.cursor = 'move';
+	this._outline = new FloatingRegion();
 	
 	this._toolbar = toolbar.toolboxes.floatingSelectionToolbar;
 }
@@ -17,13 +15,24 @@ function SelectionTool(cxt, preCxt) {
 SelectionTool.prototype = Object.create(Tool.prototype);
 SelectionTool.prototype.constructor = SelectionTool;
 
+// Define constants.
+/** @constant {Number} The minimum x-coordinate for the floating selection toolbar, relative to the canvas */
+SelectionTool.prototype.TOOLBAR_MIN_X = -8;
+/** @constant {Number} The minimum y-coordinate for the floating selection toolbar, relative to the canvas */
+SelectionTool.prototype.TOOLBAR_MIN_Y = -68;
+/** @constant {Number} The x-offset of the floating selection toolbar from the selection's left side */
+SelectionTool.prototype.TOOLBAR_OFFSET_X = 8;
+/** @constant {Number} The y-offset of the floating selection toolbar from the selection's top side */
+SelectionTool.prototype.TOOLBAR_OFFSET_Y = -68;
+
 /**
  * @override
  * Handle the selection tool becoming the active tool.
  */
 SelectionTool.prototype.activate = function () {
 	this._preCxt.canvas.style.cursor = 'crosshair';
-	this._updateSelectionOutline(); // Update the outline in case the existing tool is being reactivated.
+	// Update the outline in case the existing tool is being reactivated.
+	this._updateSelectionUI();
 	toolbar.switchToolOptionsToolbox(toolbar.toolboxes.selectToolOptions);
 };
 
@@ -35,45 +44,52 @@ SelectionTool.prototype.activate = function () {
 SelectionTool.prototype.start = function (pointerState) {
 	this._roundPointerState(pointerState);
 	
-	// Hide the selection toolbar.
+	// Hide the selection toolbar while creating/moving.
 	this._toolbar.hide();
 	
-	// If a selection exists and the pointer is inside it, drag the selection.
-	// Otherwise, start a new selection.
-	if (this._selection &&
-			Utils.isPointInRect(pointerState.x, pointerState.y,
-				this._selection.x, this._selection.y,
-				this._selection.width, this._selection.height)) {
-		this._selection.pointerOffset = {
-			x: pointerState.x - this._selection.x,
-			y: pointerState.y - this._selection.y
-		};
+	if (this._outline.drag) {
+		// If the selection is being dragged, handle that.
 		if (pointerState.ctrlKey) {
 			// If the Ctrl key is pressed, save a copy of the selection.
 			this._saveSelection();
 			this._selection.firstMove = false;
 		}
-		this._preCxt.canvas.style.cursor = 'move';
+		if (this._outline.drag.type === 'move') {
+			// Hide the outline while moving.
+			this._outline.hide();
+			this._preCxt.canvas.style.cursor = 'move';
+		} else {
+			this._preCxt.canvas.style.cursor = this._outline.drag.type + '-resize';
+		}
 	} else {
-		// Save any existing selection.
+		// Otherwise, save any existing selection...
 		this._saveSelection();
-		// Start a new selection.
+		// ...and start a new selection.
 		this._selection = {
-			startX: pointerState.x,
-			startY: pointerState.y,
-			x: pointerState.x,
-			y: pointerState.y,
-			startWidth: 0,
-			startHeight: 0,
-			width: 0,
-			height: 0,
+			pointerStart: {
+				x: pointerState.x,
+				y: pointerState.y
+			},
+			initial: {
+				x: pointerState.x,
+				y: pointerState.y,
+				width: 0,
+				height: 0
+			},
+			content: {},
 			// The fill color should remain the same for this selection even if the PaintZ fill color changes.
 			fillColor: settings.get('fillColor'),
 			firstMove: true,
 			transformed: false
 		};
-		this._updateSelectionOutline();
-		document.body.appendChild(this._outline);
+		// Hide resize handles while creating.
+		this._outline.interactable =
+			this._outline.showHandles = false;
+		this._outline.x = pointerState.x;
+		this._outline.y = pointerState.y;
+		this._outline.width = 0;
+		this._outline.height = 0;
+		this._outline.addToDOM();
 	}
 };
 
@@ -89,48 +105,51 @@ SelectionTool.prototype.move = function (pointerState) {
 	
 	this._roundPointerState(pointerState);
 	
-	// If there is a pointer offset, move the selection.
-	// If there is no pointer offset, then this must be a new selection.
-	if (this._selection.pointerOffset) {
-		this._selection.x = pointerState.x - this._selection.pointerOffset.x;
-		this._selection.y = pointerState.y - this._selection.pointerOffset.y;
+	if (this._outline.drag) {
+		this._outline.handleDragMove(pointerState);
+		if (this._outline.drag.type === 'move') {
+			this._updateSelectionContentToOutline();
+			this._canvasDirty = true;
+		}
 	} else {
+		// If nothing is being dragged, this is a new selection.
 		// Limit the region to the canvas.
 		pointerState.x = Utils.constrainValue(pointerState.x, 0, this._cxt.canvas.width);
 		pointerState.y = Utils.constrainValue(pointerState.y, 0, this._cxt.canvas.height);
 		
-		this._selection.startWidth = pointerState.x - this._selection.startX;
-		this._selection.startHeight = pointerState.y - this._selection.startY;
+		this._selection.initial.width = pointerState.x - this._selection.pointerStart.x;
+		this._selection.initial.height = pointerState.y - this._selection.pointerStart.y;
 		
 		// Keep x and y at the top-left corner of the selection.
-		if (this._selection.startWidth < 0) {
-			this._selection.x = this._selection.startX + this._selection.startWidth;
-			this._selection.startWidth = Math.abs(this._selection.startWidth);
+		if (this._selection.initial.width < 0) {
+			this._selection.initial.x = this._selection.pointerStart.x + this._selection.initial.width;
+			this._selection.initial.width = Math.abs(this._selection.initial.width);
 		}
-		if (this._selection.startHeight < 0) {
-			this._selection.y = this._selection.startY + this._selection.startHeight;
-			this._selection.startHeight = Math.abs(this._selection.startHeight);
+		if (this._selection.initial.height < 0) {
+			this._selection.initial.y = this._selection.pointerStart.y + this._selection.initial.height;
+			this._selection.initial.height = Math.abs(this._selection.initial.height);
 		}
 		
 		// Perfect square when shift key held.
 		if (pointerState.shiftKey) {
-			if (this._selection.startWidth < this._selection.startHeight) {
-				this._selection.startHeight = this._selection.startWidth;
-				if (this._selection.y === pointerState.y) {
-					this._selection.y = this._selection.startY - this._selection.startHeight;
+			if (this._selection.initial.width < this._selection.initial.height) {
+				this._selection.initial.height = this._selection.initial.width;
+				if (this._selection.initial.y === pointerState.y) {
+					this._selection.initial.y = this._selection.pointerStart.y - this._selection.initial.height;
 				}
 			} else {
-				this._selection.startWidth = this._selection.startHeight;
-				if (this._selection.x === pointerState.x) {
-					this._selection.x = this._selection.startX - this._selection.startWidth;
+				this._selection.initial.width = this._selection.initial.height;
+				if (this._selection.initial.x === pointerState.x) {
+					this._selection.initial.x = this._selection.pointerStart.x - this._selection.initial.width;
 				}
 			}
 		}
-		this._selection.width = this._selection.startWidth;
-		this._selection.height = this._selection.startHeight;
+		
+		this._outline.x = this._selection.initial.x;
+		this._outline.y = this._selection.initial.y;
+		this._outline.width = this._selection.initial.width;
+		this._outline.height = this._selection.initial.height;
 	}
-	
-	this._canvasDirty = true;
 };
 
 /**
@@ -141,8 +160,11 @@ SelectionTool.prototype.update = function () {
 	if (!this._canvasDirty) {
 		return;
 	}
+	if (!this._selection) {
+		return;
+	}
 	
-	this._redrawSelection();
+	this.redrawSelection();
 	
 	this._canvasDirty = false;
 };
@@ -153,39 +175,59 @@ SelectionTool.prototype.update = function () {
  * @param {Object} pointerState - The pointer coordinates
  */
 SelectionTool.prototype.end = function (pointerState) {
+	
+	this._preCxt.canvas.style.cursor = 'crosshair';
+	
+	if (!this._selection) {
+		return;
+	}
+	
 	this._roundPointerState(pointerState);
 	
 	this.move(pointerState);
 	
-	this._preCxt.canvas.style.cursor = 'crosshair';
-	
-	// If there is a pointer offset, remove it.
-	// If a new selection was created, ensure the dimensions are valid values.
-	if (this._selection.pointerOffset) {
-		delete this._selection.pointerOffset;
+	if (this._outline.drag) {
+		// If there is outline drag data, tell the floating region to
+		// finish, and then update the image data.
+		this._outline.handleDragEnd();
+		this._updateSelectionContentToOutline();
+		this._outline.show();
 	} else {
-		// If either dimension is zero, the selection is invalid.
-		if (this._selection.width === 0 || this._selection.height === 0) {
+		// Otherwise, a new selection was created.
+		
+		if (this._selection.initial.width === 0 || this._selection.initial.height === 0) {
+			// If either dimension is zero, the selection is invalid.
 			this.deselectAll();
 			return;
 		}
 		
-		// Update the start coordinates to the top-left corner.
-		this._selection.startX = this._selection.x;
-		this._selection.startY = this._selection.y;
+		// Set the current content dimensions to the initial dimensions.
+		this._selection.content.x = this._selection.initial.x;
+		this._selection.content.y = this._selection.initial.y;
+		this._selection.content.width = this._selection.initial.width;
+		this._selection.content.height = this._selection.initial.height;
 		
 		// Save the selected content in case the user moves it.
-		this._selection.opaqueContent = this._cxt.getImageData(
-			this._selection.startX, this._selection.startY,
-			this._selection.width, this._selection.height);
+		this._selection.content.opaqueData = this._cxt.getImageData(
+			this._selection.content.x, this._selection.content.y,
+			this._selection.content.width, this._selection.content.height);
 		
 		// Make the selection transparent if the setting is enabled.
-		// This creates _selection.content whether or not transparency is enabled.
+		// This creates `this._selection.content.data` whether or not transparency is enabled.
 		this.setTransparentBackground();
+		
+		delete this._selection.pointerStart;
+		
+		// Show resize handles once done creating.
+		this._outline.interactable =
+			this._outline.showHandles = true;
 	}
 	
-	// Show the selection toolbar if there is an active selection.
+	// Redraw the selection one last time.
+	this.redrawSelection();
+	
 	if (this._selection) {
+		// Show selection toolbar once done creating/moving if there is an active selection.
 		this._toolbar.show();
 	}
 };
@@ -215,13 +257,10 @@ SelectionTool.prototype.clear = function () {
 		this._drawSelectionStartCover();
 		this._cxt.drawImage(this._preCxt.canvas, 0, 0);
 	}
-	Utils.clearCanvas(this._preCxt);
 	
-	// Delete the selection.
-	this._toolbar.hide();
-	document.body.removeChild(this._outline);
+	this.deselectAll();
+	
 	undoStack.addState();
-	delete this._selection;
 };
 
 /**
@@ -236,9 +275,9 @@ SelectionTool.prototype.copy = function () {
 	
 	return new Promise((function (resolve, reject) {
 		Utils.clearCanvas(cursorCxt);
-		cursorCanvas.width = this._selection.width;
-		cursorCanvas.height = this._selection.height;
-		cursorCxt.putImageData(this._selection.opaqueContent, 0, 0);
+		cursorCanvas.width = this._selection.content.width;
+		cursorCanvas.height = this._selection.content.height;
+		cursorCxt.putImageData(this._selection.content.opaqueData, 0, 0);
 		
 		cursorCanvas.toBlob(function (blob) {
 			var copySuccess = clipboard.copy(blob);
@@ -282,10 +321,10 @@ SelectionTool.prototype.duplicate = function () {
 	this._selection.firstMove = false;
 	
 	// Move the selection to (the top-left corner of the visible canvas).
-	this._selection.x = Math.floor(window.scrollX / zoomManager.level);
-	this._selection.y = Math.floor(window.scrollY / zoomManager.level);
+	this._selection.content.x = Math.floor(window.scrollX / zoomManager.level);
+	this._selection.content.y = Math.floor(window.scrollY / zoomManager.level);
 	this._drawSelectionContent();
-	this._updateSelectionOutline();
+	this._updateSelectionUI();
 };
 
 /**
@@ -297,7 +336,7 @@ SelectionTool.prototype.selectAll = function (width, height) {
 	this.start({x: 0, y: 0});
 	this.move({x: width, y: height});
 	this.end({x: width, y: height});
-	this._updateSelectionOutline();
+	this._updateSelectionUI();
 };
 
 /**
@@ -309,9 +348,7 @@ SelectionTool.prototype.deselectAll = function () {
 	}
 	Utils.clearCanvas(this._preCxt);
 	this._toolbar.hide();
-	if (document.body.contains(this._outline)) {
-		document.body.removeChild(this._outline);
-	}
+	this._outline.removeFromDOM();
 };
 
 /**
@@ -324,15 +361,15 @@ SelectionTool.prototype.cropToSelection = function () {
 	}
 	
 	// Resize the main canvas to the selection size and draw the selection to it.
-	settings.set('width', this._selection.width);
-	settings.set('height', this._selection.height);
-	this._cxt.putImageData(this._selection.content, 0, 0);
+	settings.set('width', this._selection.content.width);
+	settings.set('height', this._selection.content.height);
+	this._cxt.putImageData(this._selection.content.data, 0, 0);
 	
 	// Fill in any empty pixels with the background color.
 	this._cxt.save();
 	this._cxt.globalCompositeOperation = 'destination-over';
 	this._cxt.fillStyle = this._selection.fillColor;
-	this._cxt.fillRect(0, 0, this._selection.width, this._selection.height);
+	this._cxt.fillRect(0, 0, this._selection.content.width, this._selection.content.height);
 	this._cxt.restore();
 	
 	// Save the new state.
@@ -340,6 +377,69 @@ SelectionTool.prototype.cropToSelection = function () {
 	
 	// Clear the selection.
 	this.deselectAll();
+};
+
+/**
+ * Invert the colors of the selection.  If there is no selection, invert the colors of the entire canvas.
+ */
+SelectionTool.prototype.invertColors = function () {
+	if (this._selection) {
+		this._preCxt.save();
+		cursorCxt.save();
+		
+		// Copy the selection content to the cursor canvas because you
+		// cannot put image data with composite modes.
+		Utils.clearCanvas(cursorCxt);
+		cursorCanvas.width = this._selection.content.width;
+		cursorCanvas.height = this._selection.content.height;
+		cursorCxt.putImageData(this._selection.content.opaqueData, 0, 0);
+		
+		// Invert the selection on the pre-canvas.
+		this._preCxt.putImageData(
+			this._selection.content.opaqueData,
+			this._selection.content.x,
+			this._selection.content.y);
+		this._preCxt.globalCompositeOperation = 'difference';
+		this._preCxt.fillStyle = '#ffffff';
+		this._preCxt.fillRect(
+			this._selection.content.x, this._selection.content.y,
+			this._selection.content.width, this._selection.content.height);
+		
+		// Re-mask to the shape of the selection.
+		this._preCxt.globalCompositeOperation = 'destination-in';
+		this._preCxt.drawImage(
+			cursorCanvas,
+			this._selection.content.x,
+			this._selection.content.y);
+		
+		// Set the re-masked image data as the selection content.
+		this._selection.content.opaqueData = this._preCxt.getImageData(
+			this._selection.content.x, this._selection.content.y,
+			this._selection.content.width, this._selection.content.height);
+		
+		// Reapply background color transparency on the new colors.
+		this.setTransparentBackground();
+		
+		// Redraw now that transparency has been reapplied.
+		this.redrawSelection();
+		
+		// Note the selection was altered.
+		this._selection.transformed = true;
+		
+		// Restore canvas states.
+		this._preCxt.restore();
+		cursorCxt.restore();
+	} else {
+		// Invert the whole canvas.
+		this._cxt.save();
+		this._cxt.globalCompositeOperation = 'difference';
+		this._cxt.fillStyle = '#ffffff';
+		this._cxt.fillRect(0, 0, this._cxt.canvas.width, this._cxt.canvas.height);
+		this._cxt.restore();
+		
+		// Save the new state.
+		undoStack.addState();
+	}
 };
 
 /**
@@ -351,16 +451,16 @@ SelectionTool.prototype.flip = function (vertical) {
 		// Copy the selection to the cursor canvas.
 		// The data needs to be put in a canvas because putImageData ignores transformations.
 		Utils.clearCanvas(cursorCxt);
-		cursorCanvas.width = this._selection.width;
-		cursorCanvas.height = this._selection.height;
-		cursorCxt.putImageData(this._selection.opaqueContent, 0, 0);
+		cursorCanvas.width = this._selection.content.width;
+		cursorCanvas.height = this._selection.content.height;
+		cursorCxt.putImageData(this._selection.content.opaqueData, 0, 0);
 		
-		// Flip the precanvas and draw the selection to it.
+		// Flip the pre-canvas and draw the selection to it.
 		Utils.clearCanvas(this._preCxt);
 		this._preCxt.save();
 		this._preCxt.translate(
-			vertical ? 0 : this._selection.width,
-			vertical ? this._selection.height : 0);
+			vertical ? 0 : this._selection.content.width,
+			vertical ? this._selection.content.height : 0);
 		this._preCxt.scale(
 			vertical ? 1 : -1,
 			vertical ? -1 : 1);
@@ -368,16 +468,18 @@ SelectionTool.prototype.flip = function (vertical) {
 		this._preCxt.restore();
 		
 		// Save that as the new selection.
-		this._selection.opaqueContent = this._preCxt.getImageData(0, 0, this._selection.width, this._selection.height);
+		this._selection.content.opaqueData = this._preCxt.getImageData(
+			0, 0,
+			this._selection.content.width, this._selection.content.height);
 		
 		// Reapply transparency.
 		this.setTransparentBackground();
 		
-		// Note that the selection was flipped.
+		// Note the selection was flipped.
 		this._selection.transformed = true;
 		
 		// Put the updated selection back in place.
-		this._redrawSelection();
+		this.redrawSelection();
 		
 	} else {
 		// If there is no selection, flip the main canvas, and draw it to itself.
@@ -404,42 +506,45 @@ SelectionTool.prototype.rotate = function (clockwise) {
 		// Copy the selection to the cursor canvas.
 		// The data needs to be put in a canvas because putImageData ignores transformations.
 		Utils.clearCanvas(cursorCxt);
-		cursorCanvas.width = this._selection.width;
-		cursorCanvas.height = this._selection.height;
-		cursorCxt.putImageData(this._selection.opaqueContent, 0, 0);
+		cursorCanvas.width = this._selection.content.width;
+		cursorCanvas.height = this._selection.content.height;
+		cursorCxt.putImageData(this._selection.content.opaqueData, 0, 0);
 		
-		// Rotate the precanvas and draw the selection to it.
+		// Rotate the pre-canvas and draw the selection to it.
 		this._preCxt.canvas.width =
-			this._preCxt.canvas.height = Math.max(this._selection.width, this._selection.height);
+			this._preCxt.canvas.height = Math.max(this._selection.content.width, this._selection.content.height);
 		this._preCxt.save();
 		this._preCxt.translate(
-			this._selection.height / 2,
-			this._selection.width / 2);
+			this._selection.content.height / 2,
+			this._selection.content.width / 2);
 		this._preCxt.rotate(
 			(clockwise ? 0.25 : -0.25) * Math.TAU);
 		this._preCxt.drawImage(
 			cursorCanvas,
-			-this._selection.width / 2,
-			-this._selection.height / 2);
+			-this._selection.content.width / 2,
+			-this._selection.content.height / 2);
 		this._preCxt.restore();
 		
 		// Save that as the new selection.
-		this._selection.opaqueContent = this._preCxt.getImageData(0, 0, this._selection.height, this._selection.width);
+		this._selection.content.opaqueData = this._preCxt.getImageData(
+			0, 0,
+			this._selection.content.height, this._selection.content.width);
 		
 		// Reapply transparency.
 		this.setTransparentBackground();
 		
 		// Update the selection's width and height, and note that the selection was flipped.
-		var oldSelectionWidth = this._selection.width;
-		this._selection.width = this._selection.height;
-		this._selection.height = oldSelectionWidth;
+		var oldSelectionWidth = this._selection.content.width;
+		this._selection.content.width = this._selection.content.height;
+		this._selection.content.height = oldSelectionWidth;
 		this._selection.transformed = true;
 		
 		// Put the updated selection back in place.
 		this._preCxt.canvas.width = this._cxt.canvas.width;
 		this._preCxt.canvas.height = this._cxt.canvas.height;
-		this._drawSelectionContent();
-		this._updateSelectionOutline();
+		
+		// Redraw.
+		this.redrawSelection();
 		
 	} else {
 		// If there is no selection, rotate the entire canvas.
@@ -470,6 +575,9 @@ SelectionTool.prototype.rotate = function (clockwise) {
 		// Save the new width and height.
 		settings.set('width', oldCanvasHeight);
 		settings.set('height', oldCanvasWidth);
+		
+		// Clear the precanvas.
+		Utils.clearCanvas(preCxt);
 	}
 };
 
@@ -479,22 +587,21 @@ SelectionTool.prototype.rotate = function (clockwise) {
  * @param {Number} deltaY - The amount to nudge the selection vertically
  */
 SelectionTool.prototype.nudge = function (deltaX, deltaY) {
-	if (!this._selection || this._selection.pointerOffset) {
-		// Quit if there is no selection, or if there is a pointer offset
-		// (indicating the selection is currently being dragged).
+	if (!this._selection || this._outline.drag) {
+		// Quit if there is no selection, or if it is currently being dragged.
 		return;
 	}
 	
-	this._selection.x =
-		Math.min(this._cxt.canvas.width,
-			Math.max(-this._selection.width,
-				Math.round(this._selection.x + deltaX)));
-	this._selection.y = 
-		Math.min(this._cxt.canvas.height,
-			Math.max(-this._selection.height,
-				Math.round(this._selection.y + deltaY)));
+	this._selection.content.x = Utils.constrainValue(
+		Math.round(this._selection.content.x + deltaX),
+		-this._selection.content.width,
+		this._cxt.canvas.width);
+	this._selection.content.y = Utils.constrainValue(
+		Math.round(this._selection.content.y + deltaY),
+		-this._selection.content.height,
+		this._cxt.canvas.height);
 	
-	this._redrawSelection();
+	this.redrawSelection();
 };
 
 /**
@@ -506,7 +613,7 @@ SelectionTool.prototype.setTransparentBackground = function () {
 	}
 	
 	var transparencyOn = settings.get('transparentSelection'),
-		selectionImageData = Utils.cloneImageData(this._selection.opaqueContent, this._preCxt),
+		selectionImageData = Utils.cloneImageData(this._selection.content.opaqueData, this._preCxt),
 		selectionData = selectionImageData.data;
 	
 	if (transparencyOn) {
@@ -526,34 +633,85 @@ SelectionTool.prototype.setTransparentBackground = function () {
 	}
 	
 	// Save the modified (or unmodified) content as the current content and redraw it.
-	this._selection.content = selectionImageData;
-	this._redrawSelection();
+	this._selection.content.data = selectionImageData;
+	this._canvasDirty = true;
+};
+
+/**
+ * @private
+ * Redraw the selection and its outline with its current state.
+ */
+SelectionTool.prototype.redrawSelection = function () {
+	Utils.clearCanvas(this._preCxt);
+	this._drawSelectionContent();
+	this._updateSelectionUI();
 };
 
 /**
  * @private
  * Update the outline element.
  */
-SelectionTool.prototype._updateSelectionOutline = function () {
+SelectionTool.prototype._updateSelectionUI = function () {
 	if (!this._selection) {
 		return;
 	}
 	
-	var zoomedX = Math.floor(zoomManager.level * this._selection.x),
-		zoomedY = Math.floor(zoomManager.level * this._selection.y),
-		zoomedWidth = Math.ceil(zoomManager.level * this._selection.width),
-		zoomedHeight = Math.ceil(zoomManager.level * this._selection.height);
+	var zoomedX = Math.floor(zoomManager.level * this._selection.content.x),
+		zoomedY = Math.floor(zoomManager.level * this._selection.content.y);
 	
-	this._toolbar.x = Math.max(-8, zoomedX + 8);
-	this._toolbar.y = Math.max(-56, zoomedY - 52);
+	this._toolbar.x = Math.max(this.TOOLBAR_MIN_X, zoomedX + this.TOOLBAR_OFFSET_X);
+	this._toolbar.y = Math.max(this.TOOLBAR_MIN_Y, zoomedY + this.TOOLBAR_OFFSET_Y);
 	
-	this._outline.style.WebkitTransform =
-		this._outline.style.MozTransform =
-		this._outline.style.MsTransform =
-		this._outline.style.OTransform =
-		this._outline.style.transform = 'translate(' + zoomedX + 'px, ' + zoomedY + 'px)';
-	this._outline.style.width = zoomedWidth + 'px';
-	this._outline.style.height = zoomedHeight + 'px';
+	this._outline.x = this._selection.content.x;
+	this._outline.y = this._selection.content.y;
+	this._outline.width = this._selection.content.width;
+	this._outline.height = this._selection.content.height;
+};
+
+/**
+ * @private
+ * Update the selection to the position and size of the floating region.
+ */
+SelectionTool.prototype._updateSelectionContentToOutline = function () {
+	var wasResized = (this._selection.content.width !== this._outline.width ||
+			this._selection.content.height !== this._outline.height)
+	if (wasResized) {
+		this._resizeSelectionContentToOutline();
+		// If it was resized, note it was transformed—even if it is returned
+		// to its initial size, it could have lost data (consistent with MS Paint).
+		this._selection.transformed = true;
+	}
+	
+	this._selection.content.x = this._outline.x;
+	this._selection.content.y = this._outline.y;
+	this._selection.content.width = this._outline.width;
+	this._selection.content.height = this._outline.height;
+};
+
+/**
+ * @private
+ * Scale the selection image data to the size of the floating region.
+ */
+SelectionTool.prototype._resizeSelectionContentToOutline = function () {
+	// Draw the current selection content to the off-screen canvas.
+	cursorCanvas.width = this._selection.content.width;
+	cursorCanvas.height = this._selection.content.height;
+	cursorCxt.putImageData(this._selection.content.opaqueData, 0, 0);
+	
+	// Draw it back to the precanvas, resized.
+	Utils.clearCanvas(this._preCxt);
+	this._preCxt.drawImage(
+		cursorCanvas,
+		this._outline.x, this._outline.y,
+		this._outline.width, this._outline.height);
+	
+	// Save that as the new selection.
+	this._selection.content.opaqueData = this._preCxt.getImageData(
+		this._outline.x, this._outline.y,
+		this._outline.width, this._outline.height);
+	
+	// Reapply transparency.
+	this.setTransparentBackground();
 };
 
 /**
@@ -561,11 +719,14 @@ SelectionTool.prototype._updateSelectionOutline = function () {
  * Draw the selected content in its new location and the background color over its former location.
  */
 SelectionTool.prototype._drawSelectionContent = function () {
-	if (!this._selection || !this._selection.content) {
+	if (!this._selection || !this._selection.content.data) {
 		return;
 	}
 	
-	this._preCxt.putImageData(this._selection.content, this._selection.x, this._selection.y);
+	this._preCxt.putImageData(
+		this._selection.content.data,
+		this._selection.content.x,
+		this._selection.content.y);
 	if (this._selection.firstMove) {
 		// If this is not a duplicate, draw the background color over where the selection was taken from.
 		this._preCxt.save();
@@ -582,18 +743,8 @@ SelectionTool.prototype._drawSelectionContent = function () {
 SelectionTool.prototype._drawSelectionStartCover = function () {
 	this._preCxt.fillStyle = this._selection.fillColor;
 	this._preCxt.fillRect(
-		this._selection.startX, this._selection.startY,
-		this._selection.startWidth, this._selection.startHeight);
-};
-
-/**
- * @private
- * Redraw the selection and its outline with its current state.
- */
-SelectionTool.prototype._redrawSelection = function () {
-	Utils.clearCanvas(this._preCxt);
-	this._drawSelectionContent();
-	this._updateSelectionOutline();
+		this._selection.initial.x, this._selection.initial.y,
+		this._selection.initial.width, this._selection.initial.height);
 };
 
 /**
@@ -603,10 +754,15 @@ SelectionTool.prototype._redrawSelection = function () {
 SelectionTool.prototype._saveSelection = function () {
 	Utils.clearCanvas(this._preCxt);
 	
-	// If there is no selection or the selection was never transformed, then there is no need to save.
-	if (!this._selection ||
-			(!this._selection.transformed &&
-				(this._selection.x === this._selection.startX && this._selection.y === this._selection.startY))) {
+	var selectionExistsAndWasTransformed = (
+		this._selection &&
+		this._selection.content.data && (
+			this._selection.transformed ||
+			this._selection.content.x !== this._selection.initial.x ||
+			this._selection.content.y !== this._selection.initial.y));
+	if (!selectionExistsAndWasTransformed) {
+		// If there is no selection or the selection was never
+		// transformed, there is no need to save.
 		return;
 	}
 	

@@ -84,8 +84,10 @@ FloatingSelectionToolbar.prototype._setUp = function (contents) {
 	}, false);
 	
 	if (!navigator.clipboard || !navigator.clipboard.write) {
-		cutBtn.disabled = true;
-		copyBtn.disabled = true;
+		cutBtn.disabled =
+			copyBtn.disabled = true;
+		cutBtn.title =
+			copyBtn.title = ClipboardManager.prototype.CLIPBOARD_UNSUPPORTED_MESSAGE;
 	}
 };
 
@@ -106,7 +108,7 @@ FloatingSelectionToolbar.prototype._updatePosition = function () {
  * Add and show the toolbar on the page.
  */
 FloatingSelectionToolbar.prototype.show = function () {
-	document.body.appendChild(this._element);
+	canvasPositioner.appendChild(this._element);
 };
 
 /**

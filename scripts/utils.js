@@ -3,23 +3,43 @@
 // Polyfills.
 Math.TAU = Math.TAU || (2 * Math.PI);
 window.URL = window.webkitURL || window.URL;
+Array.from = Array.from || Array.prototype.slice.call.bind(Array.prototype.slice);
+HTMLElement.prototype.remove = HTMLElement.prototype.remove || function () {
+	this.parentElement ? this.parentElement.removeChild(this) : undefined;
+};
 Object.values = Object.values || function (obj) {
 	var vals = [];
 	for (var key in obj) {
-		if (obj.hasOwnProperty(obj[key]) && obj.propertyIsEnumerable(obj[key])) {
+		if (obj.hasOwnProperty(key) && obj.propertyIsEnumerable(key)) {
 			vals.push(obj[key]);
 		}
 	}
 	return vals;
 };
 
+// Fake polyfill to prevent older browsers choking on this function.
+CanvasRenderingContext2D.prototype.setLineDash = CanvasRenderingContext2D.prototype.setLineDash || function () {};
+
 var Utils = {
-	/** Whether the device runs Apple software. */
+	/** {Boolean} Whether the device runs Apple software */
 	isApple: (navigator.userAgent.indexOf('Mac') !== -1),
 	
-	/** Whether the user prefers reduced motion. */
+	/** {Boolean} Whether the device runs a mobile or similarly limited OS */
+	isMobileLike: !!navigator.userAgent.match(/android|ipad|iphone|ipod|mobile/i),
+	
+	/** {Boolean} Whether the user prefers reduced motion. */
 	get prefersReducedMotion() {
 		return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	},
+	
+	/**
+	 * Alphabetize items without sorting capitalized items before uncapitalized items.
+	 * @param {String} a - The first element for comparison
+	 * @param {String} b - The second element for comparison
+	 * @returns {Number} -1 if a < b, or 1 if a > b
+	 */
+	caseInsensitiveSort: function (a, b) {
+		return (a.toLowerCase() < b.toLowerCase() ? -1 : 1);
 	},
 	
 	/**
@@ -67,7 +87,14 @@ var Utils = {
 	 */
 	cloneImageData: function (sourceData, cxt) {
 		var copyData = cxt.createImageData(sourceData.width, sourceData.height);
-		copyData.data.set(sourceData.data);
+		if (copyData.data.set) {
+			copyData.data.set(sourceData.data);
+		} else {
+			// If imageData.data.set is not defined in this browser, manually copy the data.
+			for (var i = 0; i < sourceData.data.length; i++) {
+				copyData.data[i] = sourceData.data[i];
+			}
+		}
 		return copyData;
 	},
 	
@@ -162,7 +189,7 @@ var Utils = {
 	 * @returns {Number}
 	 */
 	getCanvasX: function (pageX) {
-		return pageX - preCanvas.offsetLeft;
+		return pageX - canvasPositioner.offsetLeft;
 	},
 
 	/**
@@ -171,7 +198,7 @@ var Utils = {
 	 * @returns {Number}
 	 */
 	getCanvasY: function (pageY) {
-		return pageY - preCanvas.offsetTop;
+		return pageY - canvasPositioner.offsetTop;
 	},
 	
 	/**
@@ -239,7 +266,7 @@ var Utils = {
 	readImage: function (file) {
 		return new Promise(function (resolve, reject) {
 			if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
-				reject('Please switch to a browser that supports the file APIs, such as Google Chrome.');
+				reject('Please switch to a browser that supports the file APIs, such as the latest Google Chrome.');
 				return;
 			}
 			if (!file) {

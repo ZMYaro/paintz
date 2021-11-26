@@ -22,6 +22,10 @@ ClearDialog.prototype.WIDTH = '384px';
  * Save the selected settings.
  */
 ClearDialog.prototype._clear = function () {
+	// Deactivate and reactivate the current tool in case it is being used.
+	tools.currentTool.deactivate();
+	tools.currentTool.activate();
+	
 	// Animate clearing the canvas.
 	var CENTER_X = 0,
 		CENTER_Y = -224,
@@ -52,5 +56,5 @@ ClearDialog.prototype._clear = function () {
 		}
 	}
 	Utils.raf(expandClearCircle);
-	document.title = DEFAULT_TITLE + ' - PaintZ';
+	document.title = DEFAULT_TITLE + PAGE_TITLE_SUFFIX;
 };

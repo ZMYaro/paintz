@@ -1,0 +1,47 @@
+/* TEAM */
+Creator, developer: Zachary Yaro
+Contact: zmyaro+paintz [at] zmyaro.com
+Site: https://zmyaro.com
+Twitter: @ZMYaro
+Location: Boston, Massachusetts, USA
+
+/* THANKS */
+Testing/feedback:
+David Martin
+Joe Porsella
+Taylor Braun
+Wendy Enoch
+
+easy.Filter: Alois Zingl
+Site: http://members.chello.at/easyfilter
+Location: Vienna, Austria
+
+ES6 Promise: Stefan Penner
+Site: http://iamstef.net
+Twitter: @StefanPenner
+Location: Salt Lake City, Utah, USA
+
+Flexi Color Picker: David Durman
+Site: http://daviddurman.com
+Twitter: @DavidDurman
+Location: Prague, Czech Republic
+
+Material Design Icons: Austin Andrews
+Site: http://templarian.com
+Twitter: @Templarian
+Location: Chicago, Illinois, USA
+
+SVG Optimiser: Peter Collingridge
+Site: https://petercollingridge.appspot.com
+Twitter: @Aleatoric
+Location: Oxford, UK
+
+Pac-Man: Toru Iwatani
+Location: Tokyo, Japan
+
+And the developers and maintainers of MS Paint, Material Design, and MDN.
+
+/* SITE */
+Last update: 2021-07-03
+Language: English
+Software: Notepad++, GitHub, Flash, Photoshop, Illustrator, GIMP, MS Paint

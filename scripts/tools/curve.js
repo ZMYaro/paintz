@@ -49,6 +49,8 @@ CurveTool.prototype.start = function (pointerState) {
 			this.point1Y =
 			this.point2X =
 			this.point2Y = undefined;
+	} else {
+		this.move(pointerState);
 	}
 };
 
@@ -120,6 +122,12 @@ CurveTool.prototype.update = function () {
  */
 CurveTool.prototype.end = function (pointerState) {
 	if (this._state === CurveTool.STATE_NOT_STARTED) {
+		if (Math.round(pointerState.x) === Math.round(this.startX) &&
+				Math.round(pointerState.y) === Math.round(this.startY)) {
+			// Abort if the starting line has a length less than 1.
+			Utils.clearCanvas(this._preCxt);
+			return;
+		}
 		this.endX = pointerState.x;
 		this.endY = pointerState.y;
 		this._state = CurveTool.STATE_END_POINT_SET;
