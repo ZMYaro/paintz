@@ -1,14 +1,26 @@
 <form id="tools">
-	<input type="radio" name="tool" value="pencil" id="pencilTool" /><!--
+	<input type="radio" name="tool" value="selection" id="selectionTool" /><!--
+	--><label role="button" for="selectionTool" title="Selection (S)">
+		<svg role="img">
+			<use xlink:href="images/icons/select.svg#icon" href="images/icons/select.svg#icon"></use>
+		</svg>
+	</label><!--
+	--><input type="radio" name="tool" value="eraser" id="eraserTool" /><!--
+	--><label role="button" for="eraserTool" title="Eraser (E)">
+		<svg role="img">
+			<use xlink:href="images/icons/eraser.svg#icon" href="images/icons/eraser.svg#icon"></use>
+		</svg>
+	</label><!--
+	--><input type="radio" name="tool" value="eyedropper" id="eyedropperTool" /><!--
+	--><label role="button" for="eyedropperTool" title="Color picker (I)">
+		<svg role="img">
+			<use xlink:href="images/icons/eyedropper.svg#icon" href="images/icons/eyedropper.svg#icon"></use>
+		</svg>
+	</label><!--
+	--><input type="radio" name="tool" value="pencil" id="pencilTool" /><!--
 	--><label role="button" for="pencilTool" title="Pencil (P)">
 		<svg role="img">
 			<use xlink:href="images/icons/pencil.svg#icon" href="images/icons/pencil.svg#icon"></use>
-		</svg>
-	</label><!--
-	--><input type="radio" name="tool" value="doodle" id="doodleTool" /><!--
-	--><label role="button" for="doodleTool" title="Brush (B)">
-		<svg role="img">
-			<use xlink:href="images/icons/brush.svg#icon" href="images/icons/brush.svg#icon"></use>
 		</svg>
 	</label><!--
 	--><input type="radio" name="tool" value="airbrush" id="airbrushTool" /><!--
@@ -21,12 +33,6 @@
 	--><label role="button" for="lineTool" title="Line (L)">
 		<svg role="img">
 			<use xlink:href="images/icons/line.svg#icon" href="images/icons/line.svg#icon"></use>
-		</svg>
-	</label><!--
-	--><input type="radio" name="tool" value="curve" id="curveTool" /><!--
-	--><label role="button" for="curveTool" title="Curve (C)">
-		<svg role="img">
-			<use xlink:href="images/icons/curve.svg#icon" href="images/icons/curve.svg#icon"></use>
 		</svg>
 	</label><!--
 	--><input type="radio" name="tool" value="rect" id="rectTool" /><!--
@@ -42,28 +48,10 @@
 		</svg>
 	</label><!--
 	--><br /><!--
-	--><input type="radio" name="tool" value="pan" id="panTool" /><!--
-	--><label role="button" for="panTool" title="Pan (H)">
-		<svg role="img">
-			<use xlink:href="images/icons/pan.svg#icon" href="images/icons/pan.svg#icon"></use>
-		</svg>
-	</label><!--
-	--><input type="radio" name="tool" value="selection" id="selectionTool" /><!--
-	--><label role="button" for="selectionTool" title="Selection (S)">
-		<svg role="img">
-			<use xlink:href="images/icons/select.svg#icon" href="images/icons/select.svg#icon"></use>
-		</svg>
-	</label><!--
 	--><input type="radio" name="tool" value="freeformSelection" id="freeformSelectionTool" /><!--
 	--><label role="button" for="freeformSelectionTool" title="Freeform selection (F)">
 		<svg role="img">
 			<use xlink:href="images/icons/freeform_select.svg#icon" href="images/icons/freeform_select.svg#icon"></use>
-		</svg>
-	</label><!--
-	--><input type="radio" name="tool" value="eraser" id="eraserTool" /><!--
-	--><label role="button" for="eraserTool" title="Eraser (E)">
-		<svg role="img">
-			<use xlink:href="images/icons/eraser.svg#icon" href="images/icons/eraser.svg#icon"></use>
 		</svg>
 	</label><!--
 	--><input type="radio" name="tool" value="floodFill" id="floodFillTool" /><!--
@@ -72,16 +60,40 @@
 			<use xlink:href="images/icons/paint_bucket.svg#icon" href="images/icons/paint_bucket.svg#icon"></use>
 		</svg>
 	</label><!--
-	--><input type="radio" name="tool" value="eyedropper" id="eyedropperTool" /><!--
-	--><label role="button" for="eyedropperTool" title="Color picker (I)">
+	--><input type="radio" name="tool" value="pan" id="panTool" /><!--
+	--><label role="button" for="panTool" title="Pan (H)">
 		<svg role="img">
-			<use xlink:href="images/icons/eyedropper.svg#icon" href="images/icons/eyedropper.svg#icon"></use>
+			<use xlink:href="images/icons/pan.svg#icon" href="images/icons/pan.svg#icon"></use>
+		</svg>
+	</label><!--
+	--><input type="radio" name="tool" value="doodle" id="doodleTool" /><!--
+	--><label role="button" for="doodleTool" title="Brush (B)">
+		<svg role="img">
+			<use xlink:href="images/icons/brush.svg#icon" href="images/icons/brush.svg#icon"></use>
 		</svg>
 	</label><!--
 	--><input type="radio" name="tool" value="text" id="textTool" /><!--
 	--><label role="button" for="textTool" title="Text (T)">
 		<svg role="img">
 			<use xlink:href="images/icons/text.svg#icon" href="images/icons/text.svg#icon"></use>
+		</svg>
+	</label><!--
+	--><input type="radio" name="tool" value="curve" id="curveTool" /><!--
+	--><label role="button" for="curveTool" title="Curve (C)">
+		<svg role="img">
+			<use xlink:href="images/icons/curve.svg#icon" href="images/icons/curve.svg#icon"></use>
+		</svg>
+	</label><!--
+	--><input type="radio" name="tool" value="polygon" id="polygonTool" disabled="disabled" /><!--
+	--><label role="button" for="polygonTool" title="Polygon">
+		<svg role="img">
+			<use xlink:href="images/icons/polygon.svg#icon" href="images/icons/polygon.svg#icon"></use>
+		</svg>
+	</label><!--
+	--><input type="radio" name="tool" value="roundRect" id="roundRectTool" disabled="disabled" /><!--
+	--><label role="button" for="roundRectTool" title="Rounded rectangle">
+		<svg role="img">
+			<use xlink:href="images/icons/rounded_rect.svg#icon" href="images/icons/rounded_rect.svg#icon"></use>
 		</svg>
 	</label>
 </form>
