@@ -110,6 +110,20 @@ var Utils = {
 	},
 	
 	/**
+	 * @private
+	 * Draw a round end cap for the end of a line (using the current `lineWidth` and `strokeStyle`).
+	 * @param {CanvasRenderingContext2D} cxt - The canvas context in which the line is being drawn
+	 * @param {Number} x - The x-coordinate of the cap
+	 * @param {Number} y - The y-coordinate of the cap
+	 */
+	drawCap: function (cxt, x, y) {
+		cxt.fillStyle = cxt.strokeStyle;
+		cxt.beginPath();
+		cxt.arc(x, y, cxt.lineWidth / 2, 0, Math.TAU, false);
+		cxt.fill();
+	},
+	
+	/**
 	 * Load a file.
 	 * @param {String} path - The path to the file
 	 */
