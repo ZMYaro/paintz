@@ -125,17 +125,8 @@ FreeformSelectionTool.prototype.update = function () {
 	this._preCxt.stroke();
 	this._preCxt.closePath();
 	
-	// Create a color-inverted copy of the existing drawing.
-	cursorCxt.save();
-	cursorCanvas.width = this._cxt.canvas.width;
-	cursorCanvas.height = this._cxt.canvas.height;
-	cursorCxt.drawImage(this._cxt.canvas, 0, 0);
-	cursorCxt.globalCompositeOperation = 'difference';
-	cursorCxt.fillStyle = 'white'; // Filling with white with “difference” blending mode inverts colors.
-	cursorCxt.fillRect(0, 0, cursorCanvas.width, cursorCanvas.height);
-	cursorCxt.restore();
-	
 	// Fill in the line with the inverted drawing.
+	Utils.drawCanvasOSInverted(cxt, cursorCxt);
 	this._preCxt.globalCompositeOperation = 'source-in';
 	this._preCxt.drawImage(cursorCanvas, 0, 0);
 	

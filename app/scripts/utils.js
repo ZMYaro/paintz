@@ -110,7 +110,6 @@ var Utils = {
 	},
 	
 	/**
-	 * @private
 	 * Draw a round end cap for the end of a line (using the current `lineWidth` and `strokeStyle`).
 	 * @param {CanvasRenderingContext2D} cxt - The canvas context in which the line is being drawn
 	 * @param {Number} x - The x-coordinate of the cap
@@ -121,6 +120,22 @@ var Utils = {
 		cxt.beginPath();
 		cxt.arc(x, y, cxt.lineWidth / 2, 0, Math.TAU, false);
 		cxt.fill();
+	},
+	
+	/**
+	 * Draw a region of the canvas to the off-screen canvas and invert its colors.
+	 * @param {CanvasRenderingContext2D} cxt - The context to copy
+	 * @param {CanvasRenderingContext2D} osCxt - The off-screen canvas to copy to and invert on
+	 */
+	drawCanvasOSInverted: function (cxt, osCxt) {
+		osCxt.save();
+		osCxt.canvas.width = cxt.canvas.width;
+		osCxt.canvas.height = cxt.canvas.height;
+		osCxt.drawImage(cxt.canvas, 0, 0);
+		osCxt.globalCompositeOperation = 'difference';
+		osCxt.fillStyle = 'white'; // Filling with white with “difference” blending mode inverts colors.
+		osCxt.fillRect(0, 0, osCxt.canvas.width, osCxt.canvas.height);
+		osCxt.restore();
 	},
 	
 	/**
