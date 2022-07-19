@@ -12,6 +12,7 @@ function ToolManager() {
 	this.rect = new RectangleTool(cxt, preCxt);
 	this.roundRect = new RoundedRectangleTool(cxt, preCxt);
 	this.oval = new OvalTool(cxt, preCxt);
+	this.polygon = new PolygonTool(cxt, preCxt);
 	this.eraser = new EraserTool(cxt, preCxt);
 	this.floodFill = new FloodFillTool(cxt, preCxt);
 	this.eyedropper = new EyedropperTool(cxt, preCxt);

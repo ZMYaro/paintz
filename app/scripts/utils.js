@@ -110,16 +110,30 @@ var Utils = {
 	},
 	
 	/**
+	 * Get the distance between 2 points.
+	 * @param {Number} x1,
+	 * @param {Number} y1,
+	 * @param {Number} x2,
+	 * @param {Number} y2
+	 * @returns {Number}
+	 */
+	distance: function (x1, y1, x2, y2) {
+		return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+	},
+	
+	/**
 	 * Draw a round end cap for the end of a line (using the current `lineWidth` and `strokeStyle`).
 	 * @param {CanvasRenderingContext2D} cxt - The canvas context in which the line is being drawn
 	 * @param {Number} x - The x-coordinate of the cap
 	 * @param {Number} y - The y-coordinate of the cap
 	 */
 	drawCap: function (cxt, x, y) {
+		cxt.save();
 		cxt.fillStyle = cxt.strokeStyle;
 		cxt.beginPath();
 		cxt.arc(x, y, cxt.lineWidth / 2, 0, Math.TAU, false);
 		cxt.fill();
+		cxt.restore();
 	},
 	
 	/**
