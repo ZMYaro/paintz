@@ -10,6 +10,7 @@ function ToolManager() {
 	this.line = new LineTool(cxt, preCxt);
 	this.curve = new CurveTool(cxt, preCxt);
 	this.rect = new RectangleTool(cxt, preCxt);
+	this.roundRect = new RoundedRectangleTool(cxt, preCxt);
 	this.oval = new OvalTool(cxt, preCxt);
 	this.eraser = new EraserTool(cxt, preCxt);
 	this.floodFill = new FloodFillTool(cxt, preCxt);

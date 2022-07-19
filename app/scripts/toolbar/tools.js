@@ -27,4 +27,10 @@ ToolsToolbox.prototype._setUp = function (contents) {
 		// Switch to the newly-selected tool.
 		tools.switchTool(e.target.value);
 	}, false);
+	
+	if (CanvasRenderingContext2D.prototype.roundRect) {
+		// If `roundRect` is supported, enable the rounded rectangle tool.
+		this._element.querySelector('#roundRectTool').disabled = false;
+		this._element.querySelector('[for="roundRectTool"]').title = 'Rounded rectangle';
+	}
 };
