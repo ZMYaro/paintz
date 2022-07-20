@@ -128,11 +128,7 @@ PolygonTool.prototype.update = function () {
 	Utils.drawCap(this._preCxt, this._points[this._points.length - 1].x, this._points[this._points.length - 1].y);
 	
 	// Draw the polygon up to the last point.
-	this._preCxt.beginPath();
-	this._preCxt.moveTo(this._points[0].x, this._points[0].y);
-	this._points.forEach(function (point) {
-		this._preCxt.lineTo(point.x, point.y);
-	}, this);
+	Utils.createPath(this._preCxt, this._points);
 	this._preCxt.stroke();
 	
 	if (!settings.get('antiAlias')) {
