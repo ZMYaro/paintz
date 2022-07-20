@@ -55,9 +55,8 @@ PolygonTool.prototype._finalizePolygon = function () {
 	
 	// Draw it to the canvas and reset the tool.
 	this._cxt.drawImage(this._preCxt.canvas, 0, 0);
-	Utils.clearCanvas(this._preCxt);
+	this.clearDraftPolygon();
 	undoStack.addState();
-	delete this._points;
 };
 
 /**
@@ -156,4 +155,12 @@ PolygonTool.prototype.end = function (pointerState) {
  */
 PolygonTool.prototype.deactivate = function () {
 	this._finalizePolygon();
+};
+
+/**
+ * Delete the current list of polygon vertices and clear the precanvas.
+ */
+PolygonTool.prototype.clearDraftPolygon = function () {
+	delete this._points;
+	Utils.clearCanvas(this._preCxt);
 };

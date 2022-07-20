@@ -50,6 +50,10 @@ KeyManager.prototype._handleKeyDown = function (e) {
 					e.preventDefault();
 					// Esc => Drop/cancel selection
 					tools.currentTool.deactivate();
+				} else if (tools.currentTool === tools.polygon) {
+					e.preventDefault();
+					// Esc => Cancel polygon
+					tools.currentTool.clearDraftPolygon();
 				} else if (tools.currentTool === tools.text) {
 					e.preventDefault();
 					// Esc => Cancel text box
