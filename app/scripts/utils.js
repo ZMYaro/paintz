@@ -99,6 +99,24 @@ var Utils = {
 	},
 	
 	/**
+	 * @private
+	 * Create a path in the canvas using the given points.
+	 * @param {CanvasRenderingContext2D} cxt - The canvas context to create the path in
+	 * @param {Array<Object>} points - The list of points
+	 * @param {Boolean} shouldClose - Whether the path should be closed
+	 */
+	createPath: function (cxt, points, shouldClose) {
+		cxt.beginPath();
+		cxt.moveTo(points[0].x, points[0].y);
+		points.forEach(function (point) {
+			cxt.lineTo(point.x, point.y);
+		});
+		if (shouldClose) {
+			cxt.closePath();
+		}
+	},
+	
+	/**
 	 * Constrain a value between a minimum and maximum.
 	 * @param {Number} value - The value to constrain
 	 * @param {Number} min - The minimum value to allow

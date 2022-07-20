@@ -121,9 +121,8 @@ FreeformSelectionTool.prototype.update = function () {
 	// Draw the outline.
 	this._preCxt.lineWidth = 1;
 	this._preCxt.lineJoin = 'round';
-	this._createSelectionPath(this._preCxt, this._selection.points);
+	Utils.createPath(this._preCxt, this._selection.points);
 	this._preCxt.stroke();
-	this._preCxt.closePath();
 	
 	// Fill in the line with the inverted drawing.
 	Utils.drawCanvasOSInverted(cxt, cursorCxt);
@@ -208,23 +207,8 @@ FreeformSelectionTool.prototype.end = function (pointerState) {
  */
 FreeformSelectionTool.prototype._drawSelectionStartCover = function () {
 	this._preCxt.fillStyle = this._selection.fillColor;
-	this._createSelectionPath(this._preCxt, this._selection.points);
-	this._preCxt.closePath();
+	Utils.createPath(this._preCxt, this._selection.points, true);
 	this._preCxt.fill();
-};
-
-/**
- * @private
- * Create a path in the canvas using the given points.
- * @param {CanvasRenderingContext2D} cxt - The canvas context to create the path in
- * @param {Array<Object>} points - The list of points
- */
-FreeformSelectionTool.prototype._createSelectionPath = function (cxt, points) {
-	cxt.beginPath();
-	cxt.moveTo(points[0].x, points[0].y);
-	points.forEach(function (point) {
-		cxt.lineTo(point.x, point.y);
-	});	
 };
 
 /**
