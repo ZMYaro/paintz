@@ -153,7 +153,7 @@ TextToolOptionsToolbox.prototype._setUpFontFamilyMenu = function () {
 TextToolOptionsToolbox.prototype._populateFonts = function (fontFamilySelect) {
 	var that = this;
 	
-	if (navigator.fonts) {
+	if (window.queryLocalFonts) {
 		return this._populateLocalFonts(fontFamilySelect)
 			.catch(function (err) {
 				console.warn('Could not load local fonts:', err);
@@ -187,7 +187,7 @@ TextToolOptionsToolbox.prototype._populateLocalFonts = function (fontFamilySelec
 	}
 	
 	var that = this;
-	return navigator.fonts.query({ persistentAccess: true })
+	return window.queryLocalFonts()
 		.then(function (fonts) {
 			var fontFamilies = fonts.map(function (font) { return font.family; }),
 				// Use Set to automatically remove duplicates.
