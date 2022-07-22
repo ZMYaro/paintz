@@ -89,21 +89,7 @@ OvalTool.prototype.update = function () {
 	this._preCxt.arc(1, 1, 1, 0, Math.TAU, false);
 	this._preCxt.restore(); // Restore the context to its original state.
 	
-	// Draw the stroke first.
-	this._preCxt.stroke();
-	
-	if (!settings.get('antiAlias')) {
-		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
-	}
-	
-	// Change the composite operation to ensure the filled region does not affect the de-anti-aliased outline.
-	this._preCxt.globalCompositeOperation = 'destination-over';
-	this._preCxt.fill();
-	this._preCxt.globalCompositeOperation = 'source-over';
-	
-	if (settings.get('outlineOption') === 'fillOnly' && !settings.get('antiAlias')) {
-		this._deAntiAlias();
-	}
+	this._drawCurrentPath();
 	
 	this._canvasDirty = false;
 };

@@ -76,21 +76,9 @@ RectangleTool.prototype.update = function () {
 	ShapeTool.prototype.update.apply(this, arguments);
 	
 	// Draw the new preview.
-	this._preCxt.strokeRect(this.x, this.y, this.width, this.height);
-	
-	// Draw the stroke first.
-	if (!settings.get('antiAlias')) {
-		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
-	}
-	
-	// Change the composite operation to ensure the filled region does not affect the de-anti-aliased outline.
-	this._preCxt.globalCompositeOperation = 'destination-over';
-	this._preCxt.fillRect(this.x, this.y, this.width, this.height);
-	this._preCxt.globalCompositeOperation = 'source-over';
-	
-	if (settings.get('outlineOption') === 'fillOnly' && !settings.get('antiAlias')) {
-		this._deAntiAlias();
-	}
+	this._preCxt.beginPath();
+	this._preCxt.rect(this.x, this.y, this.width, this.height);
+	this._drawCurrentPath();
 	
 	this._canvasDirty = false;
 };
