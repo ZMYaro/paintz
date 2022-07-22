@@ -17,31 +17,6 @@ PolygonTool.prototype.constructor = PolygonTool;
 PolygonTool.prototype.CLOSE_PATH_THERSHOLD = 5; // Approximated from classic MS Paint at 1px line width.
 
 /**
- * @private
- * Close and draw the final polygon.
- */
-PolygonTool.prototype._finalizePolygon = function () {
-	if (!this._points || this._points.length < 3) {
-		delete this._points;
-		return;
-	}
-	
-	// Erase the last (unclosed) preview from the precanvas before redrawing.
-	Utils.clearCanvas(this._preCxt);
-	
-	// Draw the entire polygon, closed.
-	this._preCxt.lineWidth = this._lineWidth;
-	this._preCxt.lineJoin = 'round';
-	Utils.createPath(this._preCxt, this._points, true);
-	this._drawCurrentPath();
-	
-	// Draw it to the canvas and reset the tool.
-	this._cxt.drawImage(this._preCxt.canvas, 0, 0);
-	this.clearDraftPolygon();
-	undoStack.addState();
-};
-
-/**
  * @override
  * Handle a doodle being started by a pointer.
  * @param {Object} pointerState - The pointer coordinates and button
@@ -141,4 +116,29 @@ PolygonTool.prototype.deactivate = function () {
 PolygonTool.prototype.clearDraftPolygon = function () {
 	delete this._points;
 	Utils.clearCanvas(this._preCxt);
+};
+
+/**
+ * @private
+ * Close and draw the final polygon.
+ */
+PolygonTool.prototype._finalizePolygon = function () {
+	if (!this._points || this._points.length < 3) {
+		delete this._points;
+		return;
+	}
+	
+	// Erase the last (unclosed) preview from the precanvas before redrawing.
+	Utils.clearCanvas(this._preCxt);
+	
+	// Draw the entire polygon, closed.
+	this._preCxt.lineWidth = this._lineWidth;
+	this._preCxt.lineJoin = 'round';
+	Utils.createPath(this._preCxt, this._points, true);
+	this._drawCurrentPath();
+	
+	// Draw it to the canvas and reset the tool.
+	this._cxt.drawImage(this._preCxt.canvas, 0, 0);
+	this.clearDraftPolygon();
+	undoStack.addState();
 };
