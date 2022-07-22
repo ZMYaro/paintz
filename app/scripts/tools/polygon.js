@@ -74,9 +74,12 @@ PolygonTool.prototype.update = function () {
 	
 	this._preCxt.lineWidth = this._lineWidth;
 	this._preCxt.lineJoin = 'round';
-	this._preCxt.strokeStyle = this._lineColor;
-	if (settings.get('outlineOption') === 'fillOnly') {
-		// TODO: Draw in 2px inverted instead.
+	
+	if (settings.get('outlineOption') === 'fillOnly' && this._points.length === 2) {
+		// If no outline, draw the first stroke as a 1px line.
+		this._drawFirstLine();
+		this._canvasDirty = false;
+		return;
 	}
 	
 	// Force round end caps on the path.
@@ -116,6 +119,25 @@ PolygonTool.prototype.deactivate = function () {
 PolygonTool.prototype.clearDraftPolygon = function () {
 	delete this._points;
 	Utils.clearCanvas(this._preCxt);
+};
+
+/**
+ * @private
+ * Draw a line between the first 2 points in the inverse of the colors below it.
+ */
+PolygonTool.prototype._drawFirstLine = function () {
+	// Draw a line between the first 2 points.
+	this._preCxt.save();
+	this._preCxt.lineWidth = 1;
+	this._preCxt.strokeStyle = '#000000';
+	this._preCxt.beginPath();
+	this._preCxt.moveTo(this._points[0].x, this._points[0].y);
+	this._preCxt.lineTo(this._points[1].x, this._points[1].y);
+	this._preCxt.stroke();
+	// Fill in the line with the color-inverted drawing.
+	this._preCxt.globalCompositeOperation = 'source-in';
+	Utils.drawCanvasInvertedToPreCanvas(cxt, cursorCxt);
+	this._preCxt.restore();
 };
 
 /**

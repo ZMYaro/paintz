@@ -124,10 +124,9 @@ FreeformSelectionTool.prototype.update = function () {
 	Utils.createPath(this._preCxt, this._selection.points);
 	this._preCxt.stroke();
 	
-	// Fill in the line with the inverted drawing.
-	Utils.drawCanvasOSInverted(cxt, cursorCxt);
+	// Fill in the line with the color-inverted drawing.
 	this._preCxt.globalCompositeOperation = 'source-in';
-	this._preCxt.drawImage(cursorCanvas, 0, 0);
+	Utils.drawCanvasInvertedToPreCanvas();
 	
 	this._preCxt.restore();
 	
