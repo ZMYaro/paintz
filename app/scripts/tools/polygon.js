@@ -26,32 +26,14 @@ PolygonTool.prototype._finalizePolygon = function () {
 		return;
 	}
 	
+	// Erase the last (unclosed) preview from the precanvas before redrawing.
+	Utils.clearCanvas(this._preCxt);
+	
+	// Draw the entire polygon, closed.
 	this._preCxt.lineWidth = this._lineWidth;
 	this._preCxt.lineJoin = 'round';
-	this._preCxt.strokeStyle = this._lineColor;
-	
-	// Draw the entire polygon and close it.
-	this._preCxt.beginPath();
-	this._preCxt.moveTo(this._points[0].x, this._points[0].y);
-	this._points.forEach(function (point) {
-		this._preCxt.lineTo(point.x, point.y);
-	}, this);
-	this._preCxt.closePath();
-	this._preCxt.stroke();
-	
-	// Draw the stroke first.
-	if (!settings.get('antiAlias')) {
-		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
-	}
-	
-	// Change the composite operation to ensure the filled region does not affect the de-anti-aliased outline.
-	this._preCxt.globalCompositeOperation = 'destination-over';
-	this._preCxt.fill();
-	this._preCxt.globalCompositeOperation = 'source-over';
-	
-	if (settings.get('outlineOption') === 'fillOnly' && !settings.get('antiAlias')) {
-		this._deAntiAlias();
-	}
+	Utils.createPath(this._preCxt, this._points, true);
+	this._drawCurrentPath();
 	
 	// Draw it to the canvas and reset the tool.
 	this._cxt.drawImage(this._preCxt.canvas, 0, 0);
@@ -128,11 +110,7 @@ PolygonTool.prototype.update = function () {
 	
 	// Draw the polygon up to the last point.
 	Utils.createPath(this._preCxt, this._points);
-	this._preCxt.stroke();
-	
-	if (!settings.get('antiAlias')) {
-		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
-	}
+	this._drawCurrentPath();
 	
 	this._canvasDirty = false;
 };

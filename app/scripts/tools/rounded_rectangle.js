@@ -33,21 +33,7 @@ RoundedRectangleTool.prototype.update = function () {
 	// Draw the new preview.
 	this._preCxt.beginPath();
 	this._preCxt.roundRect(this.x, this.y, this.width, this.height, this.CORNER_RADIUS);
-	this._preCxt.stroke();
-	
-	// Draw the stroke first.
-	if (!settings.get('antiAlias')) {
-		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
-	}
-	
-	// Change the composite operation to ensure the filled region does not affect the de-anti-aliased outline.
-	this._preCxt.globalCompositeOperation = 'destination-over';
-	this._preCxt.fill();
-	this._preCxt.globalCompositeOperation = 'source-over';
-	
-	if (settings.get('outlineOption') === 'fillOnly' && !settings.get('antiAlias')) {
-		this._deAntiAlias();
-	}
+	this._drawCurrentPath();
 	
 	this._canvasDirty = false;
 };
