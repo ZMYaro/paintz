@@ -155,19 +155,18 @@ var Utils = {
 	},
 	
 	/**
-	 * Draw a region of the canvas to the off-screen canvas and invert its colors.
-	 * @param {CanvasRenderingContext2D} cxt - The context to copy
-	 * @param {CanvasRenderingContext2D} osCxt - The off-screen canvas to copy to and invert on
+	 * Draw the canvas, color-inverted, to the precanvas.
 	 */
-	drawCanvasOSInverted: function (cxt, osCxt) {
-		osCxt.save();
-		osCxt.canvas.width = cxt.canvas.width;
-		osCxt.canvas.height = cxt.canvas.height;
-		osCxt.drawImage(cxt.canvas, 0, 0);
-		osCxt.globalCompositeOperation = 'difference';
-		osCxt.fillStyle = 'white'; // Filling with white with “difference” blending mode inverts colors.
-		osCxt.fillRect(0, 0, osCxt.canvas.width, osCxt.canvas.height);
-		osCxt.restore();
+	drawCanvasInvertedToPreCanvas: function () {
+		cursorCxt.save();
+		cursorCxt.canvas.width = cxt.canvas.width;
+		cursorCxt.canvas.height = cxt.canvas.height;
+		cursorCxt.drawImage(cxt.canvas, 0, 0);
+		cursorCxt.globalCompositeOperation = 'difference';
+		cursorCxt.fillStyle = 'white'; // Filling with white with “difference” blending mode inverts colors.
+		cursorCxt.fillRect(0, 0, cursorCxt.canvas.width, cursorCxt.canvas.height);
+		cursorCxt.restore();
+		preCxt.drawImage(cursorCanvas, 0, 0);
 	},
 	
 	/**
