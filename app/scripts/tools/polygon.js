@@ -101,7 +101,7 @@ PolygonTool.prototype.update = function () {
 PolygonTool.prototype.end = function (pointerState) {
 	var distanceFromStart = Utils.distance(this._points[0].x, this._points[0].y, pointerState.x, pointerState.y);
 	if (distanceFromStart < this.CLOSE_PATH_THERSHOLD) {
-		this._finalizePolygon();
+		this.finalizePolygon();
 	}
 };
 
@@ -110,7 +110,7 @@ PolygonTool.prototype.end = function (pointerState) {
  * If the polygon tool gets deactivated, close the current polygon and clean up.
  */
 PolygonTool.prototype.deactivate = function () {
-	this._finalizePolygon();
+	this.finalizePolygon();
 };
 
 /**
@@ -119,6 +119,30 @@ PolygonTool.prototype.deactivate = function () {
 PolygonTool.prototype.clearDraftPolygon = function () {
 	delete this._points;
 	Utils.clearCanvas(this._preCxt);
+};
+
+/**
+ * Close and draw the final polygon.
+ */
+PolygonTool.prototype.finalizePolygon = function () {
+	if (!this._points || this._points.length < 3) {
+		this.clearDraftPolygon();
+		return;
+	}
+	
+	// Erase the last (unclosed) preview from the precanvas before redrawing.
+	Utils.clearCanvas(this._preCxt);
+	
+	// Draw the entire polygon, closed.
+	this._preCxt.lineWidth = this._lineWidth;
+	this._preCxt.lineJoin = 'round';
+	Utils.createPath(this._preCxt, this._points, true);
+	this._drawCurrentPath();
+	
+	// Draw it to the canvas and reset the tool.
+	this._cxt.drawImage(this._preCxt.canvas, 0, 0);
+	this.clearDraftPolygon();
+	undoStack.addState();
 };
 
 /**
@@ -138,29 +162,4 @@ PolygonTool.prototype._drawFirstLine = function () {
 	this._preCxt.globalCompositeOperation = 'source-in';
 	Utils.drawCanvasInvertedToPreCanvas(cxt, cursorCxt);
 	this._preCxt.restore();
-};
-
-/**
- * @private
- * Close and draw the final polygon.
- */
-PolygonTool.prototype._finalizePolygon = function () {
-	if (!this._points || this._points.length < 3) {
-		delete this._points;
-		return;
-	}
-	
-	// Erase the last (unclosed) preview from the precanvas before redrawing.
-	Utils.clearCanvas(this._preCxt);
-	
-	// Draw the entire polygon, closed.
-	this._preCxt.lineWidth = this._lineWidth;
-	this._preCxt.lineJoin = 'round';
-	Utils.createPath(this._preCxt, this._points, true);
-	this._drawCurrentPath();
-	
-	// Draw it to the canvas and reset the tool.
-	this._cxt.drawImage(this._preCxt.canvas, 0, 0);
-	this.clearDraftPolygon();
-	undoStack.addState();
 };
