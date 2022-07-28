@@ -153,7 +153,7 @@ TextToolOptionsToolbox.prototype._setUpFontFamilyMenu = function () {
 TextToolOptionsToolbox.prototype._populateFonts = function (fontFamilySelect) {
 	var that = this;
 	
-	if (navigator.fonts) {
+	if (window.queryLocalFonts) {
 		return this._populateLocalFonts(fontFamilySelect)
 			.catch(function (err) {
 				console.warn('Could not load local fonts:', err);
@@ -187,8 +187,14 @@ TextToolOptionsToolbox.prototype._populateLocalFonts = function (fontFamilySelec
 	}
 	
 	var that = this;
-	return navigator.fonts.query({ persistentAccess: true })
+	return window.queryLocalFonts()
 		.then(function (fonts) {
+			if (!fonts || fonts.length === 0) {
+				// Chrome 103's version of the local font access API returns an empty
+				// array instead when permission is denied.  Manually throw instead.
+				throw new Error();
+			}
+			
 			var fontFamilies = fonts.map(function (font) { return font.family; }),
 				// Use Set to automatically remove duplicates.
 				uniqueFontFamilies = Array.from(new Set(fontFamilies))
