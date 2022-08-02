@@ -6,10 +6,11 @@
  * @param {CanvasRenderingContext2D} preCxt - The canvas context in which the drawing previews are shown
  */
 function Tool(cxt, preCxt) {
+	/** @private {CanvasRenderingContext2D} The context for the main canvas */
 	this._cxt = cxt;
+	/** @private {CanvasRenderingContext2D} The context for the precanvas */
 	this._preCxt = preCxt;
-	
-	/** {Boolean} Whether the canvas needs to be redrawn. */
+	/** @private {Boolean} Whether the canvas needs to be redrawn */
 	this._canvasDirty = false;
 }
 
