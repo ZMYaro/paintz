@@ -140,8 +140,16 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 				tools.currentTool.activate();
 			}
 			break;
+		case 'lineColor':
+			if (toolbar && toolbar.toolboxes && toolbar.toolboxes.colorPicker) {
+				toolbar.toolboxes.colorPicker.colorIndicator.style.borderColor = value;
+			}
+			break;
 		case 'fillColor':
 		case 'transparentSelection':
+			if (toolbar && toolbar.toolboxes && toolbar.toolboxes.colorPicker) {
+				toolbar.toolboxes.colorPicker.colorIndicator.style.backgroundColor = value;
+			}
 			if (tools && tools.currentTool && tools.currentTool.setTransparentBackground) {
 				tools.currentTool.setTransparentBackground();
 				tools.currentTool.redrawSelection();

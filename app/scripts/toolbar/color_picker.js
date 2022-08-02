@@ -141,10 +141,6 @@ ColorPickerToolbox.prototype.swapSelectedColors = function () {
 	settings.set('lineColor', oldFill);
 	settings.set('fillColor', oldLine);
 	
-	// Update the indicator.
-	this.colorIndicator.style.borderColor = oldFill;
-	this.colorIndicator.style.backgroundColor = oldLine;
-	
 	// Some tools' cursors change with colors, so reactivate the current tool.
 	tools.currentTool.activate();
 };
@@ -166,7 +162,6 @@ ColorPickerToolbox.prototype._handleColorButtonClick = function (e) {
 		
 		// If the left mouse button was used, set the line color.
 		settings.set('lineColor', e.target.dataset.value);
-		this.colorIndicator.style.borderColor = e.target.dataset.value;
 		
 		// Some tools' cursors change with the line color, so reactivate the cursor.
 		tools.currentTool.activate();
@@ -176,7 +171,6 @@ ColorPickerToolbox.prototype._handleColorButtonClick = function (e) {
 		
 		// If the right mouse button was used, set the fill color.
 		settings.set('fillColor', e.target.dataset.value);
-		this.colorIndicator.style.backgroundColor = e.target.dataset.value;
 		
 		// Some tools' cursors change with the fill color, so reactivate the cursor.
 		tools.currentTool.activate();
