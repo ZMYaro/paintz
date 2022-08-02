@@ -7,6 +7,11 @@
  */
 function DrawingTool(cxt, preCxt) {
 	Tool.apply(this, arguments);
+	
+	/** @private {String} The CSS color for the current line/primary color */
+	this._lineColor;
+	/** @private {String} The CSS color for the current fill/secondary color */
+	this._fillColor;
 }
 // Extend Tool.
 DrawingTool.prototype = Object.create(Tool.prototype);
