@@ -157,10 +157,8 @@ ColorPickerDialog.prototype._saveNewColors = function () {
 	var colorIndicator = document.getElementById('colors');
 	if (this._element.lineColorHex.value !== '') {
 		settings.set('lineColor', this._element.lineColorHex.value);
-		colorIndicator.style.borderColor = this._element.lineColorHex.value;
 	}
 	if (this._element.fillColorHex.value !== '') {
 		settings.set('fillColor', this._element.fillColorHex.value);
-		colorIndicator.style.backgroundColor = this._element.fillColorHex.value;
 	}
 };
