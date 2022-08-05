@@ -128,13 +128,9 @@ CurveTool.prototype.end = function (pointerState) {
 			Utils.clearCanvas(this._preCxt);
 			return;
 		}
-		this.endX = pointerState.x;
-		this.endY = pointerState.y;
 		this._state = CurveTool.STATE_END_POINT_SET;
 		
 	} else if (this._state === CurveTool.STATE_END_POINT_SET) {
-		this.point1X = pointerState.x;
-		this.point1Y = pointerState.y;
 		this._state = CurveTool.STATE_CONTROL_POINT1_SET;
 		
 	} else {
