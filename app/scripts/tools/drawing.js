@@ -12,20 +12,12 @@ function DrawingTool(cxt, preCxt) {
 	this._lineColor;
 	/** @private {String} The CSS color for the current fill/secondary color */
 	this._fillColor;
+	/** @private {Boolean} Whether the last user input indicated to swap line and fill colors */
+	this._swapLineAndFill = false;
 }
 // Extend Tool.
 DrawingTool.prototype = Object.create(Tool.prototype);
 DrawingTool.prototype.constructor = DrawingTool;
-
-/**
- * @private
- * Update the canvas's drawing context with the shape's properties.
- */
-DrawingTool.prototype._prepareCanvas = function () {
-	this._preCxt.lineWidth = this._lineWidth;
-	this._preCxt.strokeStyle = this._lineColor;
-	this._preCxt.fillStyle = this._fillColor;
-};
 
 /**
  * @override
@@ -42,15 +34,8 @@ DrawingTool.prototype.activate = function () {
  * @param {Object} pointerState - The pointer coordinates and button
  */
 DrawingTool.prototype.start = function (pointerState) {
-	if (pointerState.button !== 2) {
-		this._lineColor = settings.get('lineColor');
-		this._fillColor = settings.get('fillColor');
-	} else {
-		this._lineColor = settings.get('fillColor');
-		this._fillColor = settings.get('lineColor');
-	}
-	
-	this._lineWidth = settings.get('lineWidth');
+	this._swapLineAndFill = (pointerState.button === 2);
+	this._updateFromDrawingSettings();
 	
 	if (!settings.get('antiAlias')) {
 		this._roundPointerState(pointerState);
@@ -94,4 +79,24 @@ DrawingTool.prototype.end = function (pointerState) {
 	// Erase the preview.
 	Utils.clearCanvas(this._preCxt);
 	undoStack.addState();
+};
+
+/**
+ * @private
+ * Update the line and fill colors and line width for the tool based on the current settings.
+ */
+DrawingTool.prototype._updateFromDrawingSettings = function () {
+	this._lineColor = (this._swapLineAndFill ? settings.get('fillColor') : settings.get('lineColor'));
+	this._fillColor = (this._swapLineAndFill ? settings.get('lineColor') : settings.get('fillColor'));
+	this._lineWidth = settings.get('lineWidth');
+};
+
+/**
+ * @private
+ * Update the canvas's drawing context with the shape's properties.
+ */
+DrawingTool.prototype._prepareCanvas = function () {
+	this._preCxt.lineWidth = this._lineWidth;
+	this._preCxt.strokeStyle = this._lineColor;
+	this._preCxt.fillStyle = this._fillColor;
 };

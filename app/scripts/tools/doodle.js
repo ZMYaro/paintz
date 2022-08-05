@@ -82,7 +82,6 @@ DoodleTool.prototype.update = function () {
 	
 	this._preCxt.lineWidth = this._lineWidth;
 	this._preCxt.lineJoin = 'round';
-	this._preCxt.strokeStyle = this._lineColor;
 	
 	// Force round end caps on the path.
 	Utils.drawCap(this._preCxt, this._points[0].x, this._points[0].y);

@@ -33,13 +33,6 @@ ShapeTool.prototype.activate = function () {
 ShapeTool.prototype.start = function (pointerState) {
 	DrawingTool.prototype.start.apply(this, arguments);
 	
-	if (settings.get('outlineOption') === 'fillOnly') {
-		this._lineColor = 'transparent';
-	}
-	if (settings.get('outlineOption') === 'outlineOnly') {
-		this._fillColor = 'transparent';
-	}
-	
 	this.startX = pointerState.x;
 	this.startY = pointerState.y;
 };
@@ -63,5 +56,20 @@ ShapeTool.prototype._drawCurrentPath = function () {
 	if (settings.get('outlineOption') === 'fillOnly' && !settings.get('antiAlias')) {
 		// If there was no stroke, de-anti-alias the fill.
 		this._deAntiAlias();
+	}
+};
+
+/**
+ * @override
+ * @private
+ * Update the drawing properties as well as whether the line or fill should be transparent based on the current settings.
+ */
+ShapeTool.prototype._updateFromDrawingSettings = function () {
+	DrawingTool.prototype._updateFromDrawingSettings.call(this);
+	
+	if (settings.get('outlineOption') === 'fillOnly') {
+		this._lineColor = 'transparent';
+	} else if (settings.get('outlineOption') === 'outlineOnly') {
+		this._fillColor = 'transparent';
 	}
 };
