@@ -138,11 +138,23 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			// Some tools' cursors change with the line width, so reactivate the tool.
 			if (tools && tools.currentTool) {
 				tools.currentTool.activate();
+				if (tools.currentTool === tools.polygon) {
+					// This private property access will be swapped out when the settings manager gets overhauled in v4.0.
+					tools.currentTool._updateFromDrawingSettings();
+					tools.currentTool._canvasDirty = true;
+					tools.currentTool.update();
+				}
 			}
 			break;
 		case 'lineColor':
 			if (toolbar && toolbar.toolboxes && toolbar.toolboxes.colorPicker) {
 				toolbar.toolboxes.colorPicker.colorIndicator.style.borderColor = value;
+			}
+			if (tools && tools.currentTool && tools.currentTool === tools.polygon) {
+				// This private property access will be swapped out when the settings manager gets overhauled in v4.0.
+				tools.currentTool._updateFromDrawingSettings();
+				tools.currentTool._canvasDirty = true;
+				tools.currentTool.update();
 			}
 			break;
 		case 'fillColor':
@@ -150,9 +162,25 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			if (toolbar && toolbar.toolboxes && toolbar.toolboxes.colorPicker) {
 				toolbar.toolboxes.colorPicker.colorIndicator.style.backgroundColor = value;
 			}
-			if (tools && tools.currentTool && tools.currentTool.setTransparentBackground) {
-				tools.currentTool.setTransparentBackground();
-				tools.currentTool.redrawSelection();
+			if (tools && tools.currentTool) {
+				if (tools.currentTool === tools.polygon) {
+					// This private property access will be swapped out when the settings manager gets overhauled in v4.0.
+					tools.currentTool._updateFromDrawingSettings();
+					tools.currentTool._canvasDirty = true;
+					tools.currentTool.update();
+				} else if (tools.currentTool.setTransparentBackground) {
+					tools.currentTool.setTransparentBackground();
+					tools.currentTool.redrawSelection();
+				}
+			}
+			break;
+		case 'outlineOption':
+			if (tools && tools.currentTool && tools.currentTool === tools.polygon) {
+				// This private property access will be swapped out when the settings manager gets overhauled in v4.0.
+				tools.currentTool._updateFromDrawingSettings();
+				tools.currentTool._canvasDirty = true;
+				tools.currentTool.update();
+console.log('did the thing?');
 			}
 			break;
 		case 'fontFamily':
