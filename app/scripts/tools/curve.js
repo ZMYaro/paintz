@@ -8,16 +8,17 @@
 function CurveTool(cxt, preCxt) {
 	DrawingTool.apply(this, arguments);
 	
-	this._state = CurveTool.STATE_NOT_STARTED;
+	this._state = this.STATE_NOT_STARTED;
 }
 // Extend CurveTool.
 CurveTool.prototype = Object.create(DrawingTool.prototype);
 CurveTool.prototype.constructor = CurveTool;
 
-// Constants
-CurveTool.STATE_NOT_STARTED = 0;
-CurveTool.STATE_END_POINT_SET = 1;
-CurveTool.STATE_CONTROL_POINT1_SET = 2;
+// Define constants.
+CurveTool.prototype.STATE_NOT_STARTED = 0;
+CurveTool.prototype.STATE_PLACING_END_POINT = 1;
+CurveTool.prototype.STATE_PLACING_CONTROL_POINT1 = 2;
+CurveTool.prototype.STATE_PLACING_CONTROL_POINT2 = 3;
 
 /**
  * @override
@@ -26,7 +27,6 @@ CurveTool.STATE_CONTROL_POINT1_SET = 2;
 CurveTool.prototype.activate = function () {
 	DrawingTool.prototype.activate.apply(this, arguments);
 	
-	this._state = CurveTool.STATE_NOT_STARTED;
 	toolbar.toolboxes.drawToolOptions.loadPromise.then(function () {
 		toolbar.toolboxes.drawToolOptions.enableOutlineOnly();
 	});
@@ -40,7 +40,7 @@ CurveTool.prototype.activate = function () {
 CurveTool.prototype.start = function (pointerState) {
 	DrawingTool.prototype.start.apply(this, arguments);
 	
-	if (this._state === CurveTool.STATE_NOT_STARTED) {
+	if (this._state === this.STATE_NOT_STARTED) {
 		this.startX = pointerState.x;
 		this.startY = pointerState.y;
 		this.endX =
@@ -49,9 +49,9 @@ CurveTool.prototype.start = function (pointerState) {
 			this.point1Y =
 			this.point2X =
 			this.point2Y = undefined;
-	} else {
-		this.move(pointerState);
 	}
+	this._state++;
+	this.move(pointerState);
 };
 
 /**
@@ -63,14 +63,14 @@ CurveTool.prototype.move = function (pointerState) {
 	DrawingTool.prototype.move.apply(this, arguments);
 	
 	switch (this._state) {
-		case CurveTool.STATE_NOT_STARTED:
+		case this.STATE_PLACING_END_POINT:
 			LineTool.prototype.move.apply(this, arguments);
 			break;
-		case CurveTool.STATE_END_POINT_SET:
+		case this.STATE_PLACING_CONTROL_POINT1:
 			this.point1X = pointerState.x;
 			this.point1Y = pointerState.y;
 			break;
-		case CurveTool.STATE_CONTROL_POINT1_SET:
+		case this.STATE_PLACING_CONTROL_POINT2:
 			this.point2X = pointerState.x;
 			this.point2Y = pointerState.y;
 			break;
@@ -90,22 +90,20 @@ CurveTool.prototype.update = function () {
 	DrawingTool.prototype.update.apply(this, arguments);
 	
 	// Draw the new preview.
-	if (this._state === CurveTool.STATE_NOT_STARTED) {
+	if (this._state === this.STATE_PLACING_END_POINT) {
 		Utils.drawLine(this.startX, this.startY, this.endX, this.endY, this._preCxt);
 		
-	} else {
+	} else if (this._state > this.STATE_PLACING_END_POINT) {
 		this._preCxt.beginPath();
 		this._preCxt.moveTo(this.startX, this.startY);
-		
-		if (this._state === CurveTool.STATE_END_POINT_SET) {
-			this._preCxt.bezierCurveTo(this.point1X, this.point1Y, this.point1X, this.point1Y, this.endX, this.endY);
-			
-		} else if (this._state === CurveTool.STATE_CONTROL_POINT1_SET) {
-			this._preCxt.bezierCurveTo(this.point1X, this.point1Y, this.point2X, this.point2Y, this.endX, this.endY);
-		}
-		
+		this._preCxt.bezierCurveTo(
+			this.point1X,
+			this.point1Y,
+			(typeof this.point2X !== 'undefined' ? this.point2X : this.point1X),
+			(typeof this.point2Y !== 'undefined' ? this.point2Y : this.point1Y),
+			this.endX,
+			this.endY);
 		this._preCxt.stroke();
-		this._preCxt.closePath();
 	}
 	
 	if (!settings.get('antiAlias')) {
@@ -121,23 +119,17 @@ CurveTool.prototype.update = function () {
  * @param {Object} pointerState - The pointer coordinates
  */
 CurveTool.prototype.end = function (pointerState) {
-	if (this._state === CurveTool.STATE_NOT_STARTED) {
-		if (Math.round(pointerState.x) === Math.round(this.startX) &&
-				Math.round(pointerState.y) === Math.round(this.startY)) {
+	if (this._state === this.STATE_PLACING_END_POINT) {
+		if (Math.round(this.endX) === Math.round(this.startX) &&
+				Math.round(this.endY) === Math.round(this.startY)) {
 			// Abort if the starting line has a length less than 1.
 			Utils.clearCanvas(this._preCxt);
+			this._state = this.STATE_NOT_STARTED;
 			return;
 		}
-		this._state = CurveTool.STATE_END_POINT_SET;
 		
-	} else if (this._state === CurveTool.STATE_END_POINT_SET) {
-		this._state = CurveTool.STATE_CONTROL_POINT1_SET;
-		
-	} else {
-		this._cxt.drawImage(this._preCxt.canvas, 0, 0);
-		Utils.clearCanvas(this._preCxt);
-		undoStack.addState();
-		this._state = CurveTool.STATE_NOT_STARTED;
+	} else if (this._state === this.STATE_PLACING_CONTROL_POINT2) {
+		this._finalizeCurve();
 	}
 };
 
@@ -146,10 +138,18 @@ CurveTool.prototype.end = function (pointerState) {
  * Save the curve if the tool is deactivated before both control points have been set.
  */
 CurveTool.prototype.deactivate = function () {
-	if (this._state !== CurveTool.STATE_NOT_STARTED) {
-		this._cxt.drawImage(this._preCxt.canvas, 0, 0);
-		Utils.clearCanvas(this._preCxt);
-		undoStack.addState();
-		this._state = CurveTool.STATE_NOT_STARTED;
+	if (this._state !== this.STATE_NOT_STARTED) {
+		this._finalizeCurve();
 	}
+};
+
+/**
+ * @private
+ * Draw the final curve and reset the tool's state.
+ */
+CurveTool.prototype._finalizeCurve = function () {
+	this._cxt.drawImage(this._preCxt.canvas, 0, 0);
+	Utils.clearCanvas(this._preCxt);
+	undoStack.addState();
+	this._state = this.STATE_NOT_STARTED;
 };
