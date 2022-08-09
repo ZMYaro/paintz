@@ -138,7 +138,7 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			// Some tools' cursors change with the line width, so reactivate the tool.
 			if (tools && tools.currentTool) {
 				tools.currentTool.activate();
-				if (tools.currentTool === tools.curve || tools.currentTool === tools.polygon) {
+				if (tools.currentTool instanceof DrawingTool) {
 					// This private property access will be swapped out when the settings manager gets overhauled in v4.0.
 					tools.currentTool._updateFromDrawingSettings();
 					tools.currentTool._canvasDirty = true;
@@ -150,8 +150,7 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			if (toolbar && toolbar.toolboxes && toolbar.toolboxes.colorPicker) {
 				toolbar.toolboxes.colorPicker.colorIndicator.style.borderColor = value;
 			}
-			if (tools && tools.currentTool &&
-					(tools.currentTool === tools.curve || tools.currentTool === tools.polygon)) {
+			if (tools && tools.currentTool && tools.currentTool instanceof DrawingTool) {
 				// This private property access will be swapped out when the settings manager gets overhauled in v4.0.
 				tools.currentTool._updateFromDrawingSettings();
 				tools.currentTool._canvasDirty = true;
@@ -164,7 +163,7 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 				toolbar.toolboxes.colorPicker.colorIndicator.style.backgroundColor = value;
 			}
 			if (tools && tools.currentTool) {
-				if (tools.currentTool === tools.curve || tools.currentTool === tools.polygon) {
+				if (tools.currentTool instanceof DrawingTool) {
 					// This private property access will be swapped out when the settings manager gets overhauled in v4.0.
 					tools.currentTool._updateFromDrawingSettings();
 					tools.currentTool._canvasDirty = true;
@@ -176,13 +175,11 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			}
 			break;
 		case 'outlineOption':
-			if (tools && tools.currentTool &&
-					(tools.currentTool === tools.curve || tools.currentTool === tools.polygon)) {
+			if (tools && tools.currentTool && tools.currentTool === tools.polygon) {
 				// This private property access will be swapped out when the settings manager gets overhauled in v4.0.
 				tools.currentTool._updateFromDrawingSettings();
 				tools.currentTool._canvasDirty = true;
 				tools.currentTool.update();
-console.log('did the thing?');
 			}
 			break;
 		case 'fontFamily':
