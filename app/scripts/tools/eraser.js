@@ -37,7 +37,8 @@ EraserTool.prototype.start = function (pointerState) {
 	this._points = [
 		{
 			x: pointerState.x,
-			y: pointerState.y
+			y: pointerState.y,
+			lineWidth: this._lineWidth
 		}
 	];
 	
@@ -54,7 +55,8 @@ EraserTool.prototype.move = function (pointerState) {
 	
 	this._points.push({
 		x: pointerState.x,
-		y: pointerState.y
+		y: pointerState.y,
+		lineWidth: this._lineWidth
 	});
 	
 	this._canvasDirty = true;
@@ -69,18 +71,16 @@ EraserTool.prototype.update = function () {
 		return;
 	}
 	DrawingTool.prototype.update.apply(this, arguments);
-
-	// Connect to the existing preview.
+	
 	this._preCxt.fillStyle = this._fillColor;
 	
 	for (var i = 0; i < this._points.length; i++) {
 		// Draw the current position.
-		this._preCxt.fillStyle = this._fillColor;
 		this._preCxt.fillRect(
-			this._points[i].x - this._lineWidth / 2,
-			this._points[i].y - this._lineWidth / 2,
-			this._lineWidth,
-			this._lineWidth);
+			this._points[i].x - this._points[i].lineWidth / 2,
+			this._points[i].y - this._points[i].lineWidth / 2,
+			this._points[i].lineWidth,
+			this._points[i].lineWidth);
 		
 		if (i === 0) {
 			continue;
@@ -89,35 +89,37 @@ EraserTool.prototype.update = function () {
 		// Connect to previous position.
 		this._preCxt.beginPath();
 		// Connect top-left corners.
-		this._preCxt.moveTo(this._points[i].x - this._lineWidth / 2, this._points[i].y - this._lineWidth / 2);
-		this._preCxt.lineTo(this._points[i - 1].x - this._lineWidth / 2, this._points[i - 1].y - this._lineWidth / 2);
+		this._preCxt.moveTo(this._points[i].x - this._points[i].lineWidth / 2, this._points[i].y - this._points[i].lineWidth / 2);
+		this._preCxt.lineTo(this._points[i - 1].x - this._points[i - 1].lineWidth / 2, this._points[i - 1].y - this._points[i - 1].lineWidth / 2);
 		this._preCxt.lineTo(this._points[i - 1].x, this._points[i - 1].y);
 		this._preCxt.lineTo(this._points[i].x, this._points[i].y);
 		// Connect top-right corners.
-		this._preCxt.moveTo(this._points[i].x + this._lineWidth / 2, this._points[i].y - this._lineWidth / 2);
-		this._preCxt.lineTo(this._points[i - 1].x + this._lineWidth / 2, this._points[i - 1].y - this._lineWidth / 2);
+		this._preCxt.moveTo(this._points[i].x + this._points[i].lineWidth / 2, this._points[i].y - this._points[i].lineWidth / 2);
+		this._preCxt.lineTo(this._points[i - 1].x + this._points[i - 1].lineWidth / 2, this._points[i - 1].y - this._points[i - 1].lineWidth / 2);
 		this._preCxt.lineTo(this._points[i - 1].x, this._points[i - 1].y);
 		this._preCxt.lineTo(this._points[i].x, this._points[i].y);
 		// Connect bottom-right corners.
-		this._preCxt.moveTo(this._points[i].x + this._lineWidth / 2, this._points[i].y + this._lineWidth / 2);
-		this._preCxt.lineTo(this._points[i - 1].x + this._lineWidth / 2, this._points[i - 1].y + this._lineWidth / 2);
+		this._preCxt.moveTo(this._points[i].x + this._points[i].lineWidth / 2, this._points[i].y + this._points[i].lineWidth / 2);
+		this._preCxt.lineTo(this._points[i - 1].x + this._points[i - 1].lineWidth / 2, this._points[i - 1].y + this._points[i - 1].lineWidth / 2);
 		this._preCxt.lineTo(this._points[i - 1].x, this._points[i - 1].y);
 		this._preCxt.lineTo(this._points[i].x, this._points[i].y);
 		// Connect bottom-left corners.
-		this._preCxt.moveTo(this._points[i].x - this._lineWidth / 2, this._points[i].y + this._lineWidth / 2);
-		this._preCxt.lineTo(this._points[i - 1].x - this._lineWidth / 2, this._points[i - 1].y + this._lineWidth / 2);
+		this._preCxt.moveTo(this._points[i].x - this._points[i].lineWidth / 2, this._points[i].y + this._points[i].lineWidth / 2);
+		this._preCxt.lineTo(this._points[i - 1].x - this._points[i - 1].lineWidth / 2, this._points[i - 1].y + this._points[i - 1].lineWidth / 2);
 		this._preCxt.lineTo(this._points[i - 1].x, this._points[i - 1].y);
 		this._preCxt.lineTo(this._points[i].x, this._points[i].y);
 		this._preCxt.closePath();
 		this._preCxt.fill();
 	}
 	
+	// The eraser is always pixel-perfect regardless of the anti-alias setting.
 	this._deAntiAlias(Utils.colorToRGB(this._fillColor));
 	
 	this._canvasDirty = false;
 };
 
 /**
+ * @static
  * Return the CSS value for the eraser tool cursor.
  * @returns {String}
  */

@@ -99,6 +99,7 @@ DoodleTool.prototype.update = function () {
 };
 
 /**
+ * @static
  * Return the CSS value for the doodle tool cursor.
  * @returns {String}
  */
