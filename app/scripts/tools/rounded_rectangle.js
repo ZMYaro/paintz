@@ -14,11 +14,13 @@ RoundedRectangleTool.prototype.constructor = RoundedRectangleTool;
 
 // Define constants.
 /** @constant {Number} The corner radius for rounded rectangles, in pixels */
-RoundedRectangleTool.prototype.CORNER_RADIUS = 8;
+RoundedRectangleTool.prototype.MIN_CORNER_RADIUS = 8;
 // Like MS Paint, there is no UI to change this.
 //  6 ≈ Classic Paint top-left corner (≈ 8 in Photoshop)
 //  8 ≈ Classic Paint bottom-right corner (≈ 12 in Photoshop)
 // 16 ≈ Win7 Paint all corners (≈ 18 in Photoshop)
+// Unlike MS Paint, the maximum line width is much higher, so the
+// radius will increase when the line width exceeds this.
 
 /**
  * @override
@@ -32,7 +34,7 @@ RoundedRectangleTool.prototype.update = function () {
 	
 	// Draw the new preview.
 	this._preCxt.beginPath();
-	this._preCxt.roundRect(this.x, this.y, this.width, this.height, this.CORNER_RADIUS);
+	this._preCxt.roundRect(this.x, this.y, this.width, this.height, Math.max(this.MIN_CORNER_RADIUS, this._lineWidth));
 	this._drawCurrentPath();
 	
 	this._canvasDirty = false;
