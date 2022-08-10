@@ -158,7 +158,8 @@
 	3. Draw with fill color right click
 	4. Draw after changing line color
 	5. Draw after changing fill color
-	6. Undo drawing
+	7. Swap the line and fill colors with X while drawing
+	8. Undo drawing
 
 10. Brush/doodle tool
 	1. Select tool with:
@@ -172,12 +173,16 @@
 	4. Draw after changing line color
 	5. Draw after changing fill color
 	6. Draw after changing line width
-	7. Undo drawing
-	8. Confirm cursor changes after increasing line width with:
+	7. Swap the line and fill colors with X while drawing
+		* (At time of writing, it will affect the entire path)
+	8. Increase and decrease the line width with [ and ] while drawing
+		* (At time of writing, it will affect the entire path)
+	9. Undo drawing
+	10. Confirm cursor changes after increasing line width with:
 		1. Toolbar menu
 		2. \] key
 		3. Alt+H,S,Z in standalone window
-	9. Confirm cursor changes after decreasing line width with:
+	11. Confirm cursor changes after decreasing line width with:
 		1. Toolbar menu
 		2. \] key
 		3. Alt+H,S,Z in standalone window
@@ -191,7 +196,9 @@
 	4. Draw after changing line color
 	5. Draw after changing fill color
 	6. Draw after changing line width
-	7. Undo drawing
+	7. Swap the line and fill colors with X while drawing
+	8. Increase and decrease the line width with [ and ] while drawing
+	9. Undo drawing
 
 12. Line tool
 	1. Select tool with:
@@ -205,7 +212,9 @@
 	4. Draw after changing line color
 	5. Draw after changing fill color
 	6. Draw after changing line width
-	7. Undo drawing
+	7. Swap the line and fill colors with X while drawing
+	8. Increase and decrease the line width with [ and ] while drawing
+	9. Undo drawing
 
 13. Curve tool
 	1. Select tool with:
@@ -215,12 +224,19 @@
 		1. Left click
 		2. Single-point touch
 	3. Draw with fill color with right click
-	4. Draw a line and change tools
-	5. Draw a curve with 1 control point and change tools
-	6. Draw after changing line color
-	7. Draw after changing fill color
-	8. Draw after changing line width
-	9. Undo drawing
+	4. Switch line and fill colors by switching left- and right-clicking for successive points
+	5. Draw after changing line color
+	6. Draw after changing fill color
+	7. Draw after changing line width
+	8. Swap the line and fill colors with X while drawing
+	9. Increase and decrease the line width with [ and ] while drawing
+	10. Change the line color between adding control points
+	11. Change the fill color between adding control points
+	12. Increase and decrease the line width between adding control points
+	13. Draw an initial line and change tools
+	14. Draw a curve with 1 control point and change tools
+	15. Draw an initial line < 1px long and confirm it gets aborted
+	15. Undo drawing
 
 14. Rectangle tool
 	1. Select tool with:
@@ -236,14 +252,20 @@
 	7. Draw after changing line color
 	8. Draw after changing fill color
 	9. Draw after changing line width
-	10. Draw square by holding Shift while drawing
-	11. Draw from center by holding Ctrl while drawing
-	12. Draw square from center by holding Ctrl+Shift while drawing
-	13. Draw from center on Apple device by holding Cmd while drawing
-	14. Draw square from center on Apple device by holding Cmd+Shift while drawing
-	15. Undo drawing
+	10. Swap the line and fill colors with X while drawing
+	11. Increase and decrease the line width with [ and ] while drawing
+	12. Draw square by holding Shift while drawing
+	13. Draw from center by holding Ctrl while drawing
+	14. Draw square from center by holding Ctrl+Shift while drawing
+	15. Draw from center on Apple device by holding Cmd while drawing
+	16. Draw square from center on Apple device by holding Cmd+Shift while drawing
+	17. Undo drawing
 
-15. Oval tool
+15. Rounded rectangle tool
+	1. Perform steps 14.ii. through 14.xvii.
+	2. Confirm corner radius increases to equal line width when line with exceeds 8px.
+
+16. Oval tool
 	1. Select tool with:
 		1. Toolbar button
 		2. O key
@@ -257,14 +279,44 @@
 	7. Draw after changing line color
 	8. Draw after changing fill color
 	9. Draw after changing line width
-	10. Draw circle by holding Shift while drawing
-	11. Draw from center by holding Ctrl while drawing
-	12. Draw circle from center by holding Ctrl+Shift while drawing
-	13. Draw from center on Apple device by holding Cmd while drawing
-	14. Draw circle from center on Apple device by holding Cmd+Shift while drawing
-	15. Undo drawing
+	10. Swap the line and fill colors with X while drawing
+	11. Increase and decrease the line width with [ and ] while drawing
+	12. Draw circle by holding Shift while drawing
+	13. Draw from center by holding Ctrl while drawing
+	14. Draw circle from center by holding Ctrl+Shift while drawing
+	15. Draw from center on Apple device by holding Cmd while drawing
+	16. Draw circle from center on Apple device by holding Cmd+Shift while drawing
+	17. Undo drawing
 
-16. Pan/hand tool
+17. Polygon tool
+	1. Select tool with toolbar button
+	2. Draw with line color with:
+		1. Left click
+		2. Single-point touch
+	3. Draw with fill with right click
+	4. Switch drawing with line and fill colors by switching left- and right-clicking for successive vertices
+	5. Draw with line only
+	6. Draw with fill only
+	7. Draw with line and fill
+	8. Confirm the first line in fill only mode is the inverse of the colors below it, and then disappears when further vertices are added
+	9. Draw after changing line color
+	10. Draw after changing fill color
+	11. Draw after changing line width
+	12. Swap the line and fill colors with X while drawing
+	13. Increase and decrease the line width with [ and ] while drawing
+	14. Change the line color between adding vertices
+	15. Change the fill color between adding vertices
+	16. Increase and decrease the line width between adding vertices
+	17. Switch outline/fill mode between adding vertices.
+	18. Draw a polygon with 3 or more vertices and close it by clicking on the starting point
+	19. Draw a polygon with 3 or more vertices and close it by double-clicking
+	20. Draw a polygon with 3 or more vertices and close it by changing tools
+	21. Draw an initial line in line only or line and fill mode and change tools
+	22. Draw an initial line in fill only mode and change tools
+	23. Draw an initial line < 5px long and confirm it gets aborted
+	24. Undo drawing
+
+18. Pan/hand tool
 	1. Select tool with:
 		1. Toolbar button
 		2. H key
@@ -272,7 +324,7 @@
 		1. Left click
 		2. Single-point touch
 
-17. Rectangular selection tool
+19. Rectangular selection tool
 	1. Select tool with:
 		1. Toolbar button
 		2. S key
@@ -341,14 +393,14 @@
 	26. Zoom in/out with an active selection
 	27. Duplicate a selection while zoomed in
 
-18. Freeform selection tool
+20. Freeform selection tool
 	1. Select tool with:
 		1. Toolbar button
 		2. F key
 		3. Alt+H,S,E,F in standalone window
 	2. Repeat steps 17.ii-17.xxvii with the freeform selection tool
 
-19. Eraser tool
+21. Eraser tool
 	1. Select tool with:
 		1. Toolbar button
 		2. E key
@@ -359,21 +411,24 @@
 	4. Draw after changing line color
 	5. Draw after changing fill color
 	6. Draw after changing line width
-	7. Undo drawing
-	8. Confirm cursor changes after increasing line width with:
+	7. Swap the line and fill colors with X while drawing
+		* (At time of writing, it will affect the entire path)
+	8. Increase and decrease the line width with [ and ] while drawing
+	9. Undo drawing
+	10. Confirm cursor changes after increasing line width with:
 		1. Toolbar menu
 		2. \] key
 		3. Alt+H,S,Z in standalone window
-	9. Confirm cursor changes after decreasing line width with:
+	11. Confirm cursor changes after decreasing line width with:
 		1. Toolbar menu
 		2. \] key
 		3. Alt+H,S,Z in standalone window
-	13. Confirm cursor changes after swapping line and fill colors with:
+	12. Confirm cursor changes after swapping line and fill colors with:
 		1. Right-clicking current colors
 		2. Long-pressing current colors
 		3. X key
 
-20. Flood fill tool
+22. Flood fill tool
 	1. Select tool with:
 		1. Toolbar button
 		2. K key
@@ -383,7 +438,7 @@
 		2. Single-point touch
 	3. Fill with fill color with right click
 
-21. Color picker/eyedropper tool
+23. Color picker/eyedropper tool
 	1. Select tool with:
 		1. Toolbar button
 		2. I key
@@ -393,7 +448,7 @@
 		2. Single-point touch
 	3. Select fill color with right click
 
-22. Text tool
+24. Text tool
 	1.  Select tool with:
 		1. Toolbar button
 		2. T key
@@ -444,7 +499,7 @@
 
 
 ## Color picker
-23. Toolbar palette
+25. Toolbar palette
 	1. Set the line color with:
 		1. Left click
 		2. Touch
@@ -452,7 +507,7 @@
 		1. Right click
 		2. Long press
 
-24. Color picker dialog
+26. Color picker dialog
 	1. Open color picker dialog with:
 		1. Toolbar button (current colors)
 		2. Alt+C,E in standalone window
@@ -468,14 +523,14 @@
 
 
 ## PaintZ actions
-25. Full screen
+27. Full screen
 	1. Open with:
 		1. Toolbar button
 		2. Ctrl+F11 when PWA installed (in tab or standalone window)
 		3. Alt+V,V in standalone window
 		4. Alt+V,F in standalone window
 
-26. Settings
+28. Settings
 	1. Open settings dialog with toolbar button
 	2. X out of settings dialog
 	3. Cancel settings dialog
@@ -501,7 +556,7 @@
 	20. Set maximum undo levels to 5, draw some things, and try to undo/redo
 	21. Reset settings to defaults
 
-27. About
+29. About
 	1. Open about dialog with:
 		1. Toolbar button
 		2. Alt+H,A in standalone window
@@ -510,7 +565,7 @@
 	3. Close out of about dialog
 	4. Open each link
 
-28. Help
+30. Help
 	1. Open help dialog with:
 		1. Toolbar button
 		2. F11 key
@@ -519,7 +574,7 @@
 	2. X out of help dialog
 	3. Close out of help dialog
 
-29. Keyboard shortcuts
+31. Keyboard shortcuts
 	1. Open keyboard shortcuts dialog with Shift+/ (?)
 	2. Open keyboard shortcuts dialog with Ctrl+Shift+/ (Ctrl+?)
 	3. X out of keyboard shortcuts dialog
@@ -528,14 +583,14 @@
 	6. X out of MS Paint access keys reference dialog
 	7. Close out of MS Paint access keys reference dialog
 
-30. Long-use prompts
-	1. Confirm installation prompt appears after saving 10 images
-	2. Confirm Ko-fi prompt appears after saving 50 images
-	3. Confirm rating prompt appears after saving 100 images
-	4. Confirm Patreon prompt appears after saving 500 images
-	(You can force the save count by running `settings.set('saveCount', X)`, where `X` is any number.)
+32. Long-use prompts
+	1. Confirm installation prompt appears after saving your 10<sup>th</sup> images
+	2. Confirm Ko-fi prompt appears after saving your 50<sup>th</sup> image
+	3. Confirm rating prompt appears after saving your 100<sup>th</sup> image
+	4. Confirm Patreon prompt appears after saving your 500<sup>th</sup> image
+	* (You can force the save count by running `settings.set('saveCount', n)`, where `n` is any number.)
 
-31. General interface
+33. General interface
 	1. Scroll toolbar horizontally in narrow window with Shift+scroll
 	2. Scroll toolbar horizontally in narrow window with vertical scroll
 	3. Scroll toolbar horizontally in narrow window with touch
