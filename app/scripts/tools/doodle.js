@@ -75,7 +75,7 @@ DoodleTool.prototype.move = function (pointerState) {
  * Update the canvas if necessary.
  */
 DoodleTool.prototype.update = function () {
-	if (!this._canvasDirty) {
+	if (!this._canvasDirty|| !this._points) {
 		return;
 	}
 	DrawingTool.prototype.update.apply(this, arguments);
@@ -96,6 +96,16 @@ DoodleTool.prototype.update = function () {
 	}
 	
 	this._canvasDirty = false;
+};
+
+/**
+ * @override
+ * Clear the list of points when the pointer finishes.
+ * @param {Object} pointerState - The pointer coordinates
+ */
+DoodleTool.prototype.end = function (pointerState) {
+	DrawingTool.prototype.end.apply(this, arguments);
+	delete this._points;
 };
 
 /**

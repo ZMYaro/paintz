@@ -132,7 +132,7 @@ PencilTool.prototype.move = function (pointerState) {
  * Update the canvas if necessary.
  */
 PencilTool.prototype.update = function () {
-	if (!this._canvasDirty) {
+	if (!this._canvasDirty|| !this._points) {
 		return;
 	}
 	// For performance, the pencil tool does not clear the canvas every frame;
@@ -157,4 +157,14 @@ PencilTool.prototype.update = function () {
 	this._lastPointIndex = this._points.length - 1;
 	
 	this._canvasDirty = false;
+};
+
+/**
+ * @override
+ * Clear the list of points when the pointer finishes.
+ * @param {Object} pointerState - The pointer coordinates
+ */
+PencilTool.prototype.end = function (pointerState) {
+	DrawingTool.prototype.end.apply(this, arguments);
+	delete this._points;
 };
