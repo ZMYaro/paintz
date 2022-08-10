@@ -67,7 +67,7 @@ PolygonTool.prototype.move = function (pointerState) {
  * Update the canvas if necessary.
  */
 PolygonTool.prototype.update = function () {
-	if (!this._canvasDirty) {
+	if (!this._canvasDirty || !this._points) {
 		return;
 	}
 	ShapeTool.prototype.update.apply(this, arguments);
