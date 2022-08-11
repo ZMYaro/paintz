@@ -7,7 +7,10 @@
  */
 function PencilTool(cxt, preCxt) {
 	DrawingTool.apply(this, arguments);
-	this._imageData = cxt.createImageData(1, 1);
+	
+	this._points;
+	/** {Number} The index of the point drawn to the canvas */
+	this._lastPointIndex;
 }
 // Extend DrawingTool.
 PencilTool.prototype = Object.create(DrawingTool.prototype);
@@ -21,8 +24,6 @@ PencilTool.prototype.constructor = PencilTool;
  * @param {CanvasRenderingContext2D} cxt - The context to draw to
  */
 PencilTool.prototype._drawPoint = function (x, y, cxt) {
-	//var halfLineWidth = Math.floor(0.5 * this._cxt.lineWidth);
-	//cxt.fillRect(x - halfLineWidth, y - halfLineWidth, this._cxt.lineWidth, this._cxt.lineWidth);
 	cxt.fillRect(x, y, 1, 1);
 };
 	
