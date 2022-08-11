@@ -7,24 +7,15 @@
  */
 function OvalTool(cxt, preCxt) {
 	ShapeTool.apply(this, arguments);
+	
+	this.centerX;
+	this.centerY;
+	this.radX;
+	this.radY;
 }
 // Extend ShapeTool.
 OvalTool.prototype = Object.create(ShapeTool.prototype);
 OvalTool.prototype.constructor = OvalTool;
-
-/**
- * @override
- * Handle the shape being started by a pointer.
- * @param {Object} pointerState - The pointer coordinates and button
- */
-OvalTool.prototype.start = function (pointerState) {
-	ShapeTool.prototype.start.apply(this, arguments);
-	
-	this.centerX =
-		this.centerY =
-		this.radX =
-		this.radY = undefined;
-}
 
 /**
  * @override
@@ -74,7 +65,7 @@ OvalTool.prototype.move = function (pointerState) {
  * Update the canvas if necessary.
  */
 OvalTool.prototype.update = function () {
-	if (!this._canvasDirty) {
+	if (!this._canvasDirty && typeof this.centerX !== 'undefined') {
 		return;
 	}
 	ShapeTool.prototype.update.apply(this, arguments);
@@ -92,4 +83,18 @@ OvalTool.prototype.update = function () {
 	this._drawCurrentPath();
 	
 	this._canvasDirty = false;
+};
+
+/**
+ * @override
+ * Clear the points when the pointer finishes.
+ * @param {Object} pointerState - The pointer coordinates
+ */
+OvalTool.prototype.end = function (pointerState) {
+	ShapeTool.prototype.end.apply(this, arguments);
+	
+	this.centerX =
+		this.centerY =
+		this.radX =
+		this.radY = undefined;
 };
