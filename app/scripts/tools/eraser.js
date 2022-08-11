@@ -7,6 +7,8 @@
  */
 function EraserTool(cxt, preCxt) {
 	DrawingTool.apply(this, arguments);
+	
+	this._points;
 }
 // Extend DrawingTool.
 EraserTool.prototype = Object.create(DrawingTool.prototype);

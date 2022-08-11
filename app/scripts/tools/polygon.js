@@ -7,6 +7,8 @@
  */
 function PolygonTool(cxt, preCxt) {
 	ShapeTool.apply(this, arguments);
+	
+	this._points;
 }
 // Extend ShapeTool.
 PolygonTool.prototype = Object.create(ShapeTool.prototype);

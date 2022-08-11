@@ -7,7 +7,8 @@
  */
 function AirbrushTool(cxt, preCxt) {
 	DrawingTool.apply(this, arguments);
-	this._imageData = cxt.createImageData(1, 1);
+	
+	this._lastPoint;
 }
 // Extend DrawingTool.
 AirbrushTool.prototype = Object.create(DrawingTool.prototype);

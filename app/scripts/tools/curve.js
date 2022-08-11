@@ -8,6 +8,14 @@
 function CurveTool(cxt, preCxt) {
 	DrawingTool.apply(this, arguments);
 	
+	this.startX;
+	this.startY;
+	this.endX;
+	this.endY;
+	this.point1X;
+	this.point1Y;
+	this.point2X;
+	this.point2Y;
 	this._state = this.STATE_NOT_STARTED;
 }
 // Extend CurveTool.
