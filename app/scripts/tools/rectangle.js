@@ -7,24 +7,15 @@
  */
 function RectangleTool(cxt, preCxt) {
 	ShapeTool.apply(this, arguments);
+	
+	this.x;
+	this.y;
+	this.width;
+	this.height;
 }
 // Extend ShapeTool;
 RectangleTool.prototype = Object.create(ShapeTool.prototype);
 RectangleTool.prototype.constructor = RectangleTool;
-
-/**
- * @override
- * Handle the shape being started by a pointer.
- * @param {Object} pointerState - The pointer coordinates and button
- */
-RectangleTool.prototype.start = function (pointerState) {
-	ShapeTool.prototype.start.apply(this, arguments);
-	
-	this.x =
-		this.y =
-		this.width =
-		this.height = undefined;
-}
 
 /**
  * @override
@@ -70,7 +61,7 @@ RectangleTool.prototype.move = function (pointerState) {
  * Update the canvas if necessary.
  */
 RectangleTool.prototype.update = function () {
-	if (!this._canvasDirty) {
+	if (!this._canvasDirty && typeof this.x !== 'undefined') {
 		return;
 	}
 	ShapeTool.prototype.update.apply(this, arguments);
@@ -81,4 +72,18 @@ RectangleTool.prototype.update = function () {
 	this._drawCurrentPath();
 	
 	this._canvasDirty = false;
+};
+
+/**
+ * @override
+ * Clear the points when the pointer finishes.
+ * @param {Object} pointerState - The pointer coordinates
+ */
+RectangleTool.prototype.end = function (pointerState) {
+	ShapeTool.prototype.end.apply(this, arguments);
+	
+	this.x =
+		this.y =
+		this.width =
+		this.height = undefined;
 };
