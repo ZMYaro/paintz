@@ -21,6 +21,9 @@ Object.values = Object.values || function (obj) {
 CanvasRenderingContext2D.prototype.setLineDash = CanvasRenderingContext2D.prototype.setLineDash || function () {};
 
 var Utils = {
+	/** @constant {String} Text to append to messages informing a feature is unavailable in the current browser. */
+	SUGGESTED_BROWSER_MESSAGE: 'To use this feature, please switch to a supported browser, such as the latest Google Chrome.',
+	
 	/** {Boolean} Whether the device runs Apple software */
 	isApple: (navigator.userAgent.indexOf('Mac') !== -1),
 	

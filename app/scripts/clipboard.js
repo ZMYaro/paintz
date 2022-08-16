@@ -33,7 +33,7 @@ function ClipboardManager() {
 }
 
 // Define constants.
-ClipboardManager.prototype.CLIPBOARD_UNSUPPORTED_MESSAGE = 'Your browser does not support copying or cutting selections from PaintZ.  To use this feature, please switch to a supported browser, such as the latest Google Chrome.';
+ClipboardManager.prototype.CLIPBOARD_UNSUPPORTED_MESSAGE = 'Your browser does not support copying or cutting selections from PaintZ.  ' + Utils.SUGGESTED_BROWSER_MESSAGE;
 ClipboardManager.prototype.CLIPBOARD_UNAUTHORIZED_MESSAGE = 'PaintZ needs permission to paste from your clipboard.  You may need to go into your browser\'s site settings to grant that permission.';
 
 /**
