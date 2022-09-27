@@ -6,6 +6,15 @@
 	        box-sizing: border-box;
 }
 
+html,
+body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	border: 0;
+	padding: 0;
+}
+
 body {
 	overscroll-behavior-y: contain; /* Prevent pull-to-refresh. */
 	

@@ -44,9 +44,8 @@ function ToolbarManager() {
 	this.currentToolOptionsToolbox = this.toolboxes.drawToolOptions;
 	
 	// Set up scroll event listeners for different browsers.
-	var boundScrollHandler = this._handleScroll.bind(this);
-	this._mainToolbar.addEventListener('wheel', boundScrollHandler, false);
-	this._mainToolbar.addEventListener('mousewheel', boundScrollHandler, false);
+	this._mainToolbar.addEventListener('wheel', this._handleScroll.bind(this), false);
+	this._bottomBar.addEventListener('wheel', function (ev) { ev.stopPropagation(); }, false);
 	
 	var toolboxLoadPromises =
 		Object.values(this.toolboxes)
@@ -80,6 +79,7 @@ ToolbarManager.prototype._addDivider = function (toolbar) {
  * @param {WheelEvent|Event} ev
  */
 ToolbarManager.prototype._handleScroll = function (ev) {
+	ev.stopPropagation();
 	if (Utils.checkModifierKeys(ev)) {
 		// Do not intercept if combined with a modifier key.
 		return;
