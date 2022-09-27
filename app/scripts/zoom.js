@@ -6,6 +6,9 @@
 function ZoomManager() {
 	/** @private {Number} The actual zoom level, with 1 being actual size */
 	this._zoomLevel = 1;
+	
+	// Set up scroll event listeners for different browsers.
+	document.body.addEventListener('wheel', this._handleScroll.bind(this), { passive: false });
 }
 
 /** @constant {Array<Number>} The zoom levels for the slider to snap to */
@@ -86,6 +89,34 @@ Object.defineProperties(ZoomManager.prototype, {
 		}
 	}
 });
+
+/**
+ * Handle the mouse wheel being scrolled or a touchpad gesture registering as a mouse wheel event.
+ * @param {WheelEvent|Event} ev
+ */
+ZoomManager.prototype._handleScroll = function (ev) {
+	if (!Utils.checkPlatformCtrlOrCmdKey(ev) || ev.shiftKey || Utils.checkPlatformMetaOrControlKey(ev)) {
+		// Only handle Ctrl+scroll or Ctrl+Alt+scroll.
+		// ToolbarManager handles stopping propagation of scroll events on the toolbars,
+		// and app initialization currently stops propagation on the dialogs container.
+		return;
+	}
+	ev.preventDefault();
+	ev.stopPropagation();
+	
+	var WHEEL_NOTCH_DELTA = 200, // Scroll delta per mouse wheel notch as of Chrome 105; varies in other browsers.
+		scrollY = ev.deltaY || ev.wheelDeltaY || ev.wheelDelta || 0,
+		zoomAmount = scrollY / -WHEEL_NOTCH_DELTA; // Will be rounded to hundredths when set.
+	
+	if ((zoomAmount < 0 && this.level < 1.25) || (zoomAmount > 0 && this.level < 1)) {
+		// Zoom in 25% increments instead of 100% increments when going
+		// down to under 100% or increasing from under 100%.
+		zoomAmount *= 0.25;
+	}
+	
+	this.level += zoomAmount;
+	this.level = Math.min(this.level, 8); // Do not mousewheel zoom past 800%.
+};
 
 /**
  * @private

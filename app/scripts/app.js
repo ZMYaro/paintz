@@ -228,6 +228,9 @@ window.addEventListener('load', function () {
 	dialogs.keyboard = new KeyboardDialog();
 	dialogs.rate = new RateDialog();
 	dialogs.patreon = new PatreonDialog();
+	// Contain mouse wheel events within the dialogs container.
+	document.getElementById('dialogsContainer')
+		.addEventListener('wheel', function (ev) { ev.stopPropagation(); }, false);
 	
 	// Initialize everything.
 	initCanvas();
