@@ -104,9 +104,12 @@ ZoomManager.prototype._handleScroll = function (ev) {
 	ev.preventDefault();
 	ev.stopPropagation();
 	
-	var WHEEL_NOTCH_DELTA = 200, // Scroll delta per mouse wheel notch as of Chrome 105; varies in other browsers.
+	var WHEEL_NOTCH_DELTA = 100, // Rough scroll delta per mouse wheel notch; across browsers.
 		scrollY = ev.deltaY || ev.wheelDeltaY || ev.wheelDelta || 0,
 		zoomAmount = scrollY / -WHEEL_NOTCH_DELTA; // Will be rounded to hundredths when set.
+	
+	// If the browser is treating 1 wheel notch as a larger delta, constrain to increments of 100.
+	zoomAmount = Utils.constrainValue(zoomAmount, -1, 1);
 	
 	if ((zoomAmount < 0 && this.level < 1.25) || (zoomAmount > 0 && this.level < 1)) {
 		// Zoom in 25% increments instead of 100% increments when going
