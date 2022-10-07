@@ -218,8 +218,15 @@
 
 #bottomSheetsContainer .dialog {
 	max-width: 100%;
-	margin-bottom: -4px;
+	margin-bottom: -1px;
 	pointer-events: auto;
+	
+	-webkit-border-bottom-left-radius:  0;
+	-webkit-border-bottom-right-radius: 0;
+	   -moz-border-radius-bottomleft:   0;
+	   -moz-border-radius-bottomright:  0;
+	        border-bottom-left-radius:  0;
+	        border-bottom-right-radius: 0;
 	
 	-webkit-transform: translateY(120%);
 	   -moz-transform: translateY(120%);
@@ -235,7 +242,7 @@
 		        transform: translateY(0%);
 	}
 	#bottomSheetsContainer .dialog .dialog-footer {
-		bottom: -4px;
+		bottom: -1px;
 	}
 
 kbd {
