@@ -278,6 +278,15 @@ small,
 		font-weight: normal;
 	}
 
+#autoRestoreDialog {
+	padding-top: 0;
+	padding-bottom: 0;
+	padding-right: 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
 #saveDialog progress {
 	display: none;
 }

@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2022-07-19, v1
+# 2022-10-06, v1
 index.html
 404.html
 manifest.webapp
@@ -81,6 +81,7 @@ images/logo/256.png
 images/logo/512.png
 images/logo/favicon.ico
 partials/dialogs/about.html
+partials/dialogs/auto_restore.html
 partials/dialogs/clear.html
 partials/dialogs/coffee.html
 partials/dialogs/color_picker.html
@@ -120,6 +121,7 @@ scripts/zoom.js
 scripts/dialogs/dialog.js
 scripts/dialogs/bottom_sheet.js
 scripts/dialogs/about.js
+scripts/dialogs/auto_restore.js
 scripts/dialogs/clear.js
 scripts/dialogs/coffee.js
 scripts/dialogs/color_picker.js

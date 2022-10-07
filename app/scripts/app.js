@@ -64,6 +64,7 @@ function initCanvasContents() {
 			undoStack.clear();
 		};
 		image.src = sessionStorage.lastState;
+		dialogs.autoRestore.open();
 	}
 	
 	// If a shared file was received by the service worker, open it.
@@ -223,6 +224,7 @@ window.addEventListener('load', function () {
 	// Initialize dialogs not bound to specific buttons.
 	dialogs.msAccessKey = new MSAccessKeyDialog();
 	dialogs.msAccessKeyHelp = new MSAccessKeyHelpDialog();
+	dialogs.autoRestore = new AutoRestoreDialog();
 	dialogs.coffee = new CoffeeDialog();
 	dialogs.install = new InstallDialog();
 	dialogs.keyboard = new KeyboardDialog();
