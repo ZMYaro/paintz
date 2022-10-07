@@ -231,6 +231,8 @@ window.addEventListener('load', function () {
 	// Contain mouse wheel events within the dialogs container.
 	document.getElementById('dialogsContainer')
 		.addEventListener('wheel', function (ev) { ev.stopPropagation(); }, false);
+	document.getElementById('bottomSheetsContainer')
+		.addEventListener('wheel', function (ev) { ev.stopPropagation(); }, false);
 	
 	// Initialize everything.
 	initCanvas();
