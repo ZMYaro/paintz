@@ -100,17 +100,17 @@ ClipboardManager.prototype.triggerPaste = function () {
  * @param {Image} image - The image to use as the contents of the new selection
  */
 ClipboardManager.prototype.paste = function (image) {
-	// If the canvas is not big enough to fit the pasted image, resize it.
-	resizeCanvas(
-		Math.max(image.width, settings.get('width')),
-		Math.max(image.height, settings.get('height')),
-		'crop');
-	
 	// Set up to paste at the top-left corner of the visible canvas.
 	var pasteX = Math.floor(window.scrollX / zoomManager.level),
 		pasteY = Math.floor(window.scrollY / zoomManager.level),
 		pasteRightX = Math.floor(pasteX + image.width),
 		pasteBottomY = Math.floor(pasteY + image.height);
+	
+	// If the canvas is not big enough to fit the pasted image, resize it.
+	resizeCanvas(
+		Math.max(pasteRightX, settings.get('width')),
+		Math.max(pasteBottomY, settings.get('height')),
+		'crop');
 	
 	// Tell the selection tool it just moved to create a selection of the proper size.
 	tools.switchTool('selection');
