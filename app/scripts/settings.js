@@ -150,11 +150,15 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			if (toolbar && toolbar.toolboxes && toolbar.toolboxes.colorPicker) {
 				toolbar.toolboxes.colorPicker.colorIndicator.style.borderColor = value;
 			}
-			if (tools && tools.currentTool && tools.currentTool instanceof DrawingTool) {
-				// This private property access will be swapped out when the settings manager gets overhauled in v4.0.
-				tools.currentTool._updateFromDrawingSettings();
-				tools.currentTool._canvasDirty = true;
-				tools.currentTool.update();
+			if (tools && tools.currentTool) {
+				if (tools.currentTool instanceof DrawingTool) {
+					// This private property access will be swapped out when the settings manager gets overhauled in v4.0.
+					tools.currentTool._updateFromDrawingSettings();
+					tools.currentTool._canvasDirty = true;
+					tools.currentTool.update();
+				} else if (tools.currentTool.updateTextElem) {
+					tools.currentTool.updateTextElem();
+				}
 			}
 			break;
 		case 'fillColor':
@@ -168,6 +172,8 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 					tools.currentTool._updateFromDrawingSettings();
 					tools.currentTool._canvasDirty = true;
 					tools.currentTool.update();
+				} else if (tools.currentTool.updateTextElem) {
+					tools.currentTool.updateTextElem();
 				} else if (tools.currentTool.setTransparentBackground) {
 					tools.currentTool.setTransparentBackground();
 					tools.currentTool.redrawSelection();
