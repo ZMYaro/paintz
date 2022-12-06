@@ -389,16 +389,18 @@
 	24. Crop to selection with:
 		1. Toolbar button
 		2. Alt+H,R,P in standalone window
-	25. Undo after each of steps ii-xxiv
-	26. Zoom in/out with an active selection
-	27. Duplicate a selection while zoomed in
+	25. Stamp the selection by Ctrl+dragging
+	26. Leave a trail of the selection by Shift+dragging
+	27. Undo after each of steps ii-xxvi
+	28. Zoom in/out with an active selection
+	29. Duplicate a selection while zoomed in
 
 20. Freeform selection tool
 	1. Select tool with:
 		1. Toolbar button
 		2. F key
 		3. Alt+H,S,E,F in standalone window
-	2. Repeat steps 17.ii-17.xxvii with the freeform selection tool
+	2. Repeat steps 17.ii-17.xxix with the freeform selection tool
 
 21. Eraser tool
 	1. Select tool with:

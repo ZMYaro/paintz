@@ -8,6 +8,7 @@
 function SelectionTool(cxt, preCxt) {
 	Tool.apply(this, arguments);
 	this._outline = new FloatingRegion();
+	this._trailMode = false;
 	
 	this._toolbar = toolbar.toolboxes.floatingSelectionToolbar;
 }
@@ -53,6 +54,9 @@ SelectionTool.prototype.start = function (pointerState) {
 			// If the Ctrl key is pressed, save a copy of the selection.
 			this._saveSelection();
 			this._selection.firstMove = false;
+		} else if (pointerState.shiftKey) {
+			// If the Shift key is pressed without the Ctrl key, use trail mode.
+			this._trailMode = true;
 		}
 		if (this._outline.drag.type === 'move') {
 			// Hide the outline while moving.
@@ -166,6 +170,12 @@ SelectionTool.prototype.update = function () {
 	
 	this.redrawSelection();
 	
+	if (this._trailMode) {
+		// If in trail mode, save a copy of the selection.
+		this._cxt.drawImage(this._preCxt.canvas, 0, 0);
+		this._selection.firstMove = false;
+	}
+	
 	this._canvasDirty = false;
 };
 
@@ -192,6 +202,7 @@ SelectionTool.prototype.end = function (pointerState) {
 		this._outline.handleDragEnd();
 		this._updateSelectionContentToOutline();
 		this._outline.show();
+		this._trailMode = false;
 	} else {
 		// Otherwise, a new selection was created.
 		
@@ -334,7 +345,6 @@ SelectionTool.prototype.duplicate = function () {
  */
 SelectionTool.prototype.selectAll = function (width, height) {
 	this.start({x: 0, y: 0});
-	this.move({x: width, y: height});
 	this.end({x: width, y: height});
 	this._updateSelectionUI();
 };
