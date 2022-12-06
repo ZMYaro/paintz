@@ -27,10 +27,10 @@ RoundedRectangleTool.prototype.MIN_CORNER_RADIUS = 8;
  * Update the canvas if necessary.
  */
 RoundedRectangleTool.prototype.update = function () {
-	if (!this._canvasDirty) {
+	if (!this._canvasDirty || typeof(this.x) === 'undefined') {
 		return;
 	}
-	ShapeTool.prototype.update.apply(this, arguments);
+	ShapeTool.prototype.update.call(this);
 	
 	// Draw the new preview.
 	this._preCxt.beginPath();

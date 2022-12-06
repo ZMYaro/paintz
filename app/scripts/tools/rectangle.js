@@ -61,10 +61,10 @@ RectangleTool.prototype.move = function (pointerState) {
  * Update the canvas if necessary.
  */
 RectangleTool.prototype.update = function () {
-	if (!this._canvasDirty && typeof this.x !== 'undefined') {
+	if (!this._canvasDirty || typeof(this.x) === 'undefined') {
 		return;
 	}
-	ShapeTool.prototype.update.apply(this, arguments);
+	ShapeTool.prototype.update.call(this);
 	
 	// Draw the new preview.
 	this._preCxt.beginPath();
@@ -80,7 +80,7 @@ RectangleTool.prototype.update = function () {
  * @param {Object} pointerState - The pointer coordinates
  */
 RectangleTool.prototype.end = function (pointerState) {
-	ShapeTool.prototype.end.apply(this, arguments);
+	ShapeTool.prototype.end.call(this, pointerState);
 	
 	this.x =
 		this.y =

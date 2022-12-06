@@ -72,10 +72,10 @@ LineTool.prototype.move = function (pointerState) {
  * Update the canvas if necessary.
  */
 LineTool.prototype.update = function () {
-	if (!this._canvasDirty) {
+	if (!this._canvasDirty || typeof(this.startX) === 'undefined') {
 		return;
 	}
-	DrawingTool.prototype.update.apply(this, arguments);
+	DrawingTool.prototype.update.call(this);
 	
 	// Draw the new preview.
 	Utils.drawLine(this.startX, this.startY, this.endX, this.endY, this._preCxt);
@@ -86,3 +86,17 @@ LineTool.prototype.update = function () {
 	
 	this._canvasDirty = false;
 }
+
+/**
+ * @override
+ * Clear the point when the pointer finishes.
+ * @param {Object} pointerState - The pointer coordinates
+ */
+LineTool.prototype.end = function (pointerState) {
+	DrawingTool.prototype.end.call(this, pointerState);
+	
+	this.startX =
+		this.startY =
+		this.endX =
+		this.endY = undefined;
+};

@@ -65,10 +65,10 @@ OvalTool.prototype.move = function (pointerState) {
  * Update the canvas if necessary.
  */
 OvalTool.prototype.update = function () {
-	if (!this._canvasDirty && typeof this.centerX !== 'undefined') {
+	if (!this._canvasDirty || typeof(this.centerX) === 'undefined') {
 		return;
 	}
-	ShapeTool.prototype.update.apply(this, arguments);
+	ShapeTool.prototype.update.call(this);
 	
 	// Prepare the new preview.
 	this._preCxt.lineWidth = this.lineWidth;
@@ -91,7 +91,7 @@ OvalTool.prototype.update = function () {
  * @param {Object} pointerState - The pointer coordinates
  */
 OvalTool.prototype.end = function (pointerState) {
-	ShapeTool.prototype.end.apply(this, arguments);
+	ShapeTool.prototype.end.call(this, pointerState);
 	
 	this.centerX =
 		this.centerY =
