@@ -83,11 +83,12 @@ ColorPickerToolbox.prototype._setUp = function (contents) {
 	Toolbox.prototype._setUp.call(this, contents);
 	
 	// Set up the color picker dialog.
+	var boundCurrentColorsClickHandler = this._handleCurrentColorsClick.bind(this);
 	dialogs.colorPicker.trigger = this.colorIndicator;
-	this.colorIndicator.addEventListener('click', dialogs.colorPicker.open.bind(dialogs.colorPicker), false);
+	this.colorIndicator.addEventListener('click', boundCurrentColorsClickHandler, false);
 	this.colorIndicator.addEventListener('contextmenu', (function (e) {
-		e.preventDefault();
-		this.swapSelectedColors();
+		e.isContextMenuEvent = true;
+		boundCurrentColorsClickHandler(e);
 	}).bind(this), false);
 	
 	// Set up the event listener for the Pac-Man easter egg.
@@ -129,6 +130,23 @@ ColorPickerToolbox.prototype.setColorPalette = function (paletteName) {
 	this.COLOR_PALETTES[paletteName].forEach(function (color, i) {
 		colorButtons[i].dataset.value = color;
 	}, this);
+};
+
+/**
+ * @private
+ * Handle the current colors being clicked.
+ * @param {MouseEvent} e
+ */
+ColorPickerToolbox.prototype._handleCurrentColorsClick = function (e) {
+	if (e.button === 2 || e.isContextMenuEvent || e.altKey) {
+		// If the button was right-clicked, Alt+left-clicked, or selected
+		// with a context menu gesture, swap the current colors.
+		e.preventDefault();
+		this.swapSelectedColors();
+		return;
+	}
+	// Otherwise, open the color picker dialog.
+	dialogs.colorPicker.open();
 };
 
 /**
