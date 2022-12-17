@@ -151,30 +151,28 @@ ColorPickerToolbox.prototype.swapSelectedColors = function () {
  * @param {MouseEvent} e
  */
 ColorPickerToolbox.prototype._handleColorButtonClick = function (e) {
-	// Ignore it if any modifier keys were pressed.
-	if (Utils.checkModifierKeys(e)) {
+	// Don't override if Ctrl or Meta key were were pressed, or
+	// a button other than the left or right mouse button was used.
+	if (e.ctrlKey || e.metaKey || (e.button !== 0 && e.button !== 2)) {
 		return;
 	}
 	
-	if (e.button === 0 && !e.isContextMenuEvent) {
-		e.preventDefault();
-		e.stopPropagation();
-		
-		// If the left mouse button was used, set the line color.
-		settings.set('lineColor', e.target.dataset.value);
-		
-		// Some tools' cursors change with the line color, so reactivate the cursor.
-		tools.currentTool.activate();
-	} else if (e.button === 2 || e.isContextMenuEvent) {
-		e.preventDefault();
-		e.stopPropagation();
-		
-		// If the right mouse button was used, set the fill color.
-		settings.set('fillColor', e.target.dataset.value);
-		
-		// Some tools' cursors change with the fill color, so reactivate the cursor.
-		tools.currentTool.activate();
-	}
+	e.preventDefault();
+	e.stopPropagation();
+	
+	// If the color was right-clicked, Alt+left-clicked, or selected with a touch
+	// context menu gesture, set the fill color; otherwise, set the line color.
+	var setLineColor = (
+			e.button === 0 &&
+			!e.altKey &&
+			!e.isContextMenuEvent),
+		settingToSet =
+			(setLineColor ? 'lineColor' : 'fillColor');
+	
+	settings.set(settingToSet, e.target.dataset.value);
+	
+	// Some tools' cursors change with the color, so reactivate the current tool.
+	tools.currentTool.activate();
 };
 
 /**
