@@ -217,7 +217,7 @@ FreeformSelectionTool.prototype._drawSelectionStartCover = function () {
  * @returns {ImageData} The image data masked to the selection region
  */
 FreeformSelectionTool.prototype._maskToSelectionPath = function (imageData) {
-	Utils.clearCanvas(this._preCxt);
+	this._preCxt.reset();
 	this._preCxt.save();
 	// Put the unmasked image data in the canvas.
 	this._preCxt.putImageData(imageData, this._selection.initial.x, this._selection.initial.y);

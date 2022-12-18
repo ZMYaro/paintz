@@ -56,7 +56,7 @@ ToolManager.prototype.switchTool = function (toolName) {
 	// Deactivate the current tool.
 	this.currentTool.deactivate();
 	// Clear the preview canvas.
-	Utils.clearCanvas(preCxt);
+	preCxt.reset();
 	// Set and activate the newly-selected tool.
 	settings.set('tool', toolName);
 	this.currentTool = this[toolName];

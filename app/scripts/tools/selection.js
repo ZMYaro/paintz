@@ -264,7 +264,7 @@ SelectionTool.prototype.clear = function () {
 	
 	// Draw the selection start cover to the main canvas if this is not a duplicate.
 	if (this._selection.firstMove) {
-		Utils.clearCanvas(this._preCxt);
+		this._preCxt.reset();
 		this._drawSelectionStartCover();
 		this._cxt.drawImage(this._preCxt.canvas, 0, 0);
 	}
@@ -285,7 +285,7 @@ SelectionTool.prototype.copy = function () {
 	}
 	
 	return new Promise((function (resolve, reject) {
-		Utils.clearCanvas(cursorCxt);
+		cursorCxt.reset();
 		cursorCanvas.width = this._selection.content.width;
 		cursorCanvas.height = this._selection.content.height;
 		cursorCxt.putImageData(this._selection.content.opaqueData, 0, 0);
@@ -356,7 +356,7 @@ SelectionTool.prototype.deselectAll = function () {
 	if (this._selection) {
 		delete this._selection;
 	}
-	Utils.clearCanvas(this._preCxt);
+	this._preCxt.reset();
 	this._toolbar.hide();
 	this._outline.removeFromDOM();
 };
@@ -399,7 +399,7 @@ SelectionTool.prototype.invertColors = function () {
 		
 		// Copy the selection content to the cursor canvas because you
 		// cannot put image data with composite modes.
-		Utils.clearCanvas(cursorCxt);
+		cursorCxt.reset();
 		cursorCanvas.width = this._selection.content.width;
 		cursorCanvas.height = this._selection.content.height;
 		cursorCxt.putImageData(this._selection.content.opaqueData, 0, 0);
@@ -460,13 +460,13 @@ SelectionTool.prototype.flip = function (vertical) {
 	if (this._selection) {
 		// Copy the selection to the cursor canvas.
 		// The data needs to be put in a canvas because putImageData ignores transformations.
-		Utils.clearCanvas(cursorCxt);
+		cursorCxt.reset();
 		cursorCanvas.width = this._selection.content.width;
 		cursorCanvas.height = this._selection.content.height;
 		cursorCxt.putImageData(this._selection.content.opaqueData, 0, 0);
 		
 		// Flip the pre-canvas and draw the selection to it.
-		Utils.clearCanvas(this._preCxt);
+		this._preCxt.reset();
 		this._preCxt.save();
 		this._preCxt.translate(
 			vertical ? 0 : this._selection.content.width,
@@ -515,7 +515,7 @@ SelectionTool.prototype.rotate = function (clockwise) {
 	if (this._selection) {
 		// Copy the selection to the cursor canvas.
 		// The data needs to be put in a canvas because putImageData ignores transformations.
-		Utils.clearCanvas(cursorCxt);
+		cursorCxt.reset();
 		cursorCanvas.width = this._selection.content.width;
 		cursorCanvas.height = this._selection.content.height;
 		cursorCxt.putImageData(this._selection.content.opaqueData, 0, 0);
@@ -587,7 +587,7 @@ SelectionTool.prototype.rotate = function (clockwise) {
 		settings.set('height', oldCanvasWidth);
 		
 		// Clear the precanvas.
-		Utils.clearCanvas(preCxt);
+		preCxt.reset();
 	}
 };
 
@@ -652,7 +652,7 @@ SelectionTool.prototype.setTransparentBackground = function () {
  * Redraw the selection and its outline with its current state.
  */
 SelectionTool.prototype.redrawSelection = function () {
-	Utils.clearCanvas(this._preCxt);
+	this._preCxt.reset();
 	this._drawSelectionContent();
 	this._updateSelectionUI();
 };
@@ -709,7 +709,7 @@ SelectionTool.prototype._resizeSelectionContentToOutline = function () {
 	cursorCxt.putImageData(this._selection.content.opaqueData, 0, 0);
 	
 	// Draw it back to the precanvas, resized.
-	Utils.clearCanvas(this._preCxt);
+	this._preCxt.reset();
 	this._preCxt.drawImage(
 		cursorCanvas,
 		this._outline.x, this._outline.y,
@@ -762,7 +762,7 @@ SelectionTool.prototype._drawSelectionStartCover = function () {
  * Save the selection to the canvas if it was moved.
  */
 SelectionTool.prototype._saveSelection = function () {
-	Utils.clearCanvas(this._preCxt);
+	this._preCxt.reset();
 	
 	var selectionExistsAndWasTransformed = (
 		this._selection &&
@@ -778,6 +778,6 @@ SelectionTool.prototype._saveSelection = function () {
 	
 	this._drawSelectionContent();
 	this._cxt.drawImage(this._preCxt.canvas, 0, 0);
-	Utils.clearCanvas(this._preCxt);
+	this._preCxt.reset();
 	undoStack.addState();
 };

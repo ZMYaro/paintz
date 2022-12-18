@@ -120,7 +120,7 @@ PolygonTool.prototype.deactivate = function () {
  */
 PolygonTool.prototype.clearDraftPolygon = function () {
 	delete this._points;
-	Utils.clearCanvas(this._preCxt);
+	this._preCxt.reset();
 };
 
 /**
@@ -133,7 +133,7 @@ PolygonTool.prototype.finalizePolygon = function () {
 	}
 	
 	// Erase the last (unclosed) preview from the precanvas before redrawing.
-	Utils.clearCanvas(this._preCxt);
+	this._preCxt.reset();
 	
 	// Draw the entire polygon, closed.
 	this._preCxt.lineWidth = this._lineWidth;

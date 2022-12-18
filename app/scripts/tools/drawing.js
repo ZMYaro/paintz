@@ -63,7 +63,7 @@ DrawingTool.prototype.update = function () {
 	}
 	
 	// Erase the previous preview.
-	Utils.clearCanvas(this._preCxt);
+	this._preCxt.reset();
 	
 	this._prepareCanvas();
 };
@@ -77,7 +77,7 @@ DrawingTool.prototype.end = function (pointerState) {
 	// Draw the drawing to the main canvas.
 	this._cxt.drawImage(this._preCxt.canvas, 0, 0);
 	// Erase the preview.
-	Utils.clearCanvas(this._preCxt);
+	this._preCxt.reset();
 	undoStack.addState();
 };
 

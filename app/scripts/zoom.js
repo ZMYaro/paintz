@@ -170,6 +170,6 @@ ZoomManager.prototype.drawGrid = function () {
 	// Adjust the spacing to match the actual canvas.
 	var gridSize = baseGridSize * this._zoomLevel;
 	
-	Utils.clearCanvas(gridCxt);
+	gridCxt.reset();
 	Utils.drawGrid(gridSize, gridCxt);
 };
