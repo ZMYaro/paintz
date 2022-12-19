@@ -144,7 +144,7 @@ ClipboardManager.prototype.paste = function (image) {
  */
 ClipboardManager.prototype.copy = function (imageBlob) {
 	if (!navigator.clipboard || !navigator.clipboard.write) {
-		alert(this.CLIPBOARD_UNSUPPORTED);
+		alert(this.CLIPBOARD_UNSUPPORTED_MESSAGE);
 		return false;
 	}
 	
