@@ -7,6 +7,11 @@
  */
 function AboutDialog(trigger) {
 	Dialog.call(this, 'about', trigger);
+	
+	window.addEventListener('beforeinstallprompt', (function (e) {
+		e.preventDefault();
+		this.deferredInstall = e;
+	}).bind(this));
 }
 // Extend Dialog.
 AboutDialog.prototype = Object.create(Dialog.prototype);
@@ -24,7 +29,33 @@ AboutDialog.prototype.WIDTH = '520px';
  */
 AboutDialog.prototype._setUp = function (contents) {
 	Dialog.prototype._setUp.call(this, contents);
+	
+	// Show CWS link if supported.
 	this._initCWSLinks();
+	
+	// Hide CWS feedback link on mobile since the CWS mobile UI does not show the feedback tab.
+	if (Utils.isMobileLike) {
+		var feedbackLink = this._element.querySelector('#cwsFeedbackLink');
+		feedbackLink.parentElement.style.display = 'none';
+	}
+	
+	// Show the PWA install button if there was a deferred install prompt.
+	if (this.deferredInstall) {
+		this._showPWAInstallButton();
+	}
+};
+
+/**
+ * @override
+ * Open the dialog.
+ */
+AboutDialog.prototype.open = function () {
+	Dialog.prototype.open.call(this);
+	
+	// Show the PWA install button if there has been a deferred install since the dialog was created.
+	if (this.deferredInstall) {
+		this._showPWAInstallButton();
+	}
 };
 
 /**
@@ -61,4 +92,26 @@ AboutDialog.prototype._initCWSLinks = function () {
 			});
 		};
 	}
+};
+
+/**
+ * @private
+ * Show the PWA installation option.
+ */
+AboutDialog.prototype._showPWAInstallButton = function () {
+	var cwsInstallLink = this._element.querySelector('#cwsInstallLink'),
+		pwaInstallButton = this._element.querySelector('#pwaInstallButton');
+	
+	cwsInstallLink.parentElement.style.display = 'none';
+	pwaInstallButton.parentElement.style.removeProperty('display');
+	
+	pwaInstallButton.addEventListener('click', (function (e) {
+		e.preventDefault();
+		this.deferredInstall.prompt();
+	}).bind(this));
+	
+	var icon = pwaInstallButton.querySelector('svg use'),
+		iconURL = 'images/icons/install_' + (Utils.isMobileLike ? 'mobile' : 'desktop') + '.svg#icon';
+	icon.setAttribute('href',       iconURL);
+	icon.setAttribute('xlink:href', iconURL);
 };

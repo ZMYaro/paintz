@@ -356,3 +356,12 @@ progress.circular.small {
 		        transition-duration: 0s;
 	}
 }
+
+/* TODO: Remove when refactored to use flexbox: */
+#pwaInstallButton {
+	width: 100%;
+	width: calc(100% + 32px);
+}
+	#pwaInstallButton svg {
+		padding-bottom: 0;
+	}
