@@ -34,7 +34,7 @@ InstallDialog.prototype._setUp = function (contents) {
 		this._changeToPWAInstallPrompt();
 	} else if (Utils.isMobileLike) {
 		this._cta.innerHTML = 'add PaintZ to your home screen';
-		this._submitLink.href = 'https://www.howtogeek.com/196087/how-to-add-websites-to-the-home-screen-on-any-smartphone-or-tablet/';
+		this._submitLink.href = 'https://www.androidauthority.com/add-website-android-iphone-home-screen-3181682/';
 	} else if (navigator.userAgent.match(/chrome/i)) {
 		this._cta.innerHTML = 'install PaintZ from the Chrome Web Store';
 		this._submitLink.innerHTML = 'Install';
