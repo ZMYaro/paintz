@@ -49,8 +49,8 @@ LineTool.prototype.move = function (pointerState) {
 	this.endX = pointerState.x;
 	this.endY = pointerState.y;
 	
-	// Snap to tau/8 angles when shift key held.
 	if (pointerState.shiftKey) {
+		// Snap to tau/8 angles when Shift is held.
 		var deltaY = this.endY - this.startY,
 			deltaX = this.endX - this.startX,
 			angle = Math.atan2(deltaY, deltaX),

@@ -83,7 +83,7 @@ ImageToolbox.prototype._setUp = function (contents) {
 	pasteBtn.addEventListener('click', function (e) {
 		e.preventDefault();
 		if (e.altKey || Utils.checkPlatformMetaOrControlKey(e)) {
-			// “Paste from” if alt-clicked or Control-clicked on Mac.
+			// “Paste from” if Alt-clicked or Control-clicked on Mac.
 			pasteFromInput.click();
 			return;
 		}

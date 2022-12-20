@@ -147,8 +147,8 @@ TextTool.prototype.move = function (pointerState) {
 			this._outline.height = Math.abs(this._outline.height);
 		}
 		
-		// Perfect square when shift key held.
 		if (pointerState.shiftKey) {
+			// Perfect square when Shift is held.
 			if (this._outline.width < this._outline.height) {
 				this._outline.height = this._outline.width;
 				if (this._outline.y === pointerState.y) {

@@ -30,8 +30,8 @@ RectangleTool.prototype.move = function (pointerState) {
 	this.width = Math.abs(pointerState.x - this.startX);
 	this.height = Math.abs(pointerState.y - this.startY);
 	
-	// Perfect square when shift key held.
 	if (pointerState.shiftKey) {
+		// Perfect square when Shift is held.
 		if (this.width < this.height) {
 			this.height = this.width;
 			if (this.y === pointerState.y) {
@@ -45,8 +45,8 @@ RectangleTool.prototype.move = function (pointerState) {
 		}
 	}
 	
-	// Draw from center when ctrl key held.
 	if (pointerState.ctrlKey) {
+		// Draw from center when Ctrl is held.
 		this.x = this.startX - this.width;
 		this.y = this.startY - this.height;
 		this.width *= 2;

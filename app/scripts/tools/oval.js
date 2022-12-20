@@ -29,8 +29,8 @@ OvalTool.prototype.move = function (pointerState) {
 		this._roundPointerState(pointerState);
 	}
 	
-	// Draw from center when ctrl key held.
 	if (pointerState.ctrlKey) {
+		// Draw from center when Ctrl is held.
 		this.centerX = this.startX;
 		this.centerY = this.startY;
 		this.radX = pointerState.x - this.startX;
@@ -42,8 +42,8 @@ OvalTool.prototype.move = function (pointerState) {
 		this.radY = (pointerState.y - this.startY) / 2;
 	}
 	
-	// Perfect circle when shift key held.
 	if (pointerState.shiftKey) {
+		// Perfect circle when Shift is held.
 		if (Math.abs(this.radX) < Math.abs(this.radY)) {
 			this.radY = Math.sign(this.radY) * -Math.abs(this.radX);
 			if (!pointerState.ctrlKey) {

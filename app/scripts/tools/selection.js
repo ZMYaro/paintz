@@ -134,8 +134,8 @@ SelectionTool.prototype.move = function (pointerState) {
 			this._selection.initial.height = Math.abs(this._selection.initial.height);
 		}
 		
-		// Perfect square when shift key held.
 		if (pointerState.shiftKey) {
+			// Perfect square when Shift is held.
 			if (this._selection.initial.width < this._selection.initial.height) {
 				this._selection.initial.height = this._selection.initial.width;
 				if (this._selection.initial.y === pointerState.y) {
