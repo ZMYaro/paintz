@@ -161,6 +161,14 @@ TextTool.prototype.move = function (pointerState) {
 				}
 			}
 		}
+		
+		if (pointerState.ctrlKey) {
+			// Draw from center when Ctrl is held.
+			this._outline.x = this._pointerStart.x - this._outline.width;
+			this._outline.y = this._pointerStart.y - this._outline.height;
+			this._outline.width *= 2;
+			this._outline.height *= 2;
+		}
 	}
 	
 	this._canvasDirty = true;

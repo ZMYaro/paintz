@@ -150,6 +150,14 @@ SelectionTool.prototype.move = function (pointerState) {
 			}
 		}
 		
+		if (pointerState.ctrlKey) {
+			// Draw from center when Ctrl is held.
+			this._selection.initial.x = this._selection.pointerStart.x - this._selection.initial.width;
+			this._selection.initial.y = this._selection.pointerStart.y - this._selection.initial.height;
+			this._selection.initial.width *= 2;
+			this._selection.initial.height *= 2;
+		}
+		
 		this._outline.x = this._selection.initial.x;
 		this._outline.y = this._selection.initial.y;
 		this._outline.width = this._selection.initial.width;
