@@ -359,5 +359,16 @@ var Utils = {
 		window.oRequestAnimationFrame ||
 		(function (func) {
 			setTimeout(func, 1000 / 60);
-		})).bind(window)
+		})).bind(window),
+	
+	/**
+	 * Round a number to the indicated number of decimal places.
+	 * @param {Number} num - The number to round
+	 * @param {Number} places - The number of decimal places to round to
+	 * @returns {Number} The rounded number
+	 */
+	roundToPlaces: function (num, places) {
+		var factor = Math.pow(10, places);
+		return (Math.round(num * factor) / factor);
+	}
 };
