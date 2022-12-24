@@ -95,5 +95,6 @@ Icon libraries used:
 Testing/feedback:
 * David Martin
 * Joe Porsella
+* Marjorie Yaro
 * Taylor Braun
 * Wendy Enoch
