@@ -98,7 +98,9 @@
 	10. Scale down to percentage
 	11. Scale up to percentage
 	12. Repeat steps iv-xi with pixel dimensions
-	13. Reset input dimensions by switching from percentage to pixel dimensions and vice versa
+	13. Repeat steps iv-xi with centimeter dimensions, confirming correct conversion for 300 DPI
+	14. Repeat steps iv-xi with inch dimensions, confirming correct conversion for 300 DPI
+	15. Reset input dimensions by switching from percentage to pixel dimensions and vice versa
 
 7. Paste
 	1. Paste image data with:
@@ -130,12 +132,16 @@
 		5. Cmd+Opt+Shift+= (Cmd+Opt++) on Apple device
 		6. Ctrl+PgUp in standalone window
 		7. Alt+V,I in standalone window
+		8. Ctrl+MouseWheelUp while the cursor is over the canvas
+		9. Touchpad pinch zoom in while the cursor is over the canvas
 	5. Zoom out with:
 		1. Toolbar button
 		2. Ctrl+Alt+-
 		3. Cmd+Opt+- on Apple device
 		4. Ctrl+PgDn in standalone window
 		5. Alt+V,O in standalone window
+		6. Ctrl+MouseWheelDown while the cursor is over the canvas
+		7. Touchpad pinch zoom out while the cursor is over the canvas
 	6. Fail to zoom in in tab with Ctrl+PgUp
 	7. Fail to zoom out in tab with Ctrl+PgDn
 	8. Zoom to 400% in standalone window with Alt+V,Z,L
@@ -144,6 +150,10 @@
 		2. Cmd+Opt+0 on Apple device
 		3. Alt+V,Z,N in standalone window
 		4. Alt+V,M in standalone window
+	10. Confirm regular browser page zoom occurs with:
+		1. Ctrl+= and Ctrl+-
+		2. Ctrl+MouseWheel while the cursor is over the top and bottom toolbars
+		3. Touchpad pinch zoom while the cursor is over the top and bottom toolbars
 
 
 ## Tools
@@ -368,39 +378,43 @@
 		1. Left click
 		2. Single-point touch
 		3. Arrow keys
-	15. Resize selection smaller with each of the 8 resize handles
-	16. Resize selection larger with each of the 8 resize handles
-	17. Repeat steps ix-xiv after resizing
-	18. Repeat steps vii-xvii in transparent selection mode
-	19. Change fill color between transparent selections
-	20. Change fill color with an active transparent selection
-	21. Erase selection with:
+	15. Move selection while holding Shift to use trail mode
+	16. Move selection while holding Ctrl to use stamp mode
+	17. Resize selection smaller with each of the 8 resize handles
+	18. Resize selection larger with each of the 8 resize handles
+	19. Hold Shift during steps xvii-xviii and confirm aspect ratio is maintained while Shift is held
+	20. Hold Ctrl during steps xvii-xviii and confirm selection gets resized about its center
+	21. Repeat steps ix-xvi after resizing
+	22. Repeat steps vii-xvii in transparent selection mode
+	23. Change fill color between transparent selections
+	24. Change fill color with an active transparent selection
+	25. Erase selection with:
 		1. Toolbar button
 		2. Delete key
 		3. Backspace key
 		4. Alt+E,L in standalone window
 		5. Alt+H,S,E,D
-	22. Duplicate selection with:
+	26. Duplicate selection with:
 		1. Toolbar button
 		2. Ctrl+D
-	23. Cancel selection with:
+	27. Cancel selection with:
 		1. Toolbar button
 		2. Esc key
-	24. Crop to selection with:
+	28. Crop to selection with:
 		1. Toolbar button
 		2. Alt+H,R,P in standalone window
-	25. Stamp the selection by Ctrl+dragging
-	26. Leave a trail of the selection by Shift+dragging
-	27. Undo after each of steps ii-xxvi
-	28. Zoom in/out with an active selection
-	29. Duplicate a selection while zoomed in
+	29. Stamp the selection by Ctrl+dragging
+	30. Leave a trail of the selection by Shift+dragging
+	31. Undo after each of steps ii-xxvi
+	32. Zoom in/out with an active selection
+	33. Duplicate a selection while zoomed in
 
 20. Freeform selection tool
 	1. Select tool with:
 		1. Toolbar button
 		2. F key
 		3. Alt+H,S,E,F in standalone window
-	2. Repeat steps 17.ii-17.xxix with the freeform selection tool
+	2. Repeat steps 17.ii-17.xxxiii with the freeform selection tool
 
 21. Eraser tool
 	1. Select tool with:
@@ -507,7 +521,8 @@
 		2. Touch
 	2. Set the fill color with:
 		1. Right click
-		2. Long press
+		2. Alt+click
+		3. Long press
 
 26. Color picker dialog
 	1. Open color picker dialog with:
