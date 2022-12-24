@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2022-10-06, v1
+# 2022-12-24, v1
 index.html
 404.html
 manifest.webapp
@@ -23,6 +23,7 @@ images/icons/cursor.svg
 images/icons/curve.svg
 images/icons/cut.svg
 images/icons/cws.svg
+images/icons/done.svg
 images/icons/duplicate.svg
 images/icons/eraser.svg
 images/icons/eyedropper.svg
