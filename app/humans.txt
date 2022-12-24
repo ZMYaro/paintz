@@ -2,6 +2,7 @@
 Creator, developer: Zachary Yaro
 Contact: zmyaro+paintz [at] zmyaro.com
 Site: https://zmyaro.com
+Mastodon: @ZMYaro@mastodon.social
 Twitter: @ZMYaro
 Location: Boston, Massachusetts, USA
 
