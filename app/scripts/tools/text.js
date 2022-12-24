@@ -124,7 +124,7 @@ TextTool.prototype.move = function (pointerState) {
 	
 	this._roundPointerState(pointerState);
 	
-	this._preCxt.reset();
+	Utils.clearCanvas(this._preCxt);
 	
 	if (this._outline.drag) {
 		this._outline.handleDragMove(pointerState);
@@ -355,7 +355,7 @@ TextTool.prototype._saveText = function () {
 			// Revoke the temporary blob URL.
 			//URL.revokeObjectURL(svgURL);
 			// Clean up.
-			this._preCxt.reset();
+			Utils.clearCanvas(this._preCxt);
 			undoStack.addState();
 			
 			resolve(true);

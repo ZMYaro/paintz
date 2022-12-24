@@ -207,7 +207,7 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			if (value) {
 				zoomManager.drawGrid();
 			} else {
-				gridCxt.reset();
+				Utils.clearCanvas(gridCxt);
 			}
 			break;
 		case 'ghostDraw':

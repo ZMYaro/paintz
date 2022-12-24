@@ -131,7 +131,7 @@ CurveTool.prototype.end = function (pointerState) {
 		if (Math.round(this.endX) === Math.round(this.startX) &&
 				Math.round(this.endY) === Math.round(this.startY)) {
 			// Abort if the starting line has a length less than 1.
-			this._preCxt.reset();
+			Utils.clearCanvas(this._preCxt);
 			this._state = this.STATE_NOT_STARTED;
 			return;
 		}
@@ -157,7 +157,7 @@ CurveTool.prototype.deactivate = function () {
  */
 CurveTool.prototype._finalizeCurve = function () {
 	this._cxt.drawImage(this._preCxt.canvas, 0, 0);
-	this._preCxt.reset();
+	Utils.clearCanvas(this._preCxt);
 	undoStack.addState();
 	this._state = this.STATE_NOT_STARTED;
 };

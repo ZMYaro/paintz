@@ -4,9 +4,6 @@
 Math.TAU = Math.TAU || (2 * Math.PI);
 window.URL = window.webkitURL || window.URL;
 Array.from = Array.from || Array.prototype.slice.call.bind(Array.prototype.slice);
-CanvasRenderingContext2D.prototype.reset = CanvasRenderingContext2D.prototype.reset || function () {
-	this.clearRect(0, 0, this.canvas.width, this.canvas.height);
-};
 HTMLElement.prototype.remove = HTMLElement.prototype.remove || function () {
 	this.parentElement ? this.parentElement.removeChild(this) : undefined;
 };
@@ -75,6 +72,14 @@ var Utils = {
 	checkPlatformMetaOrControlKey: function (e) {
 		// On MacOS and iOS, check Control; on other platforms (Windows, Linux), check the Windows/meta key.
 		return ((!Utils.isApple && e.metaKey) || (Utils.isApple && e.ctrlKey));
+	},
+	
+	/**
+	 * Clear all graphics in a given canvas.
+	 * @param {CanvasRenderingContext2D} cxt - The rendering context of the canvas to clear
+	 */
+	clearCanvas: function (cxt) {
+		cxt.clearRect(0, 0, cxt.canvas.width, cxt.canvas.height);
 	},
 	
 	/**
