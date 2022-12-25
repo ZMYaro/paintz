@@ -10,7 +10,9 @@ function ToolManager() {
 	this.line = new LineTool(cxt, preCxt);
 	this.curve = new CurveTool(cxt, preCxt);
 	this.rect = new RectangleTool(cxt, preCxt);
+	this.roundRect = new RoundedRectangleTool(cxt, preCxt);
 	this.oval = new OvalTool(cxt, preCxt);
+	this.polygon = new PolygonTool(cxt, preCxt);
 	this.eraser = new EraserTool(cxt, preCxt);
 	this.floodFill = new FloodFillTool(cxt, preCxt);
 	this.eyedropper = new EyedropperTool(cxt, preCxt);
@@ -32,6 +34,7 @@ function ToolManager() {
 	document.addEventListener('pointermove', this._boundPointerMoveHandler, false);
 	document.addEventListener('pointerup', this._boundPointerUpHandler, false);
 	document.addEventListener('pointerleave', this._boundPointerUpHandler, false);
+	preCanvas.addEventListener('dblclick', this._handleDoubleClick.bind(this), false);
 	Utils.raf(this._boundUpdate);
 	
 	this._state = this.STATE_INACTIVE;
@@ -143,7 +146,7 @@ ToolManager.prototype._handlePointerMove = function (e) {
 /**
  * @private
  * Complete the current task and stop drawing.
- * @param {MouseEvent|TouchEvent} e
+ * @param {PointerEvent} e
  */
 ToolManager.prototype._handlePointerUp = function (e) {
 	// Do not end if not started.
@@ -169,6 +172,18 @@ ToolManager.prototype._handlePointerUp = function (e) {
 	
 	// Set the state to ready to start the next drawing.
 	this._state = this.STATE_INACTIVE;
+};
+
+/**
+ * @private
+ * Handle double-clicking the canvas for tools that respond to it.
+ * @param {MouseEvent} e
+ */
+ToolManager.prototype._handleDoubleClick = function (e) {
+	if (this.currentTool === this.polygon) {
+		e.preventDefault();
+		this.currentTool.finalizePolygon();
+	}
 };
 
 /**

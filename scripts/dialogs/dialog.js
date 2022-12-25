@@ -125,8 +125,10 @@ Dialog.prototype.focus = function () {
  */
 Dialog.prototype.open = function () {
 	// Disable app keyboard shortcuts and clipboard interceptions.
-	keyManager.enabled = false;
-	clipboard.enabled = false;
+	if (!(this instanceof BottomSheetDialog)) {
+		keyManager.enabled = false;
+		clipboard.enabled = false;
+	}
 	
 	// Show the dialog and dialog container.
 	this._dialogContainer.style.display = 'block';
@@ -185,6 +187,8 @@ Dialog.prototype._finishClose = function () {
 	this._element.remove();
 	this._dialogContainer.style.display = 'none';
 	// Re-enable app keyboard shortcuts and clipboard interception.
-	keyManager.enabled = true;
-	clipboard.enabled = true;
+	if (!(this instanceof BottomSheetDialog)) {
+		keyManager.enabled = true;
+		clipboard.enabled = true;
+	}
 };

@@ -147,8 +147,8 @@ TextTool.prototype.move = function (pointerState) {
 			this._outline.height = Math.abs(this._outline.height);
 		}
 		
-		// Perfect square when shift key held.
 		if (pointerState.shiftKey) {
+			// Perfect square when Shift is held.
 			if (this._outline.width < this._outline.height) {
 				this._outline.height = this._outline.width;
 				if (this._outline.y === pointerState.y) {
@@ -160,6 +160,14 @@ TextTool.prototype.move = function (pointerState) {
 					this._outline.x = this._pointerStart.x - this._outline.width;
 				}
 			}
+		}
+		
+		if (pointerState.ctrlKey) {
+			// Draw from center when Ctrl is held.
+			this._outline.x = this._pointerStart.x - this._outline.width;
+			this._outline.y = this._pointerStart.y - this._outline.height;
+			this._outline.width *= 2;
+			this._outline.height *= 2;
 		}
 	}
 	

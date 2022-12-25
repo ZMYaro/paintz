@@ -2,6 +2,7 @@
 Creator, developer: Zachary Yaro
 Contact: zmyaro+paintz [at] zmyaro.com
 Site: https://zmyaro.com
+Mastodon: @ZMYaro@mastodon.social
 Twitter: @ZMYaro
 Location: Boston, Massachusetts, USA
 
@@ -9,6 +10,7 @@ Location: Boston, Massachusetts, USA
 Testing/feedback:
 David Martin
 Joe Porsella
+Marjorie Yaro
 Taylor Braun
 Wendy Enoch
 
@@ -42,6 +44,6 @@ Location: Tokyo, Japan
 And the developers and maintainers of MS Paint, Material Design, and MDN.
 
 /* SITE */
-Last update: 2021-11-26
+Last update: 2022-12-25
 Language: English
 Software: Notepad++, GitHub, Flash, Photoshop, Illustrator, GIMP, MS Paint

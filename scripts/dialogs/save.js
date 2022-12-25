@@ -22,7 +22,7 @@ SaveDialog.prototype.constructor = SaveDialog;
 /** @override @constant {String} The width of the dialog, as a CSS value */
 SaveDialog.prototype.WIDTH = '384px';
 /** @constant {String} The message for browsers that do not support sharing files */
-SaveDialog.prototype.SHARE_UNSUPPORTED_MESSAGE = 'Your browser or system does not support sharing from PaintZ.  To use this feature, please switch to a supported browser, such as the latest Google Chrome.';
+SaveDialog.prototype.SHARE_UNSUPPORTED_MESSAGE = 'Your browser or system does not support sharing from PaintZ.  ' + Utils.SUGGESTED_BROWSER_MESSAGE;
 
 /**
  * @override

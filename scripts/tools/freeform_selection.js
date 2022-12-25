@@ -121,23 +121,12 @@ FreeformSelectionTool.prototype.update = function () {
 	// Draw the outline.
 	this._preCxt.lineWidth = 1;
 	this._preCxt.lineJoin = 'round';
-	this._createSelectionPath(this._preCxt, this._selection.points);
+	Utils.createPath(this._preCxt, this._selection.points);
 	this._preCxt.stroke();
-	this._preCxt.closePath();
 	
-	// Create a color-inverted copy of the existing drawing.
-	cursorCxt.save();
-	cursorCanvas.width = this._cxt.canvas.width;
-	cursorCanvas.height = this._cxt.canvas.height;
-	cursorCxt.drawImage(this._cxt.canvas, 0, 0);
-	cursorCxt.globalCompositeOperation = 'difference';
-	cursorCxt.fillStyle = 'white'; // Filling with white with “difference” blending mode inverts colors.
-	cursorCxt.fillRect(0, 0, cursorCanvas.width, cursorCanvas.height);
-	cursorCxt.restore();
-	
-	// Fill in the line with the inverted drawing.
+	// Fill in the line with the color-inverted drawing.
 	this._preCxt.globalCompositeOperation = 'source-in';
-	this._preCxt.drawImage(cursorCanvas, 0, 0);
+	Utils.drawCanvasInvertedToPreCanvas();
 	
 	this._preCxt.restore();
 	
@@ -217,23 +206,8 @@ FreeformSelectionTool.prototype.end = function (pointerState) {
  */
 FreeformSelectionTool.prototype._drawSelectionStartCover = function () {
 	this._preCxt.fillStyle = this._selection.fillColor;
-	this._createSelectionPath(this._preCxt, this._selection.points);
-	this._preCxt.closePath();
+	Utils.createPath(this._preCxt, this._selection.points, true);
 	this._preCxt.fill();
-};
-
-/**
- * @private
- * Create a path in the canvas using the given points.
- * @param {CanvasRenderingContext2D} cxt - The canvas context to create the path in
- * @param {Array<Object>} points - The list of points
- */
-FreeformSelectionTool.prototype._createSelectionPath = function (cxt, points) {
-	cxt.beginPath();
-	cxt.moveTo(points[0].x, points[0].y);
-	points.forEach(function (point) {
-		cxt.lineTo(point.x, point.y);
-	});	
 };
 
 /**

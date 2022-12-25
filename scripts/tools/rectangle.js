@@ -7,24 +7,15 @@
  */
 function RectangleTool(cxt, preCxt) {
 	ShapeTool.apply(this, arguments);
+	
+	this.x;
+	this.y;
+	this.width;
+	this.height;
 }
 // Extend ShapeTool;
 RectangleTool.prototype = Object.create(ShapeTool.prototype);
 RectangleTool.prototype.constructor = RectangleTool;
-
-/**
- * @override
- * Handle the shape being started by a pointer.
- * @param {Object} pointerState - The pointer coordinates and button
- */
-RectangleTool.prototype.start = function (pointerState) {
-	ShapeTool.prototype.start.apply(this, arguments);
-	
-	this.x =
-		this.y =
-		this.width =
-		this.height = undefined;
-}
 
 /**
  * @override
@@ -39,8 +30,8 @@ RectangleTool.prototype.move = function (pointerState) {
 	this.width = Math.abs(pointerState.x - this.startX);
 	this.height = Math.abs(pointerState.y - this.startY);
 	
-	// Perfect square when shift key held.
 	if (pointerState.shiftKey) {
+		// Perfect square when Shift is held.
 		if (this.width < this.height) {
 			this.height = this.width;
 			if (this.y === pointerState.y) {
@@ -54,8 +45,8 @@ RectangleTool.prototype.move = function (pointerState) {
 		}
 	}
 	
-	// Draw from center when ctrl key held.
 	if (pointerState.ctrlKey) {
+		// Draw from center when Ctrl is held.
 		this.x = this.startX - this.width;
 		this.y = this.startY - this.height;
 		this.width *= 2;
@@ -70,27 +61,29 @@ RectangleTool.prototype.move = function (pointerState) {
  * Update the canvas if necessary.
  */
 RectangleTool.prototype.update = function () {
-	if (!this._canvasDirty) {
+	if (!this._canvasDirty || typeof(this.x) === 'undefined') {
 		return;
 	}
-	ShapeTool.prototype.update.apply(this, arguments);
+	ShapeTool.prototype.update.call(this);
 	
 	// Draw the new preview.
-	this._preCxt.strokeRect(this.x, this.y, this.width, this.height);
-	
-	// Draw the stroke first.
-	if (!settings.get('antiAlias')) {
-		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
-	}
-	
-	// Change the composite operation to ensure the filled region does not affect the de-anti-aliased outline.
-	this._preCxt.globalCompositeOperation = 'destination-over';
-	this._preCxt.fillRect(this.x, this.y, this.width, this.height);
-	this._preCxt.globalCompositeOperation = 'source-over';
-	
-	if (settings.get('outlineOption') === 'fillOnly' && !settings.get('antiAlias')) {
-		this._deAntiAlias();
-	}
+	this._preCxt.beginPath();
+	this._preCxt.rect(this.x, this.y, this.width, this.height);
+	this._drawCurrentPath();
 	
 	this._canvasDirty = false;
+};
+
+/**
+ * @override
+ * Clear the points when the pointer finishes.
+ * @param {Object} pointerState - The pointer coordinates
+ */
+RectangleTool.prototype.end = function (pointerState) {
+	ShapeTool.prototype.end.call(this, pointerState);
+	
+	this.x =
+		this.y =
+		this.width =
+		this.height = undefined;
 };

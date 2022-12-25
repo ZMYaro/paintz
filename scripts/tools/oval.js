@@ -7,24 +7,15 @@
  */
 function OvalTool(cxt, preCxt) {
 	ShapeTool.apply(this, arguments);
+	
+	this.centerX;
+	this.centerY;
+	this.radX;
+	this.radY;
 }
 // Extend ShapeTool.
 OvalTool.prototype = Object.create(ShapeTool.prototype);
 OvalTool.prototype.constructor = OvalTool;
-
-/**
- * @override
- * Handle the shape being started by a pointer.
- * @param {Object} pointerState - The pointer coordinates and button
- */
-OvalTool.prototype.start = function (pointerState) {
-	ShapeTool.prototype.start.apply(this, arguments);
-	
-	this.centerX =
-		this.centerY =
-		this.radX =
-		this.radY = undefined;
-}
 
 /**
  * @override
@@ -38,8 +29,8 @@ OvalTool.prototype.move = function (pointerState) {
 		this._roundPointerState(pointerState);
 	}
 	
-	// Draw from center when ctrl key held.
 	if (pointerState.ctrlKey) {
+		// Draw from center when Ctrl is held.
 		this.centerX = this.startX;
 		this.centerY = this.startY;
 		this.radX = pointerState.x - this.startX;
@@ -51,8 +42,8 @@ OvalTool.prototype.move = function (pointerState) {
 		this.radY = (pointerState.y - this.startY) / 2;
 	}
 	
-	// Perfect circle when shift key held.
 	if (pointerState.shiftKey) {
+		// Perfect circle when Shift is held.
 		if (Math.abs(this.radX) < Math.abs(this.radY)) {
 			this.radY = Math.sign(this.radY) * -Math.abs(this.radX);
 			if (!pointerState.ctrlKey) {
@@ -74,10 +65,10 @@ OvalTool.prototype.move = function (pointerState) {
  * Update the canvas if necessary.
  */
 OvalTool.prototype.update = function () {
-	if (!this._canvasDirty) {
+	if (!this._canvasDirty || typeof(this.centerX) === 'undefined') {
 		return;
 	}
-	ShapeTool.prototype.update.apply(this, arguments);
+	ShapeTool.prototype.update.call(this);
 	
 	// Prepare the new preview.
 	this._preCxt.lineWidth = this.lineWidth;
@@ -89,21 +80,21 @@ OvalTool.prototype.update = function () {
 	this._preCxt.arc(1, 1, 1, 0, Math.TAU, false);
 	this._preCxt.restore(); // Restore the context to its original state.
 	
-	// Draw the stroke first.
-	this._preCxt.stroke();
-	
-	if (!settings.get('antiAlias')) {
-		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
-	}
-	
-	// Change the composite operation to ensure the filled region does not affect the de-anti-aliased outline.
-	this._preCxt.globalCompositeOperation = 'destination-over';
-	this._preCxt.fill();
-	this._preCxt.globalCompositeOperation = 'source-over';
-	
-	if (settings.get('outlineOption') === 'fillOnly' && !settings.get('antiAlias')) {
-		this._deAntiAlias();
-	}
+	this._drawCurrentPath();
 	
 	this._canvasDirty = false;
+};
+
+/**
+ * @override
+ * Clear the points when the pointer finishes.
+ * @param {Object} pointerState - The pointer coordinates
+ */
+OvalTool.prototype.end = function (pointerState) {
+	ShapeTool.prototype.end.call(this, pointerState);
+	
+	this.centerX =
+		this.centerY =
+		this.radX =
+		this.radY = undefined;
 };

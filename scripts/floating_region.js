@@ -138,7 +138,9 @@ FloatingRegion.prototype.handleDragStart = function (ev) {
 			x: this.x,
 			y: this.y,
 			width: this.width,
-			height: this.height
+			height: this.height,
+			centerX: (this.x + (this.width / 2)),
+			centerY: (this.y + (this.height / 2))
 		},
 		pointerStart: {
 			x: Math.round(Utils.getCanvasX(ev.pageX) / zoomManager.level),
@@ -214,6 +216,42 @@ FloatingRegion.prototype.handleDragMove = function (pointerState) {
 			pointerDelta.y = Math.max(pointerDelta.y, -this.drag.initial.height + 1);
 			this.height = this.drag.initial.height + pointerDelta.y;
 			break;
+	}
+	
+	if (this.drag.type !== 'move') {
+		if (pointerState.shiftKey && this.drag.type.length === 2) {
+			// Maintain original aspect ratio when Shift is held while resizing from a corner.
+			var widthDiff = this.width - this.drag.initial.width,
+				heightDiff = this.height - this.drag.initial.height;
+			if (widthDiff < heightDiff) {
+				this.height = Math.max(this.drag.initial.height + widthDiff, 1);
+				if (this.drag.type.indexOf('n') !== -1) {
+					this.y = this.drag.initial.y - (this.height - this.drag.initial.height);
+				}
+			} else {
+				this.width = Math.max(this.drag.initial.width + heightDiff, 1);
+				if (this.drag.type.indexOf('w') !== -1) {
+					this.x = this.drag.initial.x - (this.width - this.drag.initial.width);
+				}
+			}
+		}
+		
+		if (pointerState.ctrlKey) {
+			// Resize around the center when Ctrl is held.
+			var widthDiff = this.width - this.drag.initial.width,
+				heightDiff = this.height - this.drag.initial.height,
+				// Apply the resize amount to both sides of the center.
+				newWidth = this.drag.initial.width + (2 * widthDiff),
+				newHeight = this.drag.initial.height + (2 * heightDiff),
+				// Do not allow shrinking past the center.  If the center
+				// is between two pixels, keep a pixel on either side.
+				minWidth = 2 - (this.drag.initial.width % 2),
+				minHeight = 2 - (this.drag.initial.height % 2);
+			this.width = Math.max(newWidth, minWidth);
+			this.height = Math.max(newHeight, minHeight);
+			this.x = this.drag.initial.centerX - (this.width / 2);
+			this.y = this.drag.initial.centerY - (this.height / 2);
+		}
 	}
 };
 

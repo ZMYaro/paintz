@@ -7,7 +7,10 @@
  */
 function PencilTool(cxt, preCxt) {
 	DrawingTool.apply(this, arguments);
-	this._imageData = cxt.createImageData(1, 1);
+	
+	this._points;
+	/** {Number} The index of the point drawn to the canvas */
+	this._lastPointIndex;
 }
 // Extend DrawingTool.
 PencilTool.prototype = Object.create(DrawingTool.prototype);
@@ -21,8 +24,6 @@ PencilTool.prototype.constructor = PencilTool;
  * @param {CanvasRenderingContext2D} cxt - The context to draw to
  */
 PencilTool.prototype._drawPoint = function (x, y, cxt) {
-	//var halfLineWidth = Math.floor(0.5 * this._cxt.lineWidth);
-	//cxt.fillRect(x - halfLineWidth, y - halfLineWidth, this._cxt.lineWidth, this._cxt.lineWidth);
 	cxt.fillRect(x, y, 1, 1);
 };
 	
@@ -132,7 +133,7 @@ PencilTool.prototype.move = function (pointerState) {
  * Update the canvas if necessary.
  */
 PencilTool.prototype.update = function () {
-	if (!this._canvasDirty) {
+	if (!this._canvasDirty|| !this._points) {
 		return;
 	}
 	// For performance, the pencil tool does not clear the canvas every frame;
@@ -157,4 +158,14 @@ PencilTool.prototype.update = function () {
 	this._lastPointIndex = this._points.length - 1;
 	
 	this._canvasDirty = false;
+};
+
+/**
+ * @override
+ * Clear the list of points when the pointer finishes.
+ * @param {Object} pointerState - The pointer coordinates
+ */
+PencilTool.prototype.end = function (pointerState) {
+	DrawingTool.prototype.end.apply(this, arguments);
+	delete this._points;
 };

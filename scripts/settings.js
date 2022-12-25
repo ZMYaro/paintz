@@ -138,13 +138,54 @@ SettingsManager.prototype._implementSettingChange = function (setting, value) {
 			// Some tools' cursors change with the line width, so reactivate the tool.
 			if (tools && tools.currentTool) {
 				tools.currentTool.activate();
+				if (tools.currentTool instanceof DrawingTool) {
+					// This private property access will be swapped out when the settings manager gets overhauled in v4.0.
+					tools.currentTool._updateFromDrawingSettings();
+					tools.currentTool._canvasDirty = true;
+					tools.currentTool.update();
+				}
+			}
+			break;
+		case 'lineColor':
+			if (toolbar && toolbar.toolboxes && toolbar.toolboxes.colorPicker) {
+				toolbar.toolboxes.colorPicker.colorIndicator.style.borderColor = value;
+			}
+			if (tools && tools.currentTool) {
+				if (tools.currentTool instanceof DrawingTool) {
+					// This private property access will be swapped out when the settings manager gets overhauled in v4.0.
+					tools.currentTool._updateFromDrawingSettings();
+					tools.currentTool._canvasDirty = true;
+					tools.currentTool.update();
+				} else if (tools.currentTool.updateTextElem) {
+					tools.currentTool.updateTextElem();
+				}
 			}
 			break;
 		case 'fillColor':
 		case 'transparentSelection':
-			if (tools && tools.currentTool && tools.currentTool.setTransparentBackground) {
-				tools.currentTool.setTransparentBackground();
-				tools.currentTool.redrawSelection();
+			if (toolbar && toolbar.toolboxes && toolbar.toolboxes.colorPicker) {
+				toolbar.toolboxes.colorPicker.colorIndicator.style.backgroundColor = value;
+			}
+			if (tools && tools.currentTool) {
+				if (tools.currentTool instanceof DrawingTool) {
+					// This private property access will be swapped out when the settings manager gets overhauled in v4.0.
+					tools.currentTool._updateFromDrawingSettings();
+					tools.currentTool._canvasDirty = true;
+					tools.currentTool.update();
+				} else if (tools.currentTool.updateTextElem) {
+					tools.currentTool.updateTextElem();
+				} else if (tools.currentTool.setTransparentBackground) {
+					tools.currentTool.setTransparentBackground();
+					tools.currentTool.redrawSelection();
+				}
+			}
+			break;
+		case 'outlineOption':
+			if (tools && tools.currentTool && tools.currentTool === tools.polygon) {
+				// This private property access will be swapped out when the settings manager gets overhauled in v4.0.
+				tools.currentTool._updateFromDrawingSettings();
+				tools.currentTool._canvasDirty = true;
+				tools.currentTool.update();
 			}
 			break;
 		case 'fontFamily':

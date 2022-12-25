@@ -21,6 +21,9 @@ Object.values = Object.values || function (obj) {
 CanvasRenderingContext2D.prototype.setLineDash = CanvasRenderingContext2D.prototype.setLineDash || function () {};
 
 var Utils = {
+	/** @constant {String} Text to append to messages informing a feature is unavailable in the current browser. */
+	SUGGESTED_BROWSER_MESSAGE: 'To use this feature, please switch to a supported browser, such as the latest Google Chrome.',
+	
 	/** {Boolean} Whether the device runs Apple software */
 	isApple: (navigator.userAgent.indexOf('Mac') !== -1),
 	
@@ -99,6 +102,24 @@ var Utils = {
 	},
 	
 	/**
+	 * @private
+	 * Create a path in the canvas using the given points.
+	 * @param {CanvasRenderingContext2D} cxt - The canvas context to create the path in
+	 * @param {Array<Object>} points - The list of points
+	 * @param {Boolean} shouldClose - Whether the path should be closed
+	 */
+	createPath: function (cxt, points, shouldClose) {
+		cxt.beginPath();
+		cxt.moveTo(points[0].x, points[0].y);
+		points.forEach(function (point) {
+			cxt.lineTo(point.x, point.y);
+		});
+		if (shouldClose) {
+			cxt.closePath();
+		}
+	},
+	
+	/**
 	 * Constrain a value between a minimum and maximum.
 	 * @param {Number} value - The value to constrain
 	 * @param {Number} min - The minimum value to allow
@@ -107,6 +128,48 @@ var Utils = {
 	 */
 	constrainValue: function (value, min, max) {
 		return Math.max(min, Math.min(max, value));
+	},
+	
+	/**
+	 * Get the distance between 2 points.
+	 * @param {Number} x1,
+	 * @param {Number} y1,
+	 * @param {Number} x2,
+	 * @param {Number} y2
+	 * @returns {Number}
+	 */
+	distance: function (x1, y1, x2, y2) {
+		return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+	},
+	
+	/**
+	 * Draw a round end cap for the end of a line (using the current `lineWidth` and `strokeStyle`).
+	 * @param {CanvasRenderingContext2D} cxt - The canvas context in which the line is being drawn
+	 * @param {Number} x - The x-coordinate of the cap
+	 * @param {Number} y - The y-coordinate of the cap
+	 */
+	drawCap: function (cxt, x, y) {
+		cxt.save();
+		cxt.fillStyle = cxt.strokeStyle;
+		cxt.beginPath();
+		cxt.arc(x, y, cxt.lineWidth / 2, 0, Math.TAU, false);
+		cxt.fill();
+		cxt.restore();
+	},
+	
+	/**
+	 * Draw the canvas, color-inverted, to the precanvas.
+	 */
+	drawCanvasInvertedToPreCanvas: function () {
+		cursorCxt.save();
+		cursorCxt.canvas.width = cxt.canvas.width;
+		cursorCxt.canvas.height = cxt.canvas.height;
+		cursorCxt.drawImage(cxt.canvas, 0, 0);
+		cursorCxt.globalCompositeOperation = 'difference';
+		cursorCxt.fillStyle = 'white'; // Filling with white with “difference” blending mode inverts colors.
+		cursorCxt.fillRect(0, 0, cursorCxt.canvas.width, cursorCxt.canvas.height);
+		cursorCxt.restore();
+		preCxt.drawImage(cursorCanvas, 0, 0);
 	},
 	
 	/**
@@ -301,5 +364,16 @@ var Utils = {
 		window.oRequestAnimationFrame ||
 		(function (func) {
 			setTimeout(func, 1000 / 60);
-		})).bind(window)
+		})).bind(window),
+	
+	/**
+	 * Round a number to the indicated number of decimal places.
+	 * @param {Number} num - The number to round
+	 * @param {Number} places - The number of decimal places to round to
+	 * @returns {Number} The rounded number
+	 */
+	roundToPlaces: function (num, places) {
+		var factor = Math.pow(10, places);
+		return (Math.round(num * factor) / factor);
+	}
 };

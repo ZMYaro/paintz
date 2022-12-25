@@ -8,6 +8,7 @@
 function SelectionTool(cxt, preCxt) {
 	Tool.apply(this, arguments);
 	this._outline = new FloatingRegion();
+	this._trailMode = false;
 	
 	this._toolbar = toolbar.toolboxes.floatingSelectionToolbar;
 }
@@ -49,15 +50,19 @@ SelectionTool.prototype.start = function (pointerState) {
 	
 	if (this._outline.drag) {
 		// If the selection is being dragged, handle that.
-		if (pointerState.ctrlKey) {
-			// If the Ctrl key is pressed, save a copy of the selection.
-			this._saveSelection();
-			this._selection.firstMove = false;
-		}
 		if (this._outline.drag.type === 'move') {
 			// Hide the outline while moving.
 			this._outline.hide();
 			this._preCxt.canvas.style.cursor = 'move';
+			
+			if (pointerState.ctrlKey) {
+				// If the Ctrl key is pressed, save a copy of the selection.
+				this._saveSelection();
+				this._selection.firstMove = false;
+			} else if (pointerState.shiftKey) {
+				// If the Shift key is pressed without the Ctrl key, use trail mode.
+				this._trailMode = true;
+			}
 		} else {
 			this._preCxt.canvas.style.cursor = this._outline.drag.type + '-resize';
 		}
@@ -130,8 +135,8 @@ SelectionTool.prototype.move = function (pointerState) {
 			this._selection.initial.height = Math.abs(this._selection.initial.height);
 		}
 		
-		// Perfect square when shift key held.
 		if (pointerState.shiftKey) {
+			// Perfect square when Shift is held.
 			if (this._selection.initial.width < this._selection.initial.height) {
 				this._selection.initial.height = this._selection.initial.width;
 				if (this._selection.initial.y === pointerState.y) {
@@ -143,6 +148,14 @@ SelectionTool.prototype.move = function (pointerState) {
 					this._selection.initial.x = this._selection.pointerStart.x - this._selection.initial.width;
 				}
 			}
+		}
+		
+		if (pointerState.ctrlKey) {
+			// Draw from center when Ctrl is held.
+			this._selection.initial.x = this._selection.pointerStart.x - this._selection.initial.width;
+			this._selection.initial.y = this._selection.pointerStart.y - this._selection.initial.height;
+			this._selection.initial.width *= 2;
+			this._selection.initial.height *= 2;
 		}
 		
 		this._outline.x = this._selection.initial.x;
@@ -165,6 +178,12 @@ SelectionTool.prototype.update = function () {
 	}
 	
 	this.redrawSelection();
+	
+	if (this._trailMode) {
+		// If in trail mode, save a copy of the selection.
+		this._cxt.drawImage(this._preCxt.canvas, 0, 0);
+		this._selection.firstMove = false;
+	}
 	
 	this._canvasDirty = false;
 };
@@ -192,6 +211,7 @@ SelectionTool.prototype.end = function (pointerState) {
 		this._outline.handleDragEnd();
 		this._updateSelectionContentToOutline();
 		this._outline.show();
+		this._trailMode = false;
 	} else {
 		// Otherwise, a new selection was created.
 		
@@ -334,7 +354,6 @@ SelectionTool.prototype.duplicate = function () {
  */
 SelectionTool.prototype.selectAll = function (width, height) {
 	this.start({x: 0, y: 0});
-	this.move({x: width, y: height});
 	this.end({x: width, y: height});
 	this._updateSelectionUI();
 };

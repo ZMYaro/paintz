@@ -12,6 +12,7 @@ function DoodleTool(cxt, preCxt) {
 DoodleTool.prototype = Object.create(DrawingTool.prototype);
 DoodleTool.prototype.constructor = DoodleTool;
 
+// Define constants.
 /** {Number} The maximum allowed width/height for the cursor, in pixels */
 DoodleTool.MAX_CURSOR_SIZE = 128;
 /** {Number} The maximum brush size at which crosshairs are needed */
@@ -20,21 +21,6 @@ DoodleTool.MAX_CROSSHAIR_SIZE = 16
 DoodleTool.CROSSHAIR_LENGTH = 12;
 /** {Number} The offset of the crosshairs from the outside of the brush, in pixels */
 DoodleTool.CROSSHAIR_OFFSET = 4;
-
-/**
- * @private
- * Draw a round end cap for the doodle.
- * @param {CanvasRenderingContext2D} cxt - The canvas context in which the doodle is being drawn
- * @param {Number} x - The x-coordinate of the cap
- * @param {Number} y - The y-coordinate of the cap
- */
-DoodleTool.prototype._drawCap = function (cxt, x, y) {
-	cxt.fillStyle = this._lineColor;
-	cxt.beginPath();
-	cxt.arc(x, y, this._lineWidth / 2, 0, Math.TAU, false);
-	cxt.closePath();
-	cxt.fill();
-};
 
 /**
  * @override
@@ -89,26 +75,21 @@ DoodleTool.prototype.move = function (pointerState) {
  * Update the canvas if necessary.
  */
 DoodleTool.prototype.update = function () {
-	if (!this._canvasDirty) {
+	if (!this._canvasDirty|| !this._points) {
 		return;
 	}
 	DrawingTool.prototype.update.apply(this, arguments);
 	
-	// Force round end caps on the path.
-	this._drawCap(this._preCxt, this._points[0].x, this._points[0].y);
-	this._drawCap(this._preCxt, this._points[this._points.length - 1].x, this._points[this._points.length - 1].y);
-	
-	// Draw the shape.
 	this._preCxt.lineWidth = this._lineWidth;
 	this._preCxt.lineJoin = 'round';
-	this._preCxt.strokeStyle = this._lineColor;
-	this._preCxt.beginPath();
-	this._preCxt.moveTo(this._points[0].x, this._points[0].y);
-	this._points.forEach(function (point) {
-		this._preCxt.lineTo(point.x, point.y);
-	}, this);
+	
+	// Force round end caps on the path.
+	Utils.drawCap(this._preCxt, this._points[0].x, this._points[0].y);
+	Utils.drawCap(this._preCxt, this._points[this._points.length - 1].x, this._points[this._points.length - 1].y);
+	
+	// Draw the shape.
+	Utils.createPath(this._preCxt, this._points);
 	this._preCxt.stroke();
-	this._preCxt.closePath();
 	
 	if (!settings.get('antiAlias')) {
 		this._deAntiAlias(Utils.colorToRGB(this._lineColor));
@@ -118,6 +99,17 @@ DoodleTool.prototype.update = function () {
 };
 
 /**
+ * @override
+ * Clear the list of points when the pointer finishes.
+ * @param {Object} pointerState - The pointer coordinates
+ */
+DoodleTool.prototype.end = function (pointerState) {
+	DrawingTool.prototype.end.apply(this, arguments);
+	delete this._points;
+};
+
+/**
+ * @static
  * Return the CSS value for the doodle tool cursor.
  * @returns {String}
  */

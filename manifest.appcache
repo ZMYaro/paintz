@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2022-07-27, v1
+# 2022-12-24, v1
 index.html
 404.html
 manifest.webapp
@@ -23,6 +23,7 @@ images/icons/cursor.svg
 images/icons/curve.svg
 images/icons/cut.svg
 images/icons/cws.svg
+images/icons/done.svg
 images/icons/duplicate.svg
 images/icons/eraser.svg
 images/icons/eyedropper.svg
@@ -54,11 +55,13 @@ images/icons/pan.svg
 images/icons/paste.svg
 images/icons/patreon.svg
 images/icons/pencil.svg
+images/icons/polygon.svg
 images/icons/print.svg
 images/icons/rect.svg
 images/icons/redo.svg
 images/icons/resize.svg
 images/icons/rotate.svg
+images/icons/rounded_rect.svg
 images/icons/save.svg
 images/icons/select.svg
 images/icons/select_all.svg
@@ -79,6 +82,7 @@ images/logo/256.png
 images/logo/512.png
 images/logo/favicon.ico
 partials/dialogs/about.html
+partials/dialogs/auto_restore.html
 partials/dialogs/clear.html
 partials/dialogs/coffee.html
 partials/dialogs/color_picker.html
@@ -118,6 +122,7 @@ scripts/zoom.js
 scripts/dialogs/dialog.js
 scripts/dialogs/bottom_sheet.js
 scripts/dialogs/about.js
+scripts/dialogs/auto_restore.js
 scripts/dialogs/clear.js
 scripts/dialogs/coffee.js
 scripts/dialogs/color_picker.js
@@ -162,7 +167,9 @@ scripts/tools/line.js
 scripts/tools/oval.js
 scripts/tools/pan.js
 scripts/tools/pencil.js
+scripts/tools/polygon.js
 scripts/tools/rectangle.js
+scripts/tools/rounded_rectangle.js
 scripts/tools/selection.js
 scripts/tools/shape.js
 scripts/tools/text.js

@@ -12,6 +12,10 @@ function ToolsToolbox(toolbar) {
 ToolsToolbox.prototype = Object.create(Toolbox.prototype);
 ToolsToolbox.prototype.constructor = ToolsToolbox;
 
+// Define constants.
+/** @constant {String} The message for browsers that do not support the canvas rounded rectangle function */
+ToolsToolbox.prototype.ROUNDED_RECTANGLE_UNSUPPORTED_MESSAGE = 'Your browser does not support the rounded rectangle tool.  ' + Utils.SUGGESTED_BROWSER_MESSAGE;
+
 /**
  * @override
  * @private
@@ -27,4 +31,11 @@ ToolsToolbox.prototype._setUp = function (contents) {
 		// Switch to the newly-selected tool.
 		tools.switchTool(e.target.value);
 	}, false);
+	
+	if (!CanvasRenderingContext2D.prototype.roundRect) {
+		this._element.querySelector('[for="roundRectTool"]').title = this.ROUNDED_RECTANGLE_UNSUPPORTED_MESSAGE;
+	} else {
+		// If `roundRect` is supported, enable the rounded rectangle tool.
+		this._element.querySelector('#roundRectTool').disabled = false;
+	}
 };
