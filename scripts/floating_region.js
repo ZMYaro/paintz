@@ -224,12 +224,12 @@ FloatingRegion.prototype.handleDragMove = function (pointerState) {
 			var widthDiff = this.width - this.drag.initial.width,
 				heightDiff = this.height - this.drag.initial.height;
 			if (widthDiff < heightDiff) {
-				this.height = Math.max(this.drag.initial.height + widthDiff, 1);
+				this.height = Math.max(this.drag.initial.height / this.drag.initial.width * this.width, 1);
 				if (this.drag.type.indexOf('n') !== -1) {
 					this.y = this.drag.initial.y - (this.height - this.drag.initial.height);
 				}
 			} else {
-				this.width = Math.max(this.drag.initial.width + heightDiff, 1);
+				this.width = Math.max(this.drag.initial.width / this.drag.initial.height * this.height, 1);
 				if (this.drag.type.indexOf('w') !== -1) {
 					this.x = this.drag.initial.x - (this.width - this.drag.initial.width);
 				}
