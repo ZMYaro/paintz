@@ -33,16 +33,16 @@ function initCanvas() {
 	canvasPositioner = document.getElementById('canvasPositioner');
 	// Get the real canvas.
 	canvas = document.getElementById('canvas');
-	cxt = canvas.getContext('2d');
+	cxt = canvas.getContext('2d', { willReadFrequently: true });
 	// Get the preview canvas.
 	preCanvas = document.getElementById('preCanvas');
-	preCxt = preCanvas.getContext('2d');
+	preCxt = preCanvas.getContext('2d', { willReadFrequently: true });
 	// Get the grid canvas.
 	gridCanvas = document.getElementById('gridCanvas');
-	gridCxt = gridCanvas.getContext('2d');
+	gridCxt = gridCanvas.getContext('2d', { willReadFrequently: true });
 	// Get the cursor canvas.
 	cursorCanvas = document.getElementById('cursorCanvas');
-	cursorCxt = cursorCanvas.getContext('2d');
+	cursorCxt = cursorCanvas.getContext('2d', { willReadFrequently: true });
 	
 	cxt.lineCap = 'round';
 	preCxt.lineCap = 'round';

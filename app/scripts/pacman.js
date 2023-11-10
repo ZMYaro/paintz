@@ -11,7 +11,7 @@ function PacMan(canvas, color, x, y) {
 	this._started = false;
 	
 	this._canvas = canvas;
-	this._cxt = canvas.getContext('2d');
+	this._cxt = canvas.getContext('2d', { willReadFrequently: true });
 	this._color = color;
 	this.x = x || Math.floor(canvas.width * 0.2);
 	this.y = y || Math.floor(canvas.height * 0.2);
